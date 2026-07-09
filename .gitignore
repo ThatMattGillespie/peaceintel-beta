@@ -34,3 +34,5 @@ Thumbs.db
 # Design working files (keep exports in the repo, not multi-GB source binaries)
 *.fig.backup
 ~$*
+
+.superpowers/
