@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Peace Intel — Highlighted-surface options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/din-2014" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFB; --panel:#F3EFE7; --ink:#141310;
+    --ink-70:rgba(20,19,16,.70); --ink-55:rgba(20,19,16,.55); --ink-35:rgba(20,19,16,.34);
+    --line:rgba(20,19,16,.12); --line-2:rgba(20,19,16,.18);
+    --accent:#D9481C;
+    --grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.06'/%3E%3C/svg%3E");
+    --sh:20,19,16;
+    --serif:"Nanum Myeongjo",serif; --sans:"DIN 2014","DM Sans",sans-serif; --mono:"Space Mono",monospace;
+    --elev-1:0 1px 2px rgba(var(--sh),.04), 0 6px 16px -10px rgba(var(--sh),.18);
+    --elev-2:0 2px 4px rgba(var(--sh),.05), 0 22px 46px -28px rgba(var(--sh),.30);
+    /* highlighted-surface variables — each option overrides these */
+    --surf:var(--panel); --surf-bd:var(--line); --surf-bar:transparent;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);background-image:var(--grid);background-size:20px 20px;padding:48px 40px 72px}
+  .wrap{max-width:1200px;margin:0 auto}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55)}
+  h1{font-family:var(--serif);font-weight:700;font-size:32px;line-height:1.2;margin:14px 0 10px;max-width:24ch}
+  .lede{font-size:15px;line-height:1.6;color:var(--ink-55);max-width:64ch}
+  .lede b{color:var(--ink);font-weight:600}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:40px}
+  @media (min-width:1120px){.grid{grid-template-columns:repeat(4,1fr)}}
+
+  .opt{background:var(--bg);border:1px solid var(--line-2);border-radius:14px;padding:20px 20px 18px;display:flex;flex-direction:column;box-shadow:var(--elev-1)}
+  .opt .name{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.25}
+  .opt .spec{font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--accent);margin-top:6px}
+  .opt .spec .muted{color:var(--ink-35)}
+  .swatch{height:8px;border-radius:99px;margin:14px 0 4px;background:var(--surf);border:1px solid var(--surf-bd)}
+
+  .demo{border-top:1px solid var(--line);margin-top:16px;padding-top:16px;display:flex;flex-direction:column;gap:16px}
+
+  /* mini thread rail */
+  .mini-label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin-bottom:7px}
+  .titem{padding:9px 10px;border-radius:8px;border-left:2px solid transparent;font-size:12.5px;color:var(--ink-70);line-height:1.3}
+  .titem + .titem{margin-top:2px}
+  .titem.active{background:var(--surf);border-left-color:var(--surf-bar);color:var(--ink);font-weight:500}
+  .titem .td{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-35);margin-top:3px}
+
+  /* mini chat */
+  .ubub{background:var(--surf);border:1px solid var(--surf-bd);border-radius:11px;padding:11px 13px;font-size:12.5px;line-height:1.45}
+  .aline{font-size:12.5px;line-height:1.55;color:var(--ink-70)}
+  .badge{display:inline-flex;align-items:center;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;border-radius:5px;padding:2px 6px;background:var(--surf);border:1px solid var(--surf-bd);color:var(--ink-55);vertical-align:1px}
+
+  .note{margin-top:18px;font-size:12px;line-height:1.55;color:var(--ink-55)}
+  .note b{color:var(--ink);font-weight:600}
+
+  .foot{margin-top:44px;font-size:13px;line-height:1.6;color:var(--ink-55);max-width:70ch;border-top:1px solid var(--line);padding-top:20px}
+  .foot b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="kicker">Peace Intel · surface study</span>
+  <h1>Highlighted-state surface — four treatments</h1>
+  <p class="lede">The warm panel <b>#F3EFE7</b> currently fills every selected / highlighted surface: the active conversation, your message bubble, and small chips. Here it is against a de-chroma’d neutral and two ways of letting the primary orange carry the highlight instead. Same content, light mode.</p>
+
+  <div class="grid">
+    <!-- 1 · current warm -->
+    <div class="opt" style="--surf:#F3EFE7;--surf-bd:rgba(20,19,16,.12);--surf-bar:transparent">
+      <div class="name">Warm surface</div>
+      <div class="spec">#F3EFE7 <span class="muted">· current</span></div>
+      <div class="swatch"></div>
+      <div class="demo">
+        <div>
+          <div class="mini-label">Recent</div>
+          <div class="titem">GBV programming evidence review</div>
+          <div class="titem active">Evaluating the Darfur proposal <span class="td">Jul 10</span></div>
+        </div>
+        <div class="ubub">Is this proposal’s theory of change supported by evidence?</div>
+        <div class="aline">The record shows dialogue stalled without protection guarantees <span class="badge">DPD</span> in 2009–2010.</div>
+      </div>
+      <div class="note"><b>Cohesive</b> with the warm base, but the beige carries visible warmth of its own and reads a touch “papery.”</div>
+    </div>
+
+    <!-- 2 · neutral, no chroma -->
+    <div class="opt" style="--surf:#EDEDEC;--surf-bd:rgba(20,19,16,.13);--surf-bar:transparent">
+      <div class="name">Neutral</div>
+      <div class="spec">#EDEDEC <span class="muted">· no chroma</span></div>
+      <div class="swatch"></div>
+      <div class="demo">
+        <div>
+          <div class="mini-label">Recent</div>
+          <div class="titem">GBV programming evidence review</div>
+          <div class="titem active">Evaluating the Darfur proposal <span class="td">Jul 10</span></div>
+        </div>
+        <div class="ubub">Is this proposal’s theory of change supported by evidence?</div>
+        <div class="aline">The record shows dialogue stalled without protection guarantees <span class="badge">DPD</span> in 2009–2010.</div>
+      </div>
+      <div class="note"><b>Quiet and neutral</b> — reads as system UI. Can feel slightly cool sitting on the warm #FCFCFB page.</div>
+    </div>
+
+    <!-- 3 · subtle orange wash -->
+    <div class="opt" style="--surf:color-mix(in srgb,#D9481C 6%,#FCFCFB);--surf-bd:color-mix(in srgb,#D9481C 22%,transparent);--surf-bar:transparent">
+      <div class="name">Orange wash</div>
+      <div class="spec">accent · 6% tint</div>
+      <div class="swatch"></div>
+      <div class="demo">
+        <div>
+          <div class="mini-label">Recent</div>
+          <div class="titem">GBV programming evidence review</div>
+          <div class="titem active">Evaluating the Darfur proposal <span class="td">Jul 10</span></div>
+        </div>
+        <div class="ubub">Is this proposal’s theory of change supported by evidence?</div>
+        <div class="aline">The record shows dialogue stalled without protection guarantees <span class="badge">DPD</span> in 2009–2010.</div>
+      </div>
+      <div class="note"><b>On-brand</b> — the highlight is unmistakably “Peace Intel orange,” just dialed down. Warmer and more deliberate than the beige.</div>
+    </div>
+
+    <!-- 4 · orange accent line -->
+    <div class="opt" style="--surf:color-mix(in srgb,#D9481C 3%,#FCFCFB);--surf-bd:rgba(20,19,16,.10);--surf-bar:#D9481C">
+      <div class="name">Orange marker</div>
+      <div class="spec">3% tint <span class="muted">+ 2px accent bar</span></div>
+      <div class="swatch"></div>
+      <div class="demo">
+        <div>
+          <div class="mini-label">Recent</div>
+          <div class="titem">GBV programming evidence review</div>
+          <div class="titem active">Evaluating the Darfur proposal <span class="td">Jul 10</span></div>
+        </div>
+        <div class="ubub">Is this proposal’s theory of change supported by evidence?</div>
+        <div class="aline">The record shows dialogue stalled without protection guarantees <span class="badge">DPD</span> in 2009–2010.</div>
+      </div>
+      <div class="note"><b>Almost no fill chroma</b> — the accent bar does the selecting. Crispest at small sizes; the bar only reads on the active row, so the bubble/badge stay near-neutral.</div>
+    </div>
+  </div>
+
+  <p class="foot">The <b>message bubble</b> and <b>badge</b> share the same variable as the active thread here, so each treatment shows how the choice ripples across all three uses. The orange-marker option deliberately splits the difference: near-neutral fills everywhere, with the accent reserved for the one “you are here” selection. Passage highlights in the source reader (the yellow-ish <b>mark</b>) are a separate, text-level use of the accent and aren’t changed here — say the word if you want those explored too. Dark-mode versions of whichever direction you like are a quick follow-up.</p>
+</div>
+</body>
+</html>

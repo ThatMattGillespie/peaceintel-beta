@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Peace Intel — App Prototype v4</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cg fill='%23141310'%3E%3Crect x='2' y='8' width='2' height='2'/%3E%3Crect x='4' y='6' width='2' height='2'/%3E%3Crect x='6' y='4' width='2' height='2'/%3E%3Crect x='8' y='4' width='2' height='2'/%3E%3Crect x='10' y='2' width='2' height='2'/%3E%3Crect x='12' y='4' width='2' height='2'/%3E%3Crect x='8' y='6' width='6' height='2'/%3E%3Crect x='6' y='8' width='8' height='2'/%3E%3Crect x='8' y='10' width='6' height='2'/%3E%3Crect x='10' y='12' width='2' height='2'/%3E%3Crect x='6' y='14' width='6' height='2' fill='%23D9481C'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/din-2014" rel="stylesheet">
+<style>
+  /* ————— tokens: inherited verbatim from index.html (style-review source of truth) ————— */
+  :root{
+    --bg:#FCFCFB; --panel:#F3EFE7; --ink:#141310;
+    --ink-70:rgba(20,19,16,.70); --ink-55:rgba(20,19,16,.55); --ink-35:rgba(20,19,16,.34);
+    --line:rgba(20,19,16,.12); --line-2:rgba(20,19,16,.18);
+    --grad:linear-gradient(45deg,#F72F24 0%,#F77524 100%);
+    --accent:#D9481C;
+    --hl:rgba(217,72,28,.14);           /* passage highlight */
+    --grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.06'/%3E%3C/svg%3E");
+    --sh:20,19,16;
+    --serif:"Nanum Myeongjo",serif; --sans:"DIN 2014","DM Sans",sans-serif; --mono:"Space Mono",monospace;
+    --elev-1:0 1px 2px rgba(var(--sh),.04), 0 6px 16px -10px rgba(var(--sh),.18);
+    --elev-2:0 2px 4px rgba(var(--sh),.05), 0 22px 46px -28px rgba(var(--sh),.30);
+    --elev-3:0 4px 8px rgba(var(--sh),.06), 0 40px 80px -32px rgba(var(--sh),.42);
+    /* app-shell dimensions */
+    --rail-w:248px; --rail-collapsed:52px; --pane-w:396px; --pane-collapsed:44px; --topbar-h:52px;
+  }
+  /* dark theme — warm near-black, same accent (source-of-truth palette, inverted) */
+  :root[data-theme="dark"]{
+    --bg:#16130E; --panel:#211D16; --ink:#F3EFE7;
+    --ink-70:rgba(243,239,231,.72); --ink-55:rgba(243,239,231,.55); --ink-35:rgba(243,239,231,.35);
+    --line:rgba(243,239,231,.13); --line-2:rgba(243,239,231,.22);
+    --accent:#EC5E2E;
+    --hl:rgba(236,94,46,.22);
+    --grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23ffffff' fill-opacity='0.06'/%3E%3C/svg%3E");
+    --sh:0,0,0;
+    --elev-1:0 1px 2px rgba(var(--sh),.20), 0 6px 16px -10px rgba(var(--sh),.50);
+    --elev-2:0 2px 4px rgba(var(--sh),.24), 0 22px 46px -28px rgba(var(--sh),.60);
+    --elev-3:0 4px 8px rgba(var(--sh),.28), 0 40px 80px -32px rgba(var(--sh),.70);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  [hidden]{display:none!important}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{background-color:var(--bg);color:var(--ink);font-family:var(--sans);height:100vh;overflow:hidden}
+  button{font-family:inherit;background:none;border:none;cursor:pointer;color:inherit}
+  button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55)}
+
+  /* ————— top bar ————— */
+  .topbar{height:var(--topbar-h);display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:var(--bg);position:relative;z-index:30}
+  .wordmark{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em;color:var(--ink);text-decoration:none}
+  .wordmark svg{display:block}
+  .top-right{display:flex;align-items:center;gap:6px}
+  .top-link{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-70);padding:8px 12px;border-radius:8px}
+  .top-link:hover,.top-link[aria-current="page"]{background:color-mix(in srgb, var(--ink) 5%, transparent);color:var(--ink)}
+  .icon-btn{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:var(--ink-70);font-size:15px}
+  .icon-btn:hover{background:color-mix(in srgb, var(--ink) 5%, transparent);color:var(--ink)}
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--panel);border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink-70)}
+
+  /* ————— shell grid ————— */
+  .shell{display:flex;height:calc(100vh - var(--topbar-h))}
+
+  /* ————— threads rail (left) ————— */
+  .threads{width:var(--rail-w);flex:none;border-right:1px solid var(--line);display:flex;flex-direction:column;background:var(--bg);transition:width .22s ease;overflow:hidden}
+  .shell[data-rail="collapsed"] .threads{width:var(--rail-collapsed)}
+  .threads-head{padding:14px 12px 10px;display:flex;align-items:center;gap:8px}
+  .new-chat{flex:1;display:flex;align-items:center;gap:9px;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden}
+  .new-chat:hover{border-color:var(--ink-35);box-shadow:var(--elev-1)}
+  .new-chat .plus{font-family:var(--mono);color:var(--accent);font-weight:700}
+  .rail-toggle{flex:none}
+  .rail-toggle svg{display:block;transition:transform .22s ease}
+  .shell[data-rail="collapsed"] .rail-toggle svg{transform:scaleX(-1)}
+  .shell[data-rail="collapsed"] .threads-head{justify-content:center}
+  .shell[data-rail="collapsed"] .new-chat,
+  .shell[data-rail="collapsed"] .threads-label,
+  .shell[data-rail="collapsed"] .thread-item{display:none}
+  .threads-label{padding:14px 16px 6px}
+  .thread-list{overflow-y:auto;flex:1;padding:0 8px}
+  .thread-item{display:block;width:100%;text-align:left;padding:10px 10px 9px;border-radius:8px;margin-bottom:2px}
+  .thread-item:hover{background:color-mix(in srgb, var(--ink) 4%, transparent)}
+  .thread-item.active{background:var(--panel)}
+  .thread-item .tt{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .thread-item .td{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-35);margin-top:3px}
+
+  /* ————— center: chat column ————— */
+  .center{flex:1;min-width:0;display:flex;flex-direction:column;position:relative;background-image:var(--grid);background-size:20px 20px}
+  .center::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 90% 60% at 50% 0%, var(--bg) 26%, transparent 100%);pointer-events:none}
+  .center > *{position:relative}
+  .chat-scroll{flex:1;overflow-y:auto;padding:0 32px}
+  .chat-inner{max-width:720px;margin:0 auto;padding:28px 0 24px}
+
+  /* empty state (merged landing) — center the welcome+cards+composer as one group
+     so the composer reads as part of the landing, not pinned to the bottom */
+  .shell[data-empty="1"] .center{justify-content:center}
+  .shell[data-empty="1"] .chat-scroll{flex:0 1 auto;overflow-y:visible}
+  .shell[data-empty="1"] .chat-inner{padding-bottom:6px}
+  .welcome{text-align:center;padding-top:1vh}
+  .welcome h1{font-family:var(--serif);font-weight:700;font-size:30px;line-height:1.3;max-width:24ch;margin:16px auto 0}
+  .welcome .intro{font-size:15px;line-height:1.6;color:var(--ink-55);max-width:52ch;margin:14px auto 0}
+  .welcome .intro .slot{border-bottom:1px dashed var(--ink-35);cursor:help}
+  .usecards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:30px;text-align:left}
+  .ucard{background:var(--bg);border:1px solid var(--line-2);border-radius:12px;padding:18px 18px 16px;text-align:left;transition:box-shadow .18s ease,border-color .18s ease}
+  .ucard:hover{border-color:var(--ink-35);box-shadow:var(--elev-2)}
+  .ucard .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .ucard h3{font-family:var(--serif);font-weight:700;font-size:16.5px;line-height:1.35;margin-top:8px}
+  .ucard p{font-size:13px;line-height:1.55;color:var(--ink-55);margin-top:7px}
+
+  /* messages */
+  .msg{margin-bottom:26px}
+  .msg .who{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin-bottom:8px}
+  .msg.user .bubble{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:15px;line-height:1.6}
+  .msg.agent .body{font-size:15px;line-height:1.72}
+  .msg.agent .body p{margin-bottom:14px}
+  .msg.agent .body p:last-child{margin-bottom:0}
+  /* evidence-tier citation chips — schema: ● ingested · ◐ abstract · ↗ web */
+  .cite{display:inline-flex;align-items:center;gap:3px;font-family:var(--mono);font-size:11px;font-weight:700;border:1px solid transparent;border-radius:6px;padding:1px 6px 1px 5px;margin:0 2px;vertical-align:2px;line-height:1.5;transition:background .15s ease,border-color .15s ease}
+  .cite .cm{font-size:9px;line-height:1}
+  .cite.t1{color:var(--accent);border-color:color-mix(in srgb, var(--accent) 40%, transparent);background:color-mix(in srgb, var(--accent) 9%, transparent)}
+  .cite.t2{color:var(--accent);border-color:color-mix(in srgb, var(--accent) 40%, transparent);background:transparent}
+  .cite.t3{color:var(--ink-55);border-color:var(--ink-35);border-style:dashed;background:transparent}
+  .cite:hover{box-shadow:var(--elev-1)}
+  .cite.active{background:var(--ink);border-color:var(--ink);border-style:solid;color:var(--bg)}
+  .cite.active .cm{color:var(--bg)}
+
+  .sources-strip{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+  .sources-strip .sl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-35);margin-bottom:14px}
+  .evi-group + .evi-group{margin-top:16px}
+  .evi-head{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-70);margin-bottom:9px}
+  .evi-head .eg{font-size:12px}
+  .evi-head.t1 .eg,.evi-head.t2 .eg{color:var(--accent)}
+  .evi-head.t3 .eg{color:var(--ink-55)}
+  .evi-head .es{text-transform:none;letter-spacing:0;color:var(--ink-35)}
+  .evi-head .ec{margin-left:auto;color:var(--ink-35)}
+  .src-list{display:flex;flex-direction:column;gap:7px}
+  .src-chip{display:flex;align-items:center;gap:9px;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;font-size:12.5px;color:var(--ink-70);text-align:left;line-height:1.4}
+  .src-chip:hover{border-color:var(--ink-35);box-shadow:var(--elev-1)}
+  .src-chip .n{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--accent);flex:none}
+  .src-chip.t3{border-style:dashed}
+  .src-chip.t3 .n{color:var(--ink-55)}
+  .src-chip .sx{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-35);white-space:nowrap}
+  .src-chip.active{background:var(--ink);color:var(--bg);border-color:var(--ink);border-style:solid}
+  .src-chip.active .n{color:#F77524}
+  .src-chip.active .sx{color:rgba(255,255,255,.55)}
+
+  /* evidence-tier badge — source reader + full entry */
+  .evi-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;border:1px solid;border-radius:7px;padding:5px 9px;margin-top:10px}
+  .evi-badge .es{text-transform:none;letter-spacing:0;color:var(--ink-35)}
+  .evi-badge.t1{color:var(--accent);border-color:color-mix(in srgb, var(--accent) 40%, transparent);background:color-mix(in srgb, var(--accent) 8%, transparent)}
+  .evi-badge.t2{color:var(--accent);border-color:color-mix(in srgb, var(--accent) 40%, transparent)}
+  .evi-badge.t3{color:var(--ink-70);border-color:var(--ink-35);border-style:dashed}
+  .gated-note{font-size:12.5px;line-height:1.6;color:var(--ink-55);background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:12px 14px;margin:14px 0}
+  .msg-actions{margin-top:14px;display:flex;gap:8px}
+  .act{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-55);border:1px solid var(--line-2);border-radius:7px;padding:7px 11px}
+  .act:hover{color:var(--ink);border-color:var(--ink-35)}
+  .badge{display:inline-flex;align-items:center;gap:4px;font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;border-radius:5px;padding:2px 6px;background:var(--panel);border:1px solid var(--line);color:var(--ink-55)}
+  .badge.irene{border-color:color-mix(in srgb, var(--accent) 40%, transparent);color:var(--accent)}
+  .etag{font-family:var(--mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-35)}
+
+  /* composer */
+  .composer-wrap{padding:10px 32px 18px}
+  .composer{max-width:720px;margin:0 auto;background:var(--bg);border:1px solid var(--line-2);border-radius:14px;padding:16px 16px 12px;box-shadow:var(--elev-2);transition:box-shadow .2s ease}
+  .composer:focus-within{box-shadow:var(--elev-3);border-color:var(--ink-35)}
+  .composer textarea{width:100%;border:none;background:transparent;resize:none;font-family:var(--sans);font-size:15px;line-height:1.5;color:var(--ink);min-height:44px}
+  .composer textarea::placeholder{color:var(--ink-35)}
+  .composer textarea:focus{outline:none}
+  .composer-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+  .mode-toggle{display:flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden}
+  .mode-toggle button{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:8px 12px;color:var(--ink-55)}
+  .mode-toggle button.on{background:var(--ink);color:var(--bg)}
+  .send{width:36px;height:36px;border-radius:8px;background:var(--grad);color:#fff;font-size:16px;display:grid;place-items:center;flex:none}
+  .gq-hint{max-width:720px;margin:8px auto 0;font-family:var(--mono);font-size:10.5px;letter-spacing:.04em;color:var(--ink-55);display:flex;align-items:center;gap:8px;padding:0 4px}
+  .gq-hint .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-35);flex:none;transition:background .3s ease}
+  .gq-hint.strong .dot{background:var(--accent)}
+
+  /* ————— evidence pane (right) ————— */
+  .pane{width:var(--pane-w);flex:none;border-left:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;transition:width .22s ease;overflow:hidden;position:relative}
+  /* full entry widens the pane but is capped — chat + left rail always stay on screen */
+  .shell[data-pane-size="wide"] .pane{width:min(58vw,720px)}
+  .shell[data-pane="collapsed"] .pane{width:var(--pane-collapsed)}
+  .shell[data-pane="collapsed"] .pane-body,.shell[data-pane="collapsed"] .pane-head{display:none}
+  .pane-rail{display:none;flex-direction:column;align-items:center;padding-top:12px;gap:14px;height:100%}
+  .shell[data-pane="collapsed"] .pane-rail{display:flex}
+  .pane-rail .rl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-55);writing-mode:vertical-rl;cursor:pointer}
+  .pane-head{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;min-height:53px}
+  .pane-head .ph-title{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pane-body{flex:1;overflow-y:auto;overscroll-behavior:contain}
+
+  /* pane: library browser mode */
+  .lib-stats{padding:16px;border-bottom:1px solid var(--line);background-image:var(--grid);background-size:20px 20px}
+  .lib-stats .big{font-family:var(--serif);font-weight:800;font-size:30px;letter-spacing:-.01em}
+  .lib-stats .sub{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-55);margin-top:6px}
+  .lib-search{padding:12px 16px;border-bottom:1px solid var(--line)}
+  .lib-search input{width:100%;border:1px solid var(--line-2);border-radius:8px;padding:9px 12px;font-family:var(--sans);font-size:13px;background:var(--bg);color:var(--ink)}
+  .lib-search input::placeholder{color:var(--ink-35)}
+  .lib-filters{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}
+  .fpill{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line-2);border-radius:7px;padding:5px 9px;color:var(--ink-55)}
+  .fpill:hover{border-color:var(--ink-35);color:var(--ink)}
+  .fpill.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .lib-list{padding:8px}
+  .lib-item{display:block;width:100%;text-align:left;border:1px solid transparent;border-radius:10px;padding:12px 12px 11px;margin-bottom:2px}
+  .lib-item:hover{border-color:var(--line-2);box-shadow:var(--elev-1);background:var(--bg)}
+  .lib-item .lt{font-family:var(--serif);font-weight:700;font-size:14px;line-height:1.4}
+  .lib-item .lm{font-family:var(--mono);font-size:10px;letter-spacing:.05em;color:var(--ink-55);margin-top:5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .lib-item .evi-dot{font-size:9px}
+  .lib-item .evi-dot.t1,.lib-item .evi-dot.t2{color:var(--accent)}
+  .lib-item .evi-dot.t3{color:var(--ink-55)}
+  .lib-empty{padding:28px 20px;text-align:center;color:var(--ink-55);font-size:13px;line-height:1.6}
+
+  /* pane: source reader mode */
+  .reader-meta{padding:16px;border-bottom:1px solid var(--line)}
+  .reader-meta h2{font-family:var(--serif);font-weight:700;font-size:17px;line-height:1.38}
+  .reader-meta .rm{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;color:var(--ink-55);margin-top:7px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .reader-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .reader-body{padding:18px 16px 28px;font-size:13.5px;line-height:1.75;color:var(--ink-70)}
+  .reader-body p{margin-bottom:13px}
+  .reader-body .sec{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin:20px 0 10px}
+  mark{background:var(--hl);color:var(--ink);padding:1px 2px;border-radius:2px;box-shadow:inset 0 -2px 0 color-mix(in srgb, var(--accent) 45%, transparent)}
+  .jump{position:sticky;bottom:12px;margin:0 auto;display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--bg);border-radius:8px;padding:8px 14px;box-shadow:var(--elev-2)}
+  .fallback{padding:28px 20px;text-align:center}
+  .fallback .fi{font-family:var(--mono);font-size:22px;color:var(--ink-35)}
+  .fallback h3{font-family:var(--serif);font-weight:700;font-size:16px;margin-top:12px;line-height:1.4}
+  .fallback p{font-size:13px;line-height:1.6;color:var(--ink-55);margin-top:8px}
+  .fallback .reader-actions{justify-content:center}
+
+  /* pane: full entry (wide, but never full-screen — chat stays beside it) */
+  .entry-hero{padding:22px 22px 20px;border-bottom:1px solid var(--line);background-image:var(--grid);background-size:20px 20px}
+  .entry-hero .yr{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-55);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .entry-hero h1{font-family:var(--serif);font-weight:700;font-size:25px;line-height:1.26;margin-top:10px;max-width:34ch}
+  .entry-hero .au{font-size:14px;color:var(--ink-55);margin-top:8px}
+  .entry-actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .btn-dl{background:var(--ink);color:var(--bg);border-radius:8px;padding:9px 15px;font-family:var(--sans);font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:7px}
+  .btn-dl:hover{box-shadow:var(--elev-1)}
+  .entry-sec{padding:18px 22px;border-bottom:1px solid var(--line)}
+  .entry-sec:last-child{border-bottom:none}
+  .entry-sec h4{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin-bottom:12px}
+  .assert{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line)}
+  .assert:last-child{border-bottom:none;padding-bottom:0}
+  .assert .an{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent);flex:none;margin-top:2px}
+  .assert .at{font-size:14px;line-height:1.5}
+  .chips-row{display:flex;gap:8px;flex-wrap:wrap}
+  .chiplink,.kw{font-family:var(--mono);font-size:10px;letter-spacing:.05em;border:1px solid var(--line-2);border-radius:7px;padding:6px 10px;color:var(--ink-70)}
+  .chiplink:hover{border-color:var(--ink-35);color:var(--ink)}
+  .kw{text-transform:none;color:var(--ink-55)}
+  .org{display:flex;align-items:center;gap:11px;padding:8px 0}
+  .org .oi{width:30px;height:30px;border-radius:7px;background:var(--panel);border:1px solid var(--line-2);display:grid;place-items:center;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink-70)}
+  .org .on{font-size:14px;font-weight:600}
+  .entry-read{font-size:14px;line-height:1.75;color:var(--ink-70);max-width:64ch}
+  .entry-read p{margin-bottom:14px}
+  .entry-read .sec{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-35);margin:16px 0 10px}
+
+  /* ————— account menu + profile modal ————— */
+  .acct-wrap{position:relative}
+  .acct-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:224px;background:var(--bg);border:1px solid var(--line-2);border-radius:12px;box-shadow:var(--elev-3);padding:6px;z-index:80}
+  .acct-menu .who{padding:10px 12px 9px;border-bottom:1px solid var(--line);margin-bottom:6px}
+  .acct-menu .who .nm{font-size:13.5px;font-weight:600}
+  .acct-menu .who .em{font-family:var(--mono);font-size:10px;color:var(--ink-55);margin-top:3px}
+  .acct-menu button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;font-size:13px;padding:9px 12px;border-radius:8px;color:var(--ink-70)}
+  .acct-menu button:hover{background:var(--panel);color:var(--ink)}
+  .acct-menu .mi{font-family:var(--mono);font-size:11px;color:var(--ink-35);width:14px;text-align:center}
+  .acct-menu .sep{border-top:1px solid var(--line);margin:6px 0}
+  .acct-menu .signout{color:var(--accent)}
+
+  .modal-veil{position:fixed;inset:0;background:rgba(var(--sh),.38);z-index:90;display:grid;place-items:center;padding:32px}
+  .modal{background:var(--bg);border:1px solid var(--line-2);border-radius:16px;box-shadow:var(--elev-3);width:min(620px,100%);max-height:min(84vh,860px);display:flex;flex-direction:column;overflow:hidden}
+  .modal-head{display:flex;align-items:flex-start;gap:12px;padding:22px 24px 16px;border-bottom:1px solid var(--line)}
+  .modal-head h2{font-family:var(--serif);font-weight:700;font-size:22px;line-height:1.25;flex:1}
+  .modal-head p{font-size:13px;line-height:1.55;color:var(--ink-55);margin-top:6px}
+  .modal-body{flex:1;overflow-y:auto;padding:6px 24px 10px}
+  .pf-field{margin-top:16px}
+  .pf-field label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-55);margin-bottom:7px}
+  .pf-field textarea{width:100%;border:1px solid var(--line-2);border-radius:10px;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:13.5px;line-height:1.55;padding:11px 13px;resize:vertical;min-height:58px}
+  .pf-field textarea:focus{outline:none;border-color:var(--ink-35);box-shadow:var(--elev-1)}
+  .pf-static{border:1px dashed var(--line-2);border-radius:10px;padding:4px 13px}
+  .pf-static li{list-style:none;font-size:13px;line-height:1.55;color:var(--ink-70);padding:8px 0;border-bottom:1px solid var(--line)}
+  .pf-static li:last-child{border-bottom:none}
+  .pf-acct{margin:20px 0 14px;border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--panel)}
+  .pf-acct .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 0}
+  .pf-acct .row + .row{border-top:1px solid var(--line)}
+  .pf-acct .rk{font-size:13px;font-weight:600}
+  .pf-acct .rv{font-family:var(--mono);font-size:10.5px;color:var(--ink-55)}
+  .modal-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 24px;border-top:1px solid var(--line)}
+  .btn-save{background:var(--grad);color:#fff;font-weight:600;font-size:13.5px;border-radius:9px;padding:10px 20px}
+  .btn-save:hover{box-shadow:var(--elev-2)}
+
+  /* demo banner */
+  .demo-note{position:fixed;bottom:14px;right:14px;z-index:50;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-35);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:6px 10px}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="wordmark" href="#" onclick="return false">
+    <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><g fill="currentColor"><rect x="2" y="8" width="2" height="2"/><rect x="4" y="6" width="2" height="2"/><rect x="6" y="4" width="2" height="2"/><rect x="8" y="4" width="2" height="2"/><rect x="10" y="2" width="2" height="2"/><rect x="12" y="4" width="2" height="2"/><rect x="8" y="6" width="6" height="2"/><rect x="6" y="8" width="8" height="2"/><rect x="8" y="10" width="6" height="2"/><rect x="10" y="12" width="2" height="2"/><rect x="6" y="14" width="6" height="2" fill="var(--accent)"/></g></svg>
+    PEACE_INTEL
+  </a>
+  <nav class="top-right">
+    <button class="top-link" id="navLibrary" onclick="app.openLibraryPane()">Library</button>
+    <button class="icon-btn" id="themeToggle" onclick="app.toggleTheme()" title="Switch light or dark" aria-label="Toggle theme">☾</button>
+    <div class="acct-wrap">
+      <button class="avatar" aria-label="Account menu" aria-haspopup="true" onclick="app.toggleAcctMenu(event)">MG</button>
+      <div class="acct-menu" id="acctMenu" hidden>
+        <div class="who"><div class="nm">Matt Gillespie</div><div class="em">mg@effectivepeace.org</div></div>
+        <button onclick="app.openProfile()"><span class="mi">◆</span> Your profile</button>
+        <button onclick="app.flash(this,'Reset link sent')"><span class="mi">⚿</span> Change password</button>
+        <button onclick="app.flash(this,'Opens terms')"><span class="mi">§</span> Terms of use</button>
+        <div class="sep"></div>
+        <button class="signout" onclick="app.flash(this,'Signed out')"><span class="mi">↦</span> Log out</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- ————— profile modal ————— -->
+<div class="modal-veil" id="profileModal" hidden onclick="if(event.target===this)app.closeProfile()">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pfTitle">
+    <div class="modal-head">
+      <div style="flex:1">
+        <h2 id="pfTitle">Your Peace Intel profile</h2>
+        <p>Peace Intel uses this profile to tailor answers to your work. Edit any field and save — or leave blank and it adapts quietly as you go.</p>
+      </div>
+      <button class="icon-btn" onclick="app.closeProfile()" aria-label="Close profile">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="pf-field">
+        <label for="pfRole">Role &amp; context</label>
+        <textarea id="pfRole">Works in peacebuilding as a funder with decision authority, informed by evidence-based frameworks and real-world constraints.</textarea>
+      </div>
+      <div class="pf-field">
+        <label for="pfFocus">Current focus</label>
+        <textarea id="pfFocus" placeholder="No specific current focus shared."></textarea>
+      </div>
+      <div class="pf-field">
+        <label for="pfResearch">How I use research</label>
+        <textarea id="pfResearch">Engages with research to understand intervention effectiveness, surface contextual factors and trade-offs, and distinguish established findings from contested areas.</textarea>
+      </div>
+      <div class="pf-field">
+        <label for="pfAvoid">What to avoid</label>
+        <textarea id="pfAvoid" placeholder="No specific preferences shared."></textarea>
+      </div>
+      <div class="pf-field">
+        <span style="display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-55);margin-bottom:7px">How Peace Intel responds <span style="text-transform:none;letter-spacing:0">· fixed commitments, not editable</span></span>
+        <ul class="pf-static">
+          <li>Leads with corpus evidence — claims anchored in papers, case records, and datasets from the library, not abstract analysis.</li>
+          <li>Surfaces trade-offs and contested areas explicitly rather than presenting consensus where none exists.</li>
+          <li>Offers evidence and challenges assumptions without performing expertise you already have.</li>
+        </ul>
+      </div>
+      <div class="pf-acct">
+        <div class="row"><span class="rk">Password</span><button class="act" onclick="app.flash(this,'Reset link sent')">Send reset link</button></div>
+        <div class="row"><span class="rk">Terms of use</span><button class="act" onclick="app.flash(this,'Opens terms')">View ↗</button></div>
+        <div class="row"><span class="rk">Session</span><button class="act" onclick="app.flash(this,'Signed out')">Log out</button></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="rv" style="font-family:var(--mono);font-size:10px;color:var(--ink-35)">Stored with your account · never shared</span>
+      <button class="btn-save" onclick="app.saveProfile(this)">Save profile</button>
+    </div>
+  </div>
+</div>
+
+<div class="shell" id="shell" data-view="chat" data-rail="collapsed" data-pane="open" data-empty="1">
+
+  <!-- ————— threads rail ————— -->
+  <aside class="threads" aria-label="Conversations">
+    <div class="threads-head">
+      <button class="new-chat" onclick="app.newChat()"><span class="plus">+</span><span class="nc-label">New conversation</span></button>
+      <button class="icon-btn rail-toggle" onclick="app.toggleRail()" aria-label="Show or hide conversations">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+      </button>
+    </div>
+    <div class="kicker threads-label">Recent</div>
+    <div class="thread-list" role="list">
+      <button class="thread-item" id="threadDarfur" onclick="app.openThread()" role="listitem">
+        <div class="tt">Evaluating the Darfur proposal</div>
+        <div class="td">Jul 10</div>
+      </button>
+      <button class="thread-item" onclick="app.openThread()" role="listitem">
+        <div class="tt">GBV programming evidence review</div>
+        <div class="td">Jul 8</div>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ————— center: chat ————— -->
+  <main class="center" aria-label="Conversation">
+    <div class="chat-scroll" id="chatScroll">
+
+      <!-- empty state = merged landing -->
+      <div class="chat-inner" id="emptyState">
+        <div class="welcome">
+          <span class="kicker">Peace Intel · Evidence for peacebuilding</span>
+          <h1>What does the evidence say?</h1>
+          <p class="intro"><span class="slot" title="Intro copy slot — owned by Ahn + Matt, pending">Ask across 3,200+ curated papers, evaluations, and case records — every answer cited back to its source.</span></p>
+        </div>
+        <div class="usecards">
+          <button class="ucard" onclick="app.useCard(this)" data-q="Is this proposal's theory of change supported by evidence? It assumes community dialogue alone will reduce intercommunal violence in Darfur.">
+            <span class="tag">Evaluate a proposal</span>
+            <h3>Is this grant grounded in evidence?</h3>
+            <p>Check a proposal's theory of change against what has and hasn't worked in comparable settings.</p>
+          </button>
+          <button class="ucard" onclick="app.useCard(this)" data-q="What happened in Darfur between 2003 and 2011 — who intervened, what did they do, and what resulted?">
+            <span class="tag">Research a conflict</span>
+            <h3>What happened, who did what, what resulted?</h3>
+            <p>Build a factual picture of a specific conflict from case records and field evaluations.</p>
+          </button>
+          <button class="ucard" onclick="app.useCard(this)" data-q="Summarize the evidence on whether community-based reconciliation programs reduce recurrence of intercommunal violence.">
+            <span class="tag">Literature review</span>
+            <h3>Summarize the evidence on an intervention</h3>
+            <p>A structured synthesis with citations you can verify, ready to copy into your own work.</p>
+          </button>
+          <button class="ucard" onclick="app.useCard(this)" data-q="What works to reduce election-related violence in post-conflict settings? I'm designing a program for 2027 elections.">
+            <span class="tag">Design a program</span>
+            <h3>What works, where, and why?</h3>
+            <p>Ground a new program in interventions with demonstrated results in similar contexts.</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- seeded conversation -->
+      <div class="chat-inner" id="chatState" hidden>
+        <div class="msg user">
+          <div class="who">You</div>
+          <div class="bubble">Is this proposal's theory of change supported by evidence? It assumes community dialogue alone will reduce intercommunal violence in Darfur.</div>
+        </div>
+        <div class="msg agent">
+          <div class="who">Peace Intel</div>
+          <div class="body">
+            <p>The proposal's core assumption — that dialogue alone reduces intercommunal violence — has mixed support. The strongest evidence concerns peacekeeping presence: deployments of several thousand troops and several hundred police dramatically reduced civilian killings across African civil wars, 1991–2008<button class="cite t1" data-src="hultman2014" onclick="app.openCitation(this)"><span class="cm">●</span>1</button>. <span class="etag">[synthesis]</span></p>
+            <p>On Darfur specifically, intercommunal dialogue during UNAMID repeatedly stalled without protection guarantees; localized agreements in 2009–2010 broke down within months of force drawdowns<button class="cite t1" data-src="dpd-darfur" onclick="app.openCitation(this)"><span class="cm">●</span>2</button>. <span class="etag">[case fact]</span></p>
+            <p>A field experiment on grassroots reconciliation points the same way — dialogue helped only alongside other measures — though only the abstract is on platform; the full text sits behind a journal paywall<button class="cite t2" data-src="abstract-mvukiyehe" onclick="app.openCitation(this)"><span class="cm">◐</span>3</button>.</p>
+            <p>One lower-confidence signal: a 2024 situation brief found on the open web, outside the vetted library, reports renewed local ceasefire talks in West Darfur<button class="cite t3" data-src="web-brief" onclick="app.openCitation(this)"><span class="cm">↗</span>4</button>. Treat it as unverified until corroborated.</p>
+            <p><b>Bottom line:</b> the well-evidenced finding is that dialogue works as a component of a protection strategy, not on its own. You may want to ask the applicant how security guarantees are handled.</p>
+            <div class="sources-strip">
+              <div class="sl">Sources in this answer · 4</div>
+              <div class="evi-group">
+                <div class="evi-head t1"><span class="eg">●</span> In the library <span class="es">full text on platform</span> <span class="ec">2</span></div>
+                <div class="src-list">
+                  <button class="src-chip t1" data-src="hultman2014" onclick="app.openCitation(this)"><span class="n">1</span> Hultman &amp; Kathman 2014 · UN Peacekeeping and Civilian Protection <span class="sx">Read on platform</span></button>
+                  <button class="src-chip t1" data-src="dpd-darfur" onclick="app.openCitation(this)"><span class="n">2</span> Darfur 2003–2011 · case record <span class="sx">DPD · on platform</span></button>
+                </div>
+              </div>
+              <div class="evi-group">
+                <div class="evi-head t2"><span class="eg">◐</span> Abstract only <span class="es">full text gated off-platform</span> <span class="ec">1</span></div>
+                <div class="src-list">
+                  <button class="src-chip t2" data-src="abstract-mvukiyehe" onclick="app.openCitation(this)"><span class="n">3</span> Mvukiyehe &amp; Samii 2017 · Grassroots reconciliation <span class="sx">Abstract · paywalled</span></button>
+                </div>
+              </div>
+              <div class="evi-group">
+                <div class="evi-head t3"><span class="eg">↗</span> Web source <span class="es">outside the library — verify</span> <span class="ec">1</span></div>
+                <div class="src-list">
+                  <button class="src-chip t3" data-src="web-brief" onclick="app.openCitation(this)"><span class="n">4</span> ReliefWeb situation brief, 2024 · West Darfur <span class="sx">Opens off-platform</span></button>
+                </div>
+              </div>
+            </div>
+            <div class="msg-actions">
+              <button class="act" onclick="app.flash(this,'Copied with citations')">⧉ Copy with citations</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- composer -->
+    <div class="composer-wrap">
+      <div class="composer">
+        <textarea id="composerInput" rows="2" placeholder="Ask Peace Intel about peacebuilding evidence…" oninput="app.updateHint()"></textarea>
+        <div class="composer-bar">
+          <div class="mode-toggle" role="group" aria-label="Answer depth">
+            <button class="on" id="modeQuick" onclick="app.setMode('quick')">Quick answer</button>
+            <button id="modeDeep" onclick="app.setMode('deep')">Deep research</button>
+          </div>
+          <button class="send" aria-label="Send" title="Send (prototype — does not submit)">→</button>
+        </div>
+      </div>
+      <div class="gq-hint" id="gqHint"><span class="dot"></span><span id="gqText">Try naming a conflict, region, or intervention type — specific questions get specific evidence.</span></div>
+    </div>
+  </main>
+
+  <!-- ————— evidence pane ————— -->
+  <aside class="pane" aria-label="Evidence">
+    <!-- collapsed rail -->
+    <div class="pane-rail">
+      <button class="icon-btn" onclick="app.expandPane()" title="Open evidence pane" aria-label="Open evidence pane">⇤</button>
+      <span class="rl" onclick="app.expandPane()">Library</span>
+    </div>
+
+    <!-- header: browser mode -->
+    <div class="pane-head" id="paneHeadBrowser">
+      <span class="ph-title">Library</span>
+      <button class="icon-btn" onclick="app.openLibraryPage()" title="Open full library" aria-label="Open full library">⤢</button>
+      <button class="icon-btn" onclick="app.collapsePane()" title="Collapse pane" aria-label="Collapse evidence pane">⇥</button>
+    </div>
+    <!-- header: reader mode -->
+    <div class="pane-head" id="paneHeadReader" hidden>
+      <button class="icon-btn" onclick="app.backToBrowser()" title="Back to library" aria-label="Back to library">←</button>
+      <span class="ph-title" id="readerCrumb">Source</span>
+      <button class="icon-btn" onclick="app.collapsePane()" title="Close pane" aria-label="Close evidence pane">✕</button>
+    </div>
+    <!-- header: full entry mode -->
+    <div class="pane-head" id="paneHeadEntry" hidden>
+      <button class="icon-btn" onclick="app.entryBack()" title="Back to preview" aria-label="Back to preview">←</button>
+      <span class="ph-title">Full entry</span>
+      <button class="icon-btn" onclick="app.collapsePane()" title="Close pane" aria-label="Close evidence pane">✕</button>
+    </div>
+
+    <div class="pane-body" id="paneBody">
+      <!-- browser mode -->
+      <div id="paneBrowser">
+        <div class="lib-stats">
+          <div class="big">3,204</div>
+          <div class="sub">curated papers · 677 evaluations · 152 case records</div>
+        </div>
+        <div class="lib-search">
+          <input type="search" id="libSearch" placeholder="Search the library…" oninput="app.filterLibrary()">
+          <div class="lib-filters">
+            <button class="fpill on" onclick="app.setFacet(this,'all')">All</button>
+            <button class="fpill" onclick="app.setFacet(this,'paper')">Papers</button>
+            <button class="fpill" onclick="app.setFacet(this,'evaluation')">Evaluations</button>
+            <button class="fpill" onclick="app.setFacet(this,'case')">Cases</button>
+          </div>
+        </div>
+        <div class="lib-list" id="libList"></div>
+      </div>
+      <!-- reader mode (in-pane preview) -->
+      <div id="paneReader" hidden></div>
+      <!-- full entry mode (wide) -->
+      <div id="paneEntry" hidden></div>
+    </div>
+  </aside>
+</div>
+
+<div class="demo-note">Prototype v4 · Jul 2026 · states are simulated</div>
+
+<script>
+/* ————— seeded source data ————— */
+const SOURCES = {
+  hultman2014:{
+    kind:"internal", type:"paper", evi:"ingested", title:"United Nations Peacekeeping and Civilian Protection in Civil War",
+    meta:"Hultman & Kathman · 2014 · Empirical study", badges:[],
+    year:"2014", docType:"Empirical study",
+    authors:["Lisa Hultman","Jacob Kathman","Megan Shannon"],
+    assertions:[
+      "UN peacekeeping reduces one-sided violence against civilians in civil war.",
+      "The protective effect scales with the number of troops and police committed to a mission."
+    ],
+    keywords:["peacekeeping","civilian protection","one-sided violence","statistical analysis"],
+    orgs:["United Nations"],
+    findElsewhere:["Semantic Scholar ↗","OpenAlex ↗","Google Scholar ↗","JSTOR ↗"],
+    body:[
+      {sec:"Abstract"},
+      {p:"Does United Nations peacekeeping protect civilians in civil war? Civilian protection is a primary purpose of UN peacekeeping, yet there is little systematic evidence for whether peacekeeping prevents civilian deaths."},
+      {p:"Using unique monthly data on the number and type of UN personnel contributed to peacekeeping operations, along with monthly data on civilian deaths from 1991 to 2008 in armed conflicts in Africa, we find that <mark>as the UN commits more military and police forces to a peacekeeping mission, fewer civilians are targeted with violence</mark>.", hl:true},
+      {p:"The effect is substantial — <mark>deploying several thousand troops and several hundred police dramatically reduces civilian killings</mark>. We conclude that although the UN is often criticized for its failures, UN peacekeeping is an effective mechanism of civilian protection."},
+      {sec:"Relevance to your question"},
+      {p:"This is the foundational empirical study on protection effects of peacekeeping deployments. It speaks to the security-component side of the dialogue-plus-security finding, not to dialogue programs directly."}
+    ]
+  },
+  "dpd-darfur":{
+    kind:"internal", type:"case", evi:"ingested", title:"Darfur 2003–2011 — intervention record",
+    meta:"Dimensions of Peace Database · case record", badges:["DPD"],
+    year:"2003–2011", docType:"Case record",
+    authors:["Dimensions of Peace Database"],
+    assertions:[
+      "Localized intercommunal agreements broke down without protection guarantees.",
+      "Dialogue tracks held longer where sustained UNAMID presence backed them."
+    ],
+    keywords:["Darfur","intercommunal violence","UNAMID","mediation"],
+    orgs:["United Nations","African Union"],
+    body:[
+      {sec:"Case summary"},
+      {p:"Annotated record of interventions in the Darfur conflict: AMIS deployment (2004), UNAMID transition (2007), and associated mediation and intercommunal dialogue tracks."},
+      {sec:"Dialogue processes"},
+      {p:"<mark>Localized intercommunal agreements in 2009–2010 repeatedly broke down within months of force drawdowns</mark>; mediators attributed failures to absent protection guarantees rather than to the dialogue process itself.", hl:true},
+      {p:"Where dialogue tracks operated alongside sustained UNAMID presence, agreements held longer; the record supports treating dialogue as one component of a broader protection strategy."}
+    ]
+  },
+  "abstract-mvukiyehe":{
+    kind:"abstract", type:"paper", evi:"abstract", title:"Promoting Grassroots Reconciliation: Evidence from a Field Experiment",
+    meta:"Mvukiyehe & Samii · 2017 · Abstract only", badges:[],
+    year:"2017", docType:"Field experiment",
+    authors:["Eric Mvukiyehe","Cyrus Samii"],
+    keywords:["reconciliation","field experiment","social cohesion"],
+    findElsewhere:["Publisher (paywall) ↗","Semantic Scholar ↗","OpenAlex ↗"],
+    body:[
+      {sec:"Abstract"},
+      {p:"A randomized field experiment testing whether grassroots reconciliation programming improves social cohesion and reduces local violence. <mark>Effects on cohesion were positive but modest, and did not persist without complementary security and livelihood measures.</mark>", hl:true}
+    ]
+  },
+  "web-brief":{
+    kind:"web", type:"web", evi:"web", title:"West Darfur situation brief (ReliefWeb, 2024)",
+    meta:"Open web · found outside the library", badges:[],
+    year:"2024", docType:"Web source",
+    authors:["ReliefWeb / OCHA posting"],
+    links:["Open source ↗"],
+    findElsewhere:["Open source ↗"]
+  },
+  "degraded-drc":{
+    kind:"degraded", type:"evaluation", evi:"ingested", title:"Community Dialogue and Social Cohesion in Eastern DRC — endline evaluation",
+    meta:"2019 · Program evaluation", badges:[],
+    year:"2019", docType:"Program evaluation",
+    authors:["Program evaluation · commissioned"],
+    keywords:["eastern DRC","community dialogue","social cohesion"]
+  },
+  autesserre:{
+    kind:"internal", type:"paper", evi:"ingested", title:"Peaceland: Conflict Resolution and the Everyday Politics of International Intervention",
+    meta:"Autesserre · 2014 · Book (indexed)", badges:[],
+    body:[{sec:"Abstract"},{p:"Examines how the everyday practices of international interveners shape peacebuilding effectiveness on the ground."}]
+  },
+  eirene1:{
+    kind:"internal", type:"evaluation", evi:"ingested", title:"EIRENE indicator set — intercommunal violence measures",
+    meta:"EIRENE database · 14,755 indicators", badges:["EIRENE"],
+    body:[{sec:"About"},{p:"Indicator families used to measure intercommunal violence outcomes across programs. An EIRENE icon on a citation means the underlying measure comes from this database."}]
+  },
+  fortna:{
+    kind:"internal", type:"paper", evi:"ingested", title:"Does Peacekeeping Work? Shaping Belligerents' Choices after Civil War",
+    meta:"Fortna · 2008 · Empirical study", badges:[],
+    body:[{sec:"Abstract"},{p:"Assesses whether peacekeeping affects the durability of peace after civil war, finding strong stabilizing effects."}]
+  }
+};
+
+/* evidence-tier schema — the three primary citation types */
+const EVI = {
+  ingested:{label:"In the library", sub:"full text on platform", glyph:"●", cls:"t1"},
+  abstract:{label:"Abstract only", sub:"full text gated off-platform", glyph:"◐", cls:"t2"},
+  web:{label:"Web source", sub:"outside the library — verify", glyph:"↗", cls:"t3"}
+};
+
+const LIB_ORDER = ["hultman2014","dpd-darfur","abstract-mvukiyehe","degraded-drc","autesserre","eirene1","fortna"];
+
+/* ————— app state ————— */
+const app = {
+  shell: document.getElementById("shell"),
+  facet: "all",
+  cameFromCitation: null,
+
+  /* — account + profile — */
+  toggleAcctMenu(ev){
+    ev.stopPropagation();
+    const m = document.getElementById("acctMenu");
+    m.hidden = !m.hidden;
+    if (!m.hidden) {
+      const close = (e)=>{ if(!m.contains(e.target)){ m.hidden = true; document.removeEventListener("click", close); } };
+      setTimeout(()=>document.addEventListener("click", close), 0);
+    }
+  },
+  openProfile(){
+    document.getElementById("acctMenu").hidden = true;
+    document.getElementById("profileModal").hidden = false;
+    document.addEventListener("keydown", app._escProfile);
+  },
+  closeProfile(){
+    document.getElementById("profileModal").hidden = true;
+    document.removeEventListener("keydown", app._escProfile);
+  },
+  _escProfile(e){ if (e.key === "Escape") app.closeProfile(); },
+  saveProfile(btn){ this.flash(btn, "Saved"); setTimeout(()=>app.closeProfile(), 900); },
+
+  /* — theme — */
+  toggleTheme(){
+    const root = document.documentElement;
+    const toDark = root.getAttribute("data-theme") !== "dark";
+    root.setAttribute("data-theme", toDark ? "dark" : "light");
+    document.getElementById("themeToggle").textContent = toDark ? "☀" : "☾";
+  },
+
+  /* — threads — */
+  toggleRail(){ this.shell.dataset.rail = this.shell.dataset.rail === "collapsed" ? "open" : "collapsed"; },
+  newChat(){
+    this.shell.dataset.view = "chat";
+    this.shell.dataset.empty = "1";
+    document.getElementById("emptyState").hidden = false;
+    document.getElementById("chatState").hidden = true;
+    this.shell.dataset.rail = "collapsed";
+    this.shell.dataset.pane = "open";
+    this.backToBrowser();
+    document.querySelectorAll(".thread-item").forEach(t=>t.classList.remove("active"));
+    document.getElementById("composerInput").value = ""; this.updateHint();
+  },
+  openThread(){
+    this.shell.dataset.view = "chat";
+    delete this.shell.dataset.empty;
+    document.getElementById("emptyState").hidden = true;
+    document.getElementById("chatState").hidden = false;
+    this.shell.dataset.rail = "open";
+    document.querySelectorAll(".thread-item").forEach(t=>t.classList.remove("active"));
+    document.getElementById("threadDarfur").classList.add("active");
+  },
+
+  /* — composer — */
+  useCard(el){
+    const input = document.getElementById("composerInput");
+    input.value = el.dataset.q; input.focus(); this.updateHint();
+  },
+  updateHint(){
+    const v = document.getElementById("composerInput").value;
+    const hint = document.getElementById("gqHint"), txt = document.getElementById("gqText");
+    const strong = /darfur|drc|sudan|colombia|myanmar|dialogue|peacekeeping|reconciliation|election/i.test(v) && v.length > 60;
+    hint.classList.toggle("strong", strong);
+    txt.textContent = strong
+      ? "Strong framing — names a place and an intervention. The answer can draw on case records."
+      : "Try naming a conflict, region, or intervention type — specific questions get specific evidence.";
+  },
+  setMode(m){
+    document.getElementById("modeQuick").classList.toggle("on", m==="quick");
+    document.getElementById("modeDeep").classList.toggle("on", m==="deep");
+  },
+  flash(btn, label){ const old = btn.textContent; btn.textContent = "✓ " + label; setTimeout(()=>btn.textContent = old, 1400); },
+
+  /* — evidence pane — */
+  collapsePane(){ this.shell.dataset.pane = "collapsed"; this.shell.dataset.paneSize = "normal"; this.setActiveCitation(null); },
+  expandPane(){ this.shell.dataset.pane = "open"; },
+  setActiveCitation(srcId){
+    document.querySelectorAll(".cite,.src-chip").forEach(c=>c.classList.toggle("active", srcId !== null && c.dataset.src === srcId));
+  },
+  /* one place that decides which content + header show, and how wide the pane is */
+  showPaneMode(mode){ // "browser" | "reader" | "entry"
+    document.getElementById("paneBrowser").hidden = mode !== "browser";
+    document.getElementById("paneReader").hidden  = mode !== "reader";
+    document.getElementById("paneEntry").hidden   = mode !== "entry";
+    document.getElementById("paneHeadBrowser").hidden = mode !== "browser";
+    document.getElementById("paneHeadReader").hidden  = mode !== "reader";
+    document.getElementById("paneHeadEntry").hidden   = mode !== "entry";
+    this.shell.dataset.paneSize = mode === "entry" ? "wide" : "normal";
+    if (mode === "entry") this.shell.dataset.rail = "collapsed"; // protect chat width; chat stays visible
+  },
+
+  openLibraryPane(){ this.expandPane(); this.backToBrowser(); document.getElementById("libSearch").focus(); },
+
+  openCitation(el){ this.expandPane(); this.openReader(el.dataset.src); },
+  openReader(srcId){
+    const s = SOURCES[srcId];
+    this.readerSrc = srcId;
+    this.showPaneMode("reader");
+    this.setActiveCitation(srcId);
+    document.getElementById("readerCrumb").textContent = (EVI[s.evi] || EVI.ingested).label;
+    const r = document.getElementById("paneReader");
+    r.innerHTML = this.renderReader(srcId, s);
+    const firstMark = r.querySelector("mark");
+    if (firstMark) requestAnimationFrame(()=>firstMark.scrollIntoView({block:"center", behavior:"smooth"}));
+    else document.getElementById("paneBody").scrollTop = 0;
+  },
+  renderReader(srcId, s){
+    const e = EVI[s.evi] || EVI.ingested;
+    const badges = (s.badges||[]).map(b=>`<span class="badge ${b==='EIRENE'?'irene':''}">${b}</span>`).join("");
+    const meta = `<div class="reader-meta"><h2>${s.title}</h2><div class="rm">${s.meta} ${badges}</div>
+      <div><span class="evi-badge ${e.cls}">${e.glyph} ${e.label} <span class="es">${e.sub}</span></span></div>
+      <div class="reader-actions">
+        <button class="act" onclick="app.openEntry('${srcId}')">View full entry ⤢</button>
+        <button class="act" onclick="app.flash(this,'Link copied')">⧉ Share link</button>
+      </div></div>`;
+    if (s.kind === "degraded") {
+      return meta + `<div class="fallback"><div class="fi">▚▞▚</div>
+        <h3>We couldn't cleanly read this document yet</h3>
+        <p>The text extraction for this entry needs review, so passage highlights aren't available. The original document is intact.</p>
+        <div class="reader-actions"><button class="act">Open PDF ↗</button><button class="act" onclick="app.openEntry('${srcId}')">View full entry ⤢</button></div></div>`;
+    }
+    if (s.kind === "web") {
+      return meta + `<div class="fallback"><div class="fi">↗</div>
+        <h3>Outside the library</h3>
+        <p>Peace Intel found this on the open web and hasn't ingested or vetted it. Open it off-platform and confirm before relying on it.</p>
+        <div class="reader-actions">${(s.links||["Open source ↗"]).map(l=>`<button class="act">${l}</button>`).join("")}</div></div>`;
+    }
+    const body = s.body.map(b => b.sec ? `<div class="sec">${b.sec}</div>` : `<p>${b.p}</p>`).join("");
+    if (s.kind === "abstract") {
+      return meta + `<div class="reader-body">${body}
+        <div class="gated-note">Only the abstract is on platform. The full text is behind the publisher's paywall — open it there to read in full.</div>
+        <div class="reader-actions">${(s.findElsewhere||[]).map(l=>`<button class="act">${l}</button>`).join("")}</div></div>`;
+    }
+    return meta + `<div class="reader-body">${body}</div>`;
+  },
+  backToBrowser(){
+    this.showPaneMode("browser");
+    this.setActiveCitation(null);
+    /* search + facet state intentionally preserved (P0 #1) */
+  },
+
+  /* — full entry (wide pane; chat + left rail always remain) — */
+  openEntry(srcId){
+    const s = SOURCES[srcId];
+    this.entrySrc = srcId;
+    this.expandPane();
+    this.showPaneMode("entry");
+    document.getElementById("paneEntry").innerHTML = this.renderEntry(srcId, s);
+    document.getElementById("paneBody").scrollTop = 0;
+  },
+  entryBack(){ this.openReader(this.entrySrc || this.readerSrc); },
+  renderEntry(srcId, s){
+    const e = EVI[s.evi] || EVI.ingested;
+    const badges = (s.badges||[]).map(b=>`<span class="badge ${b==='EIRENE'?'irene':''}">${b}</span>`).join("");
+    const authors = (s.authors && s.authors.join(", ")) || s.meta.split("·")[0].trim();
+    const yr = s.year || "";
+    const dt = s.docType || (s.type[0].toUpperCase() + s.type.slice(1));
+    const canDownload = s.kind !== "web" && s.kind !== "abstract";
+    let html = `<div class="entry-hero">
+      <div class="yr"><span>${yr}</span><span>${dt}</span> ${badges}</div>
+      <h1>${s.title}</h1>
+      <div class="au">${authors}</div>
+      <div><span class="evi-badge ${e.cls}">${e.glyph} ${e.label} <span class="es">${e.sub}</span></span></div>
+      <div class="entry-actions">
+        ${canDownload ? `<button class="btn-dl">⬇ Download PDF</button>` : ""}
+        <button class="act" onclick="app.flash(this,'Copied with citations')">⧉ Copy citation</button>
+        <button class="act" onclick="app.flash(this,'Link copied')">⧉ Share link</button>
+      </div></div>`;
+    if (s.assertions && s.assertions.length)
+      html += `<div class="entry-sec"><h4>Key assertions</h4>${s.assertions.map((a,i)=>`<div class="assert"><span class="an">${i+1}</span><span class="at">${a}</span></div>`).join("")}</div>`;
+    if (s.findElsewhere && s.findElsewhere.length)
+      html += `<div class="entry-sec"><h4>Find elsewhere</h4><div class="chips-row">${s.findElsewhere.map(l=>`<button class="chiplink">${l}</button>`).join("")}</div></div>`;
+    if (s.keywords && s.keywords.length)
+      html += `<div class="entry-sec"><h4>Keywords</h4><div class="chips-row">${s.keywords.map(k=>`<span class="kw">${k}</span>`).join("")}</div></div>`;
+    if (s.orgs && s.orgs.length)
+      html += `<div class="entry-sec"><h4>Related organizations</h4>${s.orgs.map(o=>`<div class="org"><span class="oi">${o.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase()}</span><span class="on">${o}</span></div>`).join("")}</div>`;
+    if (s.kind === "degraded")
+      html += `<div class="entry-sec"><h4>Full text</h4><p style="font-size:13px;color:var(--ink-55);line-height:1.6">We couldn't cleanly read this document yet — the extraction needs review. The original PDF is intact.</p><div class="reader-actions"><button class="act">Open PDF ↗</button></div></div>`;
+    else if (s.kind === "web")
+      html += `<div class="entry-sec"><h4>Full text</h4><p style="font-size:13px;color:var(--ink-55);line-height:1.6">This source lives outside the library and hasn't been vetted. Open it off-platform to read it, and corroborate before relying on it.</p><div class="reader-actions">${(s.links||["Open source ↗"]).map(l=>`<button class="act">${l}</button>`).join("")}</div></div>`;
+    else if (s.kind === "abstract"){
+      const body = s.body.map(b => b.sec ? `<div class="sec">${b.sec}</div>` : `<p>${b.p}</p>`).join("");
+      html += `<div class="entry-sec"><h4>Abstract</h4><div class="entry-read">${body}</div><div class="gated-note">Only the abstract is on platform — the full text is gated at the publisher.</div></div>`;
+    }
+    else if (s.body){
+      const body = s.body.map(b => b.sec ? `<div class="sec">${b.sec}</div>` : `<p>${b.p}</p>`).join("");
+      html += `<div class="entry-sec"><h4>Read</h4><div class="entry-read">${body}</div></div>`;
+    }
+    return html;
+  },
+
+  /* — library browser — */
+  setFacet(el, f){
+    this.facet = f;
+    el.parentElement.querySelectorAll(".fpill").forEach(p=>p.classList.toggle("on", p===el));
+    this.filterLibrary();
+  },
+  filterLibrary(){
+    const q = document.getElementById("libSearch").value.toLowerCase();
+    const list = document.getElementById("libList");
+    const items = LIB_ORDER.filter(id=>{
+      const s = SOURCES[id];
+      if (s.evi === "web") return false; // web sources live outside the library
+      if (this.facet !== "all" && s.type !== this.facet) return false;
+      return (s.title + " " + s.meta).toLowerCase().includes(q);
+    });
+    list.innerHTML = items.length ? items.map(id=>{
+      const s = SOURCES[id];
+      const e = EVI[s.evi] || EVI.ingested;
+      const badges = (s.badges||[]).map(b=>`<span class="badge ${b==='EIRENE'?'irene':''}">${b}</span>`).join("");
+      return `<button class="lib-item" onclick="app.openReader('${id}')">
+        <div class="lt">${s.title}</div>
+        <div class="lm"><span class="evi-dot ${e.cls}">${e.glyph}</span> ${s.meta} ${badges}</div></button>`;
+    }).join("") : `<div class="lib-empty">No entries match. The library covers ~3,200 papers — try a broader term, or ask the agent: it will say plainly when the corpus has no coverage.</div>`;
+  }
+};
+
+app.filterLibrary();
+
+/* v2 defaults to light; the toggle switches to dark from there */
+(function(){
+  document.documentElement.setAttribute("data-theme", "light");
+  document.getElementById("themeToggle").textContent = "☾";
+})();
+</script>
+</body>
+</html>

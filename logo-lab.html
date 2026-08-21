@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Peace Intel — Pixel Dove Lab · Takeoff</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FCFCFB; --panel:#F3EFE7; --ink:#141310; --ink-55:rgba(20,19,16,.55);
+    --ink-35:rgba(20,19,16,.35); --line:rgba(20,19,16,.12);
+    --accent:#D9481C;
+    --mono:"Space Mono",monospace; --sans:"DM Sans",sans-serif;
+    --dk-bg:#141310; --dk-ink:#FCFCFB; --dk-line:rgba(252,252,251,.16);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);padding:56px 40px 120px}
+  h1{font-family:var(--mono);font-size:15px;letter-spacing:.1em;text-transform:uppercase}
+  .sub{font-size:13px;color:var(--ink-55);margin-top:8px;max-width:64ch}
+  .lab{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:26px;margin-top:40px}
+  .cell{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+  .cell-head{display:flex;align-items:baseline;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line)}
+  .cell-head .nm{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .cell-head .gd{font-family:var(--mono);font-size:10px;color:var(--ink-35)}
+  .bar{display:flex;align-items:center;gap:10px;padding:14px 18px;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.08em}
+  .bar svg{display:block}
+  .bar.dark{background:var(--dk-bg);color:var(--dk-ink)}
+  .big{display:flex;gap:22px;align-items:flex-end;padding:20px 18px;border-top:1px solid var(--line)}
+  .sizes{display:flex;gap:18px;align-items:center;margin-left:auto}
+  .sizes svg{display:block}
+  .note{font-family:var(--mono);font-size:10px;color:var(--ink-35);padding:0 18px 16px}
+</style>
+</head>
+<body>
+
+<h1>Pixel dove lab · Scope, taking off</h1>
+<p class="sub">Scope framing kept, dove pose changed from perched profile to launching into flight: body angled up-right, single wing swept up and back over the back, tail fanned into three feathers trailing down-left. Same three wing tones as before. Each card: topbar 18px light and dark, 128px blow-up, size ramp 16 / 32 / 64px.</p>
+
+<div class="lab" id="lab"></div>
+
+<script>
+/* Cells: '#' = ink, '+' = 45% ink shade, 'o' = accent, '.' = empty.
+   Dove in takeoff: body rises up-right, wing sweeps up-left over the back
+   (opposing diagonal reads as launch), tail opens into a 3-feather fan. */
+
+function makeFlightDove(o={}){
+  const G = 64, rows = [];
+  const mode = o.mode || 'solid';
+  const inE = (px,py,cx,cy,rx,ry,ang=0)=>{
+    const c=Math.cos(ang), s=Math.sin(ang), dx=px-cx, dy=py-cy;
+    const u=dx*c+dy*s, v=-dx*s+dy*c;
+    return u*u/(rx*rx)+v*v/(ry*ry) <= 1;
+  };
+  const inT = (px,py,a,b,c)=>{
+    const s1=(b[0]-a[0])*(py-a[1])-(b[1]-a[1])*(px-a[0]);
+    const s2=(c[0]-b[0])*(py-b[1])-(c[1]-b[1])*(px-b[0]);
+    const s3=(a[0]-c[0])*(py-c[1])-(a[1]-c[1])*(px-c[0]);
+    return (s1>=0&&s2>=0&&s3>=0)||(s1<=0&&s2<=0&&s3<=0);
+  };
+  const dSeg = (px,py,x1,y1,x2,y2)=>{
+    const dx=x2-x1, dy=y2-y1;
+    const t=Math.max(0,Math.min(1,((px-x1)*dx+(py-y1)*dy)/(dx*dx+dy*dy)));
+    return Math.hypot(x1+t*dx-px, y1+t*dy-py);
+  };
+  const bayer=[[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+
+  for(let y=0;y<G;y++){
+    let r='';
+    for(let x=0;x<G;x++){
+      const px=x+.5, py=y+.5;
+      let ch='.';
+
+      // corner brackets: margin 2, thickness 5, arm length 18
+      const br =
+        (x>= 2&&x<=19&&y>= 2&&y<= 6)||(x>= 2&&x<= 6&&y>= 2&&y<=19)||
+        (x>=44&&x<=61&&y>= 2&&y<= 6)||(x>=57&&x<=61&&y>= 2&&y<=19)||
+        (x>= 2&&x<=19&&y>=57&&y<=61)||(x>= 2&&x<= 6&&y>=44&&y<=61)||
+        (x>=44&&x<=61&&y>=57&&y<=61)||(x>=57&&x<=61&&y>=44&&y<=61);
+      if(br) ch='#';
+
+      // body rising up-right; head/neck continue the line; beak points forward-up
+      const body = inE(px,py,32,42,14,7.5,-0.5);
+      const neck = inE(px,py,40,31,7.5,5.6,-0.7);
+      const head = inE(px,py,49,23,5.6,5.6);
+      const beak = inT(px,py,[52,18],[53,24],[59,19]);
+      const eye  = inE(px,py,50,21,1.6,1.6);
+
+      // wing swept up and back over the body, opposing diagonal to the body
+      const wingA = inE(px,py,23,21,19,4.5,-2.356);
+      const wingB = inE(px,py,14,12,9,2.4,-2.356);
+      const wing  = wingA||wingB;
+
+      // tail fanned into three trailing feathers
+      const f1 = inT(px,py,[18,44],[21,47],[0,40]);
+      const f2 = inT(px,py,[17,47],[21,49],[0,52]);
+      const f3 = inT(px,py,[17,50],[20,52],[4,60]);
+      const tail = f1||f2||f3;
+
+      // olive sprig at the beak, accent
+      const sprig =
+        dSeg(px,py,56,19,61,13)<=0.85 ||
+        inE(px,py,62,11,2,1.1,-0.4) ||
+        inE(px,py,61,17,2,1.1,0.5);
+      if(sprig) ch='o';
+
+      if(body||neck||head||beak){
+        ch='#';
+      }
+      if(wing && !beak && !head){
+        if(mode==='shade')  ch='+';
+        else if(mode==='dither') ch = (bayer[y%4][x%4]/16 < 0.55) ? '#' : '.';
+        else ch='#';
+      }
+      if(tail && !body){
+        ch='#';
+        if(o.dissolve){
+          const t = Math.max(0,Math.min(1,(20-px)/20));
+          if(bayer[y%4][x%4]/16 < t) ch='.';
+        }
+      }
+      if(eye) ch='.';
+      r+=ch;
+    }
+    rows.push(r);
+  }
+  return rows;
+}
+
+const V = [
+{ name:'Takeoff — Solid',  note:'Pure silhouette. Calmest read, safest at every size.', map:makeFlightDove({mode:'solid'}) },
+{ name:'Takeoff — Shade',  note:'Raised wing picked out in 45% ink for depth against the body.', map:makeFlightDove({mode:'shade'}) },
+{ name:'Takeoff — Dither', note:'Wing checkered, tail fan dissolving outward — strongest tie to the section video treatment.', map:makeFlightDove({mode:'dither',dissolve:true}) },
+];
+
+function svg(v, px, dark){
+  const g = v.map.length, cells = [];
+  const ink   = dark ? 'var(--dk-ink)' : 'var(--ink)';
+  const shade = dark ? 'rgba(252,252,251,.45)' : 'rgba(20,19,16,.45)';
+  v.map.forEach((row,y)=>{ [...row].forEach((c,x)=>{
+    if (c==='.') return;
+    const fill = c==='o' ? 'var(--accent)' : c==='+' ? shade : ink;
+    cells.push(`<rect x="${x}" y="${y}" width="1" height="1" fill="${fill}"/>`);
+  });});
+  return `<svg width="${px}" height="${px}" viewBox="0 0 ${g} ${g}" shape-rendering="crispEdges" aria-hidden="true">${cells.join('')}</svg>`;
+}
+
+document.getElementById('lab').innerHTML = V.map(v=>{
+  const g = v.map.length;
+  return `
+<div class="cell">
+  <div class="cell-head"><span class="nm">${v.name}</span><span class="gd">${g}×${g} grid</span></div>
+  <div class="bar">${svg(v,18,false)} PEACE_INTEL</div>
+  <div class="bar dark">${svg(v,18,true)} PEACE_INTEL</div>
+  <div class="big">
+    <span class="zoom">${svg(v,128,false)}</span>
+    <div class="sizes">${svg(v,16,false)}${svg(v,32,false)}${svg(v,64,false)}</div>
+  </div>
+  <p class="note">${v.note}</p>
+</div>`;
+}).join('');
+</script>
+</body>
+</html>
