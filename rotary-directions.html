@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Peace Intel for Rotary — Three Directions</title>
+<meta name="description" content="A/B/C comparison harness for the Rotary Global Grants landing page.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  /* Comparison harness only. Deliberately does NOT carry the shared token
+     block: it is scaffolding for judging the three pages, not one of them.
+     Archive it beside use-cases-directions.html once a direction wins. */
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-DemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
+
+  :root{
+    --bg:#FCFCFB; --panel:#F3EFE7; --ink:#141310;
+    --ink-70:rgba(20,19,16,.70); --ink-55:rgba(20,19,16,.62); --ink-35:rgba(20,19,16,.34);
+    --line:rgba(20,19,16,.12); --line-2:rgba(20,19,16,.18);
+    --accent:#D9481C; --rotary:#17458F;
+    --serif:"Nanum Myeongjo",serif; --sans:"DIN 2014","DM Sans",sans-serif; --mono:"Space Mono",monospace;
+    /* Frame is rendered at desktop width then scaled down, so each column
+       shows true 1440px layout rather than a squeezed responsive one. */
+    --frame-w:1440px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans)}
+
+  header.bar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 92%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--ink);padding:14px 28px;
+    display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+  .brand{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+  .brand i{font-style:normal;color:var(--ink-35)}
+  .tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+  .tab{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    padding:8px 14px;border:1px solid var(--line-2);border-radius:6px;background:transparent;
+    color:var(--ink-70);cursor:pointer}
+  .tab:hover{border-color:var(--ink-35)}
+  .tab[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .zoom{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10px;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--ink-55)}
+  .zoom input{width:104px}
+
+  .intro{padding:34px 28px 26px;border-bottom:1px solid var(--line);max-width:1180px}
+  .intro h1{font-family:var(--serif);font-weight:700;font-size:27px;line-height:1.28}
+  .intro p{font-size:15px;line-height:1.68;color:var(--ink-70);margin-top:12px;max-width:74ch}
+  .flags{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+  .flag{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+    border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent);
+    border-radius:3px;padding:4px 9px}
+  .flag.ok{border-color:var(--line-2);color:var(--ink-55)}
+
+  /* ---- the stage ---- */
+  .stage{display:grid;gap:0;padding:0}
+  .stage[data-mode="all"]{grid-template-columns:repeat(3,1fr)}
+  .stage[data-mode="one"]{grid-template-columns:1fr}
+
+  .col{border-right:1px solid var(--line);min-width:0}
+  .col:last-child{border-right:0}
+  .stage[data-mode="one"] .col{border-right:0}
+  .col.hide{display:none}
+
+  /* --bar-h is measured in script: the top bar wraps at narrow widths, so a
+     hard-coded offset tucks these headers underneath it. */
+  .col-head{position:sticky;top:var(--bar-h,63px);z-index:20;background:var(--bg);
+    border-bottom:1px solid var(--ink);padding:16px 20px}
+  .col-head .k{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);font-weight:700}
+  .col-head h2{font-family:var(--serif);font-weight:700;font-size:20px;line-height:1.3;margin-top:7px}
+  .col-head p{font-size:13px;line-height:1.56;color:var(--ink-70);margin-top:8px}
+  .col-head .lead{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--rotary);margin-top:10px;display:block}
+  .col-head a.open{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-55);text-decoration:none;border-bottom:1px solid var(--line-2);margin-top:10px;display:inline-block}
+  .col-head a.open:hover{color:var(--accent);border-color:var(--accent)}
+
+  /* The viewport clips a 1440px-wide iframe that is scaled down, so the
+     layout inside is the real desktop one at every column width. */
+  .viewport{overflow:hidden;position:relative;background:var(--panel)}
+  .viewport iframe{width:var(--frame-w);border:0;display:block;transform-origin:0 0;background:#FCFCFB}
+
+  @media (max-width:1100px){
+    .stage[data-mode="all"]{grid-template-columns:1fr}
+    .col{border-right:0;border-bottom:1px solid var(--ink)}
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <span class="brand">Peace&nbsp;Intel <i>/ Rotary Global Grants / three directions</i></span>
+  <div class="zoom">
+    <label for="z">Fit</label>
+    <input id="z" type="range" min="18" max="100" value="34">
+    <span id="zv">34%</span>
+  </div>
+  <div class="tabs" role="group" aria-label="Which direction to show">
+    <button class="tab" data-show="all" aria-pressed="true">Compare all</button>
+    <button class="tab" data-show="a" aria-pressed="false">A · Field Note</button>
+    <button class="tab" data-show="b" aria-pressed="false">B · Club Handbook</button>
+    <button class="tab" data-show="c" aria-pressed="false">C · Two Doors</button>
+  </div>
+</header>
+
+<div class="intro">
+  <h1>Same words, three arguments.</h1>
+  <p>All three carry identical copy, so what you are judging is order and emphasis rather than
+    wording. They differ on what the page leads with: A leads with the evidence, B leads with the
+    process, C leads with the reader's own situation. Both research findings are real and cited.
+    The demo thread and the grant-field before/after are cut from all three, which is why the two
+    findings carry the whole credibility load.</p>
+  <div class="flags">
+    <span class="flag">Rotary mark — placeholder, asset needed</span>
+    <span class="flag">RAGFP endorsement — confirm before publish</span>
+    <span class="flag ok">Corpus numbers from beta.html, not the brief</span>
+    <span class="flag ok">&lt;3% success rate — dropped, unsourced</span>
+    <span class="flag ok">Light only, matching every other marketing page</span>
+  </div>
+</div>
+
+<div class="stage" data-mode="all" id="stage">
+  <section class="col" data-key="a">
+    <div class="col-head">
+      <span class="k">Direction A</span>
+      <h2>The Field Note</h2>
+      <span class="lead">Evidence leads</span>
+      <p>The two findings get full-width editorial spreads with their own dither bands; everything
+        else is set quieter around them. Rotary blue appears exactly once, on the endorsement
+        ribbon. Concentrates thin content instead of spreading it.</p>
+      <a class="open" href="rotary-a.html" target="_blank" rel="noopener">Open full page &rarr;</a>
+    </div>
+    <div class="viewport"><iframe src="rotary-a.html" title="Direction A, the Field Note" loading="lazy"></iframe></div>
+  </section>
+
+  <section class="col" data-key="b">
+    <div class="col-head">
+      <span class="k">Direction B</span>
+      <h2>The Club Handbook</h2>
+      <span class="lead">Process leads</span>
+      <p>Ordered like a Rotary guide: how it works first, why peace second. Running section
+        numbers, heavy rules, Rotary blue used structurally. The evidence sits in the flow as
+        callouts. Warmest and most familiar; the recruit argument arrives late.</p>
+      <a class="open" href="rotary-b.html" target="_blank" rel="noopener">Open full page &rarr;</a>
+    </div>
+    <div class="viewport"><iframe src="rotary-b.html" title="Direction B, the Club Handbook" loading="lazy"></iframe></div>
+  </section>
+
+  <section class="col" data-key="c">
+    <div class="col-head">
+      <span class="k">Direction C</span>
+      <h2>The Two Doors</h2>
+      <span class="lead">The reader's situation leads</span>
+      <p>The starter paths are the fold. Two tracks run in parallel down a blue spine, each
+        carrying the finding that speaks to it, then converge. Highest variance: strongest
+        conversion shape, and the one most at risk of reading thin.</p>
+      <a class="open" href="rotary-c.html" target="_blank" rel="noopener">Open full page &rarr;</a>
+    </div>
+    <div class="viewport"><iframe src="rotary-c.html" title="Direction C, the Two Doors" loading="lazy"></iframe></div>
+  </section>
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const cols  = [...document.querySelectorAll('.col')];
+  const zoom  = document.getElementById('z');
+  const zval  = document.getElementById('zv');
+
+  // Each iframe renders at 1440px then scales to its column. Height is measured
+  // from the loaded document (same origin, so this is readable) and falls back
+  // to a generous default if it is read before the fonts settle. The wrapper
+  // reserves the scaled height so the harness scrolls as one document rather
+  // than as three nested scrollbars.
+  const FRAME_W = 1440, FRAME_FALLBACK = 5600;
+
+  function frameHeight(fr){
+    try {
+      const d = fr.contentDocument;
+      if (d && d.body) return Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
+    } catch (e) { /* not loaded yet */ }
+    return FRAME_FALLBACK;
+  }
+
+  function applyScale(){
+    const pct = +zoom.value;
+    zval.textContent = pct + '%';
+    document.documentElement.style.setProperty(
+      '--bar-h', document.querySelector('header.bar').offsetHeight + 'px');
+    cols.forEach(col => {
+      const vp = col.querySelector('.viewport');
+      const fr = col.querySelector('iframe');
+      const avail = vp.clientWidth || col.clientWidth;
+      // In single-direction mode the slider is ignored and the frame fits the
+      // column exactly, which is what you want when reading one page closely.
+      const scale = stage.dataset.mode === 'one'
+        ? Math.min(1, avail / FRAME_W)
+        : pct / 100;
+      const h = frameHeight(fr);
+      fr.style.transform = `scale(${scale})`;
+      fr.style.height = h + 'px';
+      vp.style.height = (h * scale) + 'px';
+    });
+  }
+
+  // Fonts and the hero video both shift height after first paint, so re-measure
+  // once each frame has settled rather than trusting the load event alone.
+  cols.forEach(col => {
+    const fr = col.querySelector('iframe');
+    fr.addEventListener('load', () => {
+      applyScale();
+      setTimeout(applyScale, 600);
+    });
+  });
+
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const show = btn.dataset.show;
+      document.querySelectorAll('.tab').forEach(b =>
+        b.setAttribute('aria-pressed', String(b === btn)));
+      stage.dataset.mode = show === 'all' ? 'all' : 'one';
+      cols.forEach(c => c.classList.toggle('hide', show !== 'all' && c.dataset.key !== show));
+      zoom.disabled = show !== 'all';
+      requestAnimationFrame(applyScale);
+    });
+  });
+
+  zoom.addEventListener('input', applyScale);
+  window.addEventListener('resize', applyScale);
+  window.addEventListener('load', applyScale);
+  applyScale();
+</script>
+</body>
+</html>

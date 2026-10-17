@@ -1,0 +1,472 @@
+/* ============================================================================
+   PEACE INTEL — BRAND TOKENS
+   ----------------------------------------------------------------------------
+   Source of truth for the Peace Intel visual system. Drops in as the token
+   block of src/pages/console/console.css.
+
+   CONTRACT
+   - Every token name here is one production already consumes. Nothing is
+     renamed, so adoption is a values swap, not a refactor.
+   - Scoped to `:root, .console-root` so the same file works in the prototype
+     repo (bare HTML) and in the React app (.console-root wrapper).
+   - Components never reference Layer 1 primitives or raw hex. They compose
+     Layer 2 semantics, or color-mix() off them.
+   - Every text token is solved against a contrast target, not eyeballed, and
+     against the HARDEST surface it can legally sit on — not just the page
+     background. brand-reference.html prints the ratios live.
+
+   THREE SWITCH AXES (set on <html> or the .console-root wrapper)
+     data-theme="light|dark"                    full theme
+     data-type="proto|prod"                     typeface stack under review
+     data-panel="warm|deep|wash|flat|hairline"  raised-surface treatment
+   Omit any and you get the default: light / proto / warm.
+
+   WHY THE ACCENT IS SPLIT
+   Brand orange #D9481C is 4.18:1 on the page background and fails WCAG AA for
+   text under 24px. Production forked the whole palette to a brown to solve it,
+   which is why the live site renders two brands by route. The brown was
+   rejected on 2026-09-24. The fix is --accent for graphics and large type,
+   --accent-text for small type — same hue, AA compliant.
+
+   WHY THE RAMPS ARE SOLVED AGAINST --panel, NOT --bg
+   An earlier revision solved them against --bg only. --ink-55 then measured
+   4.52:1 on the page and 4.04:1 on a raised surface, so every piece of muted
+   text on a card or a chat bubble silently failed AA. Solving against the
+   raised tone fixes both at once.
+   ============================================================================ */
+
+/* ── LAYER 1 · PRIMITIVES ────────────────────────────────────────────────────
+   Raw values. No component may reference these directly. */
+:root,
+.console-root {
+  /* warm paper */
+  --pi-paper-000: #FCFCFB;   /* page */
+  --pi-paper-100: #F3EFE7;   /* raised, warm (default) */
+  --pi-paper-200: #EDE6D8;   /* raised, deep */
+
+  /* light ink ramp — solved against --pi-paper-100, so it clears AA on both
+     the page and any raised surface */
+  --pi-ink-900: #141310;
+  --pi-ink-600: #4B463E;
+  --pi-ink-400: #706B63;
+  --pi-ink-300: #8C877F;
+
+  /* dark surfaces */
+  --pi-dark-000: #16130E;   /* page */
+  --pi-dark-100: #211D16;   /* raised */
+  --pi-dark-band: #1C1A16;  /* a dark band inside a LIGHT page */
+
+  /* dark ink ramp — solved against --pi-dark-100, the lighter of the dark
+     surfaces, so one ramp serves the dark theme AND dark bands on light pages */
+  --pi-dark-ink: #F3EFE7;
+  --pi-dark-600: #B9B3A9;
+  --pi-dark-400: #8C867C;
+  --pi-dark-300: #6F695F;
+
+  /* brand */
+  --pi-orange: #D9481C;
+  --pi-orange-text: #C04019;   /* AA on both page and raised surfaces */
+  --pi-orange-bright: #EC5E2E;
+  --pi-orange-warm: #F77524;
+  --pi-grad: linear-gradient(45deg, #F72F24 0%, #F77524 100%);
+}
+
+/* ── LAYER 2 · SEMANTIC ──────────────────────────────────────────────────────
+   The names production consumes. These are what components reference. */
+:root,
+.console-root {
+  --bg: var(--pi-paper-000);
+  --panel: var(--pi-paper-100);
+
+  /* Text. Opaque, not alpha: alpha inks composite differently on every surface
+     and cannot be tuned against a target. Ratios below are on --panel, the
+     harder case; each is ~0.5 higher on --bg. */
+  --ink: var(--pi-ink-900);      /* 16.20:1  primary */
+  --ink-70: var(--pi-ink-600);   /*  8.16:1  secondary body */
+  --ink-55: var(--pi-ink-400);   /*  4.61:1  muted, AA floor for body text */
+  --ink-35: var(--pi-ink-300);   /*  3.11:1  faint, AA floor for UI + large */
+
+  /* Borders stay alpha: they sit on every surface and must composite. */
+  --line: rgba(20, 19, 16, .12);
+  --line-2: rgba(20, 19, 16, .18);
+
+  /* Washes. Alpha ink for hover states, kept separate from the text ramp so
+     the opaque inks above can be tuned for contrast without breaking hovers. */
+  --wash-1: rgba(20, 19, 16, .04);
+  --wash-2: rgba(20, 19, 16, .07);
+
+  --accent: var(--pi-orange);           /* graphics, large type, fills */
+  --accent-text: var(--pi-orange-text); /* 4.59:1 — any text under 24px */
+  --hl: color-mix(in srgb, var(--accent) 14%, transparent);
+  --grad: var(--pi-grad);
+
+  --kicker: var(--ink-55);
+  --link-h: var(--ink);
+  --sh: 20, 19, 16;
+
+  --elev-1: 0 1px 2px rgba(var(--sh), .04), 0 6px 16px -10px rgba(var(--sh), .18);
+  --elev-2: 0 2px 4px rgba(var(--sh), .05), 0 22px 46px -28px rgba(var(--sh), .30);
+  --elev-3: 0 4px 8px rgba(var(--sh), .06), 0 40px 80px -32px rgba(var(--sh), .42);
+
+  --grid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.06'/%3E%3C/svg%3E");
+  --gridinv: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23ffffff' stroke-opacity='0.9' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23ffffff' stroke-opacity='0.9' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23ffffff' fill-opacity='0.95'/%3E%3C/svg%3E");
+
+  /* Grid vignette masks. The texture is never a page-wide wallpaper; it is
+     revealed in a soft pool and fades to nothing before it reaches any text
+     block or page edge. See components.css .textured. */
+  --grid-mask-center: radial-gradient(ellipse 62% 58% at 50% 50%, #000 0%, #000 28%, transparent 76%);
+  --grid-mask-top:    radial-gradient(ellipse 72% 70% at 50% 8%,  #000 0%, #000 22%, transparent 72%);
+  --grid-mask-band:   linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  --grid-opacity: 1;
+
+  /* app shell structure (unchanged from production) */
+  --rail-w: 290px;
+  --rail-collapsed: 52px;
+  --pane-w: 396px;
+  --pane-collapsed: 44px;
+  --topbar-h: 52px;
+}
+
+/* ── LAYER 2b · SURFACE TREATMENT ────────────────────────────────────────────
+   How a raised surface separates itself from the page. Under review: a fill,
+   a stronger fill, a neutral wash, or no fill at all with the separation
+   carried by elevation or a hairline. Components read these three tokens
+   rather than assuming a fill exists, so switching treatment changes every
+   card, bubble and selected row at once.
+
+   --panel        the fill
+   --panel-border the border that fill needs (or does the separating alone)
+   --panel-elev   the shadow that fill needs (or does the separating alone) */
+:root,
+.console-root {
+  --panel-border: 1px solid var(--line);
+  --panel-elev: none;
+}
+
+/* Deep: a stronger warm fill. Needs a slightly darker ink ramp to hold AA. */
+:root[data-panel="deep"],
+.console-root[data-panel="deep"] {
+  --panel: var(--pi-paper-200);
+  --panel-border: 1px solid transparent;
+  --panel-elev: none;
+  --ink-55: #6A655D;       /* 4.52:1 on --pi-paper-200 */
+  --ink-35: #86817A;       /* 3.05:1 on --pi-paper-200 */
+  --accent-text: #B53C17;  /* 4.55:1 on --pi-paper-200 */
+}
+
+/* Wash: no warm tint at all. A neutral derived from the ink, so the raised
+   tone tracks the theme instead of being its own hue. */
+:root[data-panel="wash"],
+.console-root[data-panel="wash"] {
+  --panel: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  --panel-border: 1px solid var(--line);
+  --panel-elev: none;
+}
+
+/* Flat: no fill. The surface is the page colour and elevation alone separates
+   it. Reads as lighter and more architectural; costs you the warmth. */
+:root[data-panel="flat"],
+.console-root[data-panel="flat"] {
+  --panel: var(--bg);
+  --panel-border: 1px solid transparent;
+  --panel-elev: var(--elev-2);
+}
+
+/* Hairline: no fill, no shadow. Pure drawn line. The most editorial and the
+   flattest; everything depends on the quality of the rule. */
+:root[data-panel="hairline"],
+.console-root[data-panel="hairline"] {
+  --panel: var(--bg);
+  --panel-border: 1px solid var(--line-2);
+  --panel-elev: none;
+}
+
+/* ── LAYER 3 · SURFACE CONTEXTS ──────────────────────────────────────────────
+   A surface context remaps the semantic tokens for everything inside it, so a
+   component dropped into any of them works unchanged with no overrides. This
+   is what makes bands able to vary: a page is no longer one tone with one
+   raised tone, it is a sequence of surfaces.
+
+   .surface--raised   the raised tone, as a region rather than a component
+   .surface--deep     one step further from the page
+   .surface--invert   flips against the theme — dark on a light page, light on
+                      a dark page. This is the one that breaks the monotony.
+   .on-dark           always dark, whatever the theme. Kept as its own thing
+                      because some bands must stay dark for brand reasons. */
+
+.surface--raised {
+  background: var(--panel);
+  --wash-1: rgba(20, 19, 16, .05);
+  --wash-2: rgba(20, 19, 16, .08);
+}
+:root[data-theme="dark"] .surface--raised,
+.console-root[data-theme="dark"] .surface--raised {
+  --wash-1: rgba(243, 239, 231, .05);
+  --wash-2: rgba(243, 239, 231, .09);
+}
+
+.surface--deep {
+  background: var(--pi-paper-200);
+  --panel: var(--pi-paper-000);   /* raised elements lift back toward the page */
+  --ink-55: #6A655D;
+  --ink-35: #86817A;
+  --accent-text: #B53C17;
+}
+:root[data-theme="dark"] .surface--deep,
+.console-root[data-theme="dark"] .surface--deep {
+  background: #0F0D09;
+  --panel: var(--pi-dark-100);
+  --ink-55: var(--pi-dark-400);
+  --ink-35: var(--pi-dark-300);
+  --accent-text: var(--pi-orange-bright);
+}
+
+/* The dark ink ramp, as a reusable block. Used by .on-dark, by .surface--invert
+   on a light page, and by the dark theme itself. */
+.on-dark,
+:root:not([data-theme="dark"]) .surface--invert,
+.console-root:not([data-theme="dark"]) .surface--invert {
+  --on-dark-surface: var(--pi-dark-band);
+  --on-dark: var(--pi-dark-ink);
+  --on-dark-70: var(--pi-dark-600);
+  --on-dark-55: var(--pi-dark-400);
+  --on-dark-35: var(--pi-dark-300);
+  --on-dark-line: rgba(252, 252, 251, .16);
+  --on-dark-line-2: rgba(252, 252, 251, .26);
+  --on-dark-accent: var(--pi-orange-warm); /* the light accent is only 4.05:1 here */
+
+  --bg: var(--on-dark-surface);
+  --ink: var(--on-dark);
+  --ink-70: var(--on-dark-70);
+  --ink-55: var(--on-dark-55);
+  --ink-35: var(--on-dark-35);
+  --line: var(--on-dark-line);
+  --line-2: var(--on-dark-line-2);
+  --panel: color-mix(in srgb, var(--on-dark) 8%, var(--on-dark-surface));
+  --panel-border: 1px solid var(--on-dark-line);
+  --panel-elev: none;
+  --accent: var(--on-dark-accent);
+  --accent-text: var(--on-dark-accent);
+  --kicker: var(--on-dark-55);
+  --wash-1: rgba(252, 252, 251, .06);
+  --wash-2: rgba(252, 252, 251, .10);
+  --sh: 0, 0, 0;
+  --grid: var(--gridinv);
+  --grid-opacity: .14;
+
+  background: var(--on-dark-surface);
+  color: var(--on-dark);
+}
+
+/* On a dark page, an inverted band goes LIGHT. Same mechanism, opposite way. */
+:root[data-theme="dark"] .surface--invert,
+.console-root[data-theme="dark"] .surface--invert {
+  --bg: var(--pi-paper-000);
+  --panel: var(--pi-paper-100);
+  --ink: var(--pi-ink-900);
+  --ink-70: var(--pi-ink-600);
+  --ink-55: var(--pi-ink-400);
+  --ink-35: var(--pi-ink-300);
+  --line: rgba(20, 19, 16, .12);
+  --line-2: rgba(20, 19, 16, .18);
+  --panel-border: 1px solid var(--line);
+  --panel-elev: none;
+  --accent: var(--pi-orange);
+  --accent-text: var(--pi-orange-text);
+  --kicker: var(--ink-55);
+  --wash-1: rgba(20, 19, 16, .04);
+  --wash-2: rgba(20, 19, 16, .07);
+  --sh: 20, 19, 16;
+  --grid-opacity: 1;
+
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* On a dark theme a dark band lifts off the page instead of sinking into it. */
+:root[data-theme="dark"] .on-dark,
+.console-root[data-theme="dark"] .on-dark {
+  --on-dark-surface: var(--pi-dark-100);
+  --accent: var(--pi-orange-bright);
+  --accent-text: var(--pi-orange-bright);
+  --on-dark-accent: var(--pi-orange-bright);
+}
+
+/* ── DARK THEME ──────────────────────────────────────────────────────────────
+   A one-attribute flip, as production already does it. Ratios against --panel,
+   the harder surface. */
+:root[data-theme="dark"],
+.console-root[data-theme="dark"] {
+  --bg: var(--pi-dark-000);
+  --panel: var(--pi-dark-100);
+  --ink: var(--pi-dark-ink);     /* 13.98:1 on --panel */
+  --ink-70: var(--pi-dark-600);  /*  8.05:1 */
+  --ink-55: var(--pi-dark-400);  /*  4.65:1 */
+  --ink-35: var(--pi-dark-300);  /*  3.08:1 */
+  --line: rgba(243, 239, 231, .13);
+  --line-2: rgba(243, 239, 231, .22);
+  --wash-1: rgba(243, 239, 231, .05);
+  --wash-2: rgba(243, 239, 231, .09);
+  --accent: var(--pi-orange-bright);      /* 4.96:1 on --panel */
+  --accent-text: var(--pi-orange-bright);
+  --sh: 0, 0, 0;
+  --panel-border: 1px solid var(--line);
+  --panel-elev: none;
+
+  --elev-1: 0 1px 2px rgba(var(--sh), .20), 0 6px 16px -10px rgba(var(--sh), .50);
+  --elev-2: 0 2px 4px rgba(var(--sh), .24), 0 22px 46px -28px rgba(var(--sh), .60);
+  --elev-3: 0 4px 8px rgba(var(--sh), .28), 0 40px 80px -32px rgba(var(--sh), .70);
+
+  --grid: var(--gridinv);
+  --grid-opacity: .1;
+}
+
+/* Panel treatments that need re-stating under the dark theme. */
+:root[data-theme="dark"][data-panel="deep"],
+.console-root[data-theme="dark"][data-panel="deep"] {
+  --panel: #2A241B;
+  --panel-border: 1px solid transparent;
+  --ink-70: #C1BBB1;       /* 8.06:1 on #2A241B */
+  --ink-55: #928C82;       /* 4.61:1 — the base dark ramp is only 4.26 here */
+  --ink-35: #756F65;       /* 3.09:1 — the base dark ramp is only 2.83 here */
+  --accent-text: #EE5F2E;  /* 4.60:1 */
+}
+:root[data-theme="dark"][data-panel="flat"],
+.console-root[data-theme="dark"][data-panel="flat"] {
+  --panel: var(--bg);
+  --panel-border: 1px solid transparent;
+  --panel-elev: var(--elev-2);
+}
+:root[data-theme="dark"][data-panel="hairline"],
+.console-root[data-theme="dark"][data-panel="hairline"] {
+  --panel: var(--bg);
+  --panel-border: 1px solid var(--line-2);
+  --panel-elev: none;
+}
+
+/* ── ACCENT: DECIDED ─────────────────────────────────────────────────────────
+   Resolved 2026-09-24. Warm orange is the accent. The brown #8A5A2B that
+   production currently ships at the base was reviewed and rejected.
+
+   The brown existed because it solves a real problem: brand orange is 4.18:1
+   on the page background and fails WCAG AA for text under 24px. That problem is
+   now solved without changing hue, by splitting the token — --accent for
+   graphics and large type, --accent-text (#C04019, 4.59:1) for anything
+   smaller. There is no longer any reason to carry a second accent.
+
+   Action for production: set --accent at the base in console.css and delete the
+   per-page overrides in research-landing.css, beta-landing.css and the rotary
+   stylesheet. That removes the two-brand split in one change.
+   ============================================================================ */
+
+/* ── TYPEFACES ───────────────────────────────────────────────────────────────
+   DIN 2014 is self-hosted here. Production dropped it when fonts.cdnfonts.com
+   started 500ing on every load; that was the right call at the time, but the
+   WOFFs now exist in this repo so the stack can be reinstated. There is no
+   Medium (500) cut: 500 rounds down to Regular. Step to 600 for emphasis. */
+@font-face { font-family: "DIN 2014"; src: url("../Fonts/DIN2014/DIN2014-Regular.woff") format("woff"); font-weight: 400; font-display: swap }
+@font-face { font-family: "DIN 2014"; src: url("../Fonts/DIN2014/DIN2014-DemiBold.woff") format("woff"); font-weight: 600; font-display: swap }
+@font-face { font-family: "DIN 2014"; src: url("../Fonts/DIN2014/DIN2014-Bold.woff") format("woff"); font-weight: 700; font-display: swap }
+
+:root,
+.console-root {
+  --serif: "Nanum Myeongjo", Georgia, serif;
+  --sans: "DIN 2014", "DM Sans", system-ui, sans-serif;
+  --mono: "Space Mono", ui-monospace, monospace;
+}
+:root[data-type="prod"],
+.console-root[data-type="prod"] {
+  --serif: "Source Serif 4", Georgia, serif;
+  --sans: "DM Sans", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+
+/* ── SCALES ──────────────────────────────────────────────────────────────────
+   Closed sets. A value that is not on a scale is a bug, not a preference.
+   These replace 32 ad-hoc font sizes, 24 margin values and 13 letter-spacings
+   found across the prototype pages. */
+:root,
+.console-root {
+  /* spacing — 4px grid */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-7: 28px;  --sp-8: 32px;
+  --sp-10: 40px; --sp-12: 48px; --sp-14: 56px; --sp-16: 64px;
+  --sp-18: 72px; --sp-22: 88px; --sp-26: 104px;
+
+  /* type scale — 10 steps */
+  --t-display: 46px; --t-display-lh: 1.24;
+  --t-h1: 36px;      --t-h1-lh: 1.24;
+  --t-h2: 30px;      --t-h2-lh: 1.26;
+  --t-h3: 24px;      --t-h3-lh: 1.28;
+  --t-h4: 19px;      --t-h4-lh: 1.34;
+  --t-lead: 17px;    --t-lead-lh: 1.62;
+  --t-body: 15px;    --t-body-lh: 1.65;
+  --t-ui: 13px;      --t-ui-lh: 1.5;
+  --t-sm: 12px;      --t-sm-lh: 1.45;
+  --t-xs: 10px;      --t-xs-lh: 1.4;
+
+  /* eyebrow ladder — 4 steps. tracking scales inversely with size.
+     replaces .04 .05 .06 .07 .08 .09 .1 .11 .12 .14 .16 .18 .2em + 3 px values */
+  --eb-1: 12px; --eb-1-ls: .14em;  /* section kickers */
+  --eb-2: 11px; --eb-2-ls: .12em;  /* nav, pane titles, stat labels */
+  --eb-3: 10px; --eb-3-ls: .10em;  /* badges, timestamps, action buttons */
+  --eb-4: 9px;  --eb-4-ls: .08em;  /* micro labels, source suffixes */
+
+  /* radii — grows with surface size */
+  --r-xs: 4px;   /* focus ring */
+  --r-sm: 6px;   /* citation chips */
+  --r-md: 8px;   /* buttons, inputs, pills — the workhorse */
+  --r-lg: 12px;  /* cards, chat bubbles */
+  --r-xl: 14px;  /* composer, hero surfaces */
+  --r-2xl: 20px; /* CTA band */
+
+  /* section rhythm */
+  --band-y: var(--sp-26);
+  --band-y-tight: var(--sp-18);
+
+  /* measures */
+  --measure-prose: 64ch;
+  --measure-lead: 56ch;
+  --measure-head: 20ch;
+  --col-max: 1120px;
+  --col-text: 720px;
+  --col-chat: 720px;
+
+  /* motion — nothing longer than .3s in-app */
+  --mo-fast: .15s ease;
+  --mo-base: .18s ease;
+  --mo-struct: .22s ease;
+  --mo-atmos: 1.2s ease;
+}
+
+/* ── LAYER 4 · COMPONENT TOKENS ──────────────────────────────────────────────
+   Only where a component genuinely sits between scale steps and the difference
+   is load-bearing. Each one is named, so it shows up in a grep and cannot be
+   mistaken for an improvised value. Everything else composes Layer 2. */
+:root,
+.console-root {
+  /* Text on an accent or gradient fill. The ONLY legitimate pure white in the
+     system: it sits on --accent or --grad, never on a neutral surface. */
+  --on-accent: #FFFFFF;
+
+  /* Buttons sit between --t-ui (13) and --t-body (15). 14 is the established
+     value across every prototype and production file; snapping it either way
+     visibly changes every button on the site. */
+  --t-btn: 14px;
+
+  /* The hero prompt is a signature surface and reads as oversized body copy,
+     between --t-h4 (19) and --t-h3 (24). */
+  --t-prompt: 20px;
+
+  /* The library / landing stat number. Deliberately larger than --t-display so
+     it reads as a figure rather than a headline. */
+  --t-stat: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}

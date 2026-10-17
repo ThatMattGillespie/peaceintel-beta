@@ -1,0 +1,901 @@
+/* ============================================================================
+   PEACE INTEL — BLOCK CATALOG
+   ----------------------------------------------------------------------------
+   Requires tokens.css.
+
+   This is the layer that did not exist before. tokens.css governs the atoms
+   (color, type, radius, elevation); this file governs COMPOSITION — the named
+   blocks a page is assembled from. Without it an agent inherits the palette and
+   improvises the layout, which is how index.html's 19 whole-pixel type sizes
+   became 32 sizes with invented half-pixels in problems.html, and how every
+   page below the hero grew its own private class vocabulary.
+
+   RULE: a landing page is assembled from these blocks. If a page needs a shape
+   that is not here, add it here first, then use it. Do not write one-off layout
+   CSS in a page file.
+
+   Every value below is a scale step or a token from tokens.css. The only raw
+   literals are `#000` inside mask-image gradients, where the value is an alpha
+   channel rather than a colour and a token would be wrong.
+   ============================================================================ */
+
+/* ── BASE ──────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+/* The page background is PLAIN. The dashed grid is a vignette applied to
+   specific regions with .textured, never a page-wide wallpaper. Running it
+   under everything flattens the page and leaves nothing for a textured area
+   to contrast against. */
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  line-height: var(--t-body-lh);
+}
+
+button, input, select, textarea { font: inherit; color: inherit }
+button { background: none; border: none; cursor: pointer }
+a { color: inherit; text-decoration: none }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--r-xs);
+}
+
+/* ── GRID VIGNETTE ─────────────────────────────────────────────────────────── */
+/* The dashed grid is the brand's quiet fingerprint, and it only reads as one
+   when it is rare. Apply .textured to a region and the grid is revealed as a
+   soft pool that fades to nothing before it reaches the region's edges.
+
+   Three masks, from tokens.css:
+     (default)        --grid-mask-center   a pool in the middle of the region
+     .textured--top   --grid-mask-top      anchored under a hero headline
+     .textured--band  --grid-mask-band     a full-width horizontal wash
+
+   HARD RULE: anything that sits ON a textured region must be opaque. A
+   translucent card over the grid shows dashes through its own face and reads
+   as dirt rather than depth. Every surface in this file is opaque for that
+   reason; if you add one, keep it opaque. */
+.textured { position: relative; isolation: isolate }
+.textured::before {
+  content: "";
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: var(--grid);
+  background-size: 20px 20px;
+  opacity: var(--grid-opacity);
+  -webkit-mask-image: var(--grid-mask-center);
+  mask-image: var(--grid-mask-center);
+}
+.textured--top::before { -webkit-mask-image: var(--grid-mask-top); mask-image: var(--grid-mask-top) }
+.textured--band::before { -webkit-mask-image: var(--grid-mask-band); mask-image: var(--grid-mask-band) }
+.textured > * { position: relative; z-index: 1 }
+
+/* ── LAYOUT PRIMITIVES ─────────────────────────────────────────────────────── */
+.wrap { max-width: var(--col-max); margin: 0 auto; padding: 0 var(--sp-10) }
+
+/* A band is one full-width horizontal slice of a page. Every section is a band.
+   This replaces the three competing section{padding} values (104/96/88px). */
+.band { padding: var(--band-y) 0; position: relative }
+.band--tight { padding: var(--band-y-tight) 0 }
+
+/* Band surfaces. A page is a SEQUENCE of surfaces, not one tone with occasional
+   cards on it. Pair any of these with .band. The surface classes come from
+   tokens.css and remap the semantics, so components inside need no overrides.
+
+     (none)             the page tone
+     .surface--raised   the raised tone
+     .surface--deep     one step further from the page
+     .surface--invert   flips against the theme: dark band on a light page,
+                        light band on a dark page
+     .on-dark           always dark, whatever the theme
+
+   Alternating these down a page is what stops it reading as monotonous.
+   A reasonable rhythm is page → raised → page → invert → page. */
+.band--panel { background: var(--panel) }   /* legacy alias for .surface--raised */
+
+/* Textured band: the dithered video treatment, medium cell / 7% mono Bayer. */
+.band--texture { overflow: hidden }
+.band--texture > .band-vid {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  opacity: .16; mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+.band--texture > .band-vid video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; image-rendering: pixelated; filter: grayscale(1) contrast(1.05);
+}
+.band--texture > .wrap { position: relative; z-index: 1 }
+
+/* Dark band. Carries .on-dark (tokens.css) which remaps the semantics, so every
+   component inside works unchanged — no .ctaband .kicker overrides needed. */
+.band--dark { padding: var(--band-y) 0 }
+.band--dark.rounded {
+  border-radius: var(--r-2xl);
+  padding: var(--sp-22) var(--sp-10);
+  text-align: center;
+  overflow: hidden;
+}
+.band--dark .grid-reveal {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: var(--gridinv); background-size: 20px 20px;
+  opacity: 0; transition: opacity var(--mo-atmos);
+  -webkit-mask-image: radial-gradient(ellipse 56% 66% at 50% 46%, #000 0%, #000 26%, transparent 76%);
+  mask-image: radial-gradient(ellipse 56% 66% at 50% 46%, #000 0%, #000 26%, transparent 76%);
+}
+.band--dark.lit .grid-reveal { opacity: .14 }
+.band--dark > * { position: relative; z-index: 1 }
+
+/* Grids */
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-7) }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-7) }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-7) }
+
+/* Rule-separated row group: the .stats / .iperk pattern, generalised. */
+.rule-row {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr));
+  border-top: 1px solid var(--line-2);
+  border-bottom: 1px solid var(--line-2);
+}
+.rule-row > * { padding: var(--sp-8) var(--sp-6); border-right: 1px solid var(--line) }
+.rule-row > *:last-child { border-right: none }
+
+/* ── TYPE BLOCKS ───────────────────────────────────────────────────────────── */
+/* Merges the two lineages: one had .h-alt and no p, the other had p and no
+   .h-alt. This has both. */
+.sec-head { max-width: var(--col-text); margin-bottom: var(--sp-14) }
+.sec-head h2 {
+  font-family: var(--serif); font-weight: 700;
+  font-size: var(--t-h1); line-height: var(--t-h1-lh);
+  margin-top: var(--sp-3);
+  max-width: var(--measure-head);
+}
+.sec-head h2.h-alt {
+  font-family: var(--sans); font-weight: 700;
+  letter-spacing: -.005em; text-transform: none;
+}
+.sec-head p {
+  font-size: var(--t-lead); line-height: var(--t-lead-lh);
+  color: var(--ink-70); margin-top: var(--sp-4);
+  max-width: var(--measure-lead);
+}
+.sec-head.centered { margin-left: auto; margin-right: auto; text-align: center }
+.sec-head.centered h2, .sec-head.centered p { margin-left: auto; margin-right: auto }
+
+.display {
+  font-family: var(--serif); font-weight: 700;
+  font-size: var(--t-display); line-height: var(--t-display-lh);
+  letter-spacing: -.005em;
+}
+.lede { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--ink-70); max-width: var(--measure-lead) }
+.prose { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70); max-width: var(--measure-prose) }
+
+/* ── EYEBROWS ──────────────────────────────────────────────────────────────── */
+/* Four ladder steps, nothing else. Every eyebrow routes through --kicker or an
+   explicit ink token, so the one knob actually controls something — previously
+   --kicker governed .kicker alone while ~60 other eyebrows hardcoded their color.
+   All four work unchanged inside .on-dark. */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: var(--eb-1); letter-spacing: var(--eb-1-ls);
+  text-transform: uppercase; color: var(--kicker);
+  display: inline-block;
+}
+.eyebrow.eb-2 { font-size: var(--eb-2); letter-spacing: var(--eb-2-ls) }
+.eyebrow.eb-3 { font-size: var(--eb-3); letter-spacing: var(--eb-3-ls) }
+.eyebrow.eb-4 { font-size: var(--eb-4); letter-spacing: var(--eb-4-ls) }
+.eyebrow.faint { color: var(--ink-35) }
+.eyebrow.strong { color: var(--ink) }
+.eyebrow.accent { color: var(--accent-text) }
+
+/* .kicker is production's name for the step-1 eyebrow. Kept as an alias so
+   existing markup in console.css and the React pages keeps working. */
+.kicker { font-family: var(--mono); font-size: var(--eb-1); letter-spacing: var(--eb-1-ls); text-transform: uppercase; color: var(--kicker); display: inline-block }
+
+/* ── BUTTONS ───────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  font-family: var(--sans); font-weight: 600; font-size: var(--t-btn);
+  border-radius: var(--r-md); padding: var(--sp-3) var(--sp-5);
+  border: 1px solid transparent; cursor: pointer;
+  transition: box-shadow var(--mo-base), border-color var(--mo-base), background var(--mo-base);
+}
+.btn.primary { background: var(--ink); color: var(--bg) }
+.btn.primary:hover { box-shadow: var(--elev-1) }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2) }
+.btn.ghost:hover { border-color: var(--ink-35) }
+.btn.brand { background: var(--accent); color: var(--on-accent) }
+.btn.brand:hover { background: color-mix(in srgb, var(--accent) 88%, var(--ink)) }
+/* The gradient is the single highest-emphasis moment. One per view, never text. */
+.btn.grad { background: var(--grad); color: var(--on-accent); border-color: transparent }
+.btn.lg { padding: var(--sp-4) var(--sp-7); font-size: var(--t-lead) }
+.btn.sm { padding: var(--sp-2) var(--sp-4); font-size: var(--t-ui) }
+.btn:disabled, .btn[aria-disabled="true"] {
+  background: var(--line-2); color: var(--ink-35);
+  border-color: transparent; cursor: not-allowed; box-shadow: none;
+}
+
+/* Secondary ink button (app: .btn-dl / .fb-submit / .jump were three
+   near-identical copies; this is the one definition). */
+.btn-ink {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  background: var(--ink); color: var(--bg);
+  border-radius: var(--r-md); padding: var(--sp-2) var(--sp-4);
+  font-family: var(--sans); font-weight: 600; font-size: var(--t-ui);
+}
+.btn-ink:hover { box-shadow: var(--elev-1) }
+
+/* Inline text button */
+.btn-text {
+  font-family: var(--sans); font-weight: 600; font-size: var(--t-btn);
+  color: var(--ink-55); border-bottom: 1px solid var(--ink-35);
+  padding: 2px 0; transition: color var(--mo-fast), border-color var(--mo-fast);
+}
+.btn-text:hover { color: var(--ink); border-bottom-color: var(--ink) }
+
+.send {
+  width: 38px; height: 38px; border-radius: var(--r-md);
+  background: var(--grad); color: var(--on-accent); font-size: var(--t-lead);
+  display: grid; place-items: center; flex: none;
+}
+
+/* ── PILLS, CHIPS, BADGES ──────────────────────────────────────────────────── */
+/* The inverted active state — ink fill, bg text — is the strongest non-accent
+   emphasis in the system and is shared by every toggleable atom below. */
+
+/* .pill — the suggestion pill (hero prompt, filters) */
+.pill {
+  display: inline-flex; align-items: center;
+  font-family: var(--mono); font-size: var(--eb-2); letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-70);
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: var(--r-md); height: 38px; padding: 0 var(--sp-4);
+  transition: border-color var(--mo-base), color var(--mo-base);
+}
+.pill:not(.active):hover { border-color: var(--ink-35); color: var(--ink) }
+.pill.active { background: var(--ink); color: var(--bg); border-color: transparent }
+.pills { display: flex; gap: var(--sp-2); flex-wrap: wrap }
+
+/* .chip — the solid ink label. RECONCILED: this name previously meant a solid
+   ink pill in four files and bare transparent text in two. The bare-text
+   version is now .eyebrow. */
+.chip {
+  display: inline-block;
+  font-family: var(--mono); font-size: var(--eb-2); letter-spacing: .12em;
+  text-transform: uppercase;
+  background: var(--ink); color: var(--bg);
+  border-radius: var(--r-md); padding: var(--sp-2) var(--sp-4);
+}
+
+/* .act — the outlined utility action. RECONCILED: was 10px/r7/has-hover in the
+   app and 8.5px/r6/no-hover in the marketing pages. One definition, .sm variant. */
+.act {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls);
+  text-transform: uppercase; color: var(--ink-55);
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  padding: var(--sp-2) var(--sp-3);
+  transition: color var(--mo-base), border-color var(--mo-base);
+}
+.act:hover { color: var(--ink); border-color: var(--ink-35) }
+.act.on { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.act.sm { font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); padding: var(--sp-1) var(--sp-2) }
+
+/* .badge — a quiet filled marker */
+.badge {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase;
+  background: var(--panel); border: 1px solid var(--line);
+  color: var(--ink-55); border-radius: var(--r-sm); padding: 2px var(--sp-2);
+}
+.badge.accent {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* Segmented control. RECONCILED: was .seg (r8, 12.5px) / .seg (r9, 13.5px) /
+   .mode-toggle (r8, mono 10px) / .rail-switch across four files, with two
+   different activation attributes. One component, aria-pressed. */
+.seg {
+  display: inline-flex; background: var(--bg);
+  border: 1px solid var(--line-2); border-radius: var(--r-md); overflow: hidden;
+}
+.seg button {
+  font-family: var(--sans); font-weight: 600; font-size: var(--t-ui);
+  padding: var(--sp-2) var(--sp-5); color: var(--ink-55); white-space: nowrap;
+  transition: background var(--mo-base), color var(--mo-base);
+}
+.seg button + button { border-left: 1px solid var(--line-2) }
+.seg button:hover { color: var(--ink) }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+/* When two stack they stay identical — hierarchy comes from the label to the
+   left and from reading order, never from shrinking the second row. */
+.seg.mono button {
+  font-family: var(--mono); font-size: var(--eb-3);
+  letter-spacing: var(--eb-3-ls); text-transform: uppercase;
+  padding: var(--sp-2) var(--sp-3);
+}
+
+/* ── EVIDENCE TIERS (product-critical, do not restyle away) ────────────────── */
+/* The gradient of trust reads solid accent -> hollow accent -> dashed neutral.
+   Tier 3 deliberately gets no accent at all. RECONCILED: .cite existed in three
+   incompatible variants, one of which had no tiers. One definition, .sm variant,
+   tiers always present. */
+.cite {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-family: var(--mono); font-size: var(--eb-2); font-weight: 700;
+  border: 1px solid transparent; border-radius: var(--r-sm);
+  padding: 1px var(--sp-2) 1px 5px; margin: 0 2px;
+  vertical-align: 2px; line-height: 1.5;
+  transition: background var(--mo-fast), border-color var(--mo-fast), box-shadow var(--mo-fast);
+}
+.cite .cm { font-size: var(--eb-4); line-height: 1 }
+.cite.sm { font-size: var(--eb-3); border-radius: var(--r-sm); padding: 1px 5px 1px 4px; vertical-align: 1px }
+.cite.t1 {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.cite.t2 {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: transparent;
+}
+.cite.t3 { color: var(--ink-55); border-color: var(--ink-35); border-style: dashed; background: transparent }
+.cite:hover { box-shadow: var(--elev-1) }
+.cite.active { background: var(--ink); border-color: var(--ink); border-style: solid; color: var(--bg) }
+.cite.active .cm { color: var(--bg) }
+
+.evi-badge {
+  display: inline-flex; align-items: center; gap: var(--sp-1);
+  font-family: var(--mono); font-size: var(--eb-3); letter-spacing: .05em;
+  text-transform: uppercase; border: 1px solid; border-radius: var(--r-sm);
+  padding: 5px var(--sp-2);
+}
+.evi-badge .es { text-transform: none; letter-spacing: 0; color: var(--ink-35) }
+.evi-badge.t1 {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.evi-badge.t2 { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 40%, transparent) }
+.evi-badge.t3 { color: var(--ink-70); border-color: var(--ink-35); border-style: dashed }
+
+/* Source chip. RECONCILED: app version and marketing version differed in every
+   dimension and beta renamed it .demo-src. One definition, .sm variant.
+   The active state previously hardcoded #F77524 and rgba(255,255,255,.55),
+   which became invisible when the dark theme flipped the surface to near-white. */
+.src-chip {
+  display: flex; align-items: center; gap: var(--sp-2);
+  border: 1px solid var(--line-2); border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--t-sm); line-height: 1.45; color: var(--ink-70); text-align: left;
+  transition: border-color var(--mo-base), box-shadow var(--mo-base);
+}
+.src-chip:hover { border-color: var(--ink-35); box-shadow: var(--elev-1) }
+.src-chip .n { font-family: var(--mono); font-size: var(--eb-3); font-weight: 700; color: var(--accent-text); flex: none }
+/* The title is its own flex item with min-width:0 so it wraps as a block
+   instead of breaking between the author and the italic title. */
+.src-chip .tt { flex: 1; min-width: 0 }
+.src-chip .sx { margin-left: auto; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-35); white-space: nowrap }
+.src-chip.t3 { border-style: dashed }
+.src-chip.t3 .n { color: var(--ink-55) }
+.src-chip.active { background: var(--ink); color: var(--bg); border-color: var(--ink); border-style: solid }
+.src-chip.active .n { color: var(--pi-orange-warm) }
+.src-chip.active .sx { color: color-mix(in srgb, var(--bg) 60%, transparent) }
+.src-chip.sm { gap: var(--sp-2); border-radius: var(--r-sm); padding: 7px var(--sp-3); font-size: var(--eb-2) }
+
+/* ── CARDS ─────────────────────────────────────────────────────────────────── */
+/* Elevation signals interactivity. Static content gets borders, not shadows.
+   Every card is OPAQUE. A card over a .textured region must hide the grid
+   behind its own face or the dashes read through it as dirt. */
+.card {
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: var(--r-xl); padding: var(--sp-6);
+  display: flex; flex-direction: column;
+  transition: box-shadow var(--mo-base), border-color var(--mo-base);
+}
+.card.interactive { box-shadow: var(--elev-1) }
+.card.interactive:hover { box-shadow: var(--elev-2); border-color: var(--ink-35) }
+.card.flat { box-shadow: none }
+.card.lead { box-shadow: var(--elev-2) }
+/* Quiet: still opaque, just lower contrast. It was transparent, which broke
+   the moment it sat on a textured region. */
+.card.quiet { background: var(--bg); border-color: var(--line); box-shadow: none }
+
+/* Raised: takes whatever the surface treatment is, so switching data-panel
+   changes every raised surface at once rather than only the ones that happen
+   to hardcode var(--panel). Default treatment is hairline. */
+.card.raised {
+  background: var(--panel);
+  border: var(--panel-border);
+  box-shadow: var(--panel-elev);
+}
+
+/* Warm: the emphasis surface. RARE. Reserved for the single most important card
+   in a group, a selected row, or one highlighted band per page. If two warm
+   surfaces are visible at once, something is over-emphasised. This is what the
+   July warm tone became when hairline took over as the default: it stopped
+   being ambience and started meaning something. */
+.card.warm, .warm {
+  background: var(--warm);
+  border: var(--warm-border);
+  box-shadow: none;
+}
+.card h3 { font-family: var(--serif); font-weight: 700; font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.card p { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70); margin-top: var(--sp-3); flex: 1 }
+.card .card-foot { margin-top: var(--sp-6) }
+.card.sm { border-radius: var(--r-lg); padding: var(--sp-5) }
+.card.sm h3 { font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+.card.sm p { font-size: var(--t-ui); line-height: var(--t-ui-lh) }
+
+/* A dark card is just a card carrying .on-dark. The old .card used a hardcoded
+   #1C1A16 that was a fourth near-black with no token, plus a bespoke
+   rgba(255,255,255,.22) eyebrow pill with no shared code path to .act. */
+.card.on-dark { border-color: var(--on-dark-line) }
+
+/* The hero prompt surface: the largest interactive element on the page. */
+.prompt {
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: var(--r-xl); padding: var(--sp-6) var(--sp-6) var(--sp-5);
+  box-shadow: var(--elev-2); text-align: left;
+  transition: box-shadow var(--mo-struct);
+}
+.prompt:hover, .prompt:focus-within { box-shadow: var(--elev-3) }
+.prompt .pt { font-size: var(--t-prompt); line-height: 1.4; color: var(--ink-55) }
+.prompt .pt b { color: var(--ink); font-weight: 600 }
+
+/* Stat tile, used inside .rule-row */
+.stat .n { font-family: var(--serif); font-weight: 800; font-size: var(--t-stat); line-height: 1; letter-spacing: -.01em }
+.stat .l { display: block; font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55); margin-top: var(--sp-3) }
+
+/* Callout / pull panel */
+.callout {
+  background: var(--panel); border-left: 2px solid var(--accent);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: var(--sp-5);
+}
+
+/* Numbered step row */
+.step {
+  display: grid; grid-template-columns: 52px 1fr; gap: var(--sp-6);
+  padding: var(--sp-6) 0; border-bottom: 1px solid var(--line); align-items: start;
+}
+.step .sn { font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); color: var(--ink-35); padding-top: var(--sp-1) }
+.step h4 { font-family: var(--serif); font-weight: 700; font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+.step p { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70); margin-top: var(--sp-2); max-width: var(--measure-prose) }
+
+/* ── FORMS ─────────────────────────────────────────────────────────────────── */
+.field { display: block; margin-bottom: var(--sp-4) }
+.field > label {
+  display: block; font-family: var(--mono); font-size: var(--eb-3);
+  letter-spacing: var(--eb-3-ls); text-transform: uppercase;
+  color: var(--ink-55); margin-bottom: var(--sp-2);
+}
+.input, input[type="text"], input[type="email"], textarea, select {
+  width: 100%; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-3); font-size: var(--t-ui);
+  transition: border-color var(--mo-base), box-shadow var(--mo-base);
+}
+.input::placeholder, textarea::placeholder { color: var(--ink-35) }
+.input:focus, input:focus, textarea:focus, select:focus { outline: none; border-color: var(--ink-35); box-shadow: var(--elev-1) }
+
+/* Radio pill — the .read-opts pattern, aligned to .pill's metrics. */
+.radio-pill {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls);
+  text-transform: uppercase; color: var(--ink-55);
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: var(--r-md); height: 38px; padding: 0 var(--sp-4); cursor: pointer;
+  transition: border-color var(--mo-base), color var(--mo-base);
+}
+.radio-pill::before { content: ""; width: 9px; height: 9px; border-radius: var(--r-full); border: 1.5px solid currentColor; flex: none }
+input[type="radio"] { position: absolute; opacity: 0; pointer-events: none }
+input[type="radio"]:not(:checked) + .radio-pill:hover { border-color: var(--ink-35); color: var(--ink) }
+input[type="radio"]:checked + .radio-pill { background: var(--ink); color: var(--bg); border-color: transparent }
+input[type="radio"]:checked + .radio-pill::before { background: currentColor }
+input[type="radio"]:focus-visible + .radio-pill { outline: 2px solid var(--accent); outline-offset: 2px }
+
+/* Inline fill-in-the-blank select (the audience gate pattern). An outline round
+   an inline blank reads as a form field, which is the one thing this avoids. */
+.blank {
+  appearance: none; -webkit-appearance: none; width: auto;
+  background: transparent; border: none; border-bottom: 2px solid var(--ink);
+  border-radius: 0; padding: 0 var(--sp-4) 2px var(--sp-1);
+  font-family: inherit; font-size: inherit; color: var(--ink); cursor: pointer;
+}
+.blank:focus-visible {
+  outline: none; border-bottom-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+/* ── NAV & FOOTER ──────────────────────────────────────────────────────────── */
+.nav {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(10px); border-bottom: 1px solid var(--line);
+}
+.nav-in { max-width: var(--col-max); margin: 0 auto; padding: var(--sp-4) var(--sp-10); display: flex; align-items: center; justify-content: space-between }
+.nav-links { display: flex; gap: var(--sp-7); align-items: center; font-size: var(--t-ui); color: var(--ink-70) }
+.nav-links a { padding: var(--sp-1) var(--sp-2); border-radius: var(--r-sm); transition: background var(--mo-base), color var(--mo-base) }
+.nav-links a:hover { background: var(--wash-1); color: var(--ink) }
+
+.foot { border-top: 1px solid var(--line); padding: var(--sp-10) 0 }
+.foot-bar { display: flex; justify-content: space-between; gap: var(--sp-6); flex-wrap: wrap; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-35) }
+
+/* ── RESPONSIVE ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  :root, .console-root { --band-y: var(--sp-18); --band-y-tight: var(--sp-12); --t-display: 38px; --t-h1: 30px }
+  .wrap { padding: 0 var(--sp-6) }
+  .grid-3, .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .sec-head { margin-bottom: var(--sp-10) }
+}
+@media (max-width: 620px) {
+  .wrap { padding: 0 var(--sp-4) }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr) }
+  .rule-row { grid-template-columns: minmax(0, 1fr) }
+  .rule-row > * { border-right: none; border-bottom: 1px solid var(--line) }
+  .rule-row > *:last-child { border-bottom: none }
+  .band--dark.rounded { padding: var(--sp-12) var(--sp-5) }
+  .step { grid-template-columns: 1fr; gap: var(--sp-2) }
+}
+
+/* ============================================================================
+   TEXT LOCKUPS
+   ----------------------------------------------------------------------------
+   A lockup is a fixed relationship between an eyebrow, a headline, supporting
+   copy and an action. Naming them is what stops each new page inventing its own
+   heading rhythm — which is exactly how one page ended up with two different
+   subhead treatments (17px/1.62/--ink-70/60ch and 16px/1.6/--ink-55/56ch).
+
+   Four lockups. The gaps between parts are fixed and come from the scale; only
+   the type steps change between them. Read down the ladder: eyebrow sets the
+   category, headline makes the claim, lede qualifies it, action resolves it.
+   ============================================================================ */
+
+.lockup { display: flex; flex-direction: column; align-items: flex-start }
+.lockup > * + * { margin-top: var(--lk-gap, var(--sp-3)) }
+.lockup .lk-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; margin-top: var(--sp-6) }
+.lockup.centered { align-items: center; text-align: center }
+
+/* Hero: once per page, above the fold. */
+.lockup--hero { --lk-gap: var(--sp-4) }
+.lockup--hero .lk-head {
+  font-family: var(--serif); font-weight: 700;
+  font-size: var(--t-display); line-height: var(--t-display-lh);
+  letter-spacing: -.005em; max-width: var(--measure-head);
+}
+.lockup--hero .lk-lede { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--ink-70); max-width: var(--measure-lead) }
+
+/* Section: the workhorse, once per band. */
+.lockup--section { --lk-gap: var(--sp-3) }
+.lockup--section .lk-head {
+  font-family: var(--serif); font-weight: 700;
+  font-size: var(--t-h1); line-height: var(--t-h1-lh); max-width: var(--measure-head);
+}
+.lockup--section .lk-lede { font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--ink-70); max-width: var(--measure-lead) }
+
+/* Card: inside a card or a grid cell. */
+.lockup--card { --lk-gap: var(--sp-2) }
+.lockup--card .lk-head { font-family: var(--serif); font-weight: 700; font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.lockup--card .lk-lede { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+
+/* Figure: a number and what it counts. Inverted order — the figure leads. */
+.lockup--figure { --lk-gap: var(--sp-3) }
+.lockup--figure .lk-head { font-family: var(--serif); font-weight: 800; font-size: var(--t-stat); line-height: 1; letter-spacing: -.01em }
+.lockup--figure .lk-lede { font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55) }
+
+/* Marginal note. The researcher's annotation in the margin — the one place the
+   system speaks in a human register rather than an institutional one. Use it
+   sparingly, for a caveat or an aside that would be dishonest to state flatly. */
+.marginal {
+  font-family: var(--serif); font-style: italic;
+  font-size: var(--t-ui); line-height: 1.65; color: var(--ink-55);
+  border-left: 1px solid var(--line-2); padding-left: var(--sp-3);
+  max-width: 34ch;
+}
+
+/* ============================================================================
+   MEDIA HIERARCHY
+   ----------------------------------------------------------------------------
+   Four tiers of image and motion, in descending loudness. At most ONE tier-1
+   element per page, and never two tiers competing in the same viewport. Without
+   this rule a page ends up with a hero video, a section video and a grid
+   texture all fighting, which reads as noise rather than atmosphere.
+
+     1 · hero motion     dithered loop behind the headline           1 per page
+     2 · band texture    dithered loop behind a section              1 per band
+     3 · figure          a still diagram, chart or specimen          as needed
+     4 · grid vignette   the dashed texture, via .textured           sparing
+
+   All motion assets share one treatment: medium cell, 7% mono Bayer dither,
+   greyscale, multiply blend. That treatment IS the brand's image language —
+   evidence resolving out of noise — so a new asset that is not dithered will
+   look like it came from somewhere else.
+   ============================================================================ */
+
+.media--hero, .media--band { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none }
+.media--hero { opacity: .18; mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 72%, transparent 100%) }
+.media--band { opacity: .16; mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%) }
+.media--hero video, .media--band video, .media--hero img, .media--band img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; image-rendering: pixelated; filter: grayscale(1) contrast(1.05);
+}
+/* On dark surfaces multiply would erase the asset; screen keeps it legible. */
+.on-dark .media--hero, .on-dark .media--band,
+.surface--invert .media--hero, .surface--invert .media--band { mix-blend-mode: screen; opacity: .22 }
+
+/* Tier 3. A figure is opaque and framed, never bleeding into the page. */
+.figure { background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-lg); overflow: hidden }
+.figure > img, .figure > svg { display: block; width: 100%; height: auto }
+.figure figcaption {
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase; color: var(--ink-35);
+  padding: var(--sp-3); border-top: 1px solid var(--line);
+}
+
+/* ============================================================================
+   MOTION — "RESOLVE, DON'T TYPE"
+   ----------------------------------------------------------------------------
+   The intelligence register without the costume. No typewriter, no terminal
+   cursor, no redaction bars, no scanlines. Those are set dressing for a spy
+   film; this is a research instrument.
+
+   What intelligence work actually feels like, and what the motion borrows:
+     · evidence RESOLVES out of noise       -> .mo-resolve  (the signature)
+     · instruments REGISTER on a target     -> .mo-register
+     · a surface gets SWEPT once, then read -> .mo-sweep
+     · claims arrive in order of confidence -> .mo-stagger
+     · a measurement SETTLES on a value     -> .mo-settle
+
+   The dither is already the brand's image language. Making it the motion
+   language too means the product's core claim — evidence emerging from noise —
+   is stated by the interface itself rather than described in copy.
+
+   All of these are opt-in and trigger once on entry via .is-in.
+
+   SAFETY: every hidden starting state is gated behind [data-js], which script
+   sets on <html> at startup. With JavaScript off, or if an observer never fires
+   because the element lives inside its own scroll container, the content is
+   simply visible. Animation must never be load-bearing for legibility.
+   They are also killed entirely by the reduced-motion block in tokens.css.
+   ============================================================================ */
+
+/* 1 · RESOLVE. Content emerges through clearing dither. The signature move.
+      Use on a hero, a key figure, or a first answer. Once per view. */
+.mo-resolve { position: relative }
+[data-js] .mo-resolve { opacity: 0; transition: opacity 520ms cubic-bezier(.2,.6,.2,1) }
+[data-js] .mo-resolve::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background-image: var(--grid); background-size: 6px 6px;
+  opacity: .9; transition: opacity 640ms cubic-bezier(.2,.6,.2,1);
+}
+.mo-resolve.is-in { opacity: 1 }
+.mo-resolve.is-in::after { opacity: 0 }
+
+/* 2 · REGISTER. Scroll-linked. The element is ACQUIRED as it enters, LOCKED
+      when it reaches the reading position, and RELEASED as it leaves. Corner
+      marks converge from outside the box and settle just outside its edge, the
+      way a crop mark sits off the trim.
+
+      --reg is written by script as a 0 -> 1 -> 0 progress value, so the marks
+      track scroll position continuously rather than firing once. Everything
+      below is driven off that single custom property.
+
+      Lifted from the logo lockup, where the dove already sits inside corner
+      brackets, so the brand signs its own interface.
+
+      HARD CONSTRAINT: registration marks require SQUARED corners. A right-angle
+      bracket around a 14px-rounded box reads as a mistake, so the marks are
+      suppressed under data-radius="soft" rather than rendered badly. If you want
+      registration, commit to the corners. */
+.reg { position: relative; --reg: 0 }
+
+/* A registered element gets ONE EXTRA STEP of internal padding over a plain
+   card. The brackets frame the corner from outside, so the corner inside has to
+   be air; at the standard 24px the heading crowded the marks and the whole thing
+   read as cramped rather than composed. */
+.reg.card { padding: var(--sp-8) }
+
+.reg > .reg-marks { position: absolute; inset: 0; pointer-events: none; z-index: 3 }
+
+/* The bracket. Sized entirely from the 2 / 6 / 18 ratio in tokens.css, so the
+   weight, the clear space and the arm length move together. Each i is an L: two
+   borders of a square, with the other two removed. */
+.reg-marks i {
+  position: absolute; width: var(--reg-arm); height: var(--reg-arm);
+  border: var(--reg-stroke) solid var(--accent);
+  opacity: calc(var(--reg) * .95);
+}
+.reg-marks i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0;
+  transform: translate(
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1),
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1)) }
+.reg-marks i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0;
+  transform: translate(
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))),
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1)) }
+.reg-marks i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0;
+  transform: translate(
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1),
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg)))) }
+.reg-marks i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0;
+  transform: translate(
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))),
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg)))) }
+
+/* The readout. Appears only at lock, and says what was acquired rather than
+   performing a status. Keep it to a few characters. It sits above the top-right
+   bracket and shares its outer edge, so the mark and the label are one object.
+
+   There used to be an accent hairline drawing across the top edge as well. It
+   was a third signal doing the job of the first two, and at full width it read
+   as a progress bar rather than an instrument settling. Removed. */
+.reg-tag {
+  position: absolute;
+  top: calc((var(--reg-gap) + var(--reg-stroke) + var(--sp-2)) * -1);
+  right: calc(var(--reg-gap) * -1);
+  transform: translateY(-100%);
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase; color: var(--accent-text);
+  opacity: 0; transition: opacity var(--mo-base); pointer-events: none; z-index: 3;
+  white-space: nowrap;
+}
+.reg.locked .reg-tag { opacity: 1 }
+
+/* Registration requires squared corners. See the note above. */
+[data-radius="soft"] .reg-marks,
+[data-radius="soft"] .reg-tag { display: none }
+
+/* On a phone the page gutter is narrower than the travel distance, so an
+   unacquired mark parks off-screen and then appears to slide in from nowhere
+   instead of converging. Shortening the travel keeps the whole movement inside
+   the viewport. The ratio between stroke, gap and arm is untouched — only the
+   distance travelled changes. */
+@media (max-width: 640px) {
+  .reg { --reg-travel: 10px }
+}
+
+/* 3 · SWEEP. A single soft pass of light, like a surface being read once.
+      Never loops — a loop turns it into decoration. */
+.mo-sweep { position: relative; overflow: hidden }
+.mo-sweep::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: linear-gradient(105deg, transparent 38%, color-mix(in srgb, var(--ink) 5%, transparent) 50%, transparent 62%);
+  transform: translateX(-100%);
+}
+.mo-sweep.is-in::before { animation: pi-sweep 1100ms cubic-bezier(.3,.5,.2,1) 120ms 1 forwards }
+@keyframes pi-sweep { to { transform: translateX(100%) } }
+
+/* 4 · STAGGER. Children arrive in sequence. On evidence, order them by tier so
+      the animation carries the epistemics: ingested, then abstract, then web. */
+[data-js] .mo-stagger > * { opacity: 0; transform: translateY(5px); transition: opacity 320ms ease, transform 320ms cubic-bezier(.2,.7,.2,1) }
+.mo-stagger.is-in > * { opacity: 1; transform: none }
+.mo-stagger.is-in > *:nth-child(1) { transition-delay: 0ms }
+.mo-stagger.is-in > *:nth-child(2) { transition-delay: 70ms }
+.mo-stagger.is-in > *:nth-child(3) { transition-delay: 140ms }
+.mo-stagger.is-in > *:nth-child(4) { transition-delay: 210ms }
+.mo-stagger.is-in > *:nth-child(5) { transition-delay: 280ms }
+.mo-stagger.is-in > *:nth-child(n+6) { transition-delay: 350ms }
+
+/* 5 · SETTLE. A figure arrives at its value. A short damped rise, not a
+      counter roll: the number was measured, it did not accumulate. */
+[data-js] .mo-settle { opacity: 0; transform: translateY(8px); transition: opacity 380ms ease, transform 520ms cubic-bezier(.16,.9,.24,1) }
+.mo-settle.is-in { opacity: 1; transform: none }
+
+/* Hover affordance for a citation: draws the hairline connection to its source
+   rather than just tinting. Instant, no delay — it answers a pointer. */
+.cite { position: relative }
+.cite::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform var(--mo-fast);
+}
+.cite:hover::after, .cite:focus-visible::after { transform: scaleX(1) }
+
+/* ============================================================================
+   APP SHELL — the chat interface
+   ----------------------------------------------------------------------------
+   The product surface, built from the same tokens as the marketing pages. This
+   is where the system earns its keep: if the landing page and the console do
+   not feel like the same object, the brand has not survived the handoff.
+
+   Product rule that is not style: the library and entry views NEVER take the
+   full screen. Chat and composer stay visible; widening the evidence pane
+   collapses the threads rail instead.
+   ============================================================================ */
+
+.app {
+  border: 1px solid var(--line-2); border-radius: var(--r-xl);
+  overflow: hidden; background: var(--bg); box-shadow: var(--elev-2);
+  display: flex; flex-direction: column;
+}
+.app-top {
+  height: var(--topbar-h); flex: none; display: flex; align-items: center;
+  gap: var(--sp-4); padding: 0 var(--sp-4);
+  border-bottom: 1px solid var(--line); background: var(--bg);
+}
+.app-mark { font-family: var(--mono); font-weight: 700; font-size: var(--eb-2); letter-spacing: .08em }
+.app-top .spacer { margin-left: auto }
+.app-body { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr) var(--pane-w); min-height: 0 }
+
+/* Threads rail */
+.app-rail { border-right: 1px solid var(--line); padding: var(--sp-4); overflow: auto; min-width: 0 }
+.thread {
+  display: block; width: 100%; text-align: left;
+  padding: var(--sp-3); border-radius: var(--r-md); margin-bottom: var(--sp-1);
+  transition: background var(--mo-base);
+}
+.thread:hover { background: var(--wash-1) }
+.thread[aria-current="true"] { background: var(--panel); border: var(--panel-border); box-shadow: var(--panel-elev) }
+.thread .th-t { font-size: var(--t-ui); line-height: 1.4; color: var(--ink) }
+.thread .th-m { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-35); margin-top: var(--sp-1) }
+
+/* Chat column. The one place the grid vignette belongs inside the app: it
+   marks the canvas the conversation is written on. */
+.app-main { display: flex; flex-direction: column; min-width: 0; min-height: 0 }
+.app-scroll { flex: 1; overflow: auto; padding: var(--sp-6) var(--sp-8) }
+.chat { max-width: var(--col-chat); margin: 0 auto }
+
+.msg { margin-bottom: var(--sp-7) }
+.msg .who { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-35); margin-bottom: var(--sp-2) }
+/* User speaks in a bubble on the raised surface. Agent has no bubble at all —
+   it writes on the page, which is what makes it read as a document not a chat. */
+.msg.user .bubble {
+  background: var(--panel); border: var(--panel-border); box-shadow: var(--panel-elev);
+  border-radius: var(--r-lg); padding: var(--sp-4) var(--sp-5);
+  font-size: var(--t-body); line-height: 1.55;
+}
+.msg.agent .body { font-size: var(--t-body); line-height: 1.72; color: var(--ink-70) }
+.msg.agent .body strong { color: var(--ink); font-weight: 600 }
+.msg.agent .body p + p { margin-top: var(--sp-4) }
+
+/* Grouped evidence block at the end of an answer */
+.evi-group { margin-top: var(--sp-5); padding-top: var(--sp-4); border-top: 1px solid var(--line) }
+.evi-head { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-35); margin-bottom: var(--sp-3) }
+.evi-list { display: flex; flex-direction: column; gap: var(--sp-2) }
+
+/* Composer */
+.composer-wrap { flex: none; padding: var(--sp-4) var(--sp-8) var(--sp-6) }
+.composer {
+  max-width: var(--col-chat); margin: 0 auto;
+  background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-xl);
+  box-shadow: var(--elev-2); padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  transition: box-shadow var(--mo-struct), border-color var(--mo-struct);
+}
+.composer:focus-within { box-shadow: var(--elev-3); border-color: var(--ink-35) }
+.composer .ci { width: 100%; border: 0; background: none; font-size: var(--t-body); line-height: 1.5; resize: none; outline: none }
+.composer .ci::placeholder { color: var(--ink-35) }
+.composer-bar { display: flex; align-items: center; gap: var(--sp-2); margin-top: var(--sp-3) }
+.composer-bar .spacer { margin-left: auto }
+
+/* Evidence pane */
+.app-pane { border-left: 1px solid var(--line); display: flex; flex-direction: column; min-width: 0 }
+.pane-head {
+  flex: none; display: flex; align-items: center; gap: var(--sp-2);
+  padding: var(--sp-4); border-bottom: 1px solid var(--line);
+}
+.pane-head .ph-t { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink) }
+.pane-head .spacer { margin-left: auto }
+.pane-body { flex: 1; overflow: auto; padding: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2) }
+
+@media (max-width: 1080px) {
+  .app-body { grid-template-columns: minmax(0, 1fr) }
+  .app-rail, .app-pane { display: none }
+}

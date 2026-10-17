@@ -1,0 +1,413 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PEACE INTEL · EXPLORATIONS
+   Not adopted. Kept out of components.css on purpose.
+
+   AGENTS.md tells Nathanael's agent to build pages from the catalog in
+   components.css. Nothing in this file is in that catalog yet, so nothing here
+   should appear in production until Matt picks from it. When something is
+   chosen it moves into components.css with its rationale and this file shrinks.
+
+   Two explorations:
+     A · GRADIENT FIELDS   muddy, asymmetric, grainy backgrounds built from tokens
+     B · GRID BEHAVIOUR    the dashed grid, given chroma, asymmetry, and a render
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ───────────────────────────────────────────────────────────────────────────
+   SHARED TILES
+
+   Both explorations need a repeating texture as a data URI. --grid and
+   --gridinv in tokens.css already establish that a literal hex inside an SVG
+   data URI is the one place a raw colour is unavoidable, because a data URI
+   cannot read a custom property. These follow that precedent and nothing else
+   in the file uses a raw value.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root,
+.console-root {
+  /* Fractal noise, greyscale, stitched so it tiles. This is the film-grain
+     layer. It is NOT the brand dither — that is ordered, and ordered dithering
+     needs a threshold comparison the browser will not do in CSS, so it lives in
+     canvas below. Grain and dither are two different answers to the same
+     question and the plate shows them side by side. */
+  --pi-noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+
+  /* The dashed grid in accent, for the chroma fade. Same geometry as --grid so
+     the two layers register exactly on top of one another. */
+  --gridaccent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23D9481C' stroke-opacity='0.22' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23D9481C' stroke-opacity='0.22' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23D9481C' fill-opacity='0.3'/%3E%3C/svg%3E");
+
+  /* Production weight for the dashed grid is deliberately near-invisible: 5%
+     stroke, then masked into a vignette. That is right on a real band and
+     useless on a 280px comparison tile, where all three variants would look
+     identical and blank. These are the same tiles at roughly 3x, used ONLY by
+     the plate and labelled as such. Nothing ships at this weight. */
+  --gridloud: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.17' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.17' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.2'/%3E%3C/svg%3E");
+  --gridaccentloud: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23D9481C' stroke-opacity='0.55' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23D9481C' stroke-opacity='0.55' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23D9481C' fill-opacity='0.7'/%3E%3C/svg%3E");
+}
+
+
+/* ═══ A · GRADIENT FIELDS ═══════════════════════════════════════════════════
+
+   The brief: muddy, asymmetrical, grainy. All three words are doing work.
+
+   MUDDY means the colour is never clean accent. Every warm area has ink mixed
+   into it, which is what stops a big orange wash reading as a sale banner. The
+   mud is produced by OVERLAP rather than by pre-mixing, so it stays live when
+   the theme flips.
+
+   ASYMMETRICAL means no blob is centred and no two are the same size. Two of
+   the three are anchored off-canvas. A centred radial gradient reads as a
+   vignette or a spotlight; an off-canvas one reads as a much larger field that
+   the viewport happens to be cropping, which is the whole effect.
+
+   GRAINY has two answers, and they are genuinely different:
+     .field--grain    fractal noise, soft-light. Cheap, CSS only, works with JS
+                      off, works at any size. Reads as paper or as film.
+     .field--dither   ordered Bayer dithering in canvas against a five-stop
+                      palette built from brand tokens. Costs a canvas and needs
+                      JS. Reads as OUR image language, because it is the same
+                      treatment as the video.
+
+   The dither version has a property the gradient version does not: the field
+   contains only five colours, all of them brand tokens. The gradient is an
+   illusion made by the dither pattern. Nothing in it is off-palette, which is
+   a real answer to how a brand survives a big atmospheric background.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.field {
+  position: relative; isolation: isolate;
+
+  /* The five-stop ramp. Canvas reads these by name, so editing the ramp here
+     changes both the CSS gradient and the dithered one. */
+  --f-0: var(--bg);
+  --f-1: var(--warm);
+  --f-2: color-mix(in srgb, var(--accent) 10%, var(--warm));
+  --f-3: color-mix(in srgb, var(--ink) 7%, color-mix(in srgb, var(--accent) 24%, var(--warm)));
+  --f-4: color-mix(in srgb, var(--ink) 12%, color-mix(in srgb, var(--accent) 44%, var(--warm)));
+
+  --field-grain: .7;
+  --field-blend: soft-light;
+}
+
+.field > *:not(canvas) { position: relative; z-index: 1 }
+
+/* The smooth field. Three ellipses, none centred, two anchored off-canvas.
+   Always present, so a .field--dither still has something to show with JS off. */
+.field::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-color: var(--f-0);
+  background-image:
+    radial-gradient(ellipse 82% 66% at 6% 116%,   var(--f-4) 0%, var(--f-3) 32%, var(--f-2) 56%, transparent 80%),
+    radial-gradient(ellipse 46% 78% at 96% -18%,  var(--f-3) 0%, var(--f-2) 44%, transparent 72%),
+    radial-gradient(ellipse 140% 100% at 64% 30%, var(--f-1) 0%, var(--f-1) 42%, transparent 84%);
+}
+
+/* Soot: ink-dominant, the ember demoted to a small bloom high right. For a
+   section that needs weight without warmth. */
+.field--soot::before {
+  background-image:
+    radial-gradient(ellipse 40% 56% at 92% -6%,   var(--f-4) 0%, var(--f-3) 34%, transparent 64%),
+    radial-gradient(ellipse 100% 82% at 18% 108%, var(--f-2) 0%, var(--f-1) 48%, transparent 76%),
+    radial-gradient(ellipse 134% 94% at 50% 40%,  var(--f-1) 0%, transparent 82%);
+}
+
+/* Dawn: the quiet one. Almost no chroma. This is the version that can sit
+   under body copy without fighting it. */
+.field--dawn::before {
+  background-image:
+    radial-gradient(ellipse 92% 70% at 14% 104%,  var(--f-2) 0%, var(--f-1) 46%, transparent 78%),
+    radial-gradient(ellipse 124% 92% at 72% 18%,  var(--f-1) 0%, transparent 82%);
+}
+
+/* Grain. soft-light keeps the noise inside the existing tone rather than
+   greying it; on dark that blend collapses, so dark switches to overlay. */
+.field--grain::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-image: var(--pi-noise);
+  background-size: 180px 180px;
+  mix-blend-mode: var(--field-blend);
+  opacity: var(--field-grain);
+}
+:root[data-theme="dark"] .field,
+.console-root[data-theme="dark"] .field { --field-blend: overlay; --field-grain: .4 }
+
+/* Dither. The canvas paints the whole field, so the CSS gradient underneath is
+   hidden — but only once JS has confirmed itself, per the [data-js] rule. */
+.field-c { position: absolute; inset: 0; z-index: 0; display: block;
+  width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none }
+[data-js] .field--dither::before { opacity: 0 }
+
+/* LIVE. The field evolves instead of sitting still: blob centres drift and the
+   noise lattice is sampled against time, so it reads as weather rather than as
+   an animation with a beginning and an end. It is the answer to wanting moving
+   atmosphere without shipping a video.
+
+   Deliberately slow — a full cycle is about fifty seconds — and deliberately
+   stepped at ten frames a second. The step is not a compromise: a dithered
+   image at 10fps is exactly what the video assets look like, and at 60fps the
+   dot pattern crawls and reads as noise. It repaints only while on screen and
+   stops entirely under reduced motion. */
+.field--live { /* marker class; the work is in the canvas driver */ }
+
+/* BLOCKY. The same field at a much coarser cell, so the ordered dither stops
+   being a texture you read as tone and becomes architecture you read as shape.
+
+   It is the same five colours and the same 8x8 threshold matrix. Nothing about
+   the algorithm changes; only the size of the cell it is drawn at. At 3px the
+   dither is a surface. At 14px it is a mosaic, and the Bayer matrix becomes
+   legible as the ordered thing it is rather than reading as grain.
+
+   Two things follow from the size that are worth knowing. It is roughly twenty
+   times cheaper to paint, which makes it the sensible choice for a live field at
+   full height. And it is far more tolerant of scale: a blobby field pushed to a
+   whole viewport turns into flat washes, whereas this one keeps its structure
+   because the structure is the cell. */
+.field--blocky { --field-cell: 14 }
+.field--blocky .field-c { image-rendering: pixelated }
+
+/* TEXT SAFETY.
+
+   Live headlines and body copy sit directly on the field in the band example,
+   which is where a gradient background usually goes wrong: the ramp reaches a
+   value dark enough that --ink-70 stops passing AA over it, and nothing on the
+   page says so.
+
+   EMBER and SOOT reach --f-4 and are NOT text-safe: --ink-70 measures about
+   3.6:1 over that stop. They carry text only inside an opaque card.
+   DAWN stops at --f-2 and holds AA for both ink ramps, so it is the mood that
+   can sit under copy.
+
+   The plate measures this from the rendered canvas rather than from the ramp
+   declaration, so a change to the blobs or to the live drift cannot quietly
+   break it. */
+.field--dawn { /* the text-safe mood. See the readout on the plate. */ }
+
+/* A field is a surface like any other, so anything sitting on it that needs to
+   be read gets an opaque face. Same rule as .textured. */
+.field .card { background: var(--bg) }
+
+.field-safe { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  align-items: center; margin-top: var(--sp-4) }
+
+
+/* ═══ B4 · THE STAGE ════════════════════════════════════════════════════════
+   A full-height field held fixed while the page travels over it.
+
+   The background is a sticky 100vh layer with a negative bottom margin, so it
+   pins without taking up flow height. background-attachment: fixed would be
+   fewer lines and is unreliable on iOS, which is why this is built from sticky
+   instead.
+
+   Panels move at their own rates through --par. Keep the offsets small; past
+   about 80px the panels stop feeling attached to the page. Everything that has
+   to be read is in an opaque card, because the field underneath is ember.
+   ─────────────────────────────────────────────────────────────────────────── */
+.stage { position: relative; --sg: 0 }
+/* Specificity matters here. The pinned layer also carries .field and .gx, and
+   both of those set position: relative later in this file, which silently
+   un-pinned it. Scoping to .stage > wins on specificity rather than on order. */
+.stage > .stage-bg {
+  position: sticky; top: 0; height: 100vh; margin-bottom: -100vh;
+  overflow: hidden; z-index: 0; isolation: isolate;
+  /* At full height the grid's default vignette reached the edges and stopped
+     reading as a vignette at all. Pull it in. */
+  --gx-vig: .72;
+  /* Blocky, because this one is full-height and live. See .field--blocky: at
+     this scale the coarse cell holds its structure where a fine one flattens
+     into washes, and it costs a twentieth as much to repaint. */
+  --field-cell: 16;
+}
+.stage-flow { position: relative; z-index: 1; padding: 46vh var(--sp-8) }
+.stage-panel {
+  max-width: 44ch; margin: 0 0 40vh;
+  transform: translate3d(0, calc(var(--sg) * var(--par, 0px)), 0);
+  will-change: transform;
+}
+.stage-panel:nth-child(2) { margin-left: auto; margin-right: 0 }
+.stage-panel:last-child { margin-bottom: 0 }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-panel { transform: none }
+}
+
+
+/* ═══ B · GRID BEHAVIOUR ════════════════════════════════════════════════════
+
+   The dashed grid is currently one flat tint, masked into a vignette. Three
+   ways to give it interest without turning it into wallpaper again.
+
+   All three keep the vignette mask, because the mask is what stops texture
+   becoming background. That rule does not change.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.gx { position: relative; isolation: isolate; --gx-gain: 1; --gx-vig: 1;
+  --gx-tile: var(--grid); --gx-tile-accent: var(--gridaccent) }
+
+/* Comparison weight. Plate only. The canvas reads --gx-gain, the CSS layers
+   swap to the louder tile, so all three variants are boosted by the same
+   amount and the comparison stays fair. */
+.gx--loud { --gx-gain: 3; --gx-tile: var(--gridloud); --gx-tile-accent: var(--gridaccentloud) }
+.gx > *:not(canvas) { position: relative; z-index: 1 }
+.gx::before, .gx::after { content: ""; position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; background-repeat: repeat }
+
+/* B1 · CHROMA. Two grid layers in register — ink and accent — masked against
+   each other so the texture crosses from neutral to warm across the field. The
+   crossover is deliberately off-centre and diagonal, so it never reads as a
+   symmetrical gradient. The accent layer is the one that is masked away, which
+   means the neutral grid is the base state and the warmth is the exception. */
+.gx--chroma::before {
+  background-image: var(--gx-tile); opacity: var(--grid-opacity);
+  -webkit-mask-image: var(--grid-mask-center); mask-image: var(--grid-mask-center);
+}
+.gx--chroma::after {
+  background-image: var(--gx-tile-accent);
+  -webkit-mask-image: var(--grid-mask-center), linear-gradient(118deg, transparent 22%, #000 78%);
+  mask-image: var(--grid-mask-center), linear-gradient(118deg, transparent 22%, #000 78%);
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+}
+
+/* B2 · SKEW. The grid is no longer square to the page. Two moves:
+     · the tile is stretched unevenly (26 wide, 19 tall) so the cells are not
+       square and the dash rhythm differs by axis
+     · the whole layer is rotated a degree and a half and scaled past the edges
+       so no seam shows
+   It reads as a plane seen slightly off-axis. Keep the angle under two degrees;
+   past that it stops looking intentional and starts looking broken. */
+.gx--skew::before {
+  background-image: var(--gx-tile); background-size: 26px 19px;
+  opacity: var(--grid-opacity);
+  transform: rotate(-1.4deg) scale(1.12);
+  transform-origin: 34% 62%;
+  -webkit-mask-image: var(--grid-mask-center); mask-image: var(--grid-mask-center);
+}
+
+/* B3 · RENDER. The grid draws itself in, holds, and dissolves, cell by cell,
+   in BAYER ORDER — the same 8x8 threshold matrix that dithers every video
+   asset decides which cell lights first.
+
+   That is the part that makes it ours rather than a generic reveal. The
+   texture, the imagery and the motion all come out of one algorithm, so the
+   grid appearing looks like the same process as an image resolving.
+
+   It is scroll-linked, not looped, and it uses the acquire / lock / release
+   curve from .reg. A texture that loops forever is decoration; one that
+   resolves as you arrive and dissolves as you leave is the page doing the
+   thing the product does.
+
+   The canvas is purely atmospheric. Nothing legible depends on it, so with JS
+   off or motion reduced the static grid is shown instead. */
+.gx--render::before {
+  background-image: var(--gx-tile); opacity: var(--grid-opacity);
+  -webkit-mask-image: var(--grid-mask-center); mask-image: var(--grid-mask-center);
+}
+[data-js] .gx--render::before { display: none }
+.gx-c { position: absolute; inset: 0; z-index: 0; display: block;
+  width: 100%; height: 100%; pointer-events: none }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-js] .gx--render::before { display: block }
+  .gx-c { display: none }
+}
+
+
+/* ═══ PLATE CHROME ══════════════════════════════════════════════════════════
+   Demo sizing only. Does not ship. */
+.xdemo { height: 280px; display: flex; align-items: flex-end;
+  padding: var(--sp-6); border: 1px solid var(--line); overflow: hidden }
+/* The demo label sits ON a field, so it takes an opaque face. Same rule the
+   plate states in its own copy, applied to itself. */
+.xdemo .xlab { font-family: var(--mono); font-size: var(--eb-4);
+  letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-70);
+  background: var(--bg); padding: var(--sp-1) var(--sp-2); border-radius: var(--r-xs) }
+.xdemo--tall { height: 380px }
+
+
+/* ═══ C · VIDEO TREATMENT ═══════════════════════════════════════════════════
+
+   The brand's motion assets were all shot against white: a dove, a magnifying
+   glass, objects on a seamless. Those composite onto a light page with a
+   multiply blend and disappear into it. A full-bleed scene has no white to
+   blend away, so the same treatment leaves a grey rectangle sitting on the
+   page, and that is the case this section is about.
+
+   The answer is the same one the gradient fields use: stop treating the asset
+   as an image with colours of its own and map it through the brand ramp.
+   Luminance in, token out. Seven stops, ordered by luminance so the mapping is
+   correct in both themes without a second ramp.
+
+   TWO WAYS TO DO IT, and the plate shows both:
+
+     BAKED    ffmpeg maps and Bayer-dithers into the file. Zero runtime cost,
+              works with script off, and costs one file per theme.
+     RUNTIME  ship ONE mono master and map it in canvas. The dithering already
+              happened in luminance, so the runtime pass is a straight palette
+              substitution with no double-dithering. One file for both themes,
+              re-maps the moment the theme flips, costs a canvas.
+
+   The runtime version is the one to argue for. A mono master is the smallest
+   file of the three and it is the only version that cannot go out of sync with
+   the palette.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.vmap {
+  --v-0: var(--bg);
+  --v-1: var(--warm);
+  /* The two dark stops fold warm into the accent before the ink goes in. Taking
+     them straight off the accent made the runtime map noticeably more saturated
+     than the baked one, so the plate compared two different ramps rather than
+     two ways of applying one. These now land within a few units of the ffmpeg
+     palette at every stop. */
+  --v-2: color-mix(in srgb, var(--ink) 4%,  color-mix(in srgb, var(--accent) 24%, var(--warm)));
+  --v-3: color-mix(in srgb, var(--ink) 10%, color-mix(in srgb, var(--accent) 45%, var(--warm)));
+  --v-4: color-mix(in srgb, var(--ink) 26%, color-mix(in srgb, var(--accent) 78%, var(--warm)));
+  --v-5: color-mix(in srgb, var(--ink) 62%, color-mix(in srgb, var(--accent) 80%, var(--warm)));
+  --v-6: var(--ink);
+
+  position: relative; overflow: hidden; background: var(--bg);
+  aspect-ratio: 16 / 9; display: block;
+}
+/* The dark ramps are declared separately rather than left to the token flip.
+   In dark, --warm is a near-black and --ink is the paper, so the same mixes that
+   step evenly on a light page bunch up at the top and the sky flattened into one
+   salmon. These step evenly against the dark ground instead.
+
+   SCENE tops out at a warm mid and never reaches the paper tone, because a
+   full-frame clip that reaches paper is a lit slab on a dark page.
+   SUBJECT runs the whole way to paper, because its ramp gets reversed and the
+   paper end is what the subject itself is made of. */
+:root[data-theme="dark"] .vmap,
+.console-root[data-theme="dark"] .vmap {
+  --v-0: var(--bg);
+  --v-1: color-mix(in srgb, var(--ink) 6%,  var(--bg));
+  /* Accent proportions come down and ink goes up toward the top of the ramp.
+     Taking the upper stops mostly off the accent ran the whole clip hot against
+     the baked version, so the plate was comparing two palettes rather than two
+     methods. These land within about 12 units of the ffmpeg palette at every
+     stop, and within 5 through the mid-tones where the eye actually reads it. */
+  --v-2: color-mix(in srgb, var(--ink) 6%,  color-mix(in srgb, var(--accent) 14%, var(--bg)));
+  --v-3: color-mix(in srgb, var(--ink) 8%,  color-mix(in srgb, var(--accent) 24%, var(--bg)));
+  --v-4: color-mix(in srgb, var(--ink) 18%, color-mix(in srgb, var(--accent) 40%, var(--bg)));
+  --v-5: color-mix(in srgb, var(--ink) 28%, color-mix(in srgb, var(--accent) 60%, var(--bg)));
+  --v-6: color-mix(in srgb, var(--ink) 45%, color-mix(in srgb, var(--accent) 72%, var(--bg)));
+}
+:root[data-theme="dark"] .vmap[data-vmode="subject"],
+.console-root[data-theme="dark"] .vmap[data-vmode="subject"] {
+  --v-5: color-mix(in srgb, var(--ink) 60%, color-mix(in srgb, var(--accent) 70%, var(--bg)));
+  --v-6: var(--ink);
+}
+
+.vmap video, .vmap canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  /* The cell is baked small and scaled up. Smoothing it would undo the whole
+     treatment, so the upscale stays hard. */
+  image-rendering: pixelated;
+}
+.vmap canvas { z-index: 1 }
+/* With script off the mono master is what shows, which is the current brand
+   treatment and a correct fallback rather than a broken one. */
+[data-js] .vmap[data-vmap] video { visibility: hidden }
+
+.vrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5) }
+@media (max-width: 860px) { .vrow { grid-template-columns: 1fr } }
+.vcap { margin-top: var(--sp-2) }

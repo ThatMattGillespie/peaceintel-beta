@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="E">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction E · Corpus</title>
+<meta name="description" content="Landing exploration E. The corpus made visible: five thousand points, one per source, and a question run through them until three remain.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=f0002c8e">
+<link rel="stylesheet" href="components.css?v=cc5358c7">
+<link rel="stylesheet" href="explorations.css?v=bb22869d">
+<link rel="stylesheet" href="review.css?v=4">
+<script src="review.js?v=8"></script>
+<style>
+  /* ═══ DIRECTION E · CORPUS ═════════════════════════════════════════════════
+     POSITIONING. The research tool whose entire knowledge you can see. Every
+     buyer in this market (a foundation board, a ministry, a development bank's
+     review panel) asks one question of an AI tool: what did it read? The
+     category answers with a black box and a glow. This page answers with the
+     library: five thousand points, one per source, bounded, with the web
+     outside the edge and marked.
+
+     AESTHETIC. The dither has been the brand's texture; here it is the
+     information. Each point is a source drawn on the brand grid, so the image
+     language and the claim are the same object. Lineage: astronomical plate
+     catalogues, Ikeda-style data minimalism, Swiss information design. Cold and
+     exact on purpose, because precision is the promise. Type steps DOWN so the
+     field is the display.
+
+     BREAKS, with Matt's permission (2026-09-30), each named in its tag:
+       1  a new media type    a live data canvas, not a veil, map or field
+       2  invented motion     points dim, gather, sort and resolve on scroll
+       3  demoted hero type   the hero lockup is section-sized */
+
+  /* ── E1 · the sequence: steps left, one pinned field right ─────────────── */
+  .e-seq { padding: 0 }
+  .e-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: var(--sp-12) }
+  /* Stretch, not start: the pin needs the full row height to travel through. */
+  .e-media { position: relative }
+  .e-pin { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)) }
+  .e-pin canvas { display: block; width: 100%; height: 100% }
+  .e-readout {
+    position: absolute; left: 0; right: 0; bottom: var(--sp-8);
+    display: flex; justify-content: space-between; gap: var(--sp-4);
+    border-top: 1px solid var(--line); padding-top: var(--sp-3);
+  }
+  .e-step { min-height: calc(100svh - var(--nav-h)); display: flex; flex-direction: column; justify-content: center; padding: var(--sp-16) 0 }
+  .e-step .lockup, .e-step .prompt, .e-step .msg { max-width: var(--measure-lead) }
+  .e-step .prompt { margin-top: var(--sp-6) }
+  .e-step .sn { font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55); transition: color var(--mo-base) }
+  .e-step.is-active .sn { color: var(--accent-text) }
+  .e-step .tiers { display: grid; gap: var(--sp-3); margin-top: var(--sp-6) }
+  .e-step .tiers div { display: grid; grid-template-columns: var(--sp-12) 1fr; gap: var(--sp-3); align-items: baseline }
+  .e-step .msg .body p + p { margin-top: var(--sp-3) }
+  @media (max-width: 900px) {
+    /* One column: the field becomes a sticky strip at the top and the steps
+       scroll up beneath it. */
+    .e-grid { display: block }
+    .e-media { position: sticky; top: var(--nav-h); height: 44svh; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--line) }
+    .e-pin { position: static; height: 100% }
+    .e-readout { bottom: var(--sp-2) }
+    .e-step { min-height: 64svh; padding: var(--sp-10) 0 }
+  }
+
+  /* ── E2 · the boundary ─────────────────────────────────────────────────── */
+  .e-edge { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-14); align-items: center }
+  .e-edge canvas { display: block; width: 100%; aspect-ratio: 1 / 1 }
+  .e-edge .rule-row { margin-top: var(--sp-10) }
+  .e-edge .rule-row > * { padding: var(--sp-6) var(--sp-5) var(--sp-2) 0 }
+  .e-edge .rule-row .cite { margin: 0 0 var(--sp-3) }
+  @media (max-width: 900px) { .e-edge { grid-template-columns: 1fr; gap: var(--sp-8) } }
+
+  /* ── E4 · access, one line ─────────────────────────────────────────────── */
+  .e-sign { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: var(--sp-3); max-width: var(--col-text); margin: var(--sp-10) auto 0 }
+  .e-sign .input { height: 100%; min-height: var(--sp-12) }
+  @media (max-width: 760px) { .e-sign { grid-template-columns: 1fr } }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="media/peaceintel-logo-light.png" alt="Peace Intel"><img class="nm-dark" src="media/peaceintel-logo-dark.png" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ E1 · THE FIELD, AND ONE QUESTION THROUGH IT ═══════════════════════════
+     The hero is step 0 of a six-step sequence. One canvas, pinned; each step
+     moves the same five thousand points to a new arrangement. -->
+<section id="top" class="band e-seq">
+  <span class="crit-tag"><b>E1</b> Field <i>· 5,000 points, one per source; six steps</i><em class="brk">breaks: new media type, new motion, hero type demoted</em></span>
+  <div class="wrap e-grid">
+
+    <div class="e-media">
+      <div class="e-pin">
+        <canvas id="e-field" aria-label="A field of five thousand points, one for each source in the corpus" role="img"></canvas>
+        <div class="e-readout">
+          <span class="eyebrow eb-4 strong" id="e-ro">Sources &middot; 5,000+</span>
+          <span class="eyebrow eb-4 faint">One point per source &middot; illustrative</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="e-steps">
+      <div class="e-step" data-state="0">
+        <div class="lockup lockup--section mo-develop">
+          <span class="eyebrow accent">Peace Intel</span>
+          <h1 class="lk-head">Everything it reads, on one screen.</h1>
+          <p class="lk-lede">Each point is a source: one of over 5,000 curated papers, evaluations and policy analyses on peacebuilding. Anything it cites from beyond this field is marked as such.</p>
+          <div class="lk-actions">
+            <a class="btn primary lg" href="#access">Request access</a>
+            <a class="btn ghost lg" href="#ask">Run a question through it</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="1" id="ask">
+        <span class="sn">01 &middot; A question</span>
+        <div class="prompt">
+          <p class="pt">What happened in <b>Darfur between 2003 and 2011</b>? Who intervened, what did they do, and <b>what resulted</b>?</p>
+        </div>
+        <p class="note">The field goes quiet. Nothing has been retrieved yet.</p>
+      </div>
+
+      <div class="e-step" data-state="2">
+        <span class="sn">02 &middot; It reads</span>
+        <div class="lockup lockup--card" style="margin-top:var(--sp-3)">
+          <h2 class="lk-head">The passages that bear on it come forward.</h2>
+          <p class="lk-lede">Every source is fully parsed, so retrieval works on what a study says rather than on its title. Related work sits close together, which is why the answer arrives in clusters.</p>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="3">
+        <span class="sn">03 &middot; It compares</span>
+        <div class="lockup lockup--card" style="margin-top:var(--sp-3)">
+          <h2 class="lk-head">Gathered, ranked and set side by side.</h2>
+          <p class="lk-lede">It follows citation chains between them, and separates what agrees from what conflicts.</p>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="4">
+        <span class="sn">04 &middot; Three carry it</span>
+        <div class="lockup lockup--card" style="margin-top:var(--sp-3)">
+          <h2 class="lk-head">Solid, hollow, dashed.</h2>
+          <p class="lk-lede">Each citation wears its tier. One came from outside the field, and it arrives marked.</p>
+        </div>
+        <div class="tiers">
+          <div><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="note" style="margin:0">Held in full. Cited to the passage.</span></div>
+          <div><span class="cite t2"><span class="cm">&#9680;</span>2</span><span class="note" style="margin:0">Held as an abstract. Enough to place, not to verify.</span></div>
+          <div><span class="cite t3"><span class="cm">&#8599;</span>3</span><span class="note" style="margin:0">From the web, beyond the edge. No accent.</span></div>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="5">
+        <span class="sn">05 &middot; The answer</span>
+        <div class="msg agent" style="margin:var(--sp-3) 0 0">
+          <div class="lockup lockup--card">
+            <h2 class="lk-head">Three interventions, three different failures.</h2>
+            <div class="body">
+              <p>The African Union deployed <strong>AMIS</strong> in 2004 with a monitoring mandate it was never resourced to fulfil <span class="cite t1"><span class="cm">&#9679;</span>1</span>. Its successor <strong>UNAMID</strong> was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested <span class="cite t2"><span class="cm">&#9680;</span>2</span>.</p>
+              <p>A frequently cited displacement figure does not trace to a primary source in this corpus <span class="cite t3"><span class="cm">&#8599;</span>3</span>, so treat it with caution.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ E2 · THE BOUNDARY ════════════════════════════════════════════════════
+     The tiers as geography: inside, on the edge, outside. A way of picturing
+     the rule, stated as one. -->
+<section class="band surface--raised">
+  <span class="crit-tag"><b>E2</b> Boundary <i>· static field, tiers as geography</i><em class="brk">breaks: new media type</em></span>
+  <div class="wrap e-edge">
+    <canvas id="e-edge" class="mo-focus" role="img" aria-label="The corpus as a bounded field: filled points inside, hollow points on the rim, dashed points outside the edge"></canvas>
+    <div>
+      <div class="sec-head mo-rule" style="margin-bottom:0">
+        <span class="eyebrow">The boundary</span>
+        <h2>You can say what it read.</h2>
+        <p>A decision you have to defend needs sources you can name. Peace Intel answers from a library assembled by the Effective Peacebuilding Initiative and the Alliance for Peacebuilding. When it reaches past that edge, the citation says so.</p>
+      </div>
+      <div class="rule-row mo-deal" style="--cols:3">
+        <div><span class="cite t1"><span class="cm">&#9679;</span>Inside</span><p class="note" style="margin:0">Held in full, fully parsed, cited to the passage.</p></div>
+        <div><span class="cite t2"><span class="cm">&#9680;</span>Edge</span><p class="note" style="margin:0">Held as abstracts, and marked as such.</p></div>
+        <div><span class="cite t3"><span class="cm">&#8599;</span>Outside</span><p class="note" style="margin:0">The web, reached only when needed, and marked on its face.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ E3 · READERS ═════════════════════════════════════════════════════════ -->
+<section class="band">
+  <span class="crit-tag"><b>E3</b> Readers <i>· rule-row, provenance framing</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule">
+      <span class="eyebrow">Who it is for</span>
+      <h2>For institutions that have to say what they read.</h2>
+    </div>
+    <div class="rule-row mo-deal" style="--cols:3">
+      <div><span class="eyebrow eb-3 strong">Philanthropy</span><p class="note">A board will ask what the recommendation rests on. You can hand them the list.</p></div>
+      <div><span class="eyebrow eb-3 strong">Foreign service</span><p class="note">A submission has to survive the question &ldquo;says who?&rdquo; Every line carries its source and its tier.</p></div>
+      <div><span class="eyebrow eb-3 strong">Development banks</span><p class="note">Review panels check provenance. The library is named, and anything from outside it is marked.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ E4 · ACCESS ══════════════════════════════════════════════════════════
+     The plainest possible close: one line, three fields. -->
+<section id="access" class="band band--dark on-dark">
+  <span class="crit-tag"><b>E4</b> Access <i>· one-line form</i></span>
+  <div class="wrap">
+    <div class="lockup lockup--section centered" style="max-width:var(--col-text);margin:0 auto">
+      <span class="eyebrow mo-develop">Private beta &middot; January 2027</span>
+      <h2 class="lk-head mo-develop">See the library for yourself.</h2>
+      <p class="lk-lede mo-develop">Early access includes the full research findings and a say in what gets built.</p>
+    </div>
+    <form class="e-sign mo-deal" onsubmit="return false">
+      <input class="input" type="email" name="email" autocomplete="email" placeholder="name@institution.org" aria-label="Work email">
+      <select class="input" name="inst" aria-label="Institution">
+        <option value="">Institution type</option>
+        <option>Philanthropy</option>
+        <option>Foreign service</option>
+        <option>Development bank</option>
+        <option>Other</option>
+      </select>
+      <button class="btn primary lg" type="submit">Request access</button>
+    </form>
+    <p class="note" style="text-align:center;margin:var(--sp-4) auto 0">We do not share your information with third parties or use it for marketing.</p>
+  </div>
+</section>
+
+<!-- ══ E5 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>E5</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="system.js?v=76d52326"></script>
+<script>
+/* ═══ THE CORPUS FIELD ═══════════════════════════════════════════════════════
+   BREAK 1 + 2. One point per source, laid on the brand grid inside an uneven
+   boundary. Colours are read from the tokens (so the field follows the theme)
+   and each transition is staggered in Bayer order, the matrix that dithers
+   every other asset, so a state change resolves the way an image does.
+   Durations come from --mo-in-3. With motion reduced, states snap. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var BAYER = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,
+               3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+  var N = 5000;
+
+  function ms(name, fb) {
+    var v = getComputedStyle(root).getPropertyValue(name).trim();
+    if (!v) return fb;
+    return v.indexOf('ms') > -1 ? parseFloat(v) : parseFloat(v) * 1000;
+  }
+  var DUR = ms('--mo-in-3', 1100);
+
+  function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function rad(th, R) { return R * (1 + .07 * Math.sin(3 * th + 1.3) + .05 * Math.sin(5 * th + .4) + .025 * Math.sin(8 * th + 2.1)); }
+  function ease(t) { return t <= 0 ? 0 : t >= 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  /* Custom properties never resolve through getPropertyValue, and color-mix
+     comes back as color(srgb …), so read each token through a probe's color. */
+  function parse(c) {
+    var m = c.match(/rgba?\(([^)]+)\)/);
+    if (m) { var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return [p[0], p[1], p[2]]; }
+    m = c.match(/color\(\s*srgb\s+([^)]+)\)/);
+    if (m) { var q = m[1].split('/')[0].trim().split(/\s+/).map(parseFloat); return [q[0] * 255, q[1] * 255, q[2] * 255]; }
+    return [128, 128, 128];
+  }
+  function palette(host) {
+    var pr = document.createElement('span'); pr.style.display = 'none'; host.appendChild(pr);
+    var o = {};
+    ['--ink', '--ink-55', '--ink-35', '--accent'].forEach(function (n) {
+      pr.style.color = 'var(' + n + ')';
+      o[n] = 'rgb(' + parse(getComputedStyle(pr).color).map(Math.round).join(',') + ')';
+    });
+    pr.remove(); return o;
+  }
+
+  function Field(canvas, mode) {
+    var ctx = canvas.getContext('2d');
+    var W, H, S, base, cx, cy, R, pts = [], col, state = 0, t0 = 0, raf = 0, ov = mode === 'edge' ? 1 : 0, ovFrom = 0;
+    var shimmerId = 0, onScreen = true, rand;
+
+    function glyph(k) { var gap = Math.min(W * .28, 170); return { x: cx + (k - 1) * gap, y: cy - S * 2 }; }
+    function slot(i) { var cols = 12, g = S * 2.4, rows = Math.ceil(relCount / cols); return { x: cx + ((i % cols) - (cols - 1) / 2) * g, y: cy + (Math.floor(i / cols) - (rows - 1) / 2) * g }; }
+    var relCount = 0;
+
+    function build() {
+      var r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height; if (!W || !H) return false;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = W * .5; cy = H * (mode === 'seq' ? .46 : .5);
+      R = Math.min(W * .43, H * (mode === 'seq' ? .38 : .43));
+      S = Math.max(3, Math.round(Math.sqrt(Math.PI * R * R / 7600)));
+      base = Math.max(2, Math.round(S * .55));
+      rand = rng(11);
+      var cand = [];
+      for (var gy = 0; gy * S < H; gy++) for (var gx = 0; gx * S < W; gx++) {
+        var x = gx * S + S / 2, y = gy * S + S / 2, dx = x - cx, dy = y - cy;
+        var d = Math.sqrt(dx * dx + dy * dy) / rad(Math.atan2(dy, dx), R);
+        if (d < 1 && rand() < .96 - .45 * d * d) cand.push({ hx: x, hy: y, d: d, b: BAYER[(gy % 8) * 8 + gx % 8] });
+      }
+      for (var i = cand.length - 1; i > 0; i--) { var j = Math.floor(rand() * (i + 1)), t = cand[i]; cand[i] = cand[j]; cand[j] = t; }
+      pts = cand.slice(0, N);
+
+      /* The web: a few points beyond the edge. */
+      var outs = mode === 'seq' ? 7 : 16;
+      for (var k = 0; k < outs; k++) {
+        var th = rand() * Math.PI * 2, rr = rad(th, R) * (1.1 + rand() * .3);
+        pts.push({ hx: cx + Math.cos(th) * rr, hy: cy + Math.sin(th) * rr, d: 2, b: BAYER[(k * 9) % 64], out: true });
+      }
+
+      /* Relevance: three neighbourhoods, forty nearest in each. The top of the
+         first two become citations 1 and 2; the first outside point is 3. */
+      relCount = 0;
+      if (mode === 'seq') {
+        var inner = pts.filter(function (p) { return !p.out && p.d < .62; });
+        for (var s = 0; s < 3; s++) {
+          var seed = inner[Math.floor(rand() * inner.length)];
+          var near = pts.filter(function (p) { return !p.out && !p.rel; })
+            .map(function (p) { return { p: p, q: (p.hx - seed.hx) * (p.hx - seed.hx) + (p.hy - seed.hy) * (p.hy - seed.hy) }; })
+            .sort(function (a, b) { return a.q - b.q; }).slice(0, 40);
+          near.forEach(function (n, idx) { n.p.rel = true; n.p.slot = relCount++; if (idx === 0 && s < 2) n.p.special = s + 1; });
+        }
+        pts.filter(function (p) { return p.out; })[0].special = 3;
+      }
+      pts.forEach(function (p) { var t = target(p, state); p.x = t.x; p.y = t.y; p.a = t.a; p.s = t.s; p.j = 0; });
+      return true;
+    }
+
+    function target(p, s) {
+      var o = { x: p.hx, y: p.hy, a: 0, s: base };
+      var dens = .2 + .42 * (1 - Math.min(p.d, 1));
+      if (mode === 'edge') { o.a = p.out ? .8 : p.d > .86 ? .7 : dens * .8; return o; }
+      if (p.out) {
+        o.a = .6;
+        if (p.special && s >= 4) { var g3 = glyph(2); o.x = g3.x; o.y = g3.y; o.s = S * 4; o.a = 1; }
+        return o;
+      }
+      if (s === 0) o.a = dens;
+      else if (s === 1) o.a = dens * .3;
+      else if (s === 2) o.a = p.rel ? .95 : dens * .2;
+      else if (s === 3) { if (p.rel) { var c = slot(p.slot); o.x = c.x; o.y = c.y; o.a = .95; } else o.a = dens * .14; }
+      else {
+        o.a = p.rel ? .16 : dens * .14;
+        if (p.special) { var g = glyph(p.special - 1); o.x = g.x; o.y = g.y; o.s = S * 4; o.a = 1; }
+      }
+      return o;
+    }
+
+    function square(x, y, s) { ctx.rect(Math.round(x - s / 2) + .5, Math.round(y - s / 2) + .5, Math.round(s) - 1, Math.round(s) - 1); }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.setLineDash([]);
+      ctx.fillStyle = col['--ink'];
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        if (p.out || (p.special && p.s > base * 1.6) || (mode === 'edge' && p.d > .86)) continue;
+        var a = p.a * (1 + p.j); if (a <= .01) continue;
+        ctx.globalAlpha = Math.min(1, a);
+        ctx.fillRect(Math.round(p.x - p.s / 2), Math.round(p.y - p.s / 2), p.s, p.s);
+      }
+      /* The rim, in the edge plate: hollow, like an abstract. */
+      if (mode === 'edge') {
+        ctx.strokeStyle = col['--ink']; ctx.lineWidth = 1; ctx.beginPath();
+        pts.forEach(function (p) { if (!p.out && p.d > .86) { ctx.globalAlpha = .3; square(p.x, p.y, Math.max(base, 3)); } });
+        ctx.stroke();
+      }
+      /* The web: dashed, neutral, no accent. */
+      pts.forEach(function (p) {
+        if (!p.out) return;
+        var big = p.special && p.s > base * 1.6, s = big ? p.s : Math.max(base * 2, 6);
+        ctx.globalAlpha = p.a; ctx.strokeStyle = col['--ink-55']; ctx.lineWidth = big ? 2 : 1;
+        ctx.setLineDash(big ? [4, 3] : [2, 2]); ctx.beginPath(); square(p.x, p.y, s); ctx.stroke();
+      });
+      ctx.setLineDash([]);
+      /* Citations 1 and 2: solid accent, hollow accent. */
+      pts.forEach(function (p) {
+        if (!p.special || p.out || p.s <= base * 1.6) return;
+        ctx.globalAlpha = 1;
+        if (p.special === 1) { ctx.fillStyle = col['--accent']; ctx.fillRect(Math.round(p.x - p.s / 2), Math.round(p.y - p.s / 2), Math.round(p.s), Math.round(p.s)); }
+        else { ctx.strokeStyle = col['--accent']; ctx.lineWidth = 2; ctx.beginPath(); square(p.x, p.y, p.s); ctx.stroke(); }
+      });
+      /* The edge itself, and the labels, fade in with the resolution. */
+      if (ov > .01) {
+        ctx.globalAlpha = ov * .9; ctx.strokeStyle = col['--ink-35']; ctx.lineWidth = 1; ctx.setLineDash([3, 5]);
+        ctx.beginPath();
+        for (var th = 0; th <= Math.PI * 2 + .02; th += .02) { var rr = rad(th, R * 1.04); var X = cx + Math.cos(th) * rr, Y = cy + Math.sin(th) * rr; th ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }
+        ctx.stroke(); ctx.setLineDash([]);
+        if (mode === 'seq') {
+          ctx.globalAlpha = ov; ctx.fillStyle = col['--ink-55']; ctx.textAlign = 'center';
+          ctx.font = '10px "Space Mono", ui-monospace, monospace';
+          if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
+          ['FULL TEXT', 'ABSTRACT', 'WEB'].forEach(function (t, k) { var g = glyph(k); ctx.fillText(t, g.x, g.y + S * 4 + 18); });
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function frame(now) {
+      var done = true;
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i], t = reduced ? 1 : ease((now - t0 - p.delay) / DUR);
+        if (t < 1) done = false;
+        p.x = lerp(p.fx, p.tx, t); p.y = lerp(p.fy, p.ty, t); p.a = lerp(p.fa, p.ta, t); p.s = lerp(p.fs, p.ts, t);
+      }
+      var ot = reduced ? 1 : ease((now - t0 - DUR * .6) / DUR);
+      ov = lerp(ovFrom, state >= 4 ? 1 : 0, ot); if (ot < 1) done = false;
+      draw();
+      raf = done ? 0 : requestAnimationFrame(frame);
+    }
+
+    function set(s) {
+      if (s === state || !pts.length) { state = s; return; }
+      state = s; t0 = performance.now(); ovFrom = ov;
+      pts.forEach(function (p) {
+        var t = target(p, s);
+        p.fx = p.x; p.fy = p.y; p.fa = p.a * (1 + p.j); p.fs = p.s; p.j = 0;
+        p.tx = t.x; p.ty = t.y; p.ta = t.a; p.ts = t.s;
+        p.delay = reduced ? 0 : p.b * 12 + (p.special ? 300 : 0);
+      });
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+
+    /* At rest on step 0 the field breathes: ten frames a second, the same
+       stepped rate as every dithered asset, and only while on screen. */
+    function shimmer() {
+      if (reduced || mode !== 'seq') return;
+      clearInterval(shimmerId);
+      shimmerId = setInterval(function () {
+        if (state !== 0 || raf || !onScreen) return;
+        for (var i = 0; i < 90; i++) { var p = pts[Math.floor(Math.random() * N)]; if (p) p.j = (Math.random() - .5) * .9; }
+        draw();
+      }, 100);
+    }
+
+    function init() { col = palette(canvas.parentNode); if (build()) draw(); shimmer(); }
+    new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }).observe(canvas);
+    new MutationObserver(function () { col = palette(canvas.parentNode); draw(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (build()) { ov = state >= 4 || mode === 'edge' ? 1 : 0; draw(); } }, 150); });
+    return { init: init, set: set };
+  }
+
+  var seq = Field(document.getElementById('e-field'), 'seq');
+  var edge = Field(document.getElementById('e-edge'), 'edge');
+  var ro = document.getElementById('e-ro');
+  var RO = ['Sources · 5,000+', 'Question received', 'Passages read · 120', 'Compared · 120', 'Cited · 3', 'Cited · 3'];
+
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+    seq.init(); edge.init();
+    var steps = [].slice.call(document.querySelectorAll('.e-step'));
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var s = +e.target.getAttribute('data-state');
+        seq.set(s); ro.textContent = RO[s];
+        steps.forEach(function (x) { x.classList.toggle('is-active', x === e.target); });
+      });
+    }, { rootMargin: '-52% 0px -44% 0px' });
+    steps.forEach(function (st) { io.observe(st); });
+  });
+})();
+</script>
+</body>
+</html>

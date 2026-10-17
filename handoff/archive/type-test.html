@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Headline Type Test</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<link rel="stylesheet" href="../explorations.css">
+<link rel="stylesheet" href="../type-candidates.css">
+<link rel="stylesheet" href="../reference.css">
+<link rel="stylesheet" href="retired.css">
+<!-- Pl. 21's test bench (2026-10-15): the headline serif and its weight,
+     tried on the real pages rather than on a specimen. Each frame loads a
+     worked page untouched and resets --serif and the weight of its serif
+     headings from outside, so nothing in the pages themselves changes. Two
+     frames compare two settings on the same page, scrolled together.
+     Kept in the archive since Source Serif 4 was chosen (2026-10-15); its styles are the .tt block in retired.css. -->
+</head>
+<body class="tt-page">
+
+<div class="ctrl">
+  <span class="ctrl-l">Peace Intel · Headline type test · Archive</span>
+  <div class="ctrl-g"><span class="ctrl-l">Page</span><div class="seg mono" data-tt="page" aria-label="Page to test on"><button type="button" data-v="landing.html" aria-pressed="true">Landing</button><button type="button" data-v="home.html" aria-pressed="false">Home</button><button type="button" data-v="console.html" aria-pressed="false">Console</button><button type="button" data-v="report.html" aria-pressed="false">Report</button></div></div>
+  <div class="ctrl-g"><span class="ctrl-l">Width</span><div class="seg mono" data-tt="width" aria-label="Width the page is drawn at"><button type="button" data-v="1280" aria-pressed="true">Desktop</button><button type="button" data-v="390" aria-pressed="false">Phone</button></div></div>
+  <div class="ctrl-g"><span class="ctrl-l">Compare</span><div class="seg mono" data-tt="split" aria-label="One setting or two side by side"><button type="button" data-v="1" aria-pressed="false">One</button><button type="button" data-v="2" aria-pressed="true">Side by side</button></div></div>
+  <span class="spacer"></span>
+  <div class="ctrl-g ctrl-meta"><a class="ctrl-link" href="../archive.html#serif">Archive · Pl. 21</a></div>
+</div>
+
+<main class="tt" data-split="2">
+  <section class="tt-side" data-side="a" aria-label="Setting A">
+    <div class="tt-bar">
+      <span class="tt-k">A</span>
+      <label class="tt-pick"><span class="sr">Headline serif for A</span><select class="input" data-f></select></label>
+      <div class="seg mono" data-w aria-label="Heading weight for A; the two largest sizes take a step more"></div>
+      <span class="tt-has" aria-live="polite"></span>
+    </div>
+    <div class="tt-view"><iframe title="Setting A"></iframe></div>
+  </section>
+  <section class="tt-side" data-side="b" aria-label="Setting B">
+    <div class="tt-bar">
+      <span class="tt-k">B</span>
+      <label class="tt-pick"><span class="sr">Headline serif for B</span><select class="input" data-f></select></label>
+      <div class="seg mono" data-w aria-label="Heading weight for B; the two largest sizes take a step more"></div>
+      <span class="tt-has" aria-live="polite"></span>
+    </div>
+    <div class="tt-view"><iframe title="Setting B"></iframe></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  /* The candidates, in Pl. 21's order. A commercial face is offered only
+     once it is found on this computer. */
+  var FACES = [
+    ['Nanum Myeongjo', 'Nanum Myeongjo (until 15 Oct)'], ['Newsreader'], ['EB Garamond'], ['Cormorant Garamond'], ['Literata'], ['Source Serif 4', 'Source Serif 4 (chosen)'],
+    ['Libre Baskerville'], ['Baskervville'], ['Baskerville Punch'],
+    ['Cooper Star', 'Cooper*'],
+    ['Charis SIL'], ['Merriweather'], ['Noto Serif'], ['Gelasio'], ['Spectral'], ['PT Serif'], ['Crimson Pro'], ['Petrona'], ['Brygada 1918'], ['Andada Pro'],
+    ['PI Try Charter', 'Charter', 1], ['PI Try Iowan Old Style', 'Iowan Old Style', 1],
+    ['PI Try Founders Caslon', 'ITC Founder’s Caslon', 1], ['PI Try FS Brabo', 'FS Brabo', 1], ['PI Try Picnic Club', 'The Picnic Club', 1],
+    ['PI Try Baskerville Neo', 'Baskerville Neo', 1], ['PI Try Mrs Eaves XL', 'Mrs Eaves XL', 1], ['PI Try Monotype Baskerville', 'Monotype Baskerville', 1]
+  ];
+  var WEIGHTS = [300, 400, 500, 600, 700, 800];
+  var DEF = { a: ['Source Serif 4', 400], b: ['Nanum Myeongjo', 700] };
+  var state = { page: 'landing.html', width: 1280, split: 2, a: DEF.a.slice(), b: DEF.b.slice() };
+  try { var saved = JSON.parse(localStorage.getItem('pi-typetest') || 'null'); if (saved) Object.keys(state).forEach(function (k) { if (k in saved) state[k] = saved[k]; }); } catch (_) {}
+  function save() { try { localStorage.setItem('pi-typetest', JSON.stringify(state)); } catch (_) {} }
+
+  var tt = document.querySelector('.tt'), sides = {};
+  [].forEach.call(document.querySelectorAll('.tt-side'), function (el) {
+    sides[el.dataset.side] = { el: el, frame: el.querySelector('iframe'), view: el.querySelector('.tt-view'), sel: el.querySelector('[data-f]'), w: el.querySelector('[data-w]'), has: el.querySelector('.tt-has') };
+  });
+
+  /* The weights a face has, read from this page's own list of faces. */
+  function weightsOf(fam) {
+    var ws = [];
+    document.fonts.forEach(function (f) {
+      if (f.family.replace(/"/g, '') !== fam || f.style !== 'normal' || (/^PI Try/.test(fam) && f.status !== 'loaded')) return;
+      var r = f.weight.split(' ').map(Number), lo = r[0], hi = r[1] || r[0];
+      for (var w = 100; w <= 900; w += 100) if (w >= lo && w <= hi && ws.indexOf(w) < 0) ws.push(w);
+    });
+    return ws.sort(function (a, b) { return a - b; });
+  }
+  function installed(fam) {
+    var faces = []; document.fonts.forEach(function (f) { if (f.family.replace(/"/g, '') === fam) faces.push(f); });
+    return Promise.allSettled(faces.map(function (f) { return f.load(); })).then(function (r) { return r.some(function (x) { return x.status === 'fulfilled'; }); });
+  }
+
+  function fillSelects(found) {
+    Object.keys(sides).forEach(function (k) {
+      var s = sides[k];
+      s.sel.innerHTML = FACES.map(function (f) {
+        var off = f[2] && !found[f[0]];
+        return '<option value="' + f[0] + '"' + (off ? ' disabled' : '') + (state[k][0] === f[0] ? ' selected' : '') + '>' + (f[1] || f[0]) + (off ? ' (not installed)' : '') + '</option>';
+      }).join('');
+      s.w.innerHTML = WEIGHTS.map(function (w) { return '<button type="button" data-v="' + w + '" aria-pressed="' + (state[k][1] === w) + '">' + w + '</button>'; }).join('');
+    });
+  }
+
+  /* Into a frame: the candidates' faces, and --serif, --serif-w and
+     --serif-w-display reset. Every serif weight in the system is one of those
+     two tokens (2026-10-15), so the weight asked for is the headings' weight
+     and the two largest sizes take a step more, as the system does. */
+  function apply(k) {
+    var s = sides[k], doc = s.frame.contentDocument; if (!doc || !doc.head) return;
+    var fam = state[k][0], w = state[k][1];
+    if (!doc.getElementById('tt-faces')) {
+      var l = doc.createElement('link'); l.id = 'tt-faces'; l.rel = 'stylesheet'; l.href = 'type-candidates.css'; /* resolved against the framed page, in handoff/ */ doc.head.appendChild(l);
+      var st = doc.createElement('style'); st.id = 'tt-style'; doc.head.appendChild(st);
+    }
+    doc.getElementById('tt-style').textContent =
+      ':root { --serif: "PI Marks", "' + fam + '", Georgia, serif; --serif-w: ' + w + '; --serif-w-display: ' + Math.min(900, w + 100) + '; font-synthesis: none }';
+    var ws = weightsOf(fam), near = ws.length ? ws.reduce(function (a, b) { return Math.abs(b - w) < Math.abs(a - w) ? b : a; }) : w;
+    s.has.innerHTML = ws.length ? 'Has ' + ws.join(' ') + (near !== w ? ' &middot; <b>shown at ' + near + '</b>' : '') : '';
+  }
+
+  /* The page is drawn at the width asked for and scaled to fit its frame,
+     so a desktop layout is judged as a desktop layout. */
+  function fit() {
+    Object.keys(sides).forEach(function (k) {
+      var s = sides[k], box = s.view.getBoundingClientRect();
+      var scale = Math.min(1, box.width / state.width);
+      s.frame.style.width = state.width + 'px';
+      s.frame.style.height = (box.height / scale) + 'px';
+      s.frame.style.transform = 'scale(' + scale + ')';
+      s.frame.style.left = Math.max(0, (box.width - state.width * scale) / 2) + 'px';
+    });
+  }
+
+  var syncing = false;
+  function load() {
+    Object.keys(sides).forEach(function (k) {
+      var s = sides[k];
+      s.frame.onload = function () {
+        apply(k);
+        if (s.frame.contentDocument.fonts) s.frame.contentDocument.fonts.ready.then(function () { apply(k); });
+        /* Scroll the two frames together, by proportion, since a different
+           face can make the same page a little longer or shorter. */
+        s.frame.contentWindow.addEventListener('scroll', function () {
+          if (syncing || state.split !== 2) return;
+          var me = s.frame.contentWindow, other = sides[k === 'a' ? 'b' : 'a'].frame.contentWindow; if (!other) return;
+          var max = me.document.documentElement.scrollHeight - me.innerHeight, omax = other.document.documentElement.scrollHeight - other.innerHeight;
+          syncing = true; other.scrollTo(0, max > 0 ? me.scrollY / max * omax : 0);
+          requestAnimationFrame(function () { syncing = false; });
+        });
+      };
+      s.frame.src = '../' + state.page;
+    });
+  }
+
+  function trays() {
+    [].forEach.call(document.querySelectorAll('[data-tt] button'), function (b) {
+      var key = b.parentNode.dataset.tt, v = key === 'page' ? b.dataset.v : +b.dataset.v;
+      b.setAttribute('aria-pressed', String(state[key] === v));
+    });
+    tt.setAttribute('data-split', state.split);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tt] button'); if (b) {
+      var key = b.parentNode.dataset.tt;
+      state[key] = key === 'page' ? b.dataset.v : +b.dataset.v; save(); trays();
+      if (key === 'page') load(); else fit();
+      return;
+    }
+    var w = e.target.closest('[data-w] button'); if (w) {
+      var k = w.closest('.tt-side').dataset.side; state[k][1] = +w.dataset.v; save();
+      [].forEach.call(w.parentNode.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', String(x === w)); });
+      apply(k);
+    }
+  });
+  document.addEventListener('change', function (e) {
+    if (!e.target.matches('[data-f]')) return;
+    var k = e.target.closest('.tt-side').dataset.side; state[k][0] = e.target.value; save(); apply(k);
+  });
+  window.addEventListener('resize', fit);
+
+  var found = {};
+  Promise.all(FACES.filter(function (f) { return f[2]; }).map(function (f) {
+    return installed(f[0]).then(function (ok) { found[f[0]] = ok; });
+  })).then(function () {
+    Object.keys(sides).forEach(function (k) { if (FACES.some(function (f) { return f[0] === state[k][0] && f[2] && !found[f[0]]; })) state[k] = DEF[k].slice(); });
+    fillSelects(found); trays(); fit(); load();
+  });
+})();
+</script>
+</body>
+</html>

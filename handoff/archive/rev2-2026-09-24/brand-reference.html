@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-type="proto" data-panel="warm">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Brand Reference</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* ── Reference-page chrome only. Not part of the delivered system. ────────── */
+  body { padding-bottom: var(--sp-26) }
+
+  .ctrl {
+    position: sticky; top: 0; z-index: 100;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+    padding: var(--sp-3) var(--sp-8);
+    display: flex; gap: var(--sp-5); align-items: center; flex-wrap: wrap;
+  }
+  .ctrl-g { display: flex; align-items: center; gap: var(--sp-3) }
+  .ctrl-l {
+    font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+    text-transform: uppercase; color: var(--ink-35); white-space: nowrap;
+  }
+  .ctrl .spacer { margin-left: auto }
+  .ctrl .seg button { font-size: var(--eb-4); padding: var(--sp-2) var(--sp-3) }
+
+  /* Plate numbering. Borrowed from a printed specimen sheet — it gives the
+     document a spine and makes it feel compiled rather than generated. */
+  .ref { border-top: 1px solid var(--line); padding: var(--sp-16) 0; position: relative }
+  .ref > .wrap { position: relative }
+  .plate {
+    font-family: var(--mono); font-size: var(--eb-4); letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ink-35);
+    display: flex; align-items: baseline; gap: var(--sp-3); margin-bottom: var(--sp-5);
+  }
+  .plate .pl-n { color: var(--accent-text); font-weight: 700 }
+  .plate .pl-r { margin-left: auto; color: var(--ink-35) }
+  .ref-t {
+    font-family: var(--serif); font-weight: 700;
+    font-size: var(--t-h2); line-height: var(--t-h2-lh); margin-bottom: var(--sp-3);
+    max-width: 22ch;
+  }
+  .ref-d { font-size: var(--t-ui); line-height: 1.7; color: var(--ink-55); max-width: 62ch; margin-bottom: var(--sp-10) }
+
+  /* An asymmetric two-column: body left, margin notes right. */
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: var(--sp-10); align-items: start }
+
+  .spec { margin-bottom: var(--sp-12) }
+  .spec-h {
+    display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap;
+    padding-bottom: var(--sp-2); margin-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--line);
+  }
+  .spec-h .sh-n { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink) }
+  .spec-h .sh-d { font-size: var(--t-sm); color: var(--ink-55) }
+  .demo { display: flex; flex-wrap: wrap; gap: var(--sp-4); align-items: center }
+  .demo.col { flex-direction: column; align-items: flex-start }
+  .demo.block { display: block }
+
+  .surf-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--sp-4) }
+  .surf { border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: var(--sp-5); background: var(--bg) }
+  .surf.panel { background: var(--panel); border: var(--panel-border); box-shadow: var(--panel-elev) }
+  .surf-l {
+    font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+    text-transform: uppercase; color: var(--ink-35); margin-bottom: var(--sp-4); display: block;
+  }
+
+  .sw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: var(--sp-2) }
+  .sw { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-2) var(--sp-3); border: 1px solid var(--line); border-radius: var(--r-md) }
+  .sw-c { width: 42px; height: 42px; border-radius: var(--r-md); border: 1px solid var(--line-2); flex: none }
+  .sw-b { min-width: 0; flex: 1 }
+  .sw-n { font-family: var(--mono); font-size: var(--t-sm); font-weight: 700; color: var(--ink) }
+  .sw-r { font-size: 11px; color: var(--ink-55); margin-top: 1px }
+  .sw-v { font-family: var(--mono); font-size: 10.5px; color: var(--ink-35); margin-top: 1px }
+  .cr { font-family: var(--mono); font-size: 10px; letter-spacing: .04em; padding: 2px 6px; border-radius: 4px; white-space: nowrap; flex: none }
+  .cr.pass { color: var(--accent-text); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent) }
+  .cr.warn { color: var(--ink-55); border: 1px dashed var(--ink-35) }
+  .cr.fail { color: #fff; background: #B3261E; border: 1px solid #B3261E }
+
+  .ts { display: flex; align-items: baseline; gap: var(--sp-5); padding: var(--sp-3) 0; border-bottom: 1px solid var(--line) }
+  .ts-m { font-family: var(--mono); font-size: 10px; color: var(--ink-35); width: 118px; flex: none; letter-spacing: .04em }
+  .ts-s { min-width: 0 }
+
+  .scale-row { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-2) }
+  .scale-row .sl { font-family: var(--mono); font-size: 10px; color: var(--ink-35); width: 86px; flex: none }
+  .scale-bar { height: 14px; background: color-mix(in srgb, var(--accent) 28%, transparent); border-radius: 2px }
+  .radii-row { display: flex; gap: var(--sp-4); flex-wrap: wrap }
+  .radii-c { width: 74px; height: 74px; border: 1px solid var(--line-2); background: var(--panel); display: grid; place-items: end center; padding-bottom: 6px; font-family: var(--mono); font-size: 9px; color: var(--ink-55) }
+  .elev-row { display: flex; gap: var(--sp-6); flex-wrap: wrap }
+  .elev-c { width: 130px; height: 84px; border-radius: var(--r-lg); background: var(--bg); display: grid; place-items: center; font-family: var(--mono); font-size: 10px; color: var(--ink-55) }
+
+  .dont { border-left: 2px solid #B3261E; background: color-mix(in srgb, #B3261E 5%, transparent); padding: var(--sp-4) var(--sp-5); border-radius: 0 var(--r-sm) var(--r-sm) 0; margin-bottom: var(--sp-3) }
+  .dont .dl { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: #B3261E; display: block; margin-bottom: var(--sp-2) }
+  .dont p { font-size: var(--t-ui); line-height: 1.6; color: var(--ink-70) }
+  code { font-family: var(--mono); font-size: .92em; background: var(--wash-2); padding: 1px 5px; border-radius: 3px }
+
+  .note { font-size: var(--t-sm); line-height: 1.7; color: var(--ink-55); max-width: 62ch; margin-top: var(--sp-3) }
+  .demo-stage { border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: var(--sp-8); background: var(--bg) }
+
+  @media (max-width: 900px) { .split { grid-template-columns: minmax(0, 1fr) } .marginal { max-width: none } }
+  @media (max-width: 720px) {
+    .ctrl { padding: var(--sp-3) var(--sp-4); gap: var(--sp-4) }
+    .ctrl-g { flex-direction: column; align-items: flex-start; gap: var(--sp-2); width: 100%; max-width: 100% }
+    .ctrl .seg { max-width: 100%; flex-wrap: wrap }
+    .ctrl .seg button { flex: 1 1 auto; text-align: center }
+    .ctrl .seg button + button { border-left: none }
+    .ctrl .spacer { display: none }
+    .ts { flex-direction: column; gap: var(--sp-1) }
+    .ts-m { width: auto }
+    .surf-row { grid-template-columns: minmax(0, 1fr) }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ CONTROL BAR ══════════════════════════════════════════════════════════ -->
+<div class="ctrl">
+  <div class="ctrl-g">
+    <span class="ctrl-l">Theme</span>
+    <div class="seg mono" id="sw-theme">
+      <button aria-pressed="true" data-v="light">Light</button>
+      <button aria-pressed="false" data-v="dark">Dark</button>
+    </div>
+  </div>
+  <div class="ctrl-g">
+    <span class="ctrl-l">Type</span>
+    <div class="seg mono" id="sw-type">
+      <button aria-pressed="true" data-v="proto">Nanum / DIN</button>
+      <button aria-pressed="false" data-v="prod">Source / DM</button>
+    </div>
+  </div>
+  <div class="ctrl-g">
+    <span class="ctrl-l">Raised surface</span>
+    <div class="seg mono" id="sw-panel">
+      <button aria-pressed="true" data-v="warm">Warm</button>
+      <button aria-pressed="false" data-v="deep">Deep</button>
+      <button aria-pressed="false" data-v="wash">Wash</button>
+      <button aria-pressed="false" data-v="flat">Flat</button>
+      <button aria-pressed="false" data-v="hairline">Hairline</button>
+    </div>
+  </div>
+  <span class="spacer"></span>
+  <span class="ctrl-l" id="state-readout"></span>
+</div>
+
+<!-- ══ HEADER ═══════════════════════════════════════════════════════════════ -->
+<header class="textured textured--top" style="padding: var(--sp-16) 0 var(--sp-12)">
+  <div class="wrap">
+    <div class="split">
+      <div class="lockup lockup--hero mo-resolve">
+        <span class="eyebrow">Peace Intel · Visual System · Rev. 2</span>
+        <h1 class="lk-head">Evidence resolves out of noise.</h1>
+        <p class="lk-lede">
+          Every token and block the system ships, exercised on each surface it can
+          land on. The switches at the top change the whole document at once. The
+          raised surface is the open question; the rest are settled.
+        </p>
+        <div class="lk-actions">
+          <a class="btn primary" href="#app">Jump to the app</a>
+          <a class="btn ghost" href="#surfaces">Surfaces</a>
+          <a class="btn ghost" href="#motion">Motion</a>
+        </div>
+      </div>
+      <aside>
+        <p class="marginal">
+          Written as a specimen sheet, not a component library. Plates are numbered
+          so a change can be argued about by reference rather than by screenshot.
+        </p>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<!-- ══ 01 FOUNDATIONS ═══════════════════════════════════════════════════════ -->
+<section class="ref" id="foundations">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 01</span><span>Foundations</span><span class="pl-r">Colour · Type · Space</span></div>
+    <div class="ref-t">The measured parts.</div>
+    <p class="ref-d">
+      Contrast ratios are computed live from the rendered CSS and follow whatever
+      you switch to. They are measured against <code>--panel</code>, the hardest
+      surface a token can legally sit on, not against the page background. An
+      earlier revision measured against the page only, and every piece of muted
+      text on a card was quietly failing AA at 4.04:1.
+    </p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Text</span><span class="sh-d">ratios vs the current surface</span></div>
+      <div class="sw-grid" id="sw-text"></div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Surfaces &amp; lines</span><span class="sh-d">borders stay alpha so they composite on any surface</span></div>
+      <div class="sw-grid" id="sw-surface"></div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Accent</span><span class="sh-d"><code>--accent</code> for graphics and large type · <code>--accent-text</code> under 24px</span></div>
+      <div class="split">
+        <div class="sw-grid" id="sw-accent-sw"></div>
+        <aside><p class="marginal">
+          The orange fails AA for body text by a hair. Rather than change hue, the
+          token splits. Production changed hue instead, which is how the live site
+          ended up rendering two brands by route. That brown was rejected on
+          24 Sep; this is the replacement.
+        </p></aside>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Type scale</span><span class="sh-d">10 steps · replaces 32 ad-hoc sizes</span></div>
+      <div class="demo block" id="type-scale"></div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Typeface roles</span><span class="sh-d">three roles, no more</span></div>
+      <div class="surf-row">
+        <div class="surf">
+          <span class="surf-l">--serif · editorial</span>
+          <div style="font-family:var(--serif);font-weight:700;font-size:var(--t-h3);line-height:1.28">Every answer, traced back to the source.</div>
+          <p class="note" id="fn-serif"></p>
+        </div>
+        <div class="surf">
+          <span class="surf-l">--sans · workhorse</span>
+          <div style="font-size:var(--t-lead);line-height:1.5">Ask a question, get an answer with receipts</div>
+          <p class="note" id="fn-sans"></p>
+        </div>
+        <div class="surf">
+          <span class="surf-l">--mono · instrument</span>
+          <div style="font-family:var(--mono);font-size:var(--eb-1);letter-spacing:var(--eb-1-ls);text-transform:uppercase">Evidence · 12 sources · updated today</div>
+          <p class="note" id="fn-mono"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Spacing</span><span class="sh-d">4px grid · replaces 24 ad-hoc margin values</span></div>
+      <div class="demo block" id="sp-scale"></div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Radii &amp; elevation</span><span class="sh-d">radius grows with surface size · elevation signals interactivity</span></div>
+      <div class="radii-row" style="margin-bottom:var(--sp-6)">
+        <div class="radii-c" style="border-radius:var(--r-xs)">xs 4</div>
+        <div class="radii-c" style="border-radius:var(--r-sm)">sm 6</div>
+        <div class="radii-c" style="border-radius:var(--r-md)">md 8</div>
+        <div class="radii-c" style="border-radius:var(--r-lg)">lg 12</div>
+        <div class="radii-c" style="border-radius:var(--r-xl)">xl 14</div>
+        <div class="radii-c" style="border-radius:var(--r-2xl)">2xl 20</div>
+      </div>
+      <div class="elev-row">
+        <div class="elev-c" style="box-shadow:var(--elev-1)">elev-1</div>
+        <div class="elev-c" style="box-shadow:var(--elev-2)">elev-2</div>
+        <div class="elev-c" style="box-shadow:var(--elev-3)">elev-3</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 02 SURFACES ══════════════════════════════════════════════════════════ -->
+<section class="ref" id="surfaces">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 02</span><span>Surfaces &amp; bands</span><span class="pl-r">The rhythm of a page</span></div>
+    <div class="ref-t">A page is a sequence of surfaces.</div>
+    <p class="ref-d">
+      One page tone with occasional cards on it reads as monotonous no matter how
+      good the tone is. A surface context remaps the semantic tokens for
+      everything inside it, so the same markup works on any of them with no
+      overrides. Alternating them down a page is the whole fix.
+    </p>
+  </div>
+
+  <div class="band band--tight">
+    <div class="wrap">
+      <span class="eyebrow eb-3 faint">(default) · page tone</span>
+      <p class="lede" style="margin-top:var(--sp-3)">The baseline. Most bands are this, or the page has no rhythm to break.</p>
+    </div>
+  </div>
+
+  <div class="band band--tight surface--raised">
+    <div class="wrap">
+      <span class="eyebrow eb-3 faint">.surface--raised · the raised tone</span>
+      <p class="lede" style="margin-top:var(--sp-3)">One step up. Carries whatever treatment is set by the raised-surface switch.</p>
+      <div class="demo" style="margin-top:var(--sp-5)">
+        <span class="pill">A pill</span><span class="chip">A chip</span><span class="act">An action</span>
+        <a class="btn primary" href="#surfaces">Primary</a><a class="btn ghost" href="#surfaces">Ghost</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="band band--tight surface--deep">
+    <div class="wrap">
+      <span class="eyebrow eb-3 faint">.surface--deep · furthest from the page</span>
+      <p class="lede" style="margin-top:var(--sp-3)">For a section that should feel set apart without going dark. Carries its own ink ramp so contrast holds.</p>
+      <div class="demo" style="margin-top:var(--sp-5)">
+        <span class="pill">A pill</span><span class="chip">A chip</span><span class="act">An action</span>
+        <a class="btn primary" href="#surfaces">Primary</a><a class="btn ghost" href="#surfaces">Ghost</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="band band--tight surface--invert textured textured--band">
+    <div class="wrap">
+      <span class="eyebrow eb-3 faint">.surface--invert · flips against the theme</span>
+      <p class="lede" style="margin-top:var(--sp-3)">
+        Dark on a light page. Switch the theme to dark and this band goes light instead.
+        That reversal is what keeps a long page from flattening out.
+      </p>
+      <div class="demo" style="margin-top:var(--sp-5)">
+        <span class="pill">A pill</span><span class="chip">A chip</span><span class="act">An action</span>
+        <a class="btn primary" href="#surfaces">Primary</a><a class="btn grad" href="#surfaces">Gradient</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="band band--tight on-dark">
+    <div class="wrap">
+      <span class="eyebrow eb-3 faint">.on-dark · always dark, whatever the theme</span>
+      <p class="lede" style="margin-top:var(--sp-3)">For a band that must stay dark for brand reasons, like the closing call to action.</p>
+      <div class="demo" style="margin-top:var(--sp-5)">
+        <span class="pill">A pill</span><span class="chip">A chip</span><span class="act">An action</span>
+        <a class="btn primary" href="#surfaces">Primary</a><a class="btn grad" href="#surfaces">Gradient</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:var(--sp-12)">
+    <p class="marginal" style="max-width:56ch">
+      Every band above uses identical markup. No <code>.surface--invert .pill</code>
+      override exists anywhere, and there is no dark variant of any component.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 03 TEXTURE ═══════════════════════════════════════════════════════════ -->
+<section class="ref" id="texture">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 03</span><span>Texture</span><span class="pl-r">The dashed grid</span></div>
+    <div class="ref-t">Rare, or it stops being a fingerprint.</div>
+    <p class="ref-d">
+      The grid used to run under the whole page. Wallpaper flattens everything and
+      leaves nothing for a textured area to contrast against. It is now a vignette:
+      a soft pool that fades to nothing before it reaches the edges. Anything
+      sitting on it must be opaque, or the dashes read through the card face as
+      dirt rather than depth.
+    </p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Three masks</span><span class="sh-d">centre pool · top-anchored · horizontal band</span></div>
+      <div class="grid-3">
+        <div class="textured" style="height:190px;border:1px solid var(--line);border-radius:var(--r-lg)">
+          <div style="padding:var(--sp-4)"><span class="eyebrow eb-4 faint">.textured</span></div>
+        </div>
+        <div class="textured textured--top" style="height:190px;border:1px solid var(--line);border-radius:var(--r-lg)">
+          <div style="padding:var(--sp-4)"><span class="eyebrow eb-4 faint">.textured--top</span></div>
+        </div>
+        <div class="textured textured--band" style="height:190px;border:1px solid var(--line);border-radius:var(--r-lg)">
+          <div style="padding:var(--sp-4)"><span class="eyebrow eb-4 faint">.textured--band</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Opaque cards on texture</span><span class="sh-d">the reason every surface in the system is opaque</span></div>
+      <div class="textured" style="padding:var(--sp-10);border-radius:var(--r-lg);border:1px solid var(--line)">
+        <div class="grid-2">
+          <div class="card">
+            <span class="eyebrow eb-3 accent">Correct</span>
+            <h3 style="margin-top:var(--sp-3)">Opaque face.</h3>
+            <p>The card hides the grid behind it, so it reads as a solid object sitting above the texture.</p>
+          </div>
+          <div class="card" style="background:color-mix(in srgb, var(--bg) 55%, transparent)">
+            <span class="eyebrow eb-3" style="color:#B3261E">Wrong</span>
+            <h3 style="margin-top:var(--sp-3)">Translucent face.</h3>
+            <p>The dashes show through. It stops reading as depth and starts reading as a dirty scan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 04 LOCKUPS ═══════════════════════════════════════════════════════════ -->
+<section class="ref" id="lockups">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 04</span><span>Text lockups</span><span class="pl-r">Eyebrow · head · lede · action</span></div>
+    <div class="ref-t">Fixed relationships, four of them.</div>
+    <p class="ref-d">
+      A lockup is a set relationship between an eyebrow, a headline, supporting
+      copy and an action. Naming them is what stops each new page inventing its own
+      heading rhythm. One prototype page ended up with two different subhead
+      treatments, 17px/1.62/<code>--ink-70</code>/60ch and
+      16px/1.6/<code>--ink-55</code>/56ch, on the same screen.
+    </p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">.lockup--hero</span><span class="sh-d">once per page, above the fold</span></div>
+      <div class="demo-stage">
+        <div class="lockup lockup--hero">
+          <span class="eyebrow">Evidence for peacebuilding</span>
+          <h2 class="lk-head">Every answer, traced back to the source.</h2>
+          <p class="lk-lede">Peace Intel reads the curated peacebuilding evidence base and answers with citations you can click through to the passage that supports them.</p>
+          <div class="lk-actions"><a class="btn primary" href="#lockups">Request access</a><a class="btn ghost" href="#lockups">See an example</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">.lockup--section</span><span class="sh-d">the workhorse, once per band</span></div>
+      <div class="demo-stage">
+        <div class="lockup lockup--section">
+          <span class="eyebrow">The corpus</span>
+          <h2 class="lk-head">The largest body of peacebuilding evidence in one place.</h2>
+          <p class="lk-lede">Curated by experts, indexed for retrieval, answerable in plain language.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">.lockup--card and .lockup--figure</span><span class="sh-d">inside a cell · a number and what it counts</span></div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="lockup lockup--card">
+            <span class="eyebrow eb-3 accent">Brief writing</span>
+            <h3 class="lk-head">Build a theory of change from the evidence.</h3>
+            <p class="lk-lede">Draws on the full corpus and marks how far each claim can be traced.</p>
+          </div>
+        </div>
+        <div class="rule-row" style="--cols:2">
+          <div class="lockup lockup--figure"><span class="lk-head">12k</span><span class="lk-lede">Documents ingested</span></div>
+          <div class="lockup lockup--figure"><span class="lk-head">96</span><span class="lk-lede">Countries covered</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">.marginal</span><span class="sh-d">the one place the system speaks in a human register</span></div>
+      <div class="split">
+        <p class="prose">
+          Most of a design system talks like an institution, because most of it is
+          rules. A marginal note is where a decision gets a reason attached to it in
+          the voice of whoever made it. Used sparingly it is the difference between
+          a document that was compiled and one that was written.
+        </p>
+        <aside><p class="marginal">
+          We tried a neutral grey raised surface in July and it read as a different
+          product entirely. Kept the warm. Revisiting it now, three plates down.
+        </p></aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 05 EYEBROWS ══════════════════════════════════════════════════════════ -->
+<section class="ref" id="eyebrows">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 05</span><span>Eyebrows</span><span class="pl-r">Four ladder steps</span></div>
+    <div class="ref-t">Mono, uppercase, tracked, small.</div>
+    <p class="ref-d">
+      Nearly all UI chrome is an eyebrow. Four steps and nothing else: the prototype
+      pages had thirteen distinct letter-spacing values plus three in raw pixels.
+      Tracking scales inversely with size. Shown on all three surfaces because
+      on-dark was the gap — no eyebrow had a dark-surface definition before.
+    </p>
+    <div class="surf-row">
+      <div class="surf">
+        <span class="surf-l">on --bg</span>
+        <div class="demo col">
+          <span class="eyebrow">eb-1 · 12 / .14em</span>
+          <span class="eyebrow eb-2">eb-2 · 11 / .12em</span>
+          <span class="eyebrow eb-3">eb-3 · 10 / .10em</span>
+          <span class="eyebrow eb-4">eb-4 · 9 / .08em</span>
+          <span class="eyebrow eb-3 faint">faint</span>
+          <span class="eyebrow eb-3 accent">accent</span>
+          <span class="eyebrow eb-3 strong">strong</span>
+        </div>
+      </div>
+      <div class="surf panel">
+        <span class="surf-l">on --panel</span>
+        <div class="demo col">
+          <span class="eyebrow">eb-1 · 12 / .14em</span>
+          <span class="eyebrow eb-2">eb-2 · 11 / .12em</span>
+          <span class="eyebrow eb-3">eb-3 · 10 / .10em</span>
+          <span class="eyebrow eb-4">eb-4 · 9 / .08em</span>
+          <span class="eyebrow eb-3 faint">faint</span>
+          <span class="eyebrow eb-3 accent">accent</span>
+          <span class="eyebrow eb-3 strong">strong</span>
+        </div>
+      </div>
+      <div class="surf on-dark">
+        <span class="surf-l">inside .on-dark</span>
+        <div class="demo col">
+          <span class="eyebrow">eb-1 · 12 / .14em</span>
+          <span class="eyebrow eb-2">eb-2 · 11 / .12em</span>
+          <span class="eyebrow eb-3">eb-3 · 10 / .10em</span>
+          <span class="eyebrow eb-4">eb-4 · 9 / .08em</span>
+          <span class="eyebrow eb-3 faint">faint</span>
+          <span class="eyebrow eb-3 accent">accent</span>
+          <span class="eyebrow eb-3 strong">strong</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06 CONTROLS ══════════════════════════════════════════════════════════ -->
+<section class="ref" id="controls">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 06</span><span>Controls</span><span class="pl-r">Pills · chips · buttons</span></div>
+    <div class="ref-t">One inverted active state, shared by everything.</div>
+    <p class="ref-d">
+      Solid <code>--ink</code> fill with <code>--bg</code> text is the strongest
+      non-accent emphasis in the system, and every toggleable atom uses it. It was
+      already the most consistent thing in the codebase; this keeps it. Primary
+      buttons are ink, not accent — the accent is reserved for meaning.
+    </p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Pills, chips, badges</span><span class="sh-d"><code>.chip</code> and <code>.cite</code> each had contradictory definitions across files</span></div>
+      <div class="demo">
+        <span class="pill">Literature review</span>
+        <span class="pill active">Systematic review</span>
+        <span class="chip">Built in collaboration with</span>
+        <span class="act">Copy answer</span>
+        <span class="act on">Filter on</span>
+        <span class="act sm">Small</span>
+        <span class="badge">Draft</span>
+        <span class="badge accent">Ingested</span>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Segmented control</span><span class="sh-d">was four near-identical components with two activation attributes</span></div>
+      <div class="demo col">
+        <div class="seg"><button aria-pressed="true">Funder</button><button aria-pressed="false">Practitioner</button><button aria-pressed="false">Researcher</button></div>
+        <div class="seg mono"><button aria-pressed="true">Evidence</button><button aria-pressed="false">Case facts</button></div>
+      </div>
+      <p class="note">When two stack they stay identical. Hierarchy comes from the label beside them and from reading order, never from shrinking the second row.</p>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Buttons</span><span class="sh-d">hover each · the gradient appears at most once per view</span></div>
+      <div class="demo">
+        <a class="btn primary" href="#controls">Request access</a>
+        <a class="btn ghost" href="#controls">Worked example</a>
+        <a class="btn brand" href="#controls">Brand</a>
+        <a class="btn grad" href="#controls">Gradient CTA</a>
+        <button class="btn primary" disabled>Disabled</button>
+        <button class="btn-ink">Download PDF</button>
+        <button class="btn-text">Join the waitlist</button>
+        <button class="send" aria-label="Send">&rarr;</button>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Forms</span></div>
+      <div class="grid-2" style="align-items:start">
+        <div class="card flat">
+          <label class="field"><span>Work email</span><input class="input" type="email" placeholder="jane@organisation.org"></label>
+          <label class="field"><span>What are you working on?</span><textarea class="input" rows="3" placeholder="A short description"></textarea></label>
+          <div class="demo" style="margin-top:var(--sp-2)">
+            <input type="radio" name="r" id="r1" checked><label class="radio-pill" for="r1">Read mode</label>
+            <input type="radio" name="r" id="r2"><label class="radio-pill" for="r2">Compare</label>
+          </div>
+        </div>
+        <div class="card quiet">
+          <span class="eyebrow eb-3">Inline blanks</span>
+          <p style="font-family:var(--serif);font-size:var(--t-h4);line-height:1.8;margin-top:var(--sp-4)">
+            I work at <select class="blank"><option>a funding organization</option><option>an implementing organization</option></select>
+            as a <select class="blank"><option>senior leader</option><option>programme manager</option></select>.
+          </p>
+          <p class="note">The article lives inside the option text, which keeps "a" and "an" correct without branching.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 EVIDENCE ══════════════════════════════════════════════════════════ -->
+<section class="ref" id="evidence">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 07</span><span>Evidence tiers</span><span class="pl-r">Product-critical</span></div>
+    <div class="ref-t">A gradient of trust, stated visually.</div>
+    <p class="ref-d">
+      Solid accent, then hollow accent, then dashed neutral. Tier three gets no
+      accent at all, because the point is that it has not been verified. This is
+      the one part of the system that carries an epistemic claim rather than a
+      stylistic one. Do not restyle it away or collapse the tiers.
+    </p>
+    <div class="split">
+      <div>
+        <p class="prose">
+          Third-party mediation reduced conflict recurrence in six of nine cases
+          <span class="cite t1"><span class="cm">&#9679;</span>1</span>, though the
+          effect weakens sharply where the mediator has a security interest in the
+          outcome <span class="cite t2"><span class="cm">&#9680;</span>2</span>. One
+          widely-shared estimate of civilian protection outcomes is not traceable to
+          a primary source <span class="cite t3"><span class="cm">&#8599;</span>3</span>.
+        </p>
+        <div class="demo mo-stagger" style="margin-top:var(--sp-6)">
+          <span class="evi-badge t1">Ingested <span class="es">full text on platform</span></span>
+          <span class="evi-badge t2">Abstract <span class="es">paywalled</span></span>
+          <span class="evi-badge t3">Web <span class="es">treat with skepticism</span></span>
+        </div>
+        <div class="demo col" style="margin-top:var(--sp-6);width:100%">
+          <button class="src-chip" style="width:100%"><span class="n">1</span> <span class="tt">Autesserre, <i>The Trouble with the Congo</i></span> <span class="sx">Ingested</span></button>
+          <button class="src-chip t3" style="width:100%"><span class="n">3</span> <span class="tt">Policy brief, unattributed</span> <span class="sx">Web</span></button>
+          <button class="src-chip active" style="width:100%"><span class="n">2</span> <span class="tt">Fortna, <i>Does Peacekeeping Work?</i></span> <span class="sx">Abstract</span></button>
+        </div>
+      </div>
+      <aside><p class="marginal">
+        The badges above arrive in tier order. That is not decoration: the animation
+        is carrying the epistemics, strongest evidence first.
+      </p></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 08 THE APP ═══════════════════════════════════════════════════════════ -->
+<section class="ref" id="app">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 08</span><span>The console</span><span class="pl-r">Chat · rails · evidence pane</span></div>
+    <div class="ref-t">The same object, indoors.</div>
+    <p class="ref-d">
+      If the landing page and the console do not feel like one product, the brand
+      has not survived the handoff. Every token here is the same one the marketing
+      pages use. Switch the theme, the accent or the raised surface and this moves
+      with the rest of the document.
+    </p>
+
+    <div class="app">
+      <div class="app-top">
+        <span class="app-mark">PEACE_INTEL</span>
+        <span class="badge">Beta</span>
+        <span class="spacer"></span>
+        <div class="seg mono"><button aria-pressed="true">Evidence</button><button aria-pressed="false">Case facts</button></div>
+        <button class="act sm">Profile</button>
+      </div>
+      <div class="app-body">
+        <aside class="app-rail">
+          <div class="eyebrow eb-4 faint" style="margin-bottom:var(--sp-3)">Threads</div>
+          <button class="thread" aria-current="true">
+            <div class="th-t">Darfur 2003–2011: who intervened and what resulted</div>
+            <div class="th-m">12 sources · today</div>
+          </button>
+          <button class="thread">
+            <div class="th-t">Does third-party mediation reduce recurrence?</div>
+            <div class="th-m">8 sources · yesterday</div>
+          </button>
+          <button class="thread">
+            <div class="th-t">Evaluating a DDR proposal for the Sahel</div>
+            <div class="th-m">21 sources · 3 days ago</div>
+          </button>
+          <button class="thread">
+            <div class="th-t">Women's participation and agreement durability</div>
+            <div class="th-m">14 sources · last week</div>
+          </button>
+        </aside>
+
+        <main class="app-main">
+          <div class="app-scroll textured">
+            <div class="chat">
+              <div class="msg user">
+                <div class="who">You</div>
+                <div class="bubble">What happened in Darfur between 2003 and 2011? Who intervened, what did they do, and what resulted?</div>
+              </div>
+              <div class="msg agent">
+                <div class="who">Peace Intel</div>
+                <div class="body">
+                  <p>Between 2003 and 2011 the conflict in Darfur drew three distinct intervention efforts, and they are worth separating because they failed for different reasons.</p>
+                  <p>The African Union deployed <strong>AMIS</strong> in 2004 with a monitoring mandate it was never resourced to fulfil <span class="cite t1"><span class="cm">&#9679;</span>1</span>. Its successor <strong>UNAMID</strong>, authorised in 2007, was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested <span class="cite t2"><span class="cm">&#9680;</span>2</span>. Parallel mediation in Abuja produced an agreement in 2006 that most rebel factions declined to sign <span class="cite t1"><span class="cm">&#9679;</span>1</span>.</p>
+                  <p>A frequently cited figure for displacement in this period does not trace to a primary source in this corpus <span class="cite t3"><span class="cm">&#8599;</span>3</span>, so treat it with caution.</p>
+                </div>
+                <div class="evi-group">
+                  <div class="evi-head">Evidence · 3 sources</div>
+                  <div class="evi-list mo-stagger">
+                    <button class="src-chip"><span class="n">1</span> <span class="tt">de Waal, <i>War in Darfur and the Search for Peace</i></span> <span class="sx">Ingested</span></button>
+                    <button class="src-chip"><span class="n">2</span> <span class="tt">Lynch, <i>Peacekeeping in Darfur: An Assessment</i></span> <span class="sx">Abstract</span></button>
+                    <button class="src-chip t3"><span class="n">3</span> <span class="tt">Displacement figure, unattributed</span> <span class="sx">Web</span></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="composer-wrap">
+            <div class="composer">
+              <textarea class="ci" rows="2" placeholder="Ask a question about the evidence base"></textarea>
+              <div class="composer-bar">
+                <span class="act sm">Scope: all datasets</span>
+                <span class="act sm">Evidence only</span>
+                <span class="spacer"></span>
+                <button class="send" aria-label="Send">&rarr;</button>
+              </div>
+            </div>
+          </div>
+        </main>
+
+        <aside class="app-pane">
+          <div class="pane-head">
+            <span class="ph-t">Sources</span>
+            <span class="spacer"></span>
+            <button class="act sm">Filter</button>
+          </div>
+          <div class="pane-body">
+            <button class="src-chip active"><span class="n">1</span> <span class="tt">de Waal, <i>War in Darfur</i></span> <span class="sx">Ingested</span></button>
+            <button class="src-chip"><span class="n">2</span> <span class="tt">Lynch, <i>Peacekeeping in Darfur</i></span> <span class="sx">Abstract</span></button>
+            <button class="src-chip t3"><span class="n">3</span> <span class="tt">Displacement figure</span> <span class="sx">Web</span></button>
+            <div class="evi-badge t1" style="margin-top:var(--sp-3)">Ingested <span class="es">full text on platform</span></div>
+            <p class="note" style="margin-top:var(--sp-3)">
+              Selecting a citation in the answer scrolls this pane to the source and
+              opens the supporting passage.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <p class="marginal" style="margin-top:var(--sp-6);max-width:56ch">
+      The user speaks in a bubble on the raised surface; the agent has no bubble at
+      all. That asymmetry is deliberate — it makes the answer read as a document
+      rather than as a chat message, which is the entire product claim.
+    </p>
+  </div>
+</section>
+
+<!-- ══ 09 MEDIA ═════════════════════════════════════════════════════════════ -->
+<section class="ref" id="media">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 09</span><span>Media hierarchy</span><span class="pl-r">Four tiers, descending</span></div>
+    <div class="ref-t">One loud thing per page.</div>
+    <p class="ref-d">
+      Four tiers of image and motion. At most one tier-one element per page, and
+      never two tiers competing in the same viewport. Without the rule a page ends
+      up with a hero video, a section video and a grid texture all fighting, which
+      reads as noise rather than atmosphere.
+    </p>
+    <div class="rule-row" style="--cols:4">
+      <div><span class="eyebrow eb-4 accent">Tier 1</span><h4 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">Hero motion</h4><p class="note">Dithered loop behind the headline. One per page.</p></div>
+      <div><span class="eyebrow eb-4">Tier 2</span><h4 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">Band texture</h4><p class="note">Dithered loop behind a section. One per band.</p></div>
+      <div><span class="eyebrow eb-4">Tier 3</span><h4 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">Figure</h4><p class="note">A still diagram, chart or specimen. Framed, opaque.</p></div>
+      <div><span class="eyebrow eb-4">Tier 4</span><h4 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">Grid vignette</h4><p class="note">The dashed texture. Sparing.</p></div>
+    </div>
+    <div class="split" style="margin-top:var(--sp-10)">
+      <p class="prose">
+        All motion assets share one treatment: medium cell, seven percent mono Bayer
+        dither, greyscale, multiply blend. That treatment is the brand's image
+        language, so a new asset that is not dithered will look like it came from
+        somewhere else. On dark surfaces the blend switches to screen, because
+        multiply would erase the asset entirely.
+      </p>
+      <aside><p class="marginal">
+        The dither was picked in July because it looked good. It turns out to be the
+        product metaphor as well — an image resolving out of noise — which is why the
+        motion language in the next plate is built from it.
+      </p></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 10 MOTION ════════════════════════════════════════════════════════════ -->
+<section class="ref" id="motion">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 10</span><span>Motion</span><span class="pl-r">Resolve, don't type</span></div>
+    <div class="ref-t">The register without the costume.</div>
+    <p class="ref-d">
+      No typewriter, no terminal cursor, no redaction bars, no scanlines. Those are
+      set dressing for a spy film. What intelligence work actually feels like is
+      evidence resolving out of noise, instruments registering on a target, a
+      surface swept once and then read, and claims arriving in order of confidence.
+      Five primitives, each borrowed from one of those. Scroll past them to fire;
+      press replay to see them again.
+    </p>
+
+    <div class="demo" style="margin-bottom:var(--sp-8)"><button class="btn ghost" id="replay">Replay all motion</button></div>
+
+    <div class="grid-2" style="gap:var(--sp-8)">
+      <div class="spec">
+        <div class="spec-h"><span class="sh-n">.mo-resolve</span><span class="sh-d">the signature · once per view</span></div>
+        <div class="mo-resolve card" data-mo>
+          <span class="eyebrow eb-3 accent">Ingested</span>
+          <h3 style="margin-top:var(--sp-3)">Evidence emerges from noise.</h3>
+          <p>Content arrives through clearing dither rather than fading or sliding. It states the product's claim without a word of copy.</p>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec-h"><span class="sh-n">.mo-register</span><span class="sh-d">instruments locking on</span></div>
+        <div class="mo-register card" data-mo>
+          <span class="eyebrow eb-3">Registered</span>
+          <h3 style="margin-top:var(--sp-3)">Corner marks converge.</h3>
+          <p>Lifted straight out of the logo lockup, where the dove already sits inside corner brackets. The brand signs its own interface.</p>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec-h"><span class="sh-n">.mo-sweep</span><span class="sh-d">read once, never looped</span></div>
+        <div class="mo-sweep card" data-mo>
+          <span class="eyebrow eb-3">Scanned</span>
+          <h3 style="margin-top:var(--sp-3)">A single pass of light.</h3>
+          <p>One pass, then it stops. A loop turns it into decoration and the surface never settles.</p>
+        </div>
+      </div>
+
+      <div class="spec">
+        <div class="spec-h"><span class="sh-n">.mo-settle</span><span class="sh-d">a measurement, not a counter roll</span></div>
+        <div class="card" data-mo>
+          <div class="rule-row" style="--cols:2;border:0">
+            <div class="lockup lockup--figure mo-settle" style="border:0;padding:0"><span class="lk-head">12k</span><span class="lk-lede">Documents</span></div>
+            <div class="lockup lockup--figure mo-settle" style="border:0;padding:0"><span class="lk-head">96</span><span class="lk-lede">Countries</span></div>
+          </div>
+          <p style="margin-top:var(--sp-4)">The figure was measured, it did not accumulate. A short damped rise says that; a spinning counter says the opposite.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec" style="margin-top:var(--sp-8)">
+      <div class="spec-h"><span class="sh-n">.mo-stagger</span><span class="sh-d">order carries meaning</span></div>
+      <div class="card" data-mo>
+        <div class="evi-list mo-stagger">
+          <button class="src-chip"><span class="n">1</span> <span class="tt">de Waal, <i>War in Darfur and the Search for Peace</i></span> <span class="sx">Ingested</span></button>
+          <button class="src-chip"><span class="n">2</span> <span class="tt">Lynch, <i>Peacekeeping in Darfur: An Assessment</i></span> <span class="sx">Abstract</span></button>
+          <button class="src-chip t3"><span class="n">3</span> <span class="tt">Displacement figure, unattributed</span> <span class="sx">Web</span></button>
+        </div>
+        <p style="margin-top:var(--sp-4)">Ordered by tier, so the sequence itself says which evidence is strongest. This is the only stagger in the system that is allowed to mean something; everywhere else it would just be delay.</p>
+      </div>
+    </div>
+
+    <div class="split" style="margin-top:var(--sp-10)">
+      <div>
+        <p class="prose">
+          Also here, though it is an affordance rather than a reveal: hovering a
+          citation <span class="cite t1"><span class="cm">&#9679;</span>1</span> draws
+          the hairline connection to its source instead of just tinting. It answers a
+          pointer, so it is instant.
+        </p>
+      </div>
+      <aside><p class="marginal">
+        Nothing here runs longer than about half a second except the sweep, and every
+        one of them is killed outright by <code>prefers-reduced-motion</code>.
+      </p></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 11 RAISED SURFACE EXPLORATION ════════════════════════════════════════ -->
+<section class="ref" id="raised">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 11</span><span>Raised surface</span><span class="pl-r">Open question</span></div>
+    <div class="ref-t">Five ways to lift a surface off the page.</div>
+    <p class="ref-d">
+      The warm <code>#F3EFE7</code> was locked in July after a neutral grey and an
+      orange wash were rejected. It is being reopened. Switch the raised-surface
+      control at the top and every card, chat bubble, selected row and raised band
+      in this document changes at once — including the console in Plate 08, which is
+      where the decision actually bites.
+    </p>
+
+    <div class="grid-3" style="margin-bottom:var(--sp-8)">
+      <div class="card raised">
+        <span class="eyebrow eb-3">Current selection</span>
+        <h3 style="margin-top:var(--sp-3)" id="panel-name">Warm</h3>
+        <p id="panel-desc">A warm paper fill. Gives the page its depth and its temperature.</p>
+      </div>
+      <div class="card raised">
+        <span class="eyebrow eb-3">Selected row</span>
+        <div class="demo col" style="margin-top:var(--sp-3);width:100%">
+          <button class="thread" aria-current="true" style="width:100%"><div class="th-t">An active thread</div><div class="th-m">12 sources · today</div></button>
+          <button class="thread" style="width:100%"><div class="th-t">An inactive thread</div><div class="th-m">8 sources · yesterday</div></button>
+        </div>
+      </div>
+      <div class="card raised">
+        <span class="eyebrow eb-3">Chat bubble</span>
+        <div class="msg user" style="margin-top:var(--sp-3);margin-bottom:0">
+          <div class="bubble">What happened in Darfur between 2003 and 2011?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">The five</span><span class="sh-d">what each one costs you</span></div>
+      <div class="rule-row" style="--cols:5">
+        <div><span class="eyebrow eb-4 accent">Warm</span><p class="note">The current value. Warm, tactile, distinctly not a SaaS grey. Costs contrast headroom: the ink ramp had to be re-solved against it.</p></div>
+        <div><span class="eyebrow eb-4">Deep</span><p class="note">More separation, more warmth. Reads richer and heavier. Needs its own ink ramp to hold AA, which this file provides.</p></div>
+        <div><span class="eyebrow eb-4">Wash</span><p class="note">A neutral derived from the ink rather than its own hue. Tracks the theme automatically. Loses the temperature.</p></div>
+        <div><span class="eyebrow eb-4">Flat</span><p class="note">No fill. Elevation alone separates it. Lighter and more architectural; the warmth goes entirely.</p></div>
+        <div><span class="eyebrow eb-4">Hairline</span><p class="note">No fill, no shadow, pure drawn line. The most editorial and the flattest. Everything rests on the quality of the rule.</p></div>
+      </div>
+    </div>
+
+    <div class="split" style="margin-top:var(--sp-10)">
+      <p class="prose">
+        Components read three tokens rather than assuming a fill exists:
+        <code>--panel</code>, <code>--panel-border</code> and
+        <code>--panel-elev</code>. That is what lets the treatment change globally.
+        Anything that hardcodes <code>var(--panel)</code> as a background and adds
+        its own border will not follow the switch.
+      </p>
+      <aside><p class="marginal">
+        Worth checking this one in the console rather than on the marketing page.
+        The chat bubble is the highest-frequency raised surface in the product by a
+        long way, and it is the place a wrong choice will grate.
+      </p></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 12 DON'T ═════════════════════════════════════════════════════════════ -->
+<section class="ref" id="donts">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Pl. 12</span><span>Don't</span><span class="pl-r">Measured, not hypothetical</span></div>
+    <div class="ref-t">Every one of these actually happened.</div>
+    <p class="ref-d">These are failure modes found in this codebase, not cautionary inventions.</p>
+    <div class="grid-2" style="gap:var(--sp-4) var(--sp-8)">
+      <div>
+        <div class="dont"><span class="dl">Don't invent type sizes</span><p><code>index.html</code> uses 19 whole-pixel sizes. <code>rotary-a.html</code> grew to 25 including 9.5 and 14.5px; <code>problems.html</code> to 32.</p></div>
+        <div class="dont"><span class="dl">Don't write off-grid spacing</span><p>24 distinct vertical margin values in one page. Every space is a <code>--sp-*</code> step.</p></div>
+        <div class="dont"><span class="dl">Don't hardcode white on dark</span><p><code>rgba(255,255,255,.6)</code> and <code>#fff</code> across <code>.ctaband</code>, <code>.close</code> and <code>.card</code>. Use a surface context.</p></div>
+        <div class="dont"><span class="dl">Don't fork the palette per page</span><p>Production sets brown at the base and two page files override to orange, so the live site renders two brands by route.</p></div>
+        <div class="dont"><span class="dl">Don't wallpaper the grid</span><p>It was under the entire page. Texture that is everywhere is texture nowhere.</p></div>
+      </div>
+      <div>
+        <div class="dont"><span class="dl">Don't put a translucent card on texture</span><p>The dashes read through the face as dirt. Every surface in this system is opaque.</p></div>
+        <div class="dont"><span class="dl">Don't re-declare a shared rule to change it</span><p>All three <code>section{padding}</code> values came from re-declaring the rule after the block. Edit the block.</p></div>
+        <div class="dont"><span class="dl">Don't give one class two meanings</span><p><code>.chip</code> was a solid pill in four files and bare text in two. <code>.cta</code> was a button in one lineage and a section in another.</p></div>
+        <div class="dont"><span class="dl">Don't use the accent decoratively</span><p>It marks evidence, primary action, focus and active state. More than three or four accented spots means it is over-accented.</p></div>
+        <div class="dont"><span class="dl">Don't reach for the typewriter</span><p>Terminal cursors, redaction bars and scanlines are costume. The motion language is resolution, not performance.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  /* Only now hide the motion start states. Before this line the page is fully
+     legible with JS off, which is the point. */
+  root.setAttribute('data-js', '');
+
+  /* ── switchers ─────────────────────────────────────────────────────────── */
+  function wire(id, attr) {
+    var box = document.getElementById(id);
+    if (!box) return;
+    var saved = null;
+    try { saved = localStorage.getItem('pi-ref-' + attr); } catch (_) {}
+    if (saved) {
+      var t = box.querySelector('button[data-v="' + saved + '"]');
+      if (t) {
+        root.setAttribute(attr, saved);
+        Array.prototype.forEach.call(box.querySelectorAll('button'), function (x) {
+          x.setAttribute('aria-pressed', String(x === t));
+        });
+      }
+    }
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      root.setAttribute(attr, b.dataset.v);
+      Array.prototype.forEach.call(box.querySelectorAll('button'), function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+      try { localStorage.setItem('pi-ref-' + attr, b.dataset.v); } catch (_) {}
+      refresh();
+    });
+  }
+  wire('sw-theme', 'data-theme');
+  wire('sw-type', 'data-type');
+  wire('sw-panel', 'data-panel');
+
+  /* ── colour maths ──────────────────────────────────────────────────────── */
+  function rgb(str) {
+    var m = String(str).match(/rgba?\(([^)]+)\)/);
+    if (!m) return null;
+    var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat);
+    return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 };
+  }
+  function over(fg, bg) {
+    if (!fg) return bg;
+    if (fg.a >= 1) return fg;
+    return { r: fg.r * fg.a + bg.r * (1 - fg.a),
+             g: fg.g * fg.a + bg.g * (1 - fg.a),
+             b: fg.b * fg.a + bg.b * (1 - fg.a), a: 1 };
+  }
+  function lum(c) {
+    var f = function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+    return 0.2126 * f(c.r) + 0.7152 * f(c.g) + 0.0722 * f(c.b);
+  }
+  function ratio(a, b) {
+    var la = lum(a), lb = lum(b), hi = Math.max(la, lb), lo = Math.min(la, lb);
+    return (hi + 0.05) / (lo + 0.05);
+  }
+  function hex(c) {
+    var h = function (v) { return ('0' + Math.round(v).toString(16)).slice(-2).toUpperCase(); };
+    return '#' + h(c.r) + h(c.g) + h(c.b);
+  }
+  function tokenOn(el, name) {
+    var probe = document.createElement('span');
+    probe.style.color = 'var(' + name + ')';
+    probe.style.display = 'none';
+    el.appendChild(probe);
+    var v = getComputedStyle(probe).color;
+    el.removeChild(probe);
+    return rgb(v);
+  }
+
+  var TEXT = [
+    ['--ink', 'Primary text'], ['--ink-70', 'Secondary body'],
+    ['--ink-55', 'Muted · AA floor for body'], ['--ink-35', 'Faint · AA floor for UI']
+  ];
+  var SURFACE = [
+    ['--bg', 'Page background', 'surface'], ['--panel', 'Raised surface', 'surface'],
+    ['--line', 'Hairline border', 'border'], ['--line-2', 'Stronger border', 'border'],
+    ['--wash-1', 'Hover wash', 'tint'], ['--wash-2', 'Stronger wash', 'tint']
+  ];
+  var ACCENT = [
+    ['--accent', 'Graphics, large type, fills'],
+    ['--accent-text', 'Any text under 24px'],
+    ['--hl', 'Passage highlight', 'tint']
+  ];
+
+  function swatches(hostId, list, surfaceToken, check) {
+    var host = document.getElementById(hostId);
+    if (!host) return;
+    var ctx = host.closest('.on-dark, .surface--invert, .surface--deep, .surface--raised') || host;
+    var surf = over(tokenOn(ctx, surfaceToken), { r: 255, g: 255, b: 255, a: 1 });
+    host.innerHTML = list.map(function (t) {
+      var raw = tokenOn(ctx, t[0]);
+      var solid = over(raw, surf);
+      var kind = t[2] || 'text';
+      var badge = '';
+      if (check && kind === 'text') {
+        var r = ratio(solid, surf);
+        var cls = r >= 4.5 ? 'pass' : (r >= 3 ? 'warn' : 'fail');
+        var lbl = r >= 4.5 ? 'AA' : (r >= 3 ? 'AA large only' : 'fails AA');
+        badge = '<span class="cr ' + cls + '">' + r.toFixed(2) + ':1 ' + lbl + '</span>';
+      } else if (check) {
+        badge = '<span class="cr warn">' + kind + ', not text</span>';
+      }
+      return '<div class="sw"><div class="sw-c" style="background:var(' + t[0] + ')"></div>' +
+        '<div class="sw-b"><div class="sw-n">' + t[0] + '</div><div class="sw-r">' + t[1] + '</div>' +
+        '<div class="sw-v">' + hex(solid) + (raw && raw.a < 1 ? ' · alpha ' + raw.a : '') + '</div></div>' +
+        badge + '</div>';
+    }).join('');
+  }
+
+  /* ── scales ────────────────────────────────────────────────────────────── */
+  var SP = [1,2,3,4,5,6,7,8,10,12,14,16,18,22,26];
+  var spHost = document.getElementById('sp-scale');
+  if (spHost) {
+    spHost.innerHTML = SP.map(function (n) {
+      return '<div class="scale-row"><span class="sl">--sp-' + n + ' · ' + (n * 4) + '</span>' +
+             '<div class="scale-bar" style="width:' + (n * 4) + 'px"></div></div>';
+    }).join('');
+  }
+  var TYPE = [
+    ['display', 46, 'serif', 700], ['h1', 36, 'serif', 700], ['h2', 30, 'serif', 700],
+    ['h3', 24, 'serif', 700], ['h4', 19, 'serif', 700], ['lead', 17, 'sans', 400],
+    ['body', 15, 'sans', 400], ['ui', 13, 'sans', 400], ['sm', 12, 'sans', 400], ['xs', 10, 'sans', 400]
+  ];
+  var tHost = document.getElementById('type-scale');
+  if (tHost) {
+    tHost.innerHTML = TYPE.map(function (t) {
+      var col = t[1] <= 13 ? 'var(--ink-55)' : (t[2] === 'sans' ? 'var(--ink-70)' : 'var(--ink)');
+      return '<div class="ts"><span class="ts-m">--t-' + t[0] + ' · ' + t[1] + '</span>' +
+        '<span class="ts-s" style="font-family:var(--' + t[2] + ');font-weight:' + t[3] +
+        ';font-size:var(--t-' + t[0] + ');line-height:var(--t-' + t[0] + '-lh);color:' + col + '">' +
+        (t[1] >= 19 ? 'Evidence you can trace' : 'Ask a question, get an answer with receipts') + '</span></div>';
+    }).join('');
+  }
+
+  function fontNote(id, token) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var probe = document.createElement('span');
+    probe.style.fontFamily = 'var(' + token + ')';
+    document.body.appendChild(probe);
+    el.textContent = getComputedStyle(probe).fontFamily;
+    document.body.removeChild(probe);
+  }
+
+  var PANEL_COPY = {
+    warm:     ['Warm', 'A warm paper fill. Gives the page its depth and its temperature. The current value, locked in July and now reopened.'],
+    deep:     ['Deep', 'More separation and more warmth. Reads richer and heavier, and carries its own ink ramp so contrast still holds.'],
+    wash:     ['Wash', 'A neutral derived from the ink rather than its own hue. Tracks the theme automatically. The temperature goes.'],
+    flat:     ['Flat', 'No fill at all. Elevation alone separates it. Lighter, more architectural, and noticeably cooler in feel.'],
+    hairline: ['Hairline', 'No fill and no shadow. A pure drawn line. The most editorial option and the flattest.']
+  };
+
+  function refresh() {
+    swatches('sw-text', TEXT, '--panel', true);
+    swatches('sw-surface', SURFACE, '--bg', false);
+    swatches('sw-accent-sw', ACCENT, '--panel', true);
+    fontNote('fn-serif', '--serif');
+    fontNote('fn-sans', '--sans');
+    fontNote('fn-mono', '--mono');
+    var p = root.getAttribute('data-panel') || 'warm';
+    var n = document.getElementById('panel-name'), d = document.getElementById('panel-desc');
+    if (n && PANEL_COPY[p]) { n.textContent = PANEL_COPY[p][0]; d.textContent = PANEL_COPY[p][1]; }
+    var ro = document.getElementById('state-readout');
+    if (ro) ro.textContent = [root.getAttribute('data-theme'),
+      root.getAttribute('data-type'), p].join(' · ');
+  }
+
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(refresh); }
+  refresh();
+
+  /* ── motion: fire once on entry ────────────────────────────────────────── */
+  var MO = '.mo-resolve, .mo-register, .mo-sweep, .mo-stagger, .mo-settle, .band--dark';
+  function observe() {
+    if (!('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(document.querySelectorAll(MO), function (el) {
+        el.classList.add('is-in'); el.classList.add('lit');
+      });
+      return;
+    }
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('is-in');
+        if (e.target.classList.contains('band--dark')) e.target.classList.add('lit');
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.25 });
+    Array.prototype.forEach.call(document.querySelectorAll(MO), function (el) { io.observe(el); });
+    /* Backstop: anything still unfired after 2.5s is revealed regardless. An
+       element inside its own scroll container may never intersect the viewport,
+       and a missed reveal must not mean invisible content. */
+    setTimeout(function () {
+      Array.prototype.forEach.call(document.querySelectorAll(MO), function (el) {
+        if (!el.classList.contains('is-in')) { el.classList.add('is-in'); io.unobserve(el); }
+      });
+    }, 2500);
+  }
+  observe();
+
+  var replay = document.getElementById('replay');
+  if (replay) {
+    replay.addEventListener('click', function () {
+      var els = document.querySelectorAll(MO);
+      Array.prototype.forEach.call(els, function (el) { el.classList.remove('is-in', 'lit'); });
+      void document.body.offsetWidth;
+      setTimeout(observe, 40);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linked Cards in Place</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=256d5f62">
+<link rel="stylesheet" href="components.css?v=8d4342df">
+<link rel="stylesheet" href="explorations.css?v=a10e7f9b">
+<link rel="stylesheet" href="reference.css?v=21f1c94a">
+<!-- Pl. 01's clickable-card exploration, level 2 (.card.go, a card that is a
+     link carries the pixel arrow), on two real sections. It was the elevation
+     exploration; every elevation option is in the archive. The sections live
+     in explore-elevation-frame.html. -->
+</head>
+<body>
+
+<div class="ctrl">
+  <div class="ctrl-g">
+    <span class="ctrl-l">Pointer</span>
+    <div class="seg mono" id="sw-hover">
+      <button aria-pressed="true" data-v="0">At rest</button>
+      <button aria-pressed="false" data-v="1">Hover all</button>
+    </div>
+  </div>
+  <span class="spacer"></span>
+  <div class="ctrl-g ctrl-meta">
+    <span class="ctrl-l">Exploration · Pl. 01</span>
+    <a class="ctrl-link" href="brand-reference.html#foundations">Brand reference</a>
+  </div>
+</div>
+
+<div class="frames">
+  <div class="frame-note">
+    <span class="eyebrow eb-3">A card that is a link</span>
+    <p class="note">Two sections from the worked pages, with their cards made into links (<code>.card.go</code>). Each carries the call to action&rsquo;s pixel arrow at rest; under the pointer the edge darkens and the arrow steps one cell. The two features above the offers are not links, so they carry nothing. Hover the cards, or turn on Hover all.</p>
+  </div>
+  <iframe class="frame" title="Two sections from the worked pages" data-theme-frame="light"></iframe>
+</div>
+
+<script>
+(function () {
+  var frames = document.querySelectorAll('iframe[data-theme-frame]');
+  var hover = false;
+  function send() {
+    [].forEach.call(document.querySelectorAll('#sw-hover button'), function (b) { b.setAttribute('aria-pressed', String((b.dataset.v === '1') === hover)); });
+    [].forEach.call(frames, function (f) { if (f.contentWindow) f.contentWindow.postMessage({ hover: hover }, location.origin); });
+  }
+  [].forEach.call(frames, function (f) { f.src = 'explore-elevation-frame.html'; });
+  window.addEventListener('message', function (e) {
+    if (e.origin !== location.origin || !e.data || !e.data.frameHeight) return;
+    [].forEach.call(frames, function (f) { if (f.contentWindow === e.source) f.style.height = e.data.frameHeight + 'px'; });
+  });
+  document.getElementById('sw-hover').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return; hover = b.dataset.v === '1'; send();
+  });
+  send();
+})();
+</script>
+</body>
+</html>

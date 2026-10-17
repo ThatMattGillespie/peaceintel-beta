@@ -1,0 +1,50 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PEACE INTEL · REVIEW CHROME
+   Critique furniture for the three landing explorations (explore-a/b/c.html).
+   NOT CATALOG AND NEVER SHIPS. Nothing here is a brand block; it exists so a
+   section can be pointed at by name ("B3 with the C1 hero") and so the three
+   directions can be flipped between and checked in both themes.
+
+   Built from tokens like everything else, so it follows the theme and every
+   surface context without an override.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* SECTION TAG. Pinned to the top-left of its band, above whatever the band
+   carries (grid, field, veil, canvas). The html prefix is specificity, not
+   decoration: .textured > *, .gfield > *:not(canvas) and .gx > *:not(canvas)
+   all set position:relative on direct children, and this has to beat them.
+
+   --ink-70, not --ink-55: a label that exists to be read aloud in a critique
+   should clear AA on every surface, including the darkest pixel of a field. */
+html .band > .crit-tag {
+  position: absolute; top: var(--sp-3); left: var(--sp-4); z-index: 5;
+  display: flex; align-items: baseline; gap: var(--sp-2);
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase; color: var(--ink-70);
+  pointer-events: none; white-space: nowrap;
+  /* Opaque face, same rule as anything on texture: over mapped footage or a
+     field a bare label is unreadable. */
+  background: var(--bg); padding: var(--sp-1) var(--sp-2); border-radius: var(--r-xs);
+}
+.crit-tag b { color: var(--ink); font-weight: 700 }
+/* A deliberate rule break, named so it can be kept or rejected on its own. */
+.crit-tag .brk { font-style: normal; text-transform: none; letter-spacing: 0; color: var(--accent-text) }
+.crit-tag .brk::before { content: "\00b7  "; color: var(--ink-55) }
+.crit-tag i { font-style: normal; text-transform: none; letter-spacing: 0 }
+html[data-crit="off"] .crit-tag { display: none }
+@media (max-width: 620px) {
+  html .band > .crit-tag { white-space: normal; flex-wrap: wrap; right: var(--sp-4); row-gap: 0 }
+}
+
+/* SWITCHER. Fixed bottom-right: direction, theme, labels. Opaque face, since it
+   floats over fields, footage and dark bands alike. */
+.crit-bar {
+  position: fixed; right: var(--sp-4); bottom: var(--sp-4); z-index: 40;
+  display: flex; align-items: center; gap: var(--sp-2);
+  background: var(--face); border: 1px solid var(--line-2);
+  box-shadow: var(--elev-2); border-radius: var(--r-md); padding: var(--sp-2);
+}
+.crit-bar .seg button { padding: var(--sp-1) var(--sp-3) }
+@media (max-width: 620px) {
+  .crit-bar { right: var(--sp-2); bottom: var(--sp-2); left: var(--sp-2); justify-content: space-between }
+}

@@ -1,0 +1,1059 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PEACE INTEL · EXPLORATIONS
+   Not adopted. Kept out of components.css on purpose.
+
+   AGENTS.md tells Nathanael's agent to build pages from the catalog in
+   components.css. Nothing in this file is in that catalog yet, so nothing here
+   should appear in production until Matt picks from it. When something is
+   chosen it moves into components.css with its rationale and this file shrinks.
+
+   Everything here is shown in Open decisions, Pl. 16, 18 and 19 of brand-reference.html
+   (Rev 22, 2026-10-16):
+     THE VEIL              .veil, .vmap--still (Pl. 07; the footage map retired)
+     NUMBERED STEPS, OPENED .steps-open (Pl. 16 · S2)
+     THE FLOATING BAR      .fnav[data-fnav] (Pl. 19)
+     DOCUMENTARY IMAGES    .doc-shot, .doc-dark, [data-docscreen] (Pl. 18)
+     THE ASK               .ask, textarea.pt (home.html only)
+     THE CONSOLE           projects, context, memory, artifacts, sharing,
+                           dialogs (.dlg), the finder (.find-*)
+     THE NUMBERED DOCUMENT .st-*
+     DOCUMENTS             the report and deck (report.html, slides.html),
+                           with the forest plot (.viz, .forest)
+   The gradient fields left on 2026-10-15 (archive/retired.css) and the
+   rendered grid was adopted into components.css the same day. Clickable
+   cards (.card.go) were adopted on 2026-10-16, and a project's chats took
+   the arrow, F of six hovers, the same day.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ═══ C0 · THE VEIL · the treatment the dove and the glass already had ══════
+
+   Split out of .vmap on 2026-09-25, because the two were never one thing and
+   sharing a class was hiding that.
+
+   THE DISTINCTION IS WHAT THE FOOTAGE IS FOR, not how it was shot.
+
+     A VEIL is atmosphere. A subject on a seamless — the dove, the magnifying
+     glass — where the white ground can be blended away entirely, leaving a
+     dithered silhouette floating on the paper with no box and no edge. It has
+     no frame because it is not an object on the page; it is a quality of the
+     page. It sits BEHIND type, inside a composition, under a headline. That is
+     why those two clips worked and why every attempt to reuse the treatment on
+     other footage did not.
+
+     A MAP is a figure. Footage that fills its frame has no ground to blend
+     away, so it stays a rectangle and has to be presented as one: opaque,
+     mapped through the ramp, mounted, looked AT rather than through.
+
+   You cannot make a veil out of scene footage. Blending a full frame at 18%
+   leaves a grey haze with no subject in it, which is the grey-rectangle problem
+   with extra steps. If the clip has no white to lose, it is a map.
+
+   THE GRAIN IS THE ORIGINAL SITE'S, and the clips in media/ are literally that
+   pipeline's output rather than a re-derivation. Measured: hero-dove.mp4 and
+   hero-glass.mp4 carry a modal dither cell of TWO SOURCE PIXELS in a ~700px
+   master drawn across a 1120px stage, which lands at about 3.1 CSS pixels on
+   screen. Everything built since had been running at 1.6 to 2, so the veil read
+   as fine-grained where the original reads as distinctly PIXELATED — which is
+   the quality that makes it feel like a treatment rather than a compression
+   artefact. veil-dove.mp4 and veil-glass.mp4 are the originals, copied.
+
+   The encode rule that follows: a veil master is about 1.5x narrower than the
+   width it will be drawn at, with a 2px baked cell. Ship a bigger master and
+   the grain disappears; ship a smaller one and it stops reading as an image.
+
+   HOW THE REST WORKS, and it is deliberately almost nothing. Greyscale kills
+   the H.264 chroma fringing that a crisp dither provokes, multiply drops the
+   white ground to the paper, and the opacity sets how present the subject is.
+   On dark the blend inverts to screen, which is the same move the palette
+   reversal makes in .vmap[data-vmode="subject"] — one idea, two mechanisms,
+   because a veil has no palette to reverse.
+
+   THE EDGES ALWAYS FADE. Same rule as every other texture in the system: a
+   veil with a hard rectangular boundary is a video element, and the moment you
+   can see where it stops it has stopped being atmosphere. The mask is part of
+   the class, not something a page remembers to add.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.veil {
+  --veil-o: .18;          /* hero presence. Below .10 the subject disappears. */
+  position: relative; display: block; overflow: hidden;
+  pointer-events: none;
+}
+/* Behind a composition rather than beside it. The default use. */
+.veil--behind { position: absolute; inset: 0; z-index: 0 }
+/* Anchored to one side of a hero stack, added 2026-09-28. Full-bleed, the
+   subject's dark mass lands straight behind the headline, which is the one
+   thing a background must not do. So the veil fills the right half of the
+   band, from the centre line to the edge. The copy column ends a little past
+   the centre, so the head may sit just under the end of the longest lines,
+   where the edge fade has already taken most of it.
+
+   The clip FILLS the box (cover) and is framed by object-position: the dove
+   sits from 15% to 78% across its own frame, so holding the frame at 40%
+   puts the whole bird inside the box with the empty margins cropped away.
+
+   THE EDGE FADE IS ON THE BOX, NOT THE CLIP. The wings leave the frame on
+   some beats and would end in a straight line; a thin feather on all four
+   sides of the box softens that and nothing else, so the bird itself is never
+   faded. It lives on the container because the clip's own mask belongs to the
+   scroll dissolve in system.js, and two masks on one element would fight.
+
+   On one column there is no side without type, so it goes full width, back to
+   the clip's default mask, and drops to a whisper. */
+.veil--side {
+  left: 50%; right: 0; width: auto; --veil-o: .20; --veil-mask: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, #000 9%, #000 91%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+  mask-composite: intersect;
+}
+.veil.veil--side video { object-fit: cover; object-position: 40% 50% }
+/* A masked box is an isolated group, so the clip's own multiply would only
+   blend inside it and its white ground would sit over the page as a pale
+   rectangle hiding the grid. The box takes the blend instead and passes it
+   through to the band; screen on dark, as the clip does. */
+.veil--side { mix-blend-mode: multiply }
+.on-dark .veil--side,
+.surface--invert .veil--side { mix-blend-mode: screen }
+
+@media (max-width: 900px) {
+  .veil--side { left: 0; --veil-o: .12; --veil-mask: initial; -webkit-mask-image: none; mask-image: none }
+  .veil.veil--side video { object-position: 50% 50% }
+}
+
+.veil video {
+  display: block; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  mix-blend-mode: multiply;
+  opacity: var(--veil-o);
+  /* Same as everywhere else: the cell is baked small and scaled up, and
+     smoothing it would undo the treatment. */
+  image-rendering: pixelated;
+  -webkit-mask-image: var(--veil-mask, radial-gradient(ellipse 74% 78% at 50% 50%, #000 0%, #000 44%, transparent 92%));
+  mask-image: var(--veil-mask, radial-gradient(ellipse 74% 78% at 50% 50%, #000 0%, #000 44%, transparent 92%));
+}
+
+
+/* Dark. Multiply would erase the subject, so it screens and the master inverts,
+   which puts the dithered silhouette in paper tone on the dark ground. The
+   opacity comes up because a light figure at 18% on near-black is nothing. */
+.on-dark .veil video,
+.surface--invert .veil video {
+  filter: grayscale(1) invert(1) contrast(1.05);
+  mix-blend-mode: screen;
+  opacity: calc(var(--veil-o) * 1.55);
+}
+
+/* With copy on it, the veil keeps the paper's presence on a dark band too
+   (2026-10-15, Pl. 14). At the boosted 1.55 the dove's light body measured
+   about 3.4:1 under the lede; at .18 the brightest of it leaves the lede over
+   4.5:1, and the bird is still plainly there. */
+.on-dark .veil--behind video,
+.surface--invert .veil--behind video { opacity: var(--veil-o) }
+
+/* Anything sitting on a veil is ordinary markup on the page, because the veil
+   is behind the page's own background as far as the type is concerned. That is
+   the whole advantage over a field: nothing needs an opaque face, nothing needs
+   a contrast exception, and the copy is legible with the video missing. */
+.veil ~ * { position: relative; z-index: 1 }
+
+@media (prefers-reduced-motion: reduce) {
+  /* The subject stays, the movement goes. A still frame of a dithered dove is
+     still the brand; an empty band is not. */
+  .veil video { animation-play-state: paused }
+}
+
+/* ═══ C1 · MAPPED VIDEO ═══════════════════════════════════════════════════
+
+   The brand's motion assets were all shot against white: a dove, a magnifying
+   glass, objects on a seamless. Those composite onto a light page with a
+   multiply blend and disappear into it, and they now have their own class —
+   see .veil above, which is the treatment those two clips always had. A
+   full-bleed scene has no white to blend away, so the same treatment leaves a
+   grey rectangle sitting on the page, and that is the case THIS section is
+   about.
+
+   The answer is the same one the gradient fields use: stop treating the asset
+   as an image with colours of its own and map it through the brand ramp.
+   Luminance in, token out, dithered at runtime in canvas from a plain
+   greyscale master. One file, and it cannot go out of sync with the palette.
+   The baked alternative and the comparisons are in the archive (2026-10-15).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* THE LIGHT RAMP IS MONOCHROME, 2026-09-25. It used to fold the accent through
+   the middle five stops, which made every treated clip on a light page a warm
+   orange object — the largest chroma-carrying element on whatever page it
+   appeared on, and the same mistake the gradient fields were making.
+
+   Paper to ink, evenly stepped. The dither supplies the apparent smoothness, so
+   the stops do not need easing. */
+.vmap {
+  --v-0: var(--bg);
+  --v-1: color-mix(in srgb, var(--ink) 8%,  var(--bg));
+  --v-2: color-mix(in srgb, var(--ink) 20%, var(--bg));
+  --v-3: color-mix(in srgb, var(--ink) 36%, var(--bg));
+  --v-4: color-mix(in srgb, var(--ink) 55%, var(--bg));
+  --v-5: color-mix(in srgb, var(--ink) 76%, var(--bg));
+  --v-6: var(--ink);
+
+  position: relative; overflow: hidden; background: var(--bg);
+  aspect-ratio: 16 / 9; display: block;
+}
+
+.vmap video, .vmap canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  /* The cell is baked small and scaled up. Smoothing it would undo the whole
+     treatment, so the upscale stays hard. */
+  image-rendering: pixelated;
+}
+.vmap canvas { z-index: 1 }
+/* With script off the mono master is what shows, which is the current brand
+   treatment and a correct fallback rather than a broken one. */
+[data-js] .vmap[data-vmap] video { visibility: hidden }
+
+/* A STILL SUBJECT, mapped through the same ramp as the clips.
+   Added 2026-09-28. `.vmap` assumes a rectangle of footage that fills its frame,
+   which is why it is opaque, 16/9 and edge-to-edge only. A subject shot on a
+   seamless is the other case: the ramp's stop 0 is --bg, so the white ground
+   maps to the page tone and dissolves on its own. There is no rectangle left,
+   which is the entire reason a map may not be inset — so this one may be.
+
+   It keeps the ramp and the pixelated upscale and drops the box. */
+.vmap--still {
+  aspect-ratio: 1 / 1;
+  background: transparent;
+  overflow: visible;
+}
+.vmap--still img, .vmap--still canvas { object-fit: contain }
+/* The source image sits under the canvas exactly as the canvas does. Left in
+   flow it kept its natural 200px and pushed a narrow column wider than a
+   phone (found 16 October, in Pl. 07's series). */
+.vmap--still img { position: absolute; inset: 0; width: 100%; height: 100%; display: block }
+[data-js] .vmap--still[data-vmap] img { visibility: hidden }
+
+/* A STILL VEIL'S GROUND IS THE SURFACE IT SITS ON.
+   Stop 0 of the ramp is --bg, which is correct on the page tone and wrong
+   everywhere else: on a raised band the white ground of the master maps to the
+   page colour and the figure renders as a white rectangle sitting on a grey
+   band, which is the exact "imported asset" look the placement rule exists to
+   prevent. The ground has to be told what it is dissolving into. */
+.surface--ground .vmap--still { --v-0: var(--ground) }
+.surface--ground-2 .vmap--still { --v-0: var(--ground-2) }
+.on-dark .vmap--still,
+.band--dark .vmap--still { --v-0: var(--on-dark-surface) }
+/* An inverted band's ground is its own --bg, in either direction. */
+.surface--invert .vmap--still { --v-0: var(--bg) }
+
+/* ============================================================================
+   HELD FROM HOME. Built 2026-10-08, held 2026-10-09
+   ----------------------------------------------------------------------------
+   home.html needed these and uses them, and they are not adopted. They live
+   here for the same reason everything else in this file does: a shape in
+   components.css reaches production by default. Shown in Pl. 19 of
+   brand-reference.html. Two decisions are open, and each is all-or-nothing:
+
+   THE ICONS were adopted on 2026-10-15 and moved to components.css.
+
+   THE ASK. .ask, the editable prompt and .blank-wrap are closer to product
+   behaviour than to brand. They come with two drivers in system.js, SWITCH and
+   PROMPTS, which are marked as held there.
+
+   Moved from components.css unchanged; nothing below was edited.
+   ============================================================================ */
+
+/* ASK. The prompt as a section's subject, with the suggestion pills that fill
+   it. Pills first, because they are the offer and the prompt is where the
+   offer lands. */
+.ask { max-width: var(--col-text); margin: 0 auto }
+.ask .pills { justify-content: center }
+/* In a tray (2026-10-14) the row fills the column, so the recess is one band
+   under the prompt rather than a box the width of whichever pills fit. */
+.ask .pills.tray { display: flex }
+.ask .pills + .prompt { margin-top: var(--sp-8) }
+/* On a phone five pills centred in a wrap came out 1 / 2 / 1 / 1. As one
+   column they read as the list of workflows they are. */
+@media (max-width: 620px) {
+  .ask .pills { display: grid; grid-template-columns: minmax(0, 1fr) }
+  .ask .pill { justify-content: center }
+}
+.prompt .composer-bar { margin-top: var(--sp-5) }
+.prompt:focus-within { border-color: var(--ink-35) }
+
+/* A PROMPT THAT TAKES INPUT. .pt was drawn as a picture of a question, muted
+   with its key terms in bold ink. When it is the real field the words are the
+   reader's own and take full ink. The field draws no box of its own: the
+   prompt is the box, and its focus state is the prompt's. Three lines tall at
+   rest, growing with the text where field-sizing is supported. */
+.prompt textarea.pt {
+  display: block; width: 100%; padding: 0;
+  border: 0; border-radius: 0; background: none; box-shadow: none;
+  resize: none; outline: none;
+  font-size: var(--t-prompt); line-height: 1.4; color: var(--ink);
+  field-sizing: content; min-height: calc(var(--t-prompt) * 1.4 * 3);
+}
+
+/* ============================================================================
+   EXPLORATIONS FROM 9 OCT · each one waiting on a pick
+   ----------------------------------------------------------------------------
+   Built in answer to the 9 October review of the reference. Every block here is
+   a set of options shown side by side in the plate named in its header. The
+   picked option moves to components.css with its rationale; the rest go to
+   archive/retired.css. Nothing here is for pages.
+   ============================================================================ */
+
+
+/* ── WHAT LEAVES THE CONSOLE: THE REPORT AND THE DECK (report.html,
+   slides.html, exploration, 15 October) ──────────────────────────────────────
+   What someone pays for is the document they forward. Until now the console's
+   PDF was Times and Helvetica. Two templates, built from the system's parts:
+
+     THE REPORT   A4. A cover (the lockup, the title, who it is for, the key
+                  to the tier marks), then the numbered document from Pl. 20
+                  with its numerals in the margin, citations as the citation
+                  chips, figures from Pl. 22 and a list of sources each with
+                  its tier mark. On screen it is a stack of sheets on the panel;
+                  printed, each sheet is a page, the cover bleeds and the rest
+                  carry a running head and folio from @page.
+     THE DECK     16:9 at 1280 by 720, scaled to the window on screen and
+                  printed one slide to a page, so a PDF of it is the deck. Six
+                  layouts: title, section (the icon margin), statement,
+                  evidence, chart, close. The title and close are dark and
+                  print dark ([data-print-as-is]). */
+.rp { --rp-w: 210mm; --rp-h: 297mm; padding: var(--sp-10) var(--sp-4); background: var(--ground); min-height: 100vh }
+.rp-sheet { width: min(var(--rp-w), 100%); margin: 0 auto var(--sp-8); padding: 18mm 16mm 20mm; background: var(--bg); border: 1px solid var(--line-2) }
+.rp-cover { min-height: var(--rp-h); display: flex; flex-direction: column; padding: 16mm }
+.rp-cover .rp-logo { height: var(--sp-8); width: auto; align-self: flex-start }
+.rp-cover .rp-kind { margin-top: auto; font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55) }
+.rp-cover h1 { margin-top: var(--sp-4); font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-display); line-height: var(--t-display-lh); text-wrap: balance; max-width: 16ch }
+.rp-cover .lede { margin-top: var(--sp-5); max-width: 46ch }
+.rp-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4); margin-top: var(--sp-12); padding-top: var(--sp-4); border-top: 2px solid var(--ink) }
+.rp-meta dt { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.rp-meta dd { margin: var(--sp-1) 0 0; font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink) }
+.rp-key { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); margin-top: var(--sp-8); font-size: var(--t-sm); color: var(--ink-70) }
+.rp-key span { display: inline-flex; align-items: center; gap: var(--sp-2) }
+.rp-key .t1, .rp-key .t2 { color: var(--accent-text) }
+.rp-run { display: flex; justify-content: space-between; margin-bottom: var(--sp-10); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--line-2); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.rp-body { container-type: inline-size; --st-top: 0px }
+.rp-body .st-num { position: static }
+.rp-body .st-sec + .st-sec { margin-top: var(--sp-10) }
+.rp-body .st-body h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.rp-body .st-body p { font-size: var(--t-body); line-height: 1.7; color: var(--ink-70) }
+.rp-body .st-body p + p, .rp-body .st-body h3 + p { margin-top: var(--sp-4) }
+.rp-body .st-body > .viz, .rp-body .st-body > .sheet-v, .rp-body .st-body > .rp-finding { margin-top: var(--sp-6) }
+/* A figure or a table takes the full width of the text block, margin column
+   and all, the way a printed report breaks a figure out of the measure. */
+.rp-body .st-body > .viz, .rp-body .st-body > .sheet-v { margin-left: calc((var(--sp-26) + var(--sp-8) + var(--sp-8)) * -1) }
+.rp-finding { padding: var(--sp-5) var(--sp-6); border-left: 2px solid var(--accent); background: var(--fill) }
+.rp-finding b { display: block; font-family: var(--mono); font-weight: 400; font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--accent-text) }
+.rp-finding p { margin-top: var(--sp-2); font-family: var(--serif); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink) }
+.rp-body .sheet-t thead th { position: static }
+.rp-refs { display: grid; gap: var(--sp-3); counter-reset: ref }
+.rp-refs li { display: grid; grid-template-columns: var(--sp-8) minmax(0, 1fr); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-70) }
+.rp-refs .n { font-family: var(--mono); color: var(--ink) }
+.rp-refs .n i { font-style: normal; color: var(--accent-text) }
+.rp-refs .t3 .n i { color: var(--ink-55) }
+.rp-refs em { color: var(--ink) }
+@media print {
+  @page cover { margin: 0 }
+  .rp { padding: 0; background: none; min-height: 0 }
+  .rp-sheet { width: auto; margin: 0; padding: 0; border: 0; background: none; break-after: page }
+  .rp-body .sheet-v { overflow: visible; border-radius: 0 }
+  .rp-sheet:last-child { break-after: auto }
+  .rp-cover { page: cover; height: var(--rp-h); min-height: 0; padding: 16mm }
+  .rp-run { display: none }
+}
+
+/* overflow-x: clip keeps an unscaled slide from widening a phone's layout
+   viewport before the script has measured it. */
+.deck { --sl-w: 1280px; --sl-h: 720px; padding: var(--sp-8) var(--sp-4); background: var(--ground); display: grid; justify-items: center; gap: var(--sp-6); overflow-x: clip }
+.slide { width: var(--sl-w); height: var(--sl-h); zoom: var(--sl-k, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; padding: var(--sp-16) var(--sp-18); background: var(--bg); border: 1px solid var(--line-2); scroll-snap-align: center }
+.slide .sl-foot { position: absolute; left: var(--sp-18); right: var(--sp-18); bottom: var(--sp-8); display: flex; justify-content: space-between; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55) }
+.slide .sl-kick { font-family: var(--mono); font-size: var(--eb-1); letter-spacing: var(--eb-1-ls); text-transform: uppercase; color: var(--ink-55) }
+.slide h2 { margin-top: var(--sp-5); font-family: var(--serif); font-weight: var(--serif-w-display); font-size: calc(var(--t-display) * 1.3); line-height: 1.12; text-wrap: balance; max-width: 20ch }
+.slide .sl-sub { margin-top: var(--sp-6); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink-70); max-width: 52ch }
+.sl-title { justify-content: flex-end }
+.sl-title .sl-logo { position: absolute; top: var(--sp-16); left: var(--sp-18); height: var(--sp-10); width: auto }
+.sl-title h2 { font-size: calc(var(--t-display) * 1.6); max-width: 18ch }
+.sl-section { flex-direction: row; align-items: center; gap: var(--sp-16) }
+.sl-section .px-icon { width: calc(var(--icon-px) * 2); height: calc(var(--icon-px) * 2) }
+.sl-section h2 { margin-top: var(--sp-2) }
+.sl-statement { justify-content: center }
+.sl-statement blockquote { margin: 0; font-family: var(--serif); font-weight: var(--serif-w-display); font-size: calc(var(--t-display) * 1.15); line-height: 1.25; color: var(--ink); max-width: 26ch; text-wrap: balance }
+.sl-statement .sl-src { margin-top: var(--sp-8); font-size: var(--t-ui); color: var(--ink-55) }
+.sl-evidence .rule-row { margin-top: auto; margin-bottom: var(--sp-10) }
+.sl-evidence .rule-row h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.sl-evidence .rule-row p { margin-top: var(--sp-3); font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+.sl-chart h2 { font-size: var(--t-h1); line-height: var(--t-h1-lh); max-width: 30ch }
+.sl-chart .viz { margin-top: auto; margin-bottom: var(--sp-8); border: 0; padding: 0 }
+.sl-close { justify-content: center }
+.sl-close .row { margin-top: var(--sp-10) }
+@media print {
+  @page deck { size: 1280px 720px; margin: 0 }
+  .deck { padding: 0; gap: 0; background: none; display: block }
+  .slide { page: deck; zoom: 1; border: 0; break-after: page }
+  .slide:last-child { break-after: auto }
+}
+
+/* ── DATA (exploration, 15 October) ─────────────────────────────────────────
+   Pl. 22 was removed the same day (Matt); its bars, texture series and map
+   are in archive/retired.css. What is left is what report.html and
+   slides.html use: the chart frame and the forest plot. The language below
+   is kept, because it still governs any chart drawn from these parts.
+
+   Development banks and evaluators think in effect sizes, intervals, rankings
+   and maps, and the system had no way to draw any of them. The language,
+   from the brand's own parts:
+
+     ONE ACCENT PER CHART   the finding: the pooled estimate, the bar the
+                            sentence above is about, the country in focus.
+                            Everything else is ink.
+     SERIES BY TEXTURE      not by hue: solid ink, a hatch, the dither screen,
+                            an outline. One accent and one ink cannot carry
+                            five series in colour, and texture survives a
+                            black-and-white printer and every kind of colour
+                            blindness, which a palette of hues does not.
+     A RAMP OF DENSITIES    a map's sequence is the dither screen at four
+                            pitches, so a choropleth is drawn in the same
+                            screen as the icons, the video and the elevation
+                            the brand tried.
+     THE POINT IS THE MARK  in a forest plot each study's estimate is drawn
+                            with its tier mark (● ◐), so the strength of the
+                            evidence is on the chart, not in a footnote.
+     NUMBERS IN MONO        tabular, labelled directly at the end of the
+                            mark; a legend only where a map needs one.
+     EVERY CHART SAYS WHERE a source line in the note style, and
+                            "Illustrative values" until the data is real. */
+:root {
+  --viz-focus: var(--accent);
+  --viz-axis: var(--line-2);
+  --viz-grid: var(--line);
+  --viz-fill-1: var(--ink);
+}
+.viz { container-type: inline-size; margin: 0; padding: var(--sp-6); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-md) }
+.viz-h { display: grid; gap: var(--sp-1); margin-bottom: var(--sp-6) }
+.viz-h b { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink) }
+.viz-h span { font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.viz-src { margin-top: var(--sp-5); padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.viz-flag { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+
+/* The forest plot: a label, a track and the value, per row. The track's
+   positions are percentages of the axis, set on the row as --lo, --est, --hi;
+   --zero places the line of no effect, and the pooled row's diamond takes
+   --peak, where the estimate falls inside its own interval. */
+.forest { display: grid; grid-template-columns: minmax(0, calc(var(--sp-26) * 1.7)) minmax(0, 1fr) minmax(0, calc(var(--sp-26) + var(--sp-8))); column-gap: var(--sp-4); font-variant-numeric: tabular-nums }
+.fp-row { display: contents }
+.fp-l { align-self: center; padding: var(--sp-2) 0; font-size: var(--t-ui); color: var(--ink) }
+.fp-l small { display: block; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.fp-t { position: relative; min-height: calc(var(--sp-8) + var(--sp-2)); background: linear-gradient(var(--viz-axis), var(--viz-axis)) var(--zero) 0 / 1px 100% no-repeat }
+.fp-ci { position: absolute; top: 50%; left: var(--lo); width: calc(var(--hi) - var(--lo)); height: 2px; transform: translateY(-50%); background: var(--viz-fill-1) }
+.fp-pt { position: absolute; top: 50%; left: var(--est); transform: translate(-50%, -50%); font-family: var(--mono); font-style: normal; font-size: var(--t-h4); line-height: 1; color: var(--ink); background: var(--bg); border-radius: var(--r-full) }
+.fp-v { align-self: center; justify-self: end; font-family: var(--mono); font-size: var(--eb-3); color: var(--ink) }
+.fp-pool .fp-l { font-weight: 600 }
+.fp-pool .fp-t { border-top: 1px solid var(--line-2) }
+.fp-pool .fp-ci { display: none }
+.fp-pool .fp-pt { left: var(--lo); width: calc(var(--hi) - var(--lo)); height: var(--sp-4); transform: translateY(-50%); background: var(--viz-focus); border-radius: 0; clip-path: polygon(0 50%, var(--peak, 50%) 0, 100% 50%, var(--peak, 50%) 100%) }
+.fp-pool .fp-v { color: var(--accent-text); font-weight: 700 }
+.fp-axis { position: relative; height: var(--sp-6); border-top: 1px solid var(--viz-axis) }
+.fp-axis span { position: absolute; top: var(--sp-1); transform: translateX(-50%); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+.fp-dir { display: flex; gap: var(--sp-4); justify-content: space-between; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+/* In a narrow figure the labels and values give up room to the track. */
+@container (max-width: 560px) {
+  .forest { grid-template-columns: minmax(0, var(--sp-26)) minmax(0, 1fr) minmax(0, calc(var(--sp-26) - var(--sp-4))) }
+  .fp-l small { display: none }
+  .fp-v { font-size: var(--eb-4) }
+}
+
+/* ── PROJECTS IN THE CONSOLE (Pl. 08, round three, 15 October) ─────────────
+   Matt: how should project management sit in the interface, taking what works
+   from the products people already use? Round one was three stills; round two
+   wired them into the console (prototypes.js). Round three is an overhaul,
+   after Matt's screenshots of Claude's project page and a look at ChatGPT and
+   NotebookLM: the right-hand pane becomes the project's own panel, a
+   project's parts are renamed, and its page becomes the raised surface.
+   Nothing here is for the product yet.
+
+     THE RAIL       projects are a section of the rail, above the recent
+                    chats. The open project shows its chats on a hairline and
+                    a line for its artifacts; a shared one carries the people
+                    glyph.
+     THE PAGE       a project opens to its own page, on the raised surface so
+                    it never reads as a chat: what it is for, a composer that
+                    starts a chat in it, and its chats and artifacts in a tray
+                    (ChatGPT's Chats and Sources tabs).
+     THE PANEL      the right-hand pane on a project's page, after Claude's:
+                    instructions, context and memory, each a row that opens a
+                    dialog, then who it is shared with. The whole library has
+                    no job on that page (Matt). In a chat the pane is the
+                    library again, led by the papers the chat cites, because
+                    a citation opens its paper there. The panel does not
+                    fold; under 1080px it sits in the page.
+     CONTEXT        what a project's chats draw on beside the library: files
+                    people upload, notes typed in, papers picked from the
+                    library. It was "sources", which collided with documents
+                    once a document could be uploaded as one (Matt). It lives
+                    in a dialog, as a table you can search, open, select and
+                    remove from, with what the project has room for (Claude's).
+                    Files can also be dropped on the console or the dialog.
+     MEMORY         what Peace Intel has kept from the project's chats, each
+                    item forgettable, and whether the project may use memory
+                    from outside it. A shared project may not (ChatGPT's rule).
+     ARTIFACTS      what a project's chats make: a written document, a
+                    spreadsheet, a PDF. It was "documents". One registry of
+                    kinds, each with its own icon, its own page and its own
+                    download formats. Every one renames in place.
+     THE CHAT       inside a project the toolbar names it as a breadcrumb, and
+                    nothing else does: the line in the composer that said
+                    which sources the answer drew on is gone (Matt: people
+                    know how projects work by now).
+     SHARING        from the toolbar, and from the foot of the panel: invite by
+                    email as an editor or a viewer, change or remove anyone,
+                    copy a link. Chats started by someone else carry their
+                    initials. */
+
+/* The rail, sectioned. */
+.pj-sec + .pj-sec { margin-top: var(--sp-6) }
+.pj-sec-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-1) }
+.pj-sec-h .icon-btn { width: var(--sp-6); height: var(--sp-6) }
+.pj-sec-h .glyph { width: var(--sp-4); height: var(--sp-4) }
+.pj-item {
+  display: flex; align-items: center; gap: var(--sp-2); width: 100%; text-align: left;
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  font-size: var(--t-ui); color: var(--ink); transition: background var(--mo-base);
+}
+.pj-item:hover { background: var(--wash-1) }
+.pj-item[aria-current="true"] { background: var(--bg); box-shadow: inset 0 0 0 1px var(--line-2) }
+.pj-item .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55) }
+.pj-item > span:first-of-type { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pj-item .pj-shared { width: var(--sp-3); height: var(--sp-3); margin-left: auto }
+.pj-item .pj-shared + .pj-n { margin-left: 0 }
+.pj-n { margin-left: auto; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); color: var(--ink-55); font-variant-numeric: tabular-nums }
+/* A project's own chats hang from it on a hairline, so the nesting is drawn
+   rather than only indented. */
+.pj-kids { margin: var(--sp-1) 0 var(--sp-2) calc(var(--sp-3) + var(--sp-2)); padding-left: var(--sp-2); border-left: 1px solid var(--line-2) }
+.pj-kids .thread { padding: var(--sp-2) var(--sp-3) }
+/* The last line under an open project: a quiet mono line that goes
+   somewhere. */
+.pj-more {
+  display: flex; align-items: center; gap: var(--sp-2); width: 100%; text-align: left;
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55);
+  transition: background var(--mo-base), color var(--mo-base);
+}
+.pj-more:hover { background: var(--wash-1); color: var(--ink) }
+.pj-more .glyph { width: var(--sp-4); height: var(--sp-4) }
+
+/* The breadcrumb. */
+.pj-crumb { display: flex; align-items: center; gap: var(--sp-1); min-width: 0; font-size: var(--t-ui); color: var(--ink-55) }
+.pj-crumb a, .pj-crumb button { color: var(--ink-55); white-space: nowrap; transition: color var(--mo-fast) }
+.pj-crumb a:hover, .pj-crumb button:hover { color: var(--ink) }
+.pj-crumb .glyph { width: var(--sp-4); height: var(--sp-4); flex: none }
+.pj-crumb .cur { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pj-crumb > button, .pj-crumb > a { min-width: 0; overflow: hidden; text-overflow: ellipsis }
+/* On a phone the toolbar also holds the rail's two tools, so the crumb keeps
+   only the project, truncated; the chat it names is the page below it. */
+@media (max-width: 640px) {
+  .app-tools .pj-crumb > .glyph:not(:first-child), .app-tools .pj-crumb .cur { display: none }
+  /* Share opens the same list of people the avatars show. */
+  .app-tools .pj-people { display: none }
+}
+
+/* Who a project is shared with: initials, overlapped, each cut out of what
+   is behind it by a ring of that surface. */
+.pj-people { display: flex; align-items: center; padding-left: var(--sp-1); --ring: var(--bg) }
+.pj-people .avatar { width: var(--sp-6); height: var(--sp-6); margin-left: calc(var(--sp-1) * -1); font-size: var(--eb-4); box-shadow: 0 0 0 2px var(--ring) }
+.pj-by { width: var(--sp-5); height: var(--sp-5); font-size: var(--eb-4); flex: none }
+
+/* A PROJECT'S PAGE is set back (.surface--ground-2 on the column, the sides'
+   own tone since 2026-10-16), so the place you manage a project never reads
+   as the page you chat on. Cards
+   on it stay the page tone and lift off it; the composer keeps the tray it has
+   in a chat. */
+.app-main[data-view="project"] { --obj-ground: var(--ground-2) }
+.app-main[data-view="project"] .composer { --tray: var(--ground) }
+.pj-home { max-width: var(--col-chat); margin: 0 auto; padding-bottom: var(--sp-10) }
+.pj-title { display: flex; align-items: baseline; gap: var(--sp-2); font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h2); line-height: var(--t-h2-lh) }
+.pj-title .icon-btn { align-self: center }
+.pj-home > .lede { margin-top: var(--sp-3) }
+.pj-home > .composer { margin: var(--sp-8) 0 var(--sp-10); max-width: none }
+.pj-tabs .pj-n { margin-left: var(--sp-2); color: inherit }
+.pj-tab { margin-top: var(--sp-4) }
+.pj-list > * { border-bottom: 1px solid var(--line) }
+.pj-row { display: flex; align-items: center; gap: var(--sp-3); width: 100%; text-align: left; padding: var(--sp-4) 0; font-size: var(--t-ui); color: var(--ink); transition: color var(--mo-fast) }
+/* HOVERING A CHAT IN A PROJECT: THE ARROW (Matt picked F of six,
+   2026-10-16). The row has no box, and turning its words --accent-text read
+   too heavy, so the call to action's pixel arrow appears at the row's end and
+   steps a cell, as on .card.go: "this goes somewhere", in ink. .is-hover holds
+   it still on the reference. The other five are in the archive. */
+.pj-row { --row-on: 0 }
+.pj-row:is(:hover, :focus-visible, .is-hover) { --row-on: 1 }
+.pj-row::after {
+  content: ""; flex: none; width: calc(var(--dither-cell) * 4px); height: calc(var(--dither-cell) * 5px); background: var(--ink);
+  -webkit-mask: var(--px-arrow) center / contain no-repeat; mask: var(--px-arrow) center / contain no-repeat;
+  opacity: var(--row-on); transform: translateX(calc(var(--dither-cell) * 1px * var(--row-on) - var(--dither-cell) * 1px)); transition: opacity var(--mo-fast), transform var(--mo-fast);
+}
+/* No hover turns words orange (Matt, 2026-10-15). An artifact is a card, so
+   its edge darkens (below); a context name is a text link, so it takes the
+   text link's rule. */
+.ctx-n button { border-bottom: 1px solid transparent; transition: border-color var(--mo-fast) }
+.ctx-n button:hover { border-bottom-color: var(--ink) }
+.pj-row > span:first-child { flex: 1; min-width: 0 }
+.pj-m { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); white-space: nowrap }
+.pj-empty { padding: var(--sp-4) 0; font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+
+/* An artifact: a card, because it is an object you open, keep and send. Its
+   name is the link; rename and download sit at its end, quiet but always
+   there, so neither depends on a hover. Under the pointer its edge darkens,
+   like a library entry: in a list inside the console, being an object is
+   what says it opens. The icon and the legend say its
+   kind. The grid leaves room above each card for the legend. */
+.pj-docs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: var(--sp-5) var(--sp-4); padding-top: var(--sp-3) }
+.pj-doc {
+  display: flex; align-items: center; gap: var(--sp-1); padding-right: var(--sp-2);
+  background: var(--face); border: 1px solid var(--line-2); border-radius: var(--r-md);
+  transition: border-color var(--mo-fast);
+}
+.pj-doc:hover { border-color: var(--ink-35) }
+.pj-doc-open { flex: 1; min-width: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-3); align-items: center; text-align: left; padding: var(--sp-4) 0 var(--sp-4) var(--sp-4); color: var(--ink) }
+.pj-doc-open > .glyph { width: var(--sp-5); height: var(--sp-5); color: var(--ink-55); grid-row: span 2 }
+.pj-doc-t { font-size: var(--t-ui); font-weight: 600; letter-spacing: var(--t-ui-ls); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: color var(--mo-fast) }
+.pj-doc-open .pj-m { margin-top: var(--sp-1); grid-column: 2; overflow: hidden; text-overflow: ellipsis }
+.pj-doc .icon-btn { width: var(--sp-7); height: var(--sp-7) }
+.pj-doc .icon-btn .glyph { width: var(--sp-4); height: var(--sp-4) }
+
+/* Renaming happens in place: the name becomes a field of the same size,
+   Enter keeps it, Escape puts it back. */
+.pj-rename {
+  font: inherit; color: var(--ink); letter-spacing: inherit; width: 100%; min-width: 0;
+  background: var(--bg); border: 1px solid var(--ink-35); border-radius: var(--r-sm);
+  padding: 0 var(--sp-1); margin: 0 calc(var(--sp-1) * -1); box-shadow: var(--elev-1); outline: none;
+}
+
+/* An artifact saved from a chat stays findable from that chat: a card after
+   the answer, the whole card the link. */
+.pj-saved {
+  display: flex; align-items: center; gap: var(--sp-3); width: 100%; text-align: left;
+  margin: calc(var(--sp-3) * -1) 0 var(--sp-7); padding: var(--sp-3) var(--sp-4);
+  background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-md);
+  transition: border-color var(--mo-fast);
+}
+.pj-saved:hover { border-color: var(--ink-35) }
+.pj-saved .glyph { color: var(--ink-55) }
+.pj-saved span { display: block }
+.pj-saved .pj-m { margin-top: var(--sp-1) }
+
+/* THE PROJECT PANEL. Rows like Claude's: an icon, the part's name and its
+   count, the one action at the end, and under them a line that says what is
+   there, so the panel answers "what does this project know" without opening
+   anything. The actions are quiet, as in the composer. */
+.pane-head .ph-glyph { width: var(--sp-5); height: var(--sp-5); color: var(--ink) }
+.pane-body.pp { gap: 0; padding: 0 var(--sp-4) }
+.pp-row { padding: var(--sp-4) 0; border-bottom: 1px solid var(--line) }
+.pp-h { display: flex; align-items: center; gap: var(--sp-2) }
+.pp-open { flex: 1; min-width: 0; display: flex; align-items: center; gap: var(--sp-3); text-align: left; font-size: var(--t-ui); font-weight: 600; color: var(--ink) }
+.pp-open .glyph { width: var(--sp-5); height: var(--sp-5); color: var(--ink-55) }
+.pp-open .pj-n { margin-left: 0; font-weight: 400 }
+.pp-open:hover > span:first-of-type { text-decoration: underline; text-decoration-color: var(--ink-35); text-underline-offset: 3px }
+.pp-h .act { border-color: transparent }
+.pp-h .act:hover { background: var(--wash-1); border-color: transparent }
+.pp-d {
+  margin: var(--sp-2) 0 0 calc(var(--sp-5) + var(--sp-3));
+  font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.pp-foot { display: flex; align-items: center; gap: var(--sp-3); width: 100%; text-align: left; padding: var(--sp-4) 0; font-size: var(--t-sm); color: var(--ink-55); transition: color var(--mo-fast) }
+.pp-foot:hover { color: var(--ink) }
+.pp-foot > .glyph { width: var(--sp-5); height: var(--sp-5) }
+.pp .pj-people, .pj-aside .pj-people { --ring: var(--ground-2) }
+/* The panel in the page, for a screen too narrow for a pane. On a wide one
+   the pane does not fold on a project's page (Matt), so it is always there. */
+.pj-aside { display: none; margin: calc(var(--sp-4) * -1) 0 var(--sp-10); border-top: 1px solid var(--line-2) }
+@media (max-width: 1080px) { .pj-aside { display: block } }
+
+/* Picking papers for a project's context: the library in the pane, an add
+   button on each entry, and Done to go back to the panel. */
+.lib-pick { position: relative; padding-right: calc(var(--sp-4) + var(--sp-8)) }
+.lib-pick .icon-btn { position: absolute; top: var(--sp-3); right: var(--sp-3) }
+.pane-meta-row { display: flex; align-items: center; gap: var(--sp-2) }
+.pane-meta-row .pane-meta { flex: 1; min-width: 0 }
+/* Files held over the console while a project is open. */
+.app[data-drop] .app-main { outline: 1px dashed var(--ink-35); outline-offset: calc(var(--sp-2) * -1) }
+
+/* A new chat, before the first question. */
+.app-empty { min-height: 100%; display: grid; place-content: center; text-align: center; gap: var(--sp-2) }
+.app-empty h2 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h2); line-height: var(--t-h2-lh) }
+.app-empty p { font-size: var(--t-ui); color: var(--ink-55) }
+
+/* A menu (export, download, add) and a panel (share). Both open in the top
+   layer (the popover attribute), so no scrolling column can clip them. */
+.menu, .pop {
+  inset: auto; margin: 0; padding: var(--sp-1);
+  background: var(--bg); color: var(--ink); border: 1px solid var(--line-2); border-radius: var(--r-md); box-shadow: var(--elev-3);
+}
+.menu { min-width: calc(var(--sp-26) * 2) }
+.menu button {
+  display: flex; align-items: center; gap: var(--sp-2); width: 100%; text-align: left;
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); font-size: var(--t-ui); color: var(--ink);
+  transition: background var(--mo-fast);
+}
+.menu button:hover, .menu button:focus-visible { background: var(--wash-2); outline: none }
+.menu button .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55) }
+.menu button small { margin-left: auto; padding-left: var(--sp-4); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.menu-l { display: block; padding: var(--sp-2) var(--sp-3) var(--sp-1); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.menu hr, .pop hr { border: 0; border-top: 1px solid var(--line); margin: var(--sp-1) 0 }
+
+.pop { width: min(calc(var(--sp-26) * 4), calc(100vw - var(--sp-8))); padding: var(--sp-5) }
+.pop-h b { display: block; font-weight: 600; font-size: var(--t-ui) }
+.pop-h p { margin-top: var(--sp-1); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.pop-invite { display: flex; gap: var(--sp-2); margin: var(--sp-4) 0 var(--sp-2) }
+.pop-invite .input { flex: 1; min-width: 0 }
+.pop select.input { flex: none; width: auto; font-size: var(--t-ui); padding-left: var(--sp-2); padding-right: var(--sp-2) }
+.pop-err { font-size: var(--t-sm); color: var(--ink); margin-bottom: var(--sp-2) }
+.pop .menu-l { padding: var(--sp-3) 0 var(--sp-1) }
+.pop-people { display: grid; gap: var(--sp-1) }
+.pop-people li { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-1) 0; font-size: var(--t-ui) }
+.pop-people li > span:nth-child(2) { flex: 1; min-width: 0 }
+.pop-people b { display: block; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pop-people small { display: block; font-size: var(--t-sm); color: var(--ink-55); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pop-people .pj-m { color: var(--ink-55) }
+.pop-foot { display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-4); padding-top: var(--sp-4); border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-55) }
+
+/* THE DIALOG: a project's context, memory, instructions and notes, one at a
+   time, over a scrim (Claude's). A head with the title, its count and its
+   tools; a line that says what this is; the body, which scrolls; a foot with
+   what to do next. No entrance motion, because motion is a closed set. */
+.dlg {
+  width: min(calc(var(--sp-26) * 6), calc(100vw - var(--sp-8))); max-height: min(calc(100vh - var(--sp-16)), calc(var(--sp-26) * 7));
+  padding: 0; margin: auto; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line-2); border-radius: var(--r-lg); box-shadow: var(--elev-3);
+}
+.dlg[data-view="context"] { width: min(calc(var(--sp-26) * 8), calc(100vw - var(--sp-8))) }
+.dlg[open] { display: flex; flex-direction: column }
+.dlg::backdrop { background: var(--scrim) }
+.dlg-in, .dlg-form { flex: 1; min-height: 0; display: flex; flex-direction: column }
+.dlg-h { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2); padding: var(--sp-5) var(--sp-5) 0 var(--sp-6) }
+.dlg-h h2 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh); outline: none }
+.dlg-h h2, .dlg-h .pj-n { align-self: baseline }
+.dlg-h .pj-n { margin-left: var(--sp-1) }
+.dlg-h .spacer { margin-left: auto }
+.dlg-sub { padding: var(--sp-2) var(--sp-6) var(--sp-4); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55); max-width: var(--measure-prose) }
+.dlg-sub b { font-weight: 600; color: var(--ink-70) }
+.dlg-scroll { flex: 1; min-height: 0; overflow: auto; padding: 0 var(--sp-6); border-top: 1px solid var(--line) }
+.dlg-f { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); padding: var(--sp-4) var(--sp-6) var(--sp-5); border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-55) }
+.dlg-f .spacer { margin-left: auto }
+.dlg-f b { font-weight: 600; color: var(--ink) }
+.dlg-field { display: block; margin: var(--sp-3) var(--sp-6) 0 }
+.dlg-field:first-of-type { margin-top: 0 }
+/* A form with no line under its title (Edit details) opens with air instead. */
+.dlg-form > .dlg-field:first-child { margin-top: var(--sp-5) }
+.dlg-field textarea { resize: vertical; line-height: var(--t-ui-lh); min-height: calc(var(--sp-26) * 1.5) }
+.dlg-form .pop-err { margin: var(--sp-2) var(--sp-6) 0 }
+.dlg-form .dlg-f { margin-top: var(--sp-5) }
+/* What the project still has room for: a hairline track, filled in ink. */
+.dlg-cap { flex-basis: 100%; height: 2px; background: var(--line-2) }
+.dlg-cap span { display: block; height: 100%; width: var(--cap); background: var(--ink) }
+.dlg-search { display: flex; align-items: center; gap: var(--sp-2); width: calc(var(--sp-26) * 2); height: var(--sp-8); padding: 0 var(--sp-2); border: 1px solid var(--line-2); border-radius: var(--r-sm); color: var(--ink-55); transition: border-color var(--mo-base) }
+.dlg-search:focus-within { border-color: var(--ink-35) }
+.dlg-search .glyph { width: var(--sp-4); height: var(--sp-4) }
+.dlg-search .input { flex: 1; min-width: 0; height: 100%; padding: 0; border: 0; background: none; box-shadow: none }
+
+/* THE FINDER (2026-10-15), after Claude's search: the dialog in a palette's
+   shape, held high and at a set height so it does not jump as results change.
+   The field is the head; the tray narrows it to a type; a row under the
+   keyboard reads as a row under the pointer, a wash; the keys are in the foot.
+   Opened from the rail's search bar, the toolbar when the rail is away, or
+   Cmd K. */
+.dlg[data-view="search"] {
+  width: min(calc(var(--sp-26) * 6.5), calc(100vw - var(--sp-8)));
+  height: min(calc(100vh - var(--sp-26) - var(--sp-8)), calc(var(--sp-26) * 5.5));
+  margin: var(--sp-26) auto auto;
+}
+.find-h { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-4) var(--sp-4) var(--sp-3) var(--sp-6); color: var(--ink-55) }
+.find-h .find-q, .find-h .find-q:focus { flex: 1; min-width: 0; padding: 0; border: 0; background: none; box-shadow: none; font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink) }
+.find-tray { padding: 0 var(--sp-6) var(--sp-4) }
+.find-l { padding: var(--sp-2) var(--sp-3) var(--sp-3) }
+.find-g > .eyebrow { display: block; padding: var(--sp-3) var(--sp-3) var(--sp-2) }
+.find-row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: var(--sp-3);
+  width: 100%; min-height: var(--sp-10); padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  text-align: left; font-size: var(--t-ui); color: var(--ink); transition: background var(--mo-base);
+}
+.find-row:hover, .find-row[aria-selected="true"] { background: var(--wash-1) }
+.find-row .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55) }
+.find-t { display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; white-space: nowrap; overflow: hidden }
+.find-t > span:first-child { flex: none; max-width: 100%; overflow: hidden; text-overflow: ellipsis }
+.find-t b { font-weight: 700 }
+.find-sn { min-width: 0; overflow: hidden; text-overflow: ellipsis; font-size: var(--t-sm); color: var(--ink-55) }
+.find-sn b { font-weight: 600; color: var(--ink) }
+.find-l .pj-empty { padding: var(--sp-4) var(--sp-3) 0 }
+.find-keys { gap: var(--sp-2) var(--sp-5); padding-top: var(--sp-3); padding-bottom: var(--sp-3) }
+.find-keys > span { display: inline-flex; align-items: center; gap: var(--sp-1) }
+.find-keys kbd:last-of-type { margin-right: var(--sp-1) }
+@media (max-width: 640px) {
+  .dlg[data-view="search"] { margin-top: var(--sp-4) }
+  .find-keys { display: none }
+  .find-tray .seg { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none } .find-tray .seg button { flex: 1 0 auto; padding-left: var(--sp-2); padding-right: var(--sp-2) }
+}
+
+/* The context, as a table: what it is, its kind, who added it and when. */
+.ctx-t { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: var(--t-ui) }
+.ctx-t thead > tr > * {
+  position: sticky; top: 0; z-index: 1; background: var(--bg); text-align: left; padding: var(--sp-3) var(--sp-3) var(--sp-2);
+  font-family: var(--mono); font-weight: 400; font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55);
+  border-bottom: 1px solid var(--line);
+}
+.ctx-t thead th:nth-of-type(2) { width: calc(var(--sp-26) + var(--sp-12)) }
+.ctx-t thead th:nth-of-type(3) { width: calc(var(--sp-26) + var(--sp-16)) }
+.ctx-t .ctx-x { width: calc(var(--sp-7) + var(--sp-2)); padding-right: 0; text-align: right }
+.ctx-t .ctx-c { width: calc(var(--sp-4) + var(--sp-3)); padding-left: 0; padding-right: 0 }
+.ctx-t tbody > tr > * { padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--line); text-align: left; font-weight: 400; vertical-align: middle }
+.ctx-t tr > :is(th, td):first-child:not(.ctx-c), .ctx-t .ctx-c + * { padding-left: 0 }
+.ctx-t tbody tr:hover > *, .ctx-t tr.is-sel > * { background: var(--wash-1) }
+.ctx-t .pj-m { overflow: hidden; text-overflow: ellipsis }
+.ctx-n { display: flex; align-items: center; gap: var(--sp-3); min-width: 0 }
+.ctx-n > :last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: left; color: var(--ink) }
+.ctx-n .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55) }
+.ctx-n .tm { flex: none; width: var(--sp-4); text-align: center; color: var(--accent-text) }
+.ctx-n .tm.t3 { color: var(--ink-55) }
+.ctx-by { font-size: var(--t-sm); color: var(--ink-55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.ctx-x .icon-btn { width: var(--sp-7); height: var(--sp-7) }
+.ctx-x .glyph { width: var(--sp-4); height: var(--sp-4) }
+@media (max-width: 640px) {
+  .ctx-t thead th:nth-of-type(3), .ctx-by { display: none }
+  .ctx-t thead th:nth-of-type(2) { width: calc(var(--sp-26) + var(--sp-2)) }
+  .dlg-search { flex: 1 1 100%; order: 9 }
+}
+
+/* What the project remembers: one line each, forgettable, and whether it
+   may draw on the rest. */
+.mem-l li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: var(--sp-3); align-items: start; padding: var(--sp-4) 0; border-bottom: 1px solid var(--line) }
+.mem-l b { font-weight: 600; font-size: var(--t-ui) }
+.mem-l p { margin-top: var(--sp-1); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-70) }
+.mem-l .pj-m { padding-top: 2px }
+.mem-l .icon-btn { width: var(--sp-7); height: var(--sp-7); margin-top: calc(var(--sp-1) * -1) }
+.mem-l .icon-btn .glyph { width: var(--sp-4); height: var(--sp-4) }
+.mem-f > div:first-child { flex: 1 1 calc(var(--sp-26) * 2.5) }
+.mem-f p { margin-top: 2px; line-height: var(--t-sm-lh) }
+.mem-f .seg button:disabled { cursor: not-allowed; color: var(--ink-35) }
+.mem-f .seg button[aria-pressed="true"]:disabled { color: var(--ink-55) }
+
+/* AN ARTIFACT'S OWN PAGE, by kind. A written document is the numbered
+   document from Pl. 20, its numerals riding below the contents strip. A
+   spreadsheet is its table. A PDF is its pages, as sheets on the panel. */
+.dp { container-type: inline-size; max-width: calc(var(--col-chat) + var(--sp-26)); margin: 0 auto; --st-top: calc(var(--sp-12) + var(--sp-6)) }
+.dp-head { padding-bottom: var(--sp-6) }
+.dp-title { font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-h1); line-height: var(--t-h1-lh); text-wrap: balance }
+.dp-meta { margin-top: var(--sp-3); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.dp-meta button { color: var(--ink-70); text-decoration: underline; text-decoration-color: var(--ink-35); text-underline-offset: 3px }
+.dp-meta button:hover { color: var(--ink); text-decoration-color: var(--ink) }
+.dp .st-toc { top: calc(var(--sp-6) * -1); margin-bottom: var(--sp-10) }
+.dp .st-sec + .st-sec { margin-top: var(--sp-12) }
+.dp .st-body h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.dp .st-body p { font-size: var(--t-body); line-height: 1.72; color: var(--ink-70); max-width: var(--measure-prose) }
+.dp .st-body p + p { margin-top: var(--sp-4) }
+.dp .st-body h3 + p { margin-top: var(--sp-4) }
+
+.sheet-v { overflow-x: auto; border: 1px solid var(--line-2); border-radius: var(--r-md) }
+.sheet-t { width: 100%; border-collapse: collapse; font-size: var(--t-ui); line-height: var(--t-ui-lh); font-variant-numeric: tabular-nums }
+.sheet-t th, .sheet-t td { padding: var(--sp-3) var(--sp-4); text-align: left; vertical-align: top; border-bottom: 1px solid var(--line) }
+.sheet-t thead th { position: sticky; top: 0; background: var(--fill); font-family: var(--mono); font-weight: 400; font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); white-space: nowrap }
+.sheet-t tbody th { font-weight: 600; color: var(--ink) }
+.sheet-t td { color: var(--ink-70) }
+.sheet-t tr:last-child > * { border-bottom: 0 }
+
+.pdf-v { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: var(--sp-6); padding: var(--sp-8); background: var(--ground); border: 1px solid var(--line); border-radius: var(--r-md) }
+.pdf-page { aspect-ratio: 1 / 1.414; overflow: hidden; padding: var(--sp-6) var(--sp-5); background: var(--bg); border: 1px solid var(--line-2) }
+.pdf-page h4 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-ui); line-height: 1.3 }
+.pdf-page h4 + p, .pdf-page p + p { margin-top: var(--sp-2) }
+.pdf-page p + h4 { margin-top: var(--sp-4) }
+.pdf-page p { font-size: var(--eb-3); line-height: 1.5; color: var(--ink-70) }
+.pdf-page .pdf-t { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh); margin-bottom: var(--sp-4) }
+.pdf-page .pdf-n { display: block; margin-top: var(--sp-4); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+
+/* ── STRUCTURE: THE NUMBERED DOCUMENT (Pl. 20, round two, 15 October) ───────
+   Matt asked for elegant ways to give the brand structure so it does not
+   feel so minimal. Of five devices (a running head, the column grid drawn, a
+   margin numeral, a section rule, a contents strip) he kept the numeral and
+   the strip, and asked for them carried further as a language. A, B and D
+   are in the archive.
+
+   SINCE 15 OCTOBER, ON A PAGE THE MARGIN HOLDS A PIXEL ICON (.st-i), NOT
+   THE NUMERAL, and the strip lists names only. What follows about the
+   numeral now applies to a console document, which keeps it.
+
+   THE IDEA: a long page is a numbered document. Each section has a margin of
+   its own holding its number in the serif and, under it, the short name the
+   eyebrow used to carry above the heading. The contents strip lists the same
+   numbers and names, so the strip is the table of contents of the margins.
+   Answers are documents and so is everything a project produces, so the same device runs
+   from the landing page to the product to the PDF.
+
+   THE DETAILS, which are the whole of it:
+     · The numeral is always two digits, the serif at display size and
+       its display weight, in ink. Lining figures, so 01 to 09 share one height.
+     · A 2px ink tab over the margin column sits on the section's hairline,
+       so the section's top edge thickens where its number is.
+     · The numeral is sticky inside its own section: it rides down the
+       margin while you read and leaves with the section's last line. The
+       strip marks the section whose numeral is riding.
+     · The heading has no eyebrow: the label has moved to the margin.
+     · In a narrow document (a phone, a console column) the margin folds
+       into a row above the heading, the tab shrinks to the width of the
+       numeral and its label, and the strip scrolls sideways with the
+       current section kept in view. It folds on the document's width (a
+       container query on .st-doc), not the screen's.
+     · Numbers carry information or they go: number a page whose sections are
+       an argument read in order, never a page of unrelated pitches, and never
+       fewer than three sections. */
+.st-toc {
+  position: sticky; top: 0; z-index: 2; display: flex; gap: var(--sp-8);
+  overflow-x: auto; scrollbar-width: none; background: var(--bg); border-bottom: 1px solid var(--line-2);
+}
+.st-toc::-webkit-scrollbar { display: none }
+.st-toc a {
+  flex: none; display: flex; align-items: baseline; gap: var(--sp-2); padding: var(--sp-4) 0 var(--sp-3); white-space: nowrap;
+  font-size: var(--t-ui); color: var(--ink-55); box-shadow: inset 0 -2px 0 transparent;
+  transition: color var(--mo-fast), box-shadow var(--mo-fast);
+}
+.st-toc a span { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); font-variant-numeric: tabular-nums }
+.st-toc a:hover { color: var(--ink) }
+.st-toc a[aria-current="true"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink) }
+
+.st-sec {
+  display: grid; grid-template-columns: calc(var(--sp-26) + var(--sp-8)) minmax(0, 1fr); column-gap: var(--sp-8);
+  border-top: 1px solid var(--line-2);
+}
+.st-num {
+  position: sticky; top: var(--st-top, var(--sp-6)); align-self: start;
+  display: grid; justify-items: start; gap: var(--sp-3);
+  margin-top: -1px; padding-top: var(--st-num-pad, var(--sp-2)); border-top: 2px solid var(--ink);
+}
+/* The numeral's baseline sits on the heading's first baseline, measured: a
+   section headed at h3 size (a document's) needs the short drop, a page
+   section headed by .sec-head the long one. */
+.st-sec:has(> .st-body > .sec-head) { --st-num-pad: var(--sp-8) }
+.st-n { font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-display); line-height: 1; color: var(--ink); font-variant-numeric: lining-nums tabular-nums }
+.st-l { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); line-height: var(--t-xs-lh) }
+/* THE ICON (Matt, 15 October: the icons look much better than the numbers).
+   On a page the margin carries a pixel icon, .st-i, in place of the numeral:
+   the page icon at its own 50px, so it reads as the icons in .points do. The
+   strip lists names only, because a 25-cell icon at its size would drop below
+   one pixel a cell. A console document keeps the numeral, .st-n: its sections
+   have no subject an icon could name. */
+.st-body { padding-top: var(--sp-6) }
+.st-body > .sec-head { margin-bottom: var(--sp-8) }
+/* The section folds on the width of the document it sits in, not the
+   screen's, so a document in a narrow console column folds the way a page does
+   on a phone. .st-doc marks that document; a page puts it on <main>. */
+.st-doc { container-type: inline-size }
+@container (max-width: 560px) {
+  .st-sec { grid-template-columns: minmax(0, 1fr) }
+  .st-num { position: static; display: flex; align-items: baseline; gap: var(--sp-3); justify-self: start; --st-num-pad: var(--sp-3) }
+  .st-n { font-size: var(--t-h3) }
+  .st-num:has(.st-i) { align-items: center }
+  .st-body { padding-top: var(--sp-4) }
+}
+
+/* ═══ NUMBERED STEPS, OPENED (Pl. 16 · S2, 16 October) ═══════════════════
+   Proposed. .step is the one structure whose line closes: its hairline is
+   under it. Opened, it takes the ledger's rule: a line over each step, the
+   first at --line-2. Adopted, this moves into .step in components.css. */
+.steps-open .step { border-bottom: 0; border-top: 1px solid var(--line) }
+.steps-open .step:first-child { border-top-color: var(--line-2) }
+
+/* ═══ THE FLOATING BAR (Pl. 19, 16 October) ═══════════════════════════════
+   Matt: "a hovering top bar on the website that has a margin from the
+   viewport on the sides and top, that compacts to just the logo when
+   scrolling down." An object, so an edge round the page tone, and opaque. Compacting keeps the logo where it is
+   and pulls the bar's right end in to it, so nothing the eye is on moves.
+   system.js sets .is-compact; scrolling up, tapping the dove, or tabbing
+   into the bar opens it. Compacted it is the whole logo, dove and wordmark
+   (Matt, 16 Oct: it was the dove alone until Rev 34). --fnav-logo is the V6 logo's width at --logo-h (848 by 240). */
+.fnav {
+  --fnav-logo: calc(var(--logo-h) * 3.534);
+  --fnav-mark: var(--fnav-logo);
+  --fnav-pad: var(--sp-3);
+  --fnav-h: calc(var(--logo-h) + var(--fnav-pad) * 2 + 2px);
+  /* The bar's edges sit on the body's inside edges (Matt, 16 Oct): the
+     .wrap's gutter, which steps down with it at 900 and 620. */
+  --fnav-gut: var(--sp-10);
+  position: sticky; top: var(--sp-4); z-index: 20;
+  margin: var(--sp-4) 0 calc((var(--fnav-h) + var(--sp-4)) * -1);
+  pointer-events: none;
+}
+.fnav-in {
+  pointer-events: auto; display: flex; align-items: center; justify-content: space-between; gap: var(--sp-6);
+  width: 100%; max-width: calc(min(100%, var(--col-max)) - var(--fnav-gut) * 2);
+  margin-left: calc(max(0px, (100% - var(--col-max)) / 2) + var(--fnav-gut));
+  padding: var(--fnav-pad) var(--fnav-pad) var(--fnav-pad) var(--sp-4);
+  /* Opaque since Rev 22 (Matt): a translucent, blurred floating bar is the
+     glass of every generated page. The face and the edge make it our object. */
+  background: var(--face);
+  border: var(--edge); border-radius: var(--r-lg); overflow: clip;
+  transition: max-width var(--mo-struct), padding var(--mo-struct);
+}
+@media (max-width: 900px) { .fnav { --fnav-gut: var(--sp-6) } }
+@media (max-width: 620px) { .fnav { --fnav-gut: var(--sp-4) } }
+.fnav-mark { flex: none; display: block; width: var(--fnav-mark); overflow: clip; transition: width var(--mo-struct) }
+.fnav-mark img { height: var(--logo-h); width: auto; max-width: none; display: block }
+.fnav-links { display: flex; align-items: center; gap: var(--sp-5); flex: none; font-size: var(--t-ui); color: var(--ink-70); transition: opacity var(--mo-fast), visibility var(--mo-fast) }
+.fnav-links > a:not(.btn) { padding: var(--sp-1) var(--sp-2); border-radius: var(--r-sm); transition: background var(--mo-base), color var(--mo-base) }
+.fnav-links > a:not(.btn):hover { background: var(--wash-1); color: var(--ink) }
+
+.fnav.is-compact:not(:focus-within) .fnav-in { max-width: calc(var(--fnav-mark) + var(--sp-4) * 2 + 2px); padding-right: var(--sp-4) }
+.fnav.is-compact:not(:focus-within) .fnav-links { opacity: 0; visibility: hidden }
+/* CENTRED, 19 · B (decided 16 Oct): compacted, the logo moves to the middle
+   of the body instead of staying at its left edge. The move rides the same
+   timing as the bar pulling in. */
+.fnav-in { transition: max-width var(--mo-struct), padding var(--mo-struct), margin-left var(--mo-struct) }
+.fnav.is-compact:not(:focus-within) .fnav-in { margin-left: calc(50% - (var(--fnav-mark) + var(--sp-4) * 2 + 2px) / 2) }
+/* Compacted, it is the dove alone (Matt, 16 Oct), and the dove opens it. */
+
+/* A narrow page drops the text links and keeps the two actions. */
+@container (max-width: 620px) { .fnav-links > a:not(.btn) { display: none } }
+@media (max-width: 620px) { .fnav-links > a:not(.btn) { display: none } }
+/* A phone keeps the logo and the one action; Sign in moves into the page. */
+@container (max-width: 440px) { .fnav-links > .btn.ghost { display: none } }
+@media (max-width: 440px) { .fnav-links > .btn.ghost { display: none } }
+@media (prefers-reduced-motion: reduce) { .fnav-in, .fnav-mark, .fnav-links { transition: none } }
+
+/* ═══ DOCUMENTARY IMAGES (Pl. 18, 16 October) ════════════════════════════
+   Matt asked what a war zone would look like as a dark, monochrome, dithered
+   image, and whether the brand should carry documentary photographs that are
+   not only rasterised: "black and white documentary images that have a
+   rasterized screen over them that lets the colours show through". Two
+   treatments of the same photograph of Mosul's Old City (Levi Clancy, 2019,
+   CC0), both built on .vmap's ramp:
+
+     .doc-dark    a scene on a dark band, mapped by the .vmap driver with the
+                  ramp compressed so the sky never reaches the paper tone
+     .doc-screen  the photograph in the dither, its colour showing through
+                  in patches that drift with the scroll ([data-docscreen])
+
+   A documentary picture is a figure, tier three: square, framed by its own
+   edge, always captioned with the place and the date, and credited. */
+.doc-shot { aspect-ratio: 3 / 2; background: var(--bg) }
+.doc-shot img, .doc-shot canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated }
+[data-js] .doc-shot[data-docscreen] img { visibility: hidden }
+/* On a light page (18 · A2, 18 · A3) the picture is a dark object: near-ink
+   to about half ink. On a dark band (18 · A1) it is compressed toward the band. */
+.doc-dark {
+  --v-0: color-mix(in srgb, var(--ink) 94%, var(--bg));
+  --v-1: color-mix(in srgb, var(--ink) 88%, var(--bg));
+  --v-2: color-mix(in srgb, var(--ink) 80%, var(--bg));
+  --v-3: color-mix(in srgb, var(--ink) 71%, var(--bg));
+  --v-4: color-mix(in srgb, var(--ink) 62%, var(--bg));
+  --v-5: color-mix(in srgb, var(--ink) 53%, var(--bg));
+  --v-6: color-mix(in srgb, var(--ink) 44%, var(--bg));
+}
+.on-dark .doc-dark { --v-0: var(--bg);
+  --v-1: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  --v-2: color-mix(in srgb, var(--ink) 10%, var(--bg));
+  --v-3: color-mix(in srgb, var(--ink) 18%, var(--bg));
+  --v-4: color-mix(in srgb, var(--ink) 28%, var(--bg));
+  --v-5: color-mix(in srgb, var(--ink) 40%, var(--bg));
+  --v-6: color-mix(in srgb, var(--ink) 56%, var(--bg));
+}
+

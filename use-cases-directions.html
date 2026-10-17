@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Peace Intel &mdash; Use Case Sheets (A/B/C comparison, archived 2026-09-16)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  /* Tokens mirror the SHARED BLOCK in index.html / beta.html. Like postcard.html,
+     this is a print source and carries only what the sheets use, so it does not
+     join the keep-in-sync contract. No dark theme: a PDF has one surface. */
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-Italic.woff") format("woff");font-weight:400;font-style:italic;font-display:swap}
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-DemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+
+  :root{
+    --bg:#FCFCFB; --panel:#F3EFE7; --ink:#141310;
+    --ink-70:rgba(20,19,16,.70); --ink-55:rgba(20,19,16,.62); --ink-35:rgba(20,19,16,.34);
+    --line:rgba(20,19,16,.12); --line-2:rgba(20,19,16,.18);
+    --accent:#D9481C;
+    --sh:20,19,16;
+    --serif:"Nanum Myeongjo",serif; --sans:"DIN 2014","DM Sans",sans-serif; --mono:"Space Mono",monospace;
+    /* Grid tile at .2in, the print equivalent of the site's 20px lattice. Stroke
+       opacity raised from the site's .05 to .08 because presses drop faint tints.
+       Header band only, per the spec. */
+    --grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.08' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.08' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.09'/%3E%3C/svg%3E");
+    --m:.6in;     /* sheet margin */
+    --zoom:1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{background:#E9E6DF;color:var(--ink);font-family:var(--sans)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+  /* ===== SCREEN CHROME (never prints) ============================== */
+  .top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,#E9E6DF 88%,transparent);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .top-in{max-width:1560px;margin:0 auto;padding:13px 32px;display:flex;align-items:center;
+    justify-content:space-between;gap:22px;flex-wrap:wrap}
+  .top h1{font:700 16px/1.3 var(--serif)}
+  .top h1 span{font:400 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-55);margin-left:11px}
+  .ctrls{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+  .ctrl{display:flex;gap:8px;align-items:center}
+  .ctrl-l{font:400 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55)}
+  .seg{display:flex;border:1px solid var(--line-2);border-radius:8px;overflow:hidden;background:var(--bg)}
+  .seg button{font:600 12.5px var(--sans);padding:7px 13px;color:var(--ink-55);background:none;
+    border:0;cursor:pointer;white-space:nowrap}
+  .seg button+button{border-left:1px solid var(--line-2)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+
+  main{max-width:1560px;margin:0 auto;padding:30px 32px 90px}
+  .intro{max-width:66ch;font-size:14.5px;line-height:1.6;color:var(--ink-70);margin-bottom:12px}
+  .intro strong{color:var(--ink);font-weight:600}
+  .dirnote{max-width:66ch;font-size:13.5px;line-height:1.6;color:var(--ink-55);
+    border-left:2px solid var(--accent);padding-left:14px;margin-bottom:34px}
+  .pair{display:flex;gap:34px;flex-wrap:wrap;align-items:flex-start}
+  figure{margin:0}
+  figcaption{font:400 9.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-55);margin-top:11px}
+
+  /* A sheet of paper on the desk. */
+  .paper{zoom:var(--zoom);width:8.5in;height:11in;position:relative;background:var(--bg);
+    box-shadow:0 1px 2px rgba(var(--sh),.07),0 20px 44px -26px rgba(var(--sh),.5)}
+
+  /* ===== THE SHEET ================================================= */
+  .sheet{width:8.5in;height:11in;position:relative;background:var(--bg);overflow:hidden;
+    padding:var(--m);display:flex;flex-direction:column}
+
+  .head{position:relative;display:flex;align-items:center;justify-content:space-between;
+    gap:.3in;padding-bottom:.15in;border-bottom:.9pt solid var(--ink)}
+  .head::before{content:"";position:absolute;left:calc(var(--m) * -1);right:calc(var(--m) * -1);
+    top:calc(var(--m) * -1);bottom:0;pointer-events:none;
+    /* Gradient scrim layered OVER the tile rather than a CSS mask: masks have
+       mis-rendered in Chrome's print-to-PDF on this machine. Plain backgrounds
+       are safe. */
+    background-image:linear-gradient(to bottom,rgba(252,252,251,0) 34%,#FCFCFB 100%),var(--grid);
+    background-size:100% 100%,.2in .2in;background-repeat:no-repeat,repeat}
+  .head > *{position:relative}
+  .lockup{height:.28in;width:auto;display:block}
+  .sk{font:700 8pt/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+
+  .frame{padding:.24in 0 .04in}
+  .frame h2{font:700 21pt/1.16 var(--serif);letter-spacing:-.005em;max-width:5.3in}
+  .frame .sub{font-size:9.5pt;line-height:1.5;color:var(--ink-70);max-width:5.85in;
+    margin-top:.13in;text-wrap:pretty}
+  .frame .lede{font:400 italic 9.5pt/1.4 var(--sans);color:var(--ink-55);margin-top:.14in;
+    padding-top:.12in;border-top:.6pt solid var(--line)}
+
+  /* The body region every direction fills. */
+  .body{flex:1;display:flex;flex-direction:column;min-height:0;padding-top:.16in}
+
+  /* Column labels and bullets, shared by all three directions. The provides side
+     is always the tinted one with the accent label: that is the system, and it is
+     what keeps the three directions comparable. */
+  .cl{font:700 7pt/1 var(--mono);letter-spacing:.15em;text-transform:uppercase;
+    color:var(--ink-55);display:block;margin-bottom:.1in}
+  .cl.acc{color:var(--accent)}
+  ul{list-style:none;display:grid;gap:.075in}
+  li{position:relative;padding-left:.15in;font-size:8.5pt;line-height:1.45;color:var(--ink-70);
+    text-wrap:pretty}
+  li::before{content:"";position:absolute;left:0;top:.062in;width:.042in;height:.042in;
+    border-radius:50%;background:var(--ink-35)}
+  .give li::before{background:var(--accent);opacity:.55}
+
+  .uc-t{font:700 12.5pt/1.2 var(--serif);letter-spacing:-.003em}
+  .uc-s{font:400 italic 8.5pt/1.35 var(--sans);color:var(--ink-55);margin-top:.045in}
+  .uc-n{font:700 var(--mono);color:var(--ink-35);font-feature-settings:"tnum"}
+
+  .close{margin-top:auto;padding-top:.17in;border-top:.9pt solid var(--ink);
+    display:flex;align-items:baseline;justify-content:space-between;gap:.3in}
+  .close p{font:600 9pt/1.4 var(--sans);max-width:4.9in}
+  .close .url{font:700 9pt/1.4 var(--mono);color:var(--accent);white-space:nowrap}
+  .foot{display:flex;align-items:baseline;justify-content:space-between;gap:.3in;
+    padding-top:.11in;font:400 7pt/1.4 var(--mono);letter-spacing:.07em;color:var(--ink-35)}
+
+  /* ===== A — THE LEDGER ============================================ */
+  /* Stacked rows, hairline between. Problems left, provides right on the
+     tinted panel. Number in a faint mono rail. */
+  /* A is the tightest of the three: three rows of two columns on one page. It
+     pays for that with a compressed frame (subtitle runs the full measure) and
+     7.6pt body, against 8.5pt in C. That trade is the point of comparing them. */
+  .a .frame{padding-top:.2in}
+  .a .frame h2{font-size:19pt}
+  .a .frame .sub{max-width:none;font-size:9pt;margin-top:.1in}
+  .a .frame .lede{margin-top:.11in;padding-top:.1in;font-size:9pt}
+  .a .cl{margin-bottom:.07in}
+  .a .row{display:grid;grid-template-columns:.5in 1fr;column-gap:.16in;
+    padding:.08in 0;border-top:.6pt solid var(--line)}
+  .a .row:first-child{border-top:0;padding-top:.02in}
+  .a .rn{font-size:15pt;line-height:1;padding-top:.035in}
+  /* Provides column runs slightly wider to pay back its own panel padding, so
+     both columns hold about the same number of words per line. */
+  .a .cols{display:grid;grid-template-columns:1fr 1.09fr;column-gap:.18in;margin-top:.11in}
+  .a .give{background:var(--panel);border-radius:.06in;padding:.11in .14in}
+  /* Three rows of two columns is the densest thing on this page: 8pt buys the
+     fit. Whether 8pt is acceptable in the hand is exactly what A is for. */
+  .a li{font-size:7.6pt;line-height:1.4}
+  .a ul{gap:.05in}
+
+  /* ===== B — THE ARGUMENT ========================================== */
+  /* Problems as prose, provides as a list on the tinted block. Compact
+     framing: this direction leads with the title, not a paragraph. */
+  /* The subtitle is the only line on the sheet that says what Peace Intel is, so
+     it stays. It runs the full measure here to buy back the height. */
+  .b .frame{padding-top:.2in;padding-bottom:0}
+  .b .frame h2{font-size:19pt}
+  .b .frame .sub{max-width:none;font-size:9pt;margin-top:.1in}
+  .b .frame .lede{margin-top:.11in;padding-top:.1in;font-size:9pt}
+  .b .body{display:grid;align-content:start;gap:.13in}
+  .b .case{display:grid;grid-template-columns:.56in 1fr;column-gap:.16in}
+  .b .rn{font-size:19pt;line-height:.92;padding-top:.04in}
+  .b .prose{font-size:8.5pt;line-height:1.45;color:var(--ink-70);margin-top:.08in;
+    max-width:5.9in;text-wrap:pretty}
+  .b .give{background:var(--panel);border-radius:.08in;padding:.11in .15in;margin-top:.09in}
+  .b .give ul{grid-template-columns:1fr 1fr;column-gap:.2in;row-gap:.06in}
+
+  /* ===== C — THE SPREAD ============================================ */
+  /* Each use case a full-height column. Three on Resolution, two on
+     Prevention, which makes the 3-vs-2 asymmetry a property of the system. */
+  .c .body{display:grid;column-gap:.2in;align-items:stretch}
+  .c.s1 .body{grid-template-columns:repeat(3,1fr)}
+  .c.s2 .body{grid-template-columns:repeat(2,1fr)}
+  .c .col{display:flex;flex-direction:column;padding-left:.2in;
+    border-left:.6pt solid var(--line)}
+  .c .col:first-child{border-left:0;padding-left:0}
+  .c .rn{font-size:11pt;line-height:1;margin-bottom:.09in}
+  .c .uc-t{font-size:12pt}
+  .c .prob{margin-top:.15in;margin-bottom:.16in}
+  .c.s1 .uc-t{min-height:.4in}   /* two lines of 12pt, so every column starts level */
+  .c .give{background:var(--panel);border-radius:.07in;padding:.13in .14in;margin-top:auto}
+  .c .cl{font-size:6.5pt;letter-spacing:.13em}  /* keeps the label on one line at 2.2in */
+  .c.s2 .frame h2{font-size:25pt}
+  .c.s2 .frame .sub{font-size:10.5pt;max-width:6.4in}
+
+  /* Screen-only guard: flags a sheet whose content exceeds the page, so an
+     overflowing direction is visible instead of silently clipped. */
+  .paper[data-over="1"]{outline:2px solid var(--accent)}
+  .paper[data-over="1"]::after{content:"OVERFLOWS PAGE";position:absolute;top:-11px;left:0;
+    font:700 10px/1 var(--mono);letter-spacing:.14em;color:#fff;background:var(--accent);
+    padding:5px 8px;border-radius:4px}
+
+  /* ===== PRINT ===================================================== */
+  @page{size:8.5in 11in;margin:0}
+  @media print{
+    body{background:#fff}
+    .top,.intro,.dirnote,figcaption{display:none!important}
+    main{padding:0;max-width:none}
+    .pair{display:block}
+    .paper{zoom:1;box-shadow:none;outline:0;break-after:page;page-break-after:always}
+    .paper:last-of-type{break-after:auto;page-break-after:auto}
+    .paper::after{display:none}
+    .sheet{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+  /* ?print=1|2 isolates one sheet so each PDF exports on its own. The hidden
+     figure is still :last-of-type, so the visible sheet would keep its
+     break-after and emit a blank trailing page. Cancel it while isolated. */
+  html[data-only="1"] figure[data-sheet="2"],
+  html[data-only="2"] figure[data-sheet="1"]{display:none}
+  @media print{
+    html[data-only] .paper{break-after:auto;page-break-after:auto}
+  }
+
+  /* MUST stay screen-scoped: Chrome lays print out at 816px, so an unqualified
+     max-width query matches the printed page and, sitting after the print block,
+     puts main's padding back and pushes a blank page out of every sheet. */
+  @media screen and (max-width:980px){.top-in{padding:12px 18px}main{padding:22px 18px 60px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <h1>Peace Intel <span>Use Case Sheets</span></h1>
+    <div class="ctrls">
+      <div class="ctrl"><span class="ctrl-l">Direction</span>
+        <div class="seg" id="segdir">
+          <button data-dir="a">A &middot; Ledger</button>
+          <button data-dir="b">B &middot; Argument</button>
+          <button data-dir="c">C &middot; Spread</button>
+        </div>
+      </div>
+      <div class="ctrl"><span class="ctrl-l">Size</span>
+        <div class="seg" id="segzoom">
+          <button data-zoom=".62">Fit</button>
+          <button data-zoom="1">Actual</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Two <strong>8.5 &times; 11in</strong> sheets, one page each. Sheet&nbsp;1 is
+    Resolution (use cases 01&ndash;03), sheet&nbsp;2 is Prevention (04&ndash;05). Each exports as
+    its own PDF so they can go to different stakeholders. Same tokens, same content, three
+    layouts. Switch above.</p>
+  <p class="dirnote" id="dirnote"></p>
+  <div class="pair" id="stage"></div>
+</main>
+
+<script>
+/* ===== CONTENT =====================================================
+   One model, three renderers. Condensed from the 2026-09-16 brief:
+   bullets tightened to 14-18 words, and beats that repeated across
+   neighbouring use cases removed (see the note in each drop comment).
+   Resolution runs 4+4 per case (three cases, tight page); Prevention
+   runs 5+5 (two cases, room to spend). ================================ */
+const SHEETS = [
+  {
+    id: 1, kicker: 'Resolution',
+    lede: 'Three questions that come up once conflict is already underway.',
+    cases: [
+      {
+        n: '01', title: 'Where to Intervene',
+        sub: 'Find where the evidence says your resources will matter most.',
+        problems: [
+          'You allocate limited funds across dozens of active conflicts with no clear basis for prioritizing.',
+          'No straightforward way to compare which conflicts are tractable and which are not.',
+          'Boards and ministers ask &ldquo;why this conflict?&rdquo; and you have no research-backed answer.',
+          'Evidence on what works where sits in thousands of papers, much of it paywalled.'
+        ],
+        provides: [
+          'Synthesized evidence on where each intervention type has succeeded and failed, by context.',
+          'Side-by-side comparison of conflict dynamics by region and by conflict type.',
+          'An evidence quality signal that flags where findings are strong, thin, or contested.',
+          'Section-level citations back to source, so briefings hold up with boards and ministers.'
+        ]
+      },
+      {
+        n: '02', title: 'Which Intervention to Choose',
+        sub: 'Match your intervention to what the evidence supports.',
+        /* dropped: "boards question your intervention choice" — same beat as 01. */
+        problems: [
+          'The evidence base is split across organizations, eras, and fields, and rarely transfers between contexts.',
+          'Your organization defaults to its usual approach without knowing if the evidence supports it here.',
+          'You can find evidence on single interventions, but nowhere to compare options for your conflict type.',
+          'Why interventions fail matters as much as why they succeed, and reviews rarely surface it.'
+        ],
+        /* dropped: evidence-quality signal — already stated in 01. */
+        provides: [
+          'Recommendations drawn from the interventions that worked in the most similar contexts.',
+          'Ask &ldquo;what works in civil wars with external backers?&rdquo; and get a synthesized, cited answer.',
+          'Failure modes: the conditions under which each intervention type has broken down.',
+          'Structured evaluation data: 12,000+ indicators drawn from roughly 700 peacebuilding evaluations.'
+        ]
+      },
+      {
+        n: '03', title: 'How to Implement It',
+        sub: 'Turn evidence into actionable implementation guidance.',
+        problems: [
+          'Your team has a strategy but no clear path from there to execution.',
+          'An intervention can be run many ways, and it is hard to know which will work.',
+          'Research says an intervention works but rarely how it was run. Operational detail stays buried.',
+          'You are about to start without knowing whether the conditions for success are present.'
+        ],
+        /* dropped: "matched by conflict similarity" — third time on this sheet. */
+        provides: [
+          'Success conditions: what the research says must be in place before implementation begins.',
+          'Common pitfalls, and how practitioners have handled them, drawn from case studies and evaluations.',
+          'Full text, not abstracts, so the implementation detail summaries leave out is actually surfaced.',
+          'Ask &ldquo;how do you sequence DDR programs?&rdquo; and get a synthesized, cited answer.'
+        ]
+      }
+    ]
+  },
+  {
+    id: 2, kicker: 'Prevention',
+    lede: 'Two questions that come up before conflict arrives.',
+    cases: [
+      {
+        n: '04', title: 'Measuring Your Project&rsquo;s Peace Impact',
+        sub: 'Understand the conflict prevention value of your development work.',
+        problems: [
+          'You fund development in fragile states with no clear read on its conflict implications.',
+          'Development and peacebuilding work in silos, with no shared evidence base a non-specialist can use.',
+          'Boards and ministers ask &ldquo;what is the conflict angle?&rdquo; and you have no evidence-backed answer.',
+          'You are about to approve a project without checking whether it could worsen local tensions.',
+          'Conflict-sensitive development literature is dense and scattered, and no one on your team has time.'
+        ],
+        provides: [
+          'How health, education, infrastructure, and governance projects have affected conflict in comparable settings.',
+          'The same project can calm or inflame conflict depending on conditions. Evidence for yours.',
+          'A citable, evidence-grounded read on your project&rsquo;s conflict implications. A picture, not a score.',
+          'Named evidence gaps, where the field has not studied the question enough to answer confidently.',
+          'Ask &ldquo;does girls&rsquo; education reduce conflict risk in fragile states?&rdquo; and get a cited answer.'
+        ]
+      },
+      {
+        n: '05', title: 'Investing Early in Resilience',
+        sub: 'Prioritize development investments that build conflict resilience.',
+        problems: [
+          'There is no evidence basis for ranking development investments on conflict prevention grounds.',
+          'Budgets follow sectoral mandates rather than what the research says actually prevents conflict.',
+          'Prevention spending has to be justified to budget-holders who want evidence, not rhetoric.',
+          'You want to invest before conflict erupts, but not where the evidence says it pays off.',
+          'Development and conflict experts give different advice, with no neutral evidence base to reconcile them.'
+        ],
+        provides: [
+          'Which investment types are associated with reduced conflict risk, from 5,000+ studies and 700+ evaluations.',
+          'Sector against sector: education, infrastructure, governance, and economic development compared as prevention.',
+          'Which resilience gains hold across settings and which depend on local conditions.',
+          'Sequencing and conditions: the foundational investments that make later prevention effects possible.',
+          'Ask &ldquo;what prevents conflict in post-conflict states?&rdquo; and get a synthesized, citable answer.'
+        ]
+      }
+    ]
+  }
+];
+const HERO = {
+  head: 'Evidence for peacebuilding decisions',
+  sub: 'Peace Intel reads the peacebuilding evidence base, thousands of papers, evaluations, and conflict datasets, and answers your questions with citations you can trace back to the source. Built for the people who decide where to intervene, what to try, and how to fund it.'
+};
+const CLOSE = {
+  line: 'Peace Intel launches publicly at PeaceCon, January 2027. Pilot partnerships available now.',
+  contact: 'peaceintel.org'
+};
+
+/* ===== RENDERERS ===================================================
+   One content model, three layouts. Everything outside .body is shared,
+   so switching direction changes the argument's shape and nothing else. */
+const LOCKUP = 'Resources/Logos/peaceintel-lockup-light.png';
+
+const list  = items => '<ul>' + items.map(i => `<li>${i}</li>`).join('') + '</ul>';
+const gives = c => `<div class="give"><span class="cl acc">What Peace Intel provides</span>${list(c.provides)}</div>`;
+const probs = c => `<div class="prob"><span class="cl">Problems</span>${list(c.problems)}</div>`;
+const title = c => `<div class="uc-t">${c.title}</div><div class="uc-s">${c.sub}</div>`;
+
+const head = s => `<div class="head">
+    <img class="lockup" src="${LOCKUP}" alt="Peace Intel">
+    <span class="sk">${s.kicker}</span>
+  </div>`;
+
+const frame = s => `<div class="frame">
+    <h2>${HERO.head}</h2>
+    <p class="sub">${HERO.sub}</p>
+    <p class="lede">${s.lede}</p>
+  </div>`;
+
+const close = () => `<div class="close">
+    <p>${CLOSE.line}</p><span class="url">${CLOSE.contact}</span>
+  </div>
+  <div class="foot">
+    <span>A project by EPI and the Alliance for Peacebuilding</span>
+    <span>&copy; 2026 Peace Intel</span>
+  </div>`;
+
+const BODY = {
+  /* A — rows, problems and provides side by side. */
+  a: s => `<div class="body">` + s.cases.map(c => `
+    <div class="row">
+      <div class="rn uc-n">${c.n}</div>
+      <div>${title(c)}
+        <div class="cols">${probs(c)}${gives(c)}</div>
+      </div>
+    </div>`).join('') + `</div>`,
+
+  /* B — problems as prose, provides as a two-up list on the panel.
+     The prose here is the bullets joined, which is enough to judge the
+     shape and the reading weight. If B wins it gets written as prose. */
+  b: s => `<div class="body">` + s.cases.map(c => `
+    <div class="case">
+      <div class="rn uc-n">${c.n}</div>
+      <div>${title(c)}
+        <p class="prose">${c.problems.join(' ')}</p>
+        ${gives(c)}
+      </div>
+    </div>`).join('') + `</div>`,
+
+  /* C — one full-height column per use case. */
+  c: s => `<div class="body">` + s.cases.map(c => `
+    <div class="col">
+      <div class="rn uc-n">${c.n}</div>
+      ${title(c)}${probs(c)}${gives(c)}
+    </div>`).join('') + `</div>`
+};
+
+const NOTES = {
+  a: 'A — The Ledger. Stacked rows, hairline between, problems left and provides right so the eye crosses from the ask to the answer. Most scannable and most conventional. The pressure point is 8.5pt across two columns three times over.',
+  b: 'B — The Argument. Problems become prose, provides stay enumerated: the problem is something you recognise about your own job, the answer is a list. Reads most like a document and halves the bullet count. Costs scannability, and it is the direction most likely to overflow.',
+  c: 'C — The Spread. Each use case is a full-height column, three on Resolution and two on Prevention, so the 3-vs-2 asymmetry becomes part of the system rather than a hole to fill. Most vertical room per case. The risk is measure: roughly six words a line.'
+};
+
+/* ===== MOUNT ======================================================= */
+const q = new URLSearchParams(location.search);
+const only = q.get('print');
+let dir = (q.get('dir') || 'c').toLowerCase();
+if (!BODY[dir]) dir = 'c';
+if (only === '1' || only === '2') document.documentElement.dataset.only = only;
+
+const stage = document.getElementById('stage');
+
+function render() {
+  stage.innerHTML = SHEETS.map(s => `
+    <figure data-sheet="${s.id}">
+      <div class="paper">
+        <div class="sheet ${dir} s${s.id}">${head(s)}${frame(s)}${BODY[dir](s)}${close()}</div>
+      </div>
+      <figcaption>Sheet ${s.id} &middot; ${s.kicker} &middot; Direction ${dir.toUpperCase()}</figcaption>
+    </figure>`).join('');
+  document.getElementById('dirnote').textContent = NOTES[dir];
+  document.querySelectorAll('#segdir button').forEach(b =>
+    b.setAttribute('aria-pressed', b.dataset.dir === dir));
+  requestAnimationFrame(checkOverflow);
+}
+
+/* Flags a sheet whose body exceeds the page instead of letting it clip
+   silently. A print prototype that lies about fit is worse than useless. */
+function checkOverflow() {
+  document.querySelectorAll('.paper').forEach(p => {
+    const b = p.querySelector('.body');
+    const over = b && b.scrollHeight > b.clientHeight + 1;
+    p.dataset.over = over ? '1' : '0';
+    if (over) console.warn(`[fit] ${dir.toUpperCase()} sheet ${p.closest('figure').dataset.sheet}: body overflows by ${(b.scrollHeight - b.clientHeight)}px`);
+  });
+}
+
+function setZoom(z) {
+  document.documentElement.style.setProperty('--zoom', z);
+  document.querySelectorAll('#segzoom button').forEach(b =>
+    b.setAttribute('aria-pressed', b.dataset.zoom === z));
+}
+
+document.getElementById('segdir').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  dir = b.dataset.dir;
+  const u = new URL(location); u.searchParams.set('dir', dir);
+  history.replaceState(null, '', u);
+  render();
+});
+document.getElementById('segzoom').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  setZoom(b.dataset.zoom);
+  requestAnimationFrame(checkOverflow);
+});
+
+setZoom(only ? '1' : '.62');
+render();
+if (document.fonts) document.fonts.ready.then(checkOverflow);
+</script>
+</body>
+</html>

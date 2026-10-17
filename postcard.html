@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Peace Intel AfP Postcard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  /* Tokens mirror the SHARED BLOCK in index.html / beta.html. This page is a print
+     comparison, so it carries only what the cards use and does not join the
+     keep-in-sync contract. */
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-Regular.woff") format("woff");font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-DemiBold.woff") format("woff");font-weight:600;font-style:normal;font-display:swap}
+  @font-face{font-family:"DIN 2014";src:url("Fonts/DIN2014/DIN2014-Bold.woff") format("woff");font-weight:700;font-style:normal;font-display:swap}
+  :root{
+    --bg:#FCFCFB; --panel:#F3EFE7; --ink:#141310;
+    --ink-70:rgba(20,19,16,.70); --ink-55:rgba(20,19,16,.62); --ink-35:rgba(20,19,16,.34);
+    --line:rgba(20,19,16,.12); --line-2:rgba(20,19,16,.18);
+    --accent:#D9481C;
+    --grad:linear-gradient(45deg,#F72F24 0%,#F77524 100%);
+    --sh:20,19,16;
+    --serif:"Nanum Myeongjo",serif; --sans:"DIN 2014","DM Sans",sans-serif; --mono:"Space Mono",monospace;
+    /* Grid tile at 0.2in, the print equivalent of the site's 20px lattice. Stroke
+       opacity is raised from the site's .05 to .08: toner presses drop very faint
+       tints, and this is the value to check on the test sheet. */
+    --grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.08' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.08' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.09'/%3E%3C/svg%3E");
+
+    /* Print geometry. Artwork is built at bleed size; the trim is 0.125in in from
+       every edge and the safe area another 0.25in inside that. */
+    --gridc:#141310;   /* line colour for SVG-drawn grids (.gridfade), same as the tile */
+    --bleed:.125in; --safe:.25in; --pad:calc(var(--bleed) + var(--safe));
+    --zoom:1;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{background:#E9E6DF;color:var(--ink);font-family:var(--sans)}
+
+  /* ===== PAGE CHROME (screen only) ===== */
+  .top{position:sticky;top:0;z-index:10;background:color-mix(in srgb,#E9E6DF 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .top-in{max-width:1440px;margin:0 auto;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .top h1{font:700 17px/1.3 var(--serif)}
+  .top h1 span{font:400 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55);margin-left:12px}
+  .ctrls{display:flex;gap:12px;align-items:center}
+  .seg{display:flex;border:1px solid var(--line-2);border-radius:9px;overflow:hidden;background:var(--bg)}
+  .seg button{font:600 13px var(--sans);padding:8px 16px;color:var(--ink-55);background:none;border:0;cursor:pointer}
+  .seg button+button{border-left:1px solid var(--line-2)}
+  .seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+  .ctrl-l{font:400 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+  main{max-width:1440px;margin:0 auto;padding:36px 40px 80px}
+  .intro{max-width:760px;font-size:15px;line-height:1.6;color:var(--ink-70);margin-bottom:40px}
+  .intro strong{color:var(--ink);font-weight:600}
+
+  .dir{padding:36px 0 44px;border-top:1px solid var(--ink)}
+  .dir-head{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:baseline;margin-bottom:24px;max-width:1100px}
+  .dir-k{font:700 13px var(--mono);color:var(--accent);grid-row:span 2}
+  .dir-head h2{font:700 24px/1.25 var(--serif)}
+  .dir-head p{font-size:14.5px;line-height:1.6;color:var(--ink-70);max-width:80ch}
+  .pair{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+  .face-col figcaption{font:400 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55);margin-top:12px}
+
+  /* A card on the table: warm contact shadow so it reads as a physical object. */
+  .cut{zoom:var(--zoom);width:6in;height:4in;overflow:hidden;position:relative;
+    box-shadow:0 1px 2px rgba(var(--sh),.08),0 18px 40px -22px rgba(var(--sh),.45)}
+  .cut .sheet{margin:calc(var(--bleed) * -1)}
+  html[data-guides="on"] .cut{width:6.25in;height:4.25in;overflow:visible;box-shadow:none}
+  html[data-guides="on"] .cut .sheet{margin:0}
+  .guides{display:none}
+  html[data-guides="on"] .guides{display:block;position:absolute;inset:0;pointer-events:none;z-index:50}
+  /* Bleed zone shaded, trim in magenta, safe area dashed cyan: the usual prepress colours. */
+  .guides::before{content:"";position:absolute;inset:0;border:var(--bleed) solid rgba(20,19,16,.14)}
+  .guides .trim{position:absolute;inset:var(--bleed);outline:1px solid #E0007A}
+  .guides .safe{position:absolute;inset:var(--pad);outline:1px dashed #00A3D9}
+
+  /* ===== THE CARD ===== */
+  .sheet{width:6.25in;height:4.25in;position:relative;background:var(--bg) var(--grid);background-size:.2in .2in;
+    overflow:hidden;color:var(--ink);font-family:var(--sans)}
+  .safe-box{position:absolute;inset:var(--pad);display:flex;flex-direction:column}
+  .lockup{display:block;height:.34in;width:auto}
+  .kick{font:400 6.5pt var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-55);display:inline-flex;align-items:center;gap:.06in}
+  .kick.dot::before{content:"";width:.05in;height:.05in;border-radius:50%;background:var(--accent);flex:none}
+  .row{display:flex;justify-content:space-between;align-items:center}
+
+  /* Grid fades. A sheet with a .gridfade layer drops its tiled grid, and the script
+     redraws the lattice there as plain SVG lines, one cell at a time, each carrying its
+     own stroke alpha along the fade. Two cheaper routes failed in the PDF: a CSS
+     mask-image exports as a soft mask, and a background tile exports as a PDF pattern.
+     CoreGraphics (Preview, Quick Look) ignored the first and drew the second at the
+     wrong scale; a print RIP could do either. Stroked paths with alpha render the same
+     everywhere. Geometry matches the --grid tile: 0.2in cells, 0.7/20 stroke, 3-2 dash,
+     centre dot. */
+  .sheet:has(> .gridfade){background-image:none}
+  .gridfade{position:absolute;inset:0;pointer-events:none;color:var(--gridc)}
+  .gridfade svg{display:block;width:100%;height:100%}
+
+  /* Citation chip, the tier-1 treatment from the app (DESIGN-TOKENS §10). */
+  .cite{display:inline-flex;align-items:center;gap:.035in;font:700 .38em/1 var(--mono);color:var(--accent);
+    border:.6pt solid color-mix(in srgb,var(--accent) 40%,transparent);background:color-mix(in srgb,var(--accent) 9%,transparent);
+    border-radius:.05in;padding:.045em .38em;vertical-align:.95em;margin-left:.08em;letter-spacing:0}
+  .cite::before{content:"";width:.5em;height:.5em;border-radius:50%;background:currentColor}
+
+  /* Dark face: the [data-theme="dark"] token values from DESIGN-TOKENS §3.2, scoped to
+     one sheet. Accent steps up to #EC5E2E because #D9481C goes muddy on dark. The grid
+     flips to white strokes, raised to .08 for the same toner reason as the light tile. */
+  .sheet.dark{
+    --bg:#16130E; --panel:#211D16; --ink:#F3EFE7;
+    --ink-70:rgba(243,239,231,.74); --ink-55:rgba(243,239,231,.62); --ink-35:rgba(243,239,231,.35);
+    --line:rgba(243,239,231,.13); --line-2:rgba(243,239,231,.22);
+    --accent:#EC5E2E; --gridc:#ffffff;
+    --grid:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23ffffff' fill-opacity='0.09'/%3E%3C/svg%3E");
+  }
+  .sheet.dark .cite{background:color-mix(in srgb,var(--accent) 14%,transparent);border-color:color-mix(in srgb,var(--accent) 50%,transparent)}
+
+  /* --- A: The Footnote --- */
+  .a .hed{font:700 25pt/1.2 var(--serif);letter-spacing:-.005em;max-width:5.05in;margin-top:auto}
+  /* Footnote: short rule, leading citation chip, small body type. Shared by the A front
+     and the back so the motif stays identical wherever it appears. */
+  .foot{margin-top:auto;max-width:4.35in}
+  .foot hr{border:0;border-top:.75pt solid var(--ink);width:.9in;margin-bottom:.1in}
+  .foot p{font-size:8.5pt;line-height:1.45;color:var(--ink-70)}
+  .foot p b{color:var(--ink);font-weight:600}
+  .foot .cite{font-size:7pt;vertical-align:.08em;margin:0 .04in 0 0}
+
+  /* --- B: The Dove --- */
+  .b .dove{position:absolute;width:3.95in;right:-.28in;bottom:.5in;image-rendering:pixelated;image-rendering:crisp-edges}
+  .b .copy{max-width:2.55in;display:flex;flex-direction:column;height:100%}
+  .b .hed{font:700 19pt/1.22 var(--serif);letter-spacing:-.005em;margin-top:.2in}
+  .b .sub{font-size:8.5pt;line-height:1.45;color:var(--ink-70);margin-top:.14in;max-width:2.3in}
+  .b .lockup{margin-top:auto;align-self:flex-start}
+  /* Corner brackets echo the lockup's bracketed dove. */
+  .b .brk{position:absolute;width:.22in;height:.22in;border-color:var(--ink-35);border-style:solid;border-width:0}
+  .b .brk.tl{top:.52in;left:3.05in;border-top-width:.75pt;border-left-width:.75pt}
+  .b .brk.br{bottom:.375in;right:.375in;border-bottom-width:.75pt;border-right-width:.75pt}
+
+  /* --- C: The Question --- */
+  /* Dithered still from the magnifying-glass clip, cream dots on transparent so it
+     sits on the dark face. Sized so the lens rings the headline and composer, the
+     handle running off the lower right. Opacity is the knob. */
+  .c .mag{position:absolute;width:6.1in;left:1.15in;top:-.3in;opacity:.13;pointer-events:none;
+    image-rendering:pixelated;image-rendering:crisp-edges}
+  /* The C front carries no other brand mark, so its lockup steps up ~20% (.34 -> .41in). */
+  .c .lockup{height:.41in}
+  .c .mid{margin:auto 0;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .c .hed{font:700 21pt/1.2 var(--serif);letter-spacing:-.005em}
+  .comp{width:4.7in;margin-top:.2in;background:var(--bg);border:.75pt solid var(--line-2);border-radius:.14in;text-align:left;
+    padding:.16in .18in .12in;box-shadow:0 2px 4px rgba(var(--sh),.05),0 14px 28px -18px rgba(var(--sh),.35)}
+  .comp q{display:block;font-size:11pt;line-height:1.42;color:var(--ink);quotes:none}
+  .caret{display:inline-block;width:1.3pt;height:1.05em;background:var(--accent);vertical-align:-.16em;margin-left:1pt}
+  .comp-bar{display:flex;justify-content:space-between;align-items:center;margin-top:.12in}
+  .comp-bar .kick{font-size:6pt}
+  .send{width:.27in;height:.27in;border-radius:.07in;background:var(--grad);display:grid;place-items:center}
+  .send svg{width:.13in;height:.13in}
+  /* On dark, the composer lifts onto the raised --panel surface and its border. No drop
+     shadow: on #16130E it measured one brightness level (invisible), and Chrome exports
+     a blurred shadow as a masked image that CoreGraphics drew as a hard dark box. */
+  .sheet.dark .comp{background:var(--panel);box-shadow:none}
+  .asks{display:flex;gap:.08in;justify-content:center;margin-top:.17in;flex-wrap:wrap}
+  .asks span{font:400 6pt var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-70);
+    border:.6pt solid var(--line-2);border-radius:.06in;padding:.05in .08in;display:inline-flex;align-items:center;gap:.05in;background:var(--bg)}
+  .asks span::before{content:"";width:.045in;height:.045in;border-radius:50%;background:var(--accent)}
+
+  /* --- Back (shared) --- */
+  .back .safe-box{display:grid;grid-template-columns:1fr 1.9in;grid-template-rows:1fr auto;column-gap:.28in}
+  .back .l{display:flex;flex-direction:column;padding-top:.02in}
+  .back .hed{font:700 15pt/1.22 var(--serif);margin-top:.1in;max-width:3.2in}
+  .back .body{font-size:8pt;line-height:1.48;color:var(--ink-70);margin-top:.12in;max-width:3.35in;text-wrap:pretty}
+  .back .body b{font-weight:600;color:var(--ink)}
+  .back .body + .body{margin-top:.07in}
+  .nw{white-space:nowrap}   /* keeps hyphenated compounds from splitting at a line end */
+  .back .r{background:var(--panel);border-radius:.12in;padding:.16in .16in .14in;display:flex;flex-direction:column;align-items:center;text-align:center;align-self:start}
+  .back .r h3{font:700 11pt/1.2 var(--serif)}
+  /* The QR sits on the lightest ground available with its 4-module quiet zone,
+     which is what phone cameras need to lock on. 29 modules at 1.12in. */
+  .qr{width:1.12in;height:1.12in;margin-top:.1in;background:#FCFCFB;padding:calc(1.12in * 4 / 37);box-sizing:content-box;border-radius:.04in}
+  .qr img{width:100%;height:100%;display:block}
+  .url{font:700 7.5pt var(--mono);letter-spacing:.04em;margin-top:.08in}
+  .bene{list-style:none;margin-top:.1in;display:grid;gap:.035in;text-align:left}
+  .bene li{font:400 5.75pt var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-70);display:flex;align-items:center;gap:.05in}
+  .bene li::before{content:"";width:.04in;height:.04in;border-radius:50%;background:var(--accent);flex:none}
+  .back .strip{grid-column:1 / -1;border-top:.6pt solid var(--line-2);padding-top:.1in;display:flex;justify-content:space-between;align-items:center}
+  .partners{display:flex;align-items:center;gap:.16in}
+  .partners img{filter:brightness(0);opacity:.6;display:block}
+  .partners .epi{height:.36in}
+  .partners .afp{height:.4in}
+
+  @media (max-width:760px){ .top-in,main{padding-left:20px;padding-right:20px} }
+  @media (prefers-reduced-motion:reduce){ *{transition:none !important;animation:none !important} }
+
+  /* ===== PRINT: one face per page at full bleed, for PDF export ===== */
+  @page{size:6.25in 4.25in;margin:0}
+  @media print{
+    body{background:none}
+    .top,.intro,.dir-head,figcaption,.guides{display:none !important}
+    main{padding:0;max-width:none}
+    .dir{padding:0;border:0}
+    .pair{display:block}
+    .cut{zoom:1;width:6.25in;height:4.25in;overflow:visible;box-shadow:none;break-after:page}
+    .cut .sheet{margin:0}
+    .sheet{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .skip-print{display:none !important}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <h1>AfP postcard, three directions <span>6 × 4 in · horizontal</span></h1>
+    <div class="ctrls">
+      <span class="ctrl-l">Size</span>
+      <div class="seg" role="group" aria-label="Card size">
+        <button type="button" data-zoom="fit" aria-pressed="true">Fit</button>
+        <button type="button" data-zoom="1" aria-pressed="false">Actual</button>
+      </div>
+      <span class="ctrl-l">Print guides</span>
+      <div class="seg" role="group" aria-label="Print guides">
+        <button type="button" data-guides="off" aria-pressed="true">Off</button>
+        <button type="button" data-guides="on" aria-pressed="false">On</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <p class="intro">Three fronts for the Alliance for Peacebuilding event, each shown with the back. <strong>The back is the same on all three</strong> so the comparison stays on the front; it picks up the chosen front's motif once we pick one. Cards are built at true print size in inches and points. Turn on print guides to see the 0.125in bleed (shaded), trim (magenta), and safe area (dashed cyan).</p>
+
+  <!-- ===================== A ===================== -->
+  <section class="dir" id="a">
+    <div class="dir-head">
+      <span class="dir-k">A</span>
+      <h2>The Footnote</h2>
+      <p>The headline states what the field knows and carries a citation chip, the same tier-1 chip the product uses. The footnote delivers the problem and names Peace Intel. It explains itself on a table and gives an evidence-minded crowd a small joke to notice. Front in the dark theme, so it stands apart from the light sponsor pieces around it and the flip to the light back feels deliberate.</p>
+    </div>
+    <div class="pair">
+      <figure class="face-col">
+        <div class="cut"><div class="sheet a dark">
+          <div class="safe-box">
+            <div class="row">
+              <img class="lockup" src="Resources/Logos/peaceintel-lockup-dark.png" alt="Peace Intel">
+              <span class="kick dot">Launching January 2027</span>
+            </div>
+            <p class="hed">We know a great deal about how wars are prevented, managed, and ended.<span class="cite" aria-label="note 1">1</span></p>
+            <div class="foot">
+              <hr>
+              <p><span class="cite">1</span>Most of it is scattered across datasets, evaluations, and reports that are hard, and sometimes impossible, to reach. <b>Peace Intel</b> brings it together and traces every answer to its source.</p>
+            </div>
+          </div>
+        </div><div class="guides"><div class="trim"></div><div class="safe"></div></div></div>
+        <figcaption>A · Front</figcaption>
+      </figure>
+      <figure class="face-col">
+        <div class="cut"><div class="sheet back" data-back></div><div class="guides"><div class="trim"></div><div class="safe"></div></div></div>
+        <figcaption>Back (shared)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== B ===================== -->
+  <section class="dir" id="b">
+    <div class="dir-head">
+      <span class="dir-k">B</span>
+      <h2>The Dove</h2>
+      <p>The dithered dove from the hero clip, rebuilt as 1-bit art at print resolution, which is the most reliable thing a toner press reproduces. Most likely to get picked up; the back does more of the explaining. The headline is the team's ambition line.</p>
+    </div>
+    <div class="pair">
+      <figure class="face-col">
+        <div class="cut"><div class="sheet b">
+          <img class="dove" src="Resources/Postcard/dove-dither.png" alt="">
+          <span class="brk tl"></span><span class="brk br"></span>
+          <div class="safe-box">
+            <div class="copy">
+              <span class="kick dot">Launching January 2027</span>
+              <p class="hed">The accumulated intelligence of the peacebuilding field, at your fingertips.</p>
+              <p class="sub">Research, evaluations, and conflict data in one place, with every answer traced to its source.</p>
+              <img class="lockup" src="Resources/Logos/peaceintel-lockup-light.png" alt="Peace Intel">
+            </div>
+          </div>
+        </div><div class="guides"><div class="trim"></div><div class="safe"></div></div></div>
+        <figcaption>B · Front</figcaption>
+      </figure>
+      <figure class="face-col">
+        <div class="cut"><div class="sheet back" data-back></div><div class="guides"><div class="trim"></div><div class="safe"></div></div></div>
+        <figcaption>Back (shared)</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ===================== C ===================== -->
+  <section class="dir" id="c">
+    <div class="dir-head">
+      <span class="dir-k">C</span>
+      <h2>The Question</h2>
+      <p>The composer from the app with a real practitioner question typed in, and the four things you get back underneath. It shows how the product works without a screenshot. The risk is that a chat box alone looks like every AI tool; the four answer chips are what set it apart.</p>
+    </div>
+    <div class="pair">
+      <figure class="face-col">
+        <div class="cut"><div class="sheet c dark">
+          <!-- Plain dark at the top, grid from just below the lockup row to full near the bottom. -->
+          <div class="gridfade" data-axis="y" data-from=".14" data-to=".82"></div>
+          <img class="mag" src="Resources/Postcard/magnifier-dither-cream.png" alt="">
+          <div class="safe-box">
+            <div class="row">
+              <img class="lockup" src="Resources/Logos/peaceintel-lockup-dark.png" alt="Peace Intel">
+              <span class="kick dot">Launching January 2027</span>
+            </div>
+            <div class="mid">
+              <p class="hed">Ask the field.</p>
+              <div class="comp">
+                <q>What has helped local ceasefires hold, and under what conditions?<span class="caret"></span></q>
+                <div class="comp-bar">
+                  <span class="kick">Studies · Evaluations · Datasets</span>
+                  <span class="send" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5"/></svg></span>
+                </div>
+              </div>
+              <div class="asks">
+                <span>What's been tried</span><span>What worked</span><span>What failed</span><span>Who found it</span>
+              </div>
+            </div>
+          </div>
+        </div><div class="guides"><div class="trim"></div><div class="safe"></div></div></div>
+        <figcaption>C · Front</figcaption>
+      </figure>
+      <figure class="face-col">
+        <div class="cut"><div class="sheet back" data-back></div><div class="guides"><div class="trim"></div><div class="safe"></div></div></div>
+        <figcaption>Back (shared)</figcaption>
+      </figure>
+    </div>
+  </section>
+</main>
+
+<!-- One back, stamped into each direction so a copy edit lands everywhere. -->
+<template id="back">
+  <!-- Clean paper under the reading column; the grid builds toward the QR side. -->
+  <div class="gridfade" data-axis="x" data-from=".42" data-to=".78"></div>
+  <div class="safe-box">
+    <div class="l">
+      <span class="kick">Introducing Peace Intel</span>
+      <p class="hed">What the field has learned, tailored to your questions.</p>
+      <p class="body">Peace Intel brings together thousands of studies, evaluations, <span class="nw">hard-to-find</span> research and conflict data, including premier datasets like AfP’s EIRENE. Ask a practical question about a conflict, strategy, or proposed intervention and quickly find expert insights from the field on what has been tried, what worked, what failed and under what conditions.</p>
+      <p class="body">Unlike general-purpose AI, Peace Intel does not simply produce an answer; it’s a practitioner-trained thinking partner that helps users <b>trace claims and expert judgments back to the studies, data, cases, and people they came from.</b></p>
+    </div>
+    <div class="r">
+      <h3>Join the private beta</h3>
+      <div class="qr"><img src="Resources/Postcard/qr-peaceintel-afp.svg" alt="QR code linking to peaceintel.org"></div>
+      <span class="url">peaceintel.org</span>
+      <ul class="bene">
+        <li>Early beta access</li>
+        <li>The full research findings</li>
+        <li>A say in what gets built</li>
+      </ul>
+    </div>
+    <div class="strip">
+      <div class="partners">
+        <span class="kick">A project of</span>
+        <img class="epi" src="Resources/Logos/EPI%20LOGO%202025.png" alt="Effective Peace Initiative">
+        <img class="afp" src="Resources/Logos/AfP_Logo_RGB%20Alliance%20for%20Peacebuilding%20copy.png" alt="Alliance for Peacebuilding">
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  const tpl = document.getElementById('back');
+  document.querySelectorAll('[data-back]').forEach(el => el.appendChild(tpl.content.cloneNode(true)));
+
+  // Draw each .gridfade as SVG lines in 1/100in units (a 20-unit cell = 0.2in). Along the
+  // fade axis the lattice is cut into one-cell bands; band k gets alpha a_k, ramping
+  // linearly from data-from to data-to (fractions of the sheet). Within a band: the line
+  // running across the fade, the cell-long segments running along it, and the centre
+  // dots. Segments start on cell edges and the 5-unit dash period divides 20, so the
+  // dashes line up exactly as the tile draws them.
+  const W = 625, H = 425, C = 20, LINE = .08, DOT = .09;
+  document.querySelectorAll('.gridfade').forEach(g => {
+    const y = g.dataset.axis === 'y', from = +g.dataset.from, to = +g.dataset.to;
+    const len = y ? H : W, across = y ? W : H;
+    let out = '';
+    for (let k = 0; k * C < len; k++){
+      const a = Math.min(1, Math.max(0, ((k + .5) * C / len - from) / (to - from)));
+      if (!a) continue;
+      const lo = k * C, mid = lo + C / 2, hi = lo + C;
+      let d = y ? `M0 ${mid}H${W}` : `M${mid} 0V${H}`, dots = '';
+      for (let j = C / 2; j < across; j += C){
+        d += y ? `M${j} ${lo}V${hi}` : `M${lo} ${j}H${hi}`;
+        dots += y ? `<circle cx="${j}" cy="${mid}" r=".9"/>` : `<circle cx="${mid}" cy="${j}" r=".9"/>`;
+      }
+      out += `<path d="${d}" fill="none" stroke-opacity="${(LINE * a).toFixed(4)}"/>`
+           + `<g stroke="none" fill-opacity="${(DOT * a).toFixed(4)}">${dots}</g>`;
+    }
+    g.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">`
+      + `<g fill="currentColor" stroke="currentColor" stroke-width=".7" stroke-dasharray="3 2">${out}</g></svg>`;
+  });
+
+  // "Fit" sizes each front/back pair to share the row; "Actual" is 1 CSS inch per inch,
+  // which is close to physical size on most displays but not calibrated.
+  const root = document.documentElement;
+  let zoomMode = 'fit';
+  function applyZoom(){
+    let z = 1;
+    if (zoomMode === 'fit'){
+      const pair = document.querySelector('.pair');
+      const w = pair.clientWidth, gap = 32, card = 6.25 * 96;
+      z = w >= 2 * card * 0.9 + gap ? Math.min(1.25, (w - gap) / 2 / card) : Math.min(1.25, w / card);
+    }
+    // Round down so two cards plus the gap never overshoot the row and wrap.
+    root.style.setProperty('--zoom', (Math.floor(z * 1000) / 1000 - .002).toFixed(3));
+  }
+  function press(group, btn){ group.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === btn)); }
+  document.querySelectorAll('[data-zoom]').forEach(b => b.addEventListener('click', () => {
+    zoomMode = b.dataset.zoom; press(b.parentElement, b); applyZoom();
+  }));
+  document.querySelectorAll('[data-guides]').forEach(b => b.addEventListener('click', () => {
+    root.dataset.guides = b.dataset.guides; press(b.parentElement, b);
+  }));
+  addEventListener('resize', applyZoom);
+  applyZoom();
+
+  // Print switch: postcard.html?print=c exports only that direction's front and back.
+  // Without it, printing outputs all six faces.
+  const only = new URLSearchParams(location.search).get('print');
+  if (only) document.querySelectorAll('.dir').forEach(d => d.classList.toggle('skip-print', d.id !== only));
+</script>
+</body>
+</html>

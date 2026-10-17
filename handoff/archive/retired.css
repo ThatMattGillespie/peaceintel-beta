@@ -1,0 +1,2777 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PEACE INTEL · RETIRED STYLES
+   Loaded by archive.html, and by the explore-*.html drafts, which were built
+   before these cuts. Nothing that ships loads this file. Every block was moved
+   here verbatim from tokens.css, components.css or explorations.css, so the
+   archive can still render what was decided against. Do not build on it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── CUT 2026-10-09 · tokens: registration, corners, recess ───────────────── */
+:root, .console-root {
+  /* Registration marks. One of eight framing devices in Pl. 11, and the
+     loudest of them. It is not the default; pick it when a figure genuinely
+     wants an instrument around it.
+
+     THE BRACKET IS A SEPARATE OBJECT FROM THE BOX IT FRAMES, and the clear
+     space is what says so. The weight came up first, from 2px to 6px, which is
+     what made it read as drawn rather than as a stray hairline. Then the gap
+     went past the stroke, to 10px, because at 6px against 6px the bracket and
+     the box edge read as one assembly at full lock — the mark looked attached
+     rather than aimed. Ten against six is unmistakably detached and still
+     close enough to be framing that corner and no other.
+
+     The arm is three quarters of a registered card's 32px padding, so it aims
+     into the corner without reaching the text, and the travel distance is
+     arm + gap, so the mark converges by the width of the space it frames.
+
+     These four move together. Changing one alone breaks the proportion.
+
+     NEVER ON A FULL-WIDTH ELEMENT. A bracket aimed at the corner of a band
+     that runs edge to edge is aimed at the corner of the window, so there is
+     nothing to register on: the mark reads as page furniture, or as a frame
+     round the browser. It needs a box with visible air on both sides of it, so
+     the eye can see the bracket close the distance. A figure, a card, a quoted
+     panel, a console. Not a hero, not a band, not a section.
+
+     The 10px gap is also what lets this survive rounded corners. A right-angle
+     bracket sitting ON a 4px-rounded edge is a mistake; one sitting 10px off it
+     is a separate object and the radius underneath is none of its business.
+     That is why the old squared-corners hard constraint is gone. */
+  --reg-stroke: 6px;
+  --reg-gap: 10px;
+  --reg-arm: 24px;
+  --reg-travel: 34px;
+
+  /* CORNERS, which is registration at a whisper and, as of 2026-09-26, runs on
+     the same scroll-linked --reg progress. Its own three values, because the
+     proportions are not the bracket's: a 1px line needs a longer arm to read at
+     all, and it travels a third of the distance because a hairline moving 34px
+     is a thing flying in rather than a mark settling.
+
+     ONLY WHERE THE CONTAINER HAS NO HAIRLINE. An elbow inside a drawn border is
+     the same line twice, three pixels apart. The two are alternatives: a card
+     wears an edge or it wears corners. */
+  --cnr-stroke: 1px;
+  --cnr-arm: var(--sp-6);
+  --cnr-travel: 12px;
+
+  /* MOUNTS. Two values that are genuinely between scales, named so they show up
+     in a grep. Everything else in the mount catalog composes the spacing scale.
+
+     --mount-recess is the inset shadow that makes .mount--recess read as a
+     plate set INTO the page. It is not on the elevation scale because the
+     elevation scale is outward and this is inward, and because elevation means
+     interactivity in this system while a recess means the opposite.
+
+     --mo-blur is how far out of focus .mo-focus starts. Six pixels is enough to
+     read as unfocused and little enough that the shape stays legible the whole
+     way, so the content is never actually hidden. */
+  --mount-recess:
+    inset 0 0 0 1px color-mix(in srgb, var(--ink) 4%, transparent),
+    inset 0 0 30px -14px rgba(var(--sh), .30);
+}
+
+/* ── CUT 2026-10-09 · components.css: registration ────────────────────────── */
+/* 2 · REGISTER. Scroll-linked. The element is ACQUIRED as it enters, LOCKED
+      when it reaches the reading position, and RELEASED as it leaves. Corner
+      marks converge from outside the box and settle just outside its edge, the
+      way a crop mark sits off the trim.
+
+      --reg is written by script as a 0 -> 1 -> 0 progress value, so the marks
+      track scroll position continuously rather than firing once. Everything
+      below is driven off that single custom property.
+
+      Lifted from the logo lockup, where the dove already sits inside corner
+      brackets, so the brand signs its own interface.
+
+      HARD CONSTRAINT: registration marks require SQUARED corners. A right-angle
+      bracket around a 14px-rounded box reads as a mistake, so the marks are
+      suppressed rather than rendered badly. Corners were squared on 2026-09-24,
+      so that conflict no longer exists and the guard has been removed. */
+.reg { position: relative; --reg: 0 }
+
+/* A registered element gets ONE EXTRA STEP of internal padding over a plain
+   card. The brackets frame the corner from outside, so the corner inside has to
+   be air; at the standard 24px the heading crowded the marks and the whole thing
+   read as cramped rather than composed. */
+.reg.card { padding: var(--sp-8) }
+
+.reg > .reg-marks { position: absolute; inset: 0; pointer-events: none; z-index: 3 }
+
+/* The bracket. Sized entirely from the 2 / 6 / 18 ratio in tokens.css, so the
+   weight, the clear space and the arm length move together. Each i is an L: two
+   borders of a square, with the other two removed. */
+.reg-marks i {
+  position: absolute; width: var(--reg-arm); height: var(--reg-arm);
+  border: var(--reg-stroke) solid var(--accent);
+  opacity: calc(var(--reg) * .95);
+}
+.reg-marks i:nth-child(1) { top: 0; left: 0; border-right: 0; border-bottom: 0;
+  transform: translate(
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1),
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1)) }
+.reg-marks i:nth-child(2) { top: 0; right: 0; border-left: 0; border-bottom: 0;
+  transform: translate(
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))),
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1)) }
+.reg-marks i:nth-child(3) { bottom: 0; left: 0; border-right: 0; border-top: 0;
+  transform: translate(
+    calc((var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))) * -1),
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg)))) }
+.reg-marks i:nth-child(4) { bottom: 0; right: 0; border-left: 0; border-top: 0;
+  transform: translate(
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg))),
+    calc(var(--reg-gap) + var(--reg-travel) * (1 - var(--reg)))) }
+
+/* The readout. Appears only at lock, and says what was acquired rather than
+   performing a status. Keep it to a few characters. It sits above the top-right
+   bracket and shares its outer edge, so the mark and the label are one object.
+
+   There used to be an accent hairline drawing across the top edge as well. It
+   was a third signal doing the job of the first two, and at full width it read
+   as a progress bar rather than an instrument settling. Removed. */
+.reg-tag {
+  position: absolute;
+  top: calc((var(--reg-gap) + var(--reg-stroke) + var(--sp-2)) * -1);
+  right: calc(var(--reg-gap) * -1);
+  transform: translateY(-100%);
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase; color: var(--accent-text);
+  opacity: 0; transition: opacity var(--mo-base); pointer-events: none; z-index: 3;
+  white-space: nowrap;
+}
+.reg.locked .reg-tag { opacity: 1 }
+
+/* On a phone the page gutter is narrower than the travel distance, so an
+   unacquired mark parks off-screen and then appears to slide in from nowhere
+   instead of converging. Shortening the travel keeps the whole movement inside
+   the viewport. The ratio between stroke, gap and arm is untouched — only the
+   distance travelled changes. */
+@media (max-width: 640px) {
+  /* Gap plus travel is how far the mark reaches past the box, and the page
+     gutter is 16px. Ten plus four lands the incoming bracket exactly on the
+     viewport edge; ten plus ten put it 4px past and gave the page a horizontal
+     scrollbar on a phone. The gap stays at ten so the mark is still detached. */
+  .reg { --reg-travel: 4px }
+}
+
+
+
+/* ── CUT 2026-10-09 · components.css: settle ──────────────────────────────── */
+/* 4 · SETTLE. A figure arrives at its value. A damped rise, not a counter roll:
+      the number was measured, it did not accumulate.
+
+      Retimed 2026-09-25, from 380 / 520 to 700 / 1100, and the travel doubled
+      from 8px to 16px. Both changes are for the same reason. A settle is only
+      legible if you can see it decelerate, and eight pixels in half a second
+      has no deceleration in it that the eye can find — it was a fade with a
+      twitch. The curve is heavily damped on purpose: it arrives, it does not
+      bounce. A figure that overshoots its value and comes back is saying the
+      opposite of what this is for. */
+[data-js] .mo-settle { opacity: 0; transform: translateY(var(--sp-4)); transition: opacity var(--mo-in-1) ease, transform var(--mo-in-3) cubic-bezier(.14,.86,.22,1) }
+.mo-settle.is-in { opacity: 1; transform: none }
+
+
+/* ── CUT 2026-10-09 · components.css: corners, recess, seam, mat ─────────── */
+/* 2 · CORNERS. Registration's idea at a whisper: a hairline elbow at the top
+      left and another at the bottom right, inside the block rather than outside
+      it, with the elbow itself rounded to --r-md.
+
+      TWO CORNERS, NOT FOUR, and that is the whole difference. Four corners is a
+      frame, and a frame that does not close reads as a frame that failed to
+      load. Two on a diagonal is a deliberate gesture: the eye completes the
+      rectangle itself, which is more elegant than being handed it, and the
+      block stays open on the other diagonal so it never feels boxed.
+
+      The rounded elbow is what stops this being the bracket problem again.
+      A 1px line turning a 4px corner is a drawn detail; a 6px line turning a
+      right angle is a clamp. */
+/* The elbows sit ON the block's own bounds and the padding is what holds the
+   content clear of them. Insetting the elbows instead put them inside the
+   padding, where they crossed the first line of type. The arm is one spacing
+   step shorter than the padding for the same reason: --sp-6 inside --sp-7.
+
+   SCROLL-LINKED as of 2026-09-26, off the same --reg progress as registration,
+   written by the same loop in system.js. The two marks converge on the block as
+   it comes up to the reading position and release as it leaves, so the whisper
+   and the shout are the same gesture at two volumes. The travel is 12px against
+   registration's 34: a 6px bracket crossing 34px is an instrument acquiring, a
+   1px elbow doing it is a hairline flying in.
+
+   Opacity tops out at .9 rather than 1 so the mark never quite hardens. With
+   script off --reg is unset, the fallbacks put both elbows at rest and at full
+   strength, and the mount is exactly what it was before it moved. */
+.mount--corners { position: relative; padding: var(--sp-7) }
+.mount--corners::before, .mount--corners::after {
+  content: ""; position: absolute; width: var(--cnr-arm); height: var(--cnr-arm);
+  border: var(--cnr-stroke) solid var(--ink-35); pointer-events: none;
+  opacity: calc(var(--reg, 1) * .9);
+}
+.mount--corners::before {
+  top: 0; left: 0;
+  border-right: 0; border-bottom: 0; border-top-left-radius: var(--r-md);
+  transform: translate(
+    calc(var(--cnr-travel) * (1 - var(--reg, 1)) * -1),
+    calc(var(--cnr-travel) * (1 - var(--reg, 1)) * -1));
+}
+.mount--corners::after {
+  bottom: 0; right: 0;
+  border-left: 0; border-top: 0; border-bottom-right-radius: var(--r-md);
+  transform: translate(
+    calc(var(--cnr-travel) * (1 - var(--reg, 1))),
+    calc(var(--cnr-travel) * (1 - var(--reg, 1))));
+}
+
+/* ON A CARD THE CARD GIVES UP ITS EDGE. A card already draws a hairline round
+   itself, and an elbow inside that hairline is the same line twice, three
+   pixels apart — which reads as a rendering fault rather than as a mark. The
+   earlier fix inset the elbows by a step, which made two marks where there
+   should be one.
+
+   So the two are ALTERNATIVES, and the markup says which: a card marked with
+   corners drops its own border and its shadow, and the corners do the raising.
+   This is the same decision as .surf--edge versus .mount--corners in Pl. 15,
+   enforced here rather than left to the author. The face stays, because the
+   tone is what separates a card from the band it sits on. */
+.mount--corners.card {
+  border-color: transparent; box-shadow: none;
+}
+
+/* 3 · RECESS. No border and no drawn line anywhere. The face is the raised tone
+      and an inset shadow darkens it toward its own edges, so the block reads as
+      a plate set INTO the page rather than laid on top of it.
+
+      This is the most restrained thing in the set by some distance, because
+      nothing about it is a mark — it is entirely tone, which is the register a
+      lot of institutional work actually wants. It is also the only mount that
+      survives being used twice on a page without looking like a system, since
+      there is no motif to repeat.
+
+      The inner hairline is at 4% ink rather than --line, because a drawn edge on
+      top of an inset shadow gives the plate two boundaries. */
+.mount--recess {
+  background: var(--panel); border: 0; border-radius: var(--r-lg);
+  padding: var(--sp-7);
+  box-shadow: var(--mount-recess);
+}
+
+/* 4 · SEAM. One 2px rule down the left edge and nothing else. The pull-quote
+      move, and the only mount that reads as a claim rather than as a figure:
+      a seam says this passage is being quoted or argued, which is exactly right
+      on a finding and wrong on a screenshot.
+
+      Ink by default, because the system is monochrome by default. .accent is
+      there for the single most important instance on a page and costs the page
+      its one warm moment, so it competes with the callout — use one or the
+      other, not both. */
+.mount--seam { padding: var(--sp-1) 0 var(--sp-1) var(--sp-6); border-left: 2px solid var(--ink) }
+.mount--seam.accent { border-left-color: var(--accent) }
+.mount--seam.faint { border-left-color: var(--ink-35) }
+
+/* 5 · MAT. The figure is mounted inside a wide mat of page tone, with a hairline
+      at the outer edge of the mat and a second, tighter hairline around the
+      content itself. Two frames and a great deal of air, which is the whole
+      point: the mat is not decoration, it is the statement that this object is
+      worth the space around it.
+
+      The most formal mount and the most expensive in layout. Use it once, on
+      the figure the page exists for.
+
+      It is the one mount that takes a child wrapper, because a mat genuinely has
+      two parts. An <img> or a <video> straight inside counts as the content. */
+.mount--mat {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--r-lg); padding: var(--sp-10);
+}
+.mount--mat > .mount-in,
+.mount--mat > img, .mount--mat > video {
+  display: block; width: 100%;
+  border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  overflow: hidden;
+}
+@media (max-width: 640px) { .mount--mat { padding: var(--sp-5) } }
+
+
+/* ── CUT 2026-10-09 · explorations.css: the surface alternatives ──────────── */
+/* 1 · EDGE. A hairline and the page tone. The current resolution: the wash
+      belongs to the region, the edge belongs to the object. Lightest possible
+      and the one that lets a grid of cards stay quiet. */
+.surf--edge { background: var(--bg); border: 1px solid var(--line-2); box-shadow: none }
+
+/* 2 · EDGE PLUS WASH. What a raised card used to be. Kept here because on a
+      PAGE-toned band rather than a raised one it is still the right answer —
+      the problem was only ever card-on-band, not the treatment itself. */
+.surf--wash { background: var(--panel); border: 1px solid var(--line-2); box-shadow: none }
+
+/* 3 · LIFT. No drawn edge at all: the page tone and a shadow so faint it reads
+      as contact rather than elevation. The most modern of the six and the one
+      that will date fastest. It also breaks the rule that elevation means
+      interactivity, which is why it is here rather than in the catalog. */
+.surf--lift { background: var(--bg); border: 0; box-shadow: var(--elev-1) }
+
+/* 4 · RECESS. The face sits below the page instead of above it. Tone only, no
+      lines. Reads as a plate set into the paper, and it is the only one of the
+      six that could be used twice on a page without looking like a system,
+      because there is no mark to repeat. Same treatment as .mount--recess. */
+.surf--recess { background: var(--panel); border: 0; box-shadow: var(--mount-recess) }
+
+/* 5 · RULE. One hairline across the top and nothing else — no side edges, no
+      bottom, no fill. The most editorial: it groups content the way a rule in a
+      newspaper does, by sitting above it rather than by enclosing it. Cards in a
+      row become columns of a table, which is either exactly right or completely
+      wrong depending on whether they are a set. */
+.surf--rule { background: transparent; border: 0; border-top: 1px solid var(--ink-35); box-shadow: none; border-radius: 0 }
+
+/* 6 · WARM EDGE. The page tone with a hairline that has warmth mixed into it
+      rather than being neutral ink. The smallest possible amount of brand in a
+      surface, and the only one of the six that carries any hue at all.
+      Deliberately included as the boundary case: if this reads as too much,
+      that is a useful confirmation that the monochrome direction is right. */
+.surf--warmedge { background: var(--bg); box-shadow: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--line-2)) }
+
+/* Comparison chrome. Plate only. */
+.surf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--sp-6) }
+.surf-grid .card { padding: var(--sp-5) }
+.surf-lab { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase; color: var(--ink-55); display: block; margin-bottom: var(--sp-3) }
+
+/* ── CUT 2026-10-09, evening · components.css: rail ──────────────────────── */
+/* 3 · RAIL. A hairline down the left margin with the plate number set vertically
+      beside it. Lifted straight out of monograph and catalogue setting, where a
+      figure is numbered because it will be referred to later.
+
+      The label and the rule are PARALLEL, both in the margin, rather than the
+      label interrupting the rule. Interrupting it needs the label to carry the
+      surface colour behind it, which means a per-surface override, which means
+      the one rule this system will not break. Parallel needs nothing and is the
+      older convention anyway.
+
+      Use it where the number is real. A figure labelled Fig. 3 on a page with no
+      Fig. 1 or 2 is a costume, the same mistake as SCANNING… on a readout. */
+.mount--rail { padding-left: var(--sp-8) }
+.mount--rail::before {
+  content: ""; position: absolute; left: var(--sp-5); top: 0; bottom: 0;
+  width: 1px; background: var(--line-2); pointer-events: none;
+}
+.mount--rail > .mount-n {
+  position: absolute; left: 0; top: 0;
+  writing-mode: vertical-rl;
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+  text-transform: uppercase; color: var(--ink-55); white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .mount--rail { padding-left: var(--sp-7) }
+  .mount--rail::before { left: var(--sp-4) }
+}
+
+/* ── CUT 2026-10-09, evening · explorations.css: the rail, four ways ──────── */
+/* ── THE RAIL, FOUR WAYS (Pl. 11) ────────────────────────────────────────────
+   Each keeps the rail's grammar: a rule in the margin and a real figure number
+   beside it, nothing interrupting either. */
+/* A · ruler. Ticks every --sp-4 against the rule, so the margin reads as a
+   measure. The instrument register without the accent. */
+.mount--rail.rail--ruler::after {
+  content: ""; position: absolute; left: calc(var(--sp-5) - var(--sp-2)); top: 0; bottom: 0; width: var(--sp-2);
+  background: repeating-linear-gradient(to bottom, var(--line-2) 0, var(--line-2) 1px, transparent 1px, transparent var(--sp-4));
+  pointer-events: none;
+}
+/* B · numeral. The number set large in the serif at the head of the rail, the
+   rule hanging from it. Catalogue raisonné rather than footnote. */
+.mount--rail.rail--numeral { padding-left: var(--sp-16) }
+.mount--rail.rail--numeral::before { left: var(--sp-5); top: var(--sp-14) }
+.mount--rail.rail--numeral > .mount-n {
+  writing-mode: horizontal-tb; text-transform: none; letter-spacing: 0;
+  font-family: var(--serif); font-weight: 800; font-size: var(--t-h2); line-height: 1; color: var(--ink);
+}
+/* C · spine. A 2px ink rule with a hairline beside it, the way a book's spine
+   is ruled. The heaviest of the four. */
+.mount--rail.rail--spine::before { width: 2px; background: var(--ink); box-shadow: var(--sp-1) 0 0 -1px var(--line-2) }
+/* D · fade. The rule runs out into the page instead of stopping, like the
+   texture does everywhere else in the system. */
+.mount--rail.rail--fade::before {
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 0%, #000 55%, transparent 100%);
+}
+
+/* ── CUT 2026-10-09, evening · explorations.css: denser and radiant icons ─── */
+/* ── PIXEL ICONS, DENSER AND RADIANT (Pl. 19) ───────────────────────────────
+   Held with the icons. Density changes the grid; radiance changes how the
+   cells are toned. Radiant icons are three paths (.r0 core, .r1, .r2 rim). */
+.px-icon--fine { width: calc(var(--dither-cell) * 50px / 3); height: calc(var(--dither-cell) * 50px / 3) }
+.px-icon--big  { width: calc(var(--dither-cell) * 25px); height: calc(var(--dither-cell) * 25px) }
+.px-icon .r1 { fill: var(--ink-70) }
+.px-icon .r2 { fill: var(--ink-55) }
+.px-icon--ember .r0 { fill: var(--accent) }
+.px-icon--ember .r1 { fill: color-mix(in srgb, var(--accent) 55%, var(--ink)) }
+.px-icon--ember .r2 { fill: var(--ink) }
+/* The 17-cell size the archive shows as "Then". */
+.px-icon--c17 { width: calc(var(--dither-cell) * 17px); height: calc(var(--dither-cell) * 17px) }
+
+/* ── CUT 2026-10-09, night · explorations.css: elevation, eleven ways ───────
+   Matt kept C, I and J; the block is kept whole so the archive can show all
+   eleven side by side. */
+/* ── ELEVATION, ELEVEN WAYS (Pl. 01, and explore-elevation.html) ────────────
+   The current scale is soft and nearly invisible on paper, by design. These
+   ask what a more distinct elevation would look like. Matt's rule, 9 October:
+   elevation and its hover are for things you can click, so every option is
+   scoped to a real link (a[href]) or a button and does nothing on a static
+   block. The attribute also lifts the selector over .card.raised, which would
+   otherwise cancel the shadow. Each one
+   is a modifier, so it goes on a .card as well as on the .elx specimen.
+   Hover moves are interaction motion, so they run at --mo-fast. */
+.elx {
+  display: block;
+  background: var(--panel-face); border: 1px solid var(--line-2);
+  border-radius: var(--r-lg); padding: var(--sp-5);
+}
+.elx h3 { font-family: var(--serif); font-weight: 700; font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+.elx p { font-size: var(--t-sm); color: var(--ink-70); margin-top: var(--sp-2) }
+:is(a[href], button)[class*="elx--"] {
+  position: relative;
+  transition: transform var(--mo-fast), box-shadow var(--mo-fast), border-color var(--mo-fast),
+              outline-color var(--mo-fast), outline-offset var(--mo-fast);
+}
+/* A · the incumbent, for comparison. */
+:is(a[href], button).elx--soft { box-shadow: var(--elev-2) }
+:is(a[href], button).elx--soft:hover { box-shadow: var(--elev-3) }
+/* B · stark offset outline. A second edge, drawn rather than shaded: the
+   card's outline repeated one step down and right, hollow. The hollow is
+   filled with --bg, so on a raised band it shows the page tone. */
+:is(a[href], button).elx--outline { box-shadow: var(--sp-2) var(--sp-2) 0 -1px var(--bg), var(--sp-2) var(--sp-2) 0 0 var(--ink) }
+:is(a[href], button).elx--outline:hover { transform: translate(calc(var(--sp-1) * -.5), calc(var(--sp-1) * -.5)); box-shadow: var(--sp-3) var(--sp-3) 0 -1px var(--bg), var(--sp-3) var(--sp-3) 0 0 var(--ink) }
+/* C · brutalist block. A solid ink offset that lifts on hover and presses flat
+   on click, so elevation is a physical position rather than a blur. */
+:is(a[href], button).elx--block { border-color: var(--ink); box-shadow: var(--sp-1) var(--sp-1) 0 0 var(--ink) }
+:is(a[href], button).elx--block:hover { transform: translate(calc(var(--sp-1) * -.5), calc(var(--sp-1) * -.5)); box-shadow: calc(var(--sp-1) * 1.5) calc(var(--sp-1) * 1.5) 0 0 var(--ink) }
+:is(a[href], button).elx--block:active { transform: translate(var(--sp-1), var(--sp-1)); box-shadow: 0 0 0 0 var(--ink) }
+/* D · the same block in the hairline tone. The brutalist mechanics at the
+   brand's own volume. */
+:is(a[href], button).elx--tone { box-shadow: var(--sp-2) var(--sp-2) 0 0 var(--line-2) }
+:is(a[href], button).elx--tone:hover { transform: translate(calc(var(--sp-1) * -.5), calc(var(--sp-1) * -.5)); box-shadow: var(--sp-3) var(--sp-3) 0 0 var(--line-2) }
+/* E · misregistration. A hollow second edge that sits off the card and closes
+   onto it under the pointer, the way a print plate comes into register. */
+:is(a[href], button).elx--misreg { box-shadow: var(--sp-2) var(--sp-2) 0 -1px var(--bg), var(--sp-2) var(--sp-2) 0 0 var(--ink-35) }
+:is(a[href], button).elx--misreg:hover { box-shadow: 0 0 0 -1px var(--bg), 0 0 0 0 var(--ink-35) }
+
+/* F · dissolve. The edge gives way to depth: under the pointer the hairline
+   fades out as the shadow comes up, so the card stops being drawn and starts
+   floating. */
+:is(a[href], button).elx--dissolve:hover { border-color: transparent; box-shadow: var(--elev-3); transform: translateY(calc(var(--sp-1) * -.5)) }
+/* G · falloff. A hairline that is whole along the top and runs out down the
+   sides, gone by the foot, like light catching an edge. Under the pointer it
+   completes itself. The line is a masked overlay, so the mask can travel. */
+:is(a[href], button).elx--falloff { border-color: transparent }
+:is(a[href], button).elx--falloff::before {
+  content: ""; position: absolute; inset: -1px; pointer-events: none;
+  border: 1px solid var(--ink-35); border-radius: inherit;
+  -webkit-mask: linear-gradient(#000 50%, transparent) 0 100% / 100% 200% no-repeat;
+          mask: linear-gradient(#000 50%, transparent) 0 100% / 100% 200% no-repeat;
+  transition: -webkit-mask-position var(--mo-base), mask-position var(--mo-base);
+}
+:is(a[href], button).elx--falloff:hover::before { -webkit-mask-position: 0 0; mask-position: 0 0 }
+:is(a[href], button).elx--falloff:hover { box-shadow: var(--elev-1) }
+/* H · bevel. Polished hardware, after Cal.com's buttons: a lit top edge, a
+   shaded foot, a low shadow. It rises a step under the pointer and goes in
+   when pressed. The light edge only shows where the face is darker than
+   paper, so in light mode the foot does the work. */
+:is(a[href], button).elx--bevel {
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--pi-paper-000) 12%, transparent),
+              inset 0 -2px 0 rgba(var(--sh), .06), var(--elev-1);
+}
+:is(a[href], button).elx--bevel:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--pi-paper-000) 16%, transparent),
+              inset 0 -3px 0 rgba(var(--sh), .09), var(--elev-2);
+}
+:is(a[href], button).elx--bevel:active { transform: translateY(0); box-shadow: inset 0 2px 3px rgba(var(--sh), .12) }
+/* I · echo. A second hairline arrives a step outside the first, the way a
+   print is matted. Drawn with the outline, so it costs no layout; keyboard
+   focus replaces it with the focus ring, which is the right priority. */
+:is(a[href], button).elx--echo { outline: 1px solid transparent; outline-offset: 0 }
+:is(a[href], button).elx--echo:hover { outline-color: var(--ink-35); outline-offset: var(--sp-1); border-color: var(--ink-35) }
+/* J · halftone. The offset is a screen of dots at the dither cell instead of
+   a solid block or a blur: the brand's print vocabulary used as depth. The
+   face moves to a layer of its own so the dots can sit behind it. */
+:is(a[href], button).elx--halftone { isolation: isolate; background: transparent; border-color: transparent }
+:is(a[href], button).elx--halftone::before,
+:is(a[href], button).elx--halftone::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+}
+:is(a[href], button).elx--halftone::before { z-index: -1; background: var(--panel-face); border: 1px solid var(--line-2) }
+:is(a[href], button).elx--halftone::after {
+  z-index: -2; transform: translate(var(--sp-1), var(--sp-1));
+  background: radial-gradient(circle closest-side, var(--ink-35) 62%, transparent 80%) 0 0 / calc(var(--dither-cell) * 1px) calc(var(--dither-cell) * 1px);
+  transition: transform var(--mo-fast);
+}
+:is(a[href], button).elx--halftone:hover { transform: translate(calc(var(--sp-1) * -.5), calc(var(--sp-1) * -.5)) }
+:is(a[href], button).elx--halftone:hover::after { transform: translate(var(--sp-2), var(--sp-2)) }
+/* K · plate. Under the pointer the brand's dashed grid surfaces inside the
+   card, as a soft pool, and the edge firms up: the card becomes a plate. The
+   only option with no shadow and no offset at all. */
+:is(a[href], button).elx--plate { isolation: isolate }
+:is(a[href], button).elx--plate::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; border-radius: inherit;
+  background-image: var(--grid); background-size: 20px 20px;
+  -webkit-mask-image: var(--grid-mask-center); mask-image: var(--grid-mask-center);
+  opacity: 0; transition: opacity var(--mo-base);
+}
+:is(a[href], button).elx--plate:hover::before { opacity: var(--grid-opacity) }
+:is(a[href], button).elx--plate:hover { border-color: var(--ink-35) }
+.elx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-8) var(--sp-6) }
+
+/* ── CUT 2026-10-09, night · explorations.css: the finer-icon lab ───────────
+   Matt picked Dotted at 25 cells on 2px, now the default in .px-icon. */
+/* ── PIXEL ICONS, FINER AND MADE DELIBERATE (Pl. 19) ─────────────────────────
+   Held with the icons. The finer grid (25 cells at 2px) was picked on 9
+   October and is now the default in .px-icon and media/mkicons.cjs. These are
+   two ways to make that raster read as chosen, each at the finer cell and on
+   the brand's 3px cell. */
+/* Dotted: the same cells, masked to one dot per cell, so it is a rendering
+   rule and the generator does not change. --cells is the icon's grid. */
+.px-icon--dot {
+  --cells: 25;
+  -webkit-mask: radial-gradient(circle closest-side, #000 76%, transparent 90%) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells));
+          mask: radial-gradient(circle closest-side, #000 76%, transparent 90%) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells));
+}
+/* On the brand cell: 17 cells at 3px, the first pass's grid, and 21 for the
+   one-cell line, which needs the extra cells to keep its detail. */
+.px-icon--c17 { --cells: 17; width: calc(var(--dither-cell) * 17px); height: calc(var(--dither-cell) * 17px) }
+.px-icon--c21 { width: calc(var(--dither-cell) * 21px); height: calc(var(--dither-cell) * 21px) }
+.icon-lab { display: grid; grid-template-columns: max-content repeat(5, minmax(0, 1fr)); gap: var(--sp-5) var(--sp-6); align-items: center }
+.icon-lab .eyebrow { white-space: nowrap }
+.icon-lab .px-icon { max-width: 100%; height: auto; aspect-ratio: 1 }
+@media (max-width: 760px) { .icon-lab { grid-template-columns: repeat(5, minmax(0, 1fr)) } .icon-lab .eyebrow { grid-column: 1 / -1 } }
+/* .px-icon is dotted by default now; the archive's square rows opt out. */
+.px-icon.px-icon--solid { -webkit-mask: none; mask: none }
+
+/* ── CUT 2026-10-09, night · components.css: the dissolve mount ───────────
+   Ruled a full-width background only; it continues as .vmap--dissolve. */
+/* 2 · DISSOLVE. No edge at all: the block's own edges break up into the dither
+      and stop. The brand's image language used as a frame, which makes it the
+      one mount here that could not have come from anywhere else.
+
+      Two masks doing opposite jobs. The element is masked by a soft ellipse, so
+      it fades toward its corners; the overlay carries the dither tile masked by
+      the INVERSE of that ellipse, so the dots appear exactly where the fade is
+      happening. Solid centre, then dots, then page. The tile is at the brand
+      cell, so it is the same grain as the video assets.
+
+      IMAGERY AND FIGURES ONLY. A mask over body copy fades the ends of lines,
+      which is unreadable and, because it is a mask, invisible to a contrast
+      check. If there is text in the block it needs its own opaque face. */
+.mount--dissolve {
+  border: 0; background: none; padding: 0;
+  -webkit-mask-image: radial-gradient(ellipse 80% 76% at 50% 48%, #000 0%, #000 54%, transparent 97%);
+  mask-image: radial-gradient(ellipse 80% 76% at 50% 48%, #000 0%, #000 54%, transparent 97%);
+}
+.mount--dissolve::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background-image: var(--grid);
+  background-size: calc(var(--dither-cell) * 3px) calc(var(--dither-cell) * 3px);
+  opacity: calc(var(--grid-opacity) * .9);
+  -webkit-mask-image: radial-gradient(ellipse 80% 76% at 50% 48%, transparent 0%, transparent 36%, #000 84%);
+  mask-image: radial-gradient(ellipse 80% 76% at 50% 48%, transparent 0%, transparent 36%, #000 84%);
+}
+
+/* ══ REMOVED 2026-10-14 · DARK MODE ═══════════════════════════════════════════
+   Matt removed the dark theme: too heavy and too intense for the brand. Every
+   [data-theme="dark"] rule, as it stood, by file. Dark bands (.on-dark,
+   .surface--invert) were kept and are not here. Selectors that were shared
+   with a light context were trimmed in place rather than moved. */
+
+/* ── from tokens.css ── */
+:root[data-theme="dark"] .surface--raised,
+.console-root[data-theme="dark"] .surface--raised {
+  /* Opposite direction, same rule: on a raised dark band a card lifts FURTHER
+     from the page rather than falling back to it. FOUR PERCENT, NOT SIX: the
+     dark ink ramp is solved against --panel at 3%, and a 6% face is a lighter
+     surface than anything the ramp was measured on. Measured on the landing
+     page it put --ink-55 at 4.48:1 and a tier-1 citation, which adds its own
+     accent wash on top, at 4.30:1. The separation here is the hairline's job
+     anyway; the face only has to stop the card dissolving. */
+  --panel-face: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  --wash-1: rgba(243, 239, 231, .04);
+  --wash-2: rgba(243, 239, 231, .08);
+}
+/* On a dark page, an inverted band goes LIGHT. Same mechanism, opposite way. */
+:root[data-theme="dark"] .surface--invert,
+.console-root[data-theme="dark"] .surface--invert {
+  --bg: var(--pi-paper-000);
+  /* The light page's raised tone, which is a 2% wash of ink. This was
+     --pi-paper-100, the warm panel retired on 2026-09-24, so a light band on a
+     dark page was the one place the old warm surface survived. */
+  --panel: color-mix(in srgb, var(--ink) 2%, var(--bg));
+  --ink: var(--pi-ink-900);
+  --ink-70: var(--pi-ink-600);
+  --ink-55: var(--pi-ink-400);
+  --ink-35: var(--pi-ink-300);
+  --line: rgba(20, 19, 16, .08);
+  --line-2: rgba(20, 19, 16, .14);
+  --panel-face: var(--bg);
+  --panel-border: 1px solid var(--line-2);
+  --panel-elev: none;
+  --accent: var(--pi-orange);
+  --accent-text: var(--pi-orange-text);
+  --accent-on-ink: var(--pi-orange-warm);
+  --accent-fill: var(--pi-orange-text);
+  --on-accent: #FFFFFF;
+  --kicker: var(--ink-55);
+  --wash-1: rgba(20, 19, 16, .03);
+  --wash-2: rgba(20, 19, 16, .06);
+  --sh: 20, 19, 16;
+  /* The grid inverts with the band. The dark theme sets --grid to the white
+     lattice, and without this a light band on a dark page inherited it: white
+     dashes on paper, which is no grid at all. */
+  --grid: var(--gridink);
+  --grid-opacity: 1;
+  --hl: color-mix(in srgb, var(--accent) 14%, transparent);
+  --link-h: var(--ink);
+  --panel-sheer: color-mix(in srgb, var(--bg) 82%, transparent);
+  --warm: var(--pi-paper-100);
+  --elev-1: 0 1px 2px rgba(var(--sh), .03), 0 5px 12px -9px rgba(var(--sh), .13);
+  --elev-2: 0 2px 4px rgba(var(--sh), .04), 0 18px 38px -26px rgba(var(--sh), .22);
+  --elev-3: 0 3px 6px rgba(var(--sh), .05), 0 34px 68px -30px rgba(var(--sh), .32);
+
+  background: var(--bg);
+  color: var(--ink);
+}
+/* On a dark theme a dark band lifts off the page instead of sinking into it. */
+:root[data-theme="dark"] .on-dark,
+.console-root[data-theme="dark"] .on-dark {
+  --on-dark-surface: var(--pi-dark-100);
+  --accent: var(--pi-orange-bright);
+  --accent-text: var(--pi-orange-bright);
+  --on-dark-accent: var(--pi-orange-bright);
+}
+/* ── DARK THEME ──────────────────────────────────────────────────────────────
+   A one-attribute flip, as production already does it. Ratios against --panel,
+   the harder surface. */
+:root[data-theme="dark"],
+.console-root[data-theme="dark"] {
+  --bg: var(--pi-dark-000);
+  --panel: var(--pi-dark-100);
+  --ink: var(--pi-dark-ink);     /* 15.19:1 on --panel */
+  --ink-70: var(--pi-dark-600);  /*  8.36:1 */
+  --ink-55: var(--pi-dark-400);  /*  4.82:1 */
+  --ink-35: var(--pi-dark-300);  /*  3.20:1 */
+  --line: rgba(243, 239, 231, .09);
+  --line-2: rgba(243, 239, 231, .16);
+  --wash-1: rgba(243, 239, 231, .04);
+  --wash-2: rgba(243, 239, 231, .08);
+  --accent: var(--pi-orange-bright);      /* 5.15:1 on --panel */
+  --accent-text: var(--pi-orange-bright);
+  /* --ink is the PAPER here, so the accent on it is the dark one: 4.6:1.
+     The warm orange measured 2.43:1 on an inverted chip. */
+  --accent-on-ink: var(--pi-orange-text);
+  /* 5.49:1 with ink on it. White would be 3.38:1. */
+  --accent-fill: var(--pi-orange-bright);
+  --on-accent: var(--pi-ink-900);
+  --sh: 0, 0, 0;
+  --panel: color-mix(in srgb, var(--ink) 3%, var(--bg));
+  --panel-border: 1px solid var(--line-2);
+  --panel-elev: none;
+  /* Away from the page toward the light: on near-black that is LIGHTER, so the
+     card face takes the panel tone rather than the page tone. This is what the
+     light theme was missing, not what the dark theme was getting wrong. */
+  --panel-face: var(--panel);
+  --panel-sheer: color-mix(in srgb, var(--bg) 78%, transparent);
+  --warm: var(--pi-dark-100);
+
+  --elev-1: 0 1px 2px rgba(var(--sh), .16), 0 5px 12px -9px rgba(var(--sh), .40);
+  --elev-2: 0 2px 4px rgba(var(--sh), .20), 0 18px 38px -26px rgba(var(--sh), .50);
+  --elev-3: 0 3px 6px rgba(var(--sh), .24), 0 34px 68px -30px rgba(var(--sh), .60);
+
+  --grid: var(--gridinv);
+  --grid-opacity: .1;
+}
+
+/* ── from components.css ── */
+:root[data-theme="dark"] .nav-mark .nm-light { display: none }
+:root[data-theme="dark"] .nav-mark .nm-dark { display: block }
+/* A light band on a dark page is the light page again: the marks go back. */
+:root[data-theme="dark"] .surface--invert .orgs img { opacity: .75; filter: none }
+
+/* ── from explorations.css ── */
+/* An inverted band is the other theme: on a dark page it is light again. */
+:root[data-theme="dark"] .surface--invert .veil--side { mix-blend-mode: multiply }
+/* A light band on a dark page shows the veil as the light page does. */
+:root[data-theme="dark"] .surface--invert .veil video {
+  filter: grayscale(1) contrast(1.05);
+  mix-blend-mode: multiply;
+  opacity: var(--veil-o);
+}
+/* The dark ramps are declared separately rather than left to the token flip.
+   In dark, --warm is a near-black and --ink is the paper, so the same mixes that
+   step evenly on a light page bunch up at the top and the sky flattened into one
+   salmon. These step evenly against the dark ground instead. They are also the
+   only place the accent survives in the video treatment, on purpose: see above.
+
+   SCENE tops out at a warm mid and never reaches the paper tone, because a
+   full-frame clip that reaches paper is a lit slab on a dark page.
+   SUBJECT runs the whole way to paper, because its ramp gets reversed and the
+   paper end is what the subject itself is made of. */
+:root[data-theme="dark"] .vmap,
+.console-root[data-theme="dark"] .vmap {
+  --v-0: var(--bg);
+  --v-1: color-mix(in srgb, var(--ink) 6%,  var(--bg));
+  /* Accent proportions come down and ink goes up toward the top of the ramp.
+     Taking the upper stops mostly off the accent ran the whole clip hot against
+     the baked version, so the plate was comparing two palettes rather than two
+     methods. These land within about 12 units of the ffmpeg palette at every
+     stop, and within 5 through the mid-tones where the eye actually reads it. */
+  --v-2: color-mix(in srgb, var(--ink) 6%,  color-mix(in srgb, var(--accent) 14%, var(--bg)));
+  --v-3: color-mix(in srgb, var(--ink) 8%,  color-mix(in srgb, var(--accent) 24%, var(--bg)));
+  --v-4: color-mix(in srgb, var(--ink) 18%, color-mix(in srgb, var(--accent) 40%, var(--bg)));
+  --v-5: color-mix(in srgb, var(--ink) 28%, color-mix(in srgb, var(--accent) 60%, var(--bg)));
+  --v-6: color-mix(in srgb, var(--ink) 45%, color-mix(in srgb, var(--accent) 72%, var(--bg)));
+}
+:root[data-theme="dark"] .vmap[data-vmode="subject"],
+.console-root[data-theme="dark"] .vmap[data-vmode="subject"] {
+  --v-5: color-mix(in srgb, var(--ink) 60%, color-mix(in srgb, var(--accent) 70%, var(--bg)));
+  --v-6: var(--ink);
+}
+
+/* ── from reference.css ── */
+:root[data-theme="dark"] { --dont: #F0857B }
+
+/* ── from tokens.css: primitives only the dark theme used ── */
+:root, .console-root {
+  --pi-dark-000: #16130E;   /* page */
+  --pi-dark-100: #211D16;   /* raised */
+  --pi-orange-bright: #EC5E2E;
+}
+
+/* ── REMOVED 2026-10-14 · components.css: the mount ───────────────────────
+   The last mount. Matt could not see what a mount was for, and nothing that
+   needed one was using it as one: Landing framed its console figure with it,
+   Rotary used it as a divider on two section heads. Pages keep .mo-rule. */
+/* ============================================================================
+   THE MOUNT — ONE FRAME FOR THE ONE THING THAT MATTERS
+   ----------------------------------------------------------------------------
+   A mount marks the single block a page is about, the way a mat marks a print.
+   Eight were built. Corners, recess, seam, mat, registration and the rail were
+   cut on 2026-10-09, and dissolve left the family the same night: Matt ruled
+   it a full-width background only, so it is now .vmap--dissolve, the edge of a
+   full-bleed map, in explorations.css. What is left is one frame:
+
+     .mount--rules     a rule above and below, drawn outward   typographic
+
+   ONCE PER PAGE AT MOST, on the block the page exists to show. A page where
+   three things are framed has nothing framed. A section head that wants a
+   rule takes .mo-rule, which draws one rule above as it arrives; the mount is
+   for a figure, not a divider.
+
+   Unstyled markup plus one class. No chroma.
+   ============================================================================ */
+
+.mount { position: relative }
+
+/* 1 · RULES. A hairline above and below with real air between them and the
+      content. The oldest device in book design and still the one that gets out
+      of the way most completely, which is why it is the default to reach for.
+
+      On scroll both rules draw outward from the centre, so the block is framed
+      by something arriving rather than by something already there. The movement
+      is the whole effect; there is nothing else to look at. */
+.mount--rules { padding: var(--sp-7) 0 }
+.mount--rules::before, .mount--rules::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 1px;
+  background: var(--line-2); transform-origin: center; pointer-events: none;
+}
+.mount--rules::before { top: 0 }
+.mount--rules::after { bottom: 0 }
+[data-js] .mount--rules::before,
+[data-js] .mount--rules::after { transform: scaleX(0); transition: transform var(--mo-in-3) cubic-bezier(.2,.7,.2,1) }
+.mount--rules.is-in::before, .mount--rules.is-in::after { transform: scaleX(1) }
+
+/* ══ REMOVED 2026-10-14 · THE INK, SOLID AND GRADIENT BUTTONS ═════════════════
+   Matt moved every call to action to .btn.tint (now in components.css). The
+   three it replaced, the gradient's label token, and the two explorations that
+   were trying to rescue them. */
+.btn.primary { background: var(--ink); color: var(--bg) }
+.btn.primary:hover { box-shadow: var(--elev-1) }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2) }
+.btn.ghost:hover { border-color: var(--ink-35) }
+/* --accent-fill, not --accent. Brand orange has no legible text colour on it in
+   either direction; see the token for the measurements. */
+.btn.brand { background: var(--accent-fill); color: var(--on-accent) }
+.btn.brand:hover { background: color-mix(in srgb, var(--accent-fill) 88%, var(--ink)) }
+/* .btn.grad IS THE ONE GRADIENT CONTROL, restored 2026-09-26 after a round with
+   it substituted for a solid fill. The gradient itself is documented with the
+   colours in Pl. 01, because it is a brand asset rather than a component; this
+   is the single place a component is allowed to wear it.
+
+   THE LABEL IS WHITE, as of 2026-10-08, at Matt's call. It was ink from
+   2026-09-26, because ink clears AA along the whole fill (4.77 to 6.66) and
+   white does not (3.90 at the red end, 2.79 at the orange). White is a knowing
+   exception, measured and recorded on --on-grad in tokens.css; read that before
+   changing it in either direction. The label is a fixed token rather than
+   var(--ink) or var(--bg), because the fill does not flip with the theme and
+   neither can its label.
+
+   ONE PER VIEW, AND NOT EVERY VIEW. The rule from the token holds: this is the
+   highest-emphasis moment the brand owns, so a page with two of them has none. */
+.btn.grad {
+  background: var(--grad); color: var(--on-grad);
+  border-color: transparent; box-shadow: var(--elev-1);
+}
+.btn.grad:hover { box-shadow: var(--elev-2) }
+/* .grad--white is retired: white is now the default label, so the Rotary
+   page's exception became the rule on 2026-10-08. Kept as a no-op alias so any
+   markup still carrying it renders the same; drop it from markup when touched. */
+.btn.grad.grad--white { color: var(--on-grad) }
+.btn.grad:disabled, .btn.grad[aria-disabled="true"] { background: var(--line-2); box-shadow: none }
+:root, .console-root {
+  /* THE LABEL ON THE GRADIENT. White, decided by Matt on 2026-10-08, reversing
+     the ink label of 2026-09-26. It is a knowing exception to the contrast rule
+     and the cost is written down rather than hidden: white across --grad runs
+     3.90:1 at the red end, 3.39:1 at the middle and 2.79:1 at the orange end.
+     A 14px or 17px bold label needs 4.5:1, so it fails AA along the whole
+     control, and the orange end misses even the 3:1 large-text floor. Ink
+     measured 4.77 to 6.66 and passed everywhere.
+
+     Pure white rather than --pi-paper-000, because every hundredth counts on
+     this fill (paper-000 is 3.80 and 2.72). Fixed across themes: the gradient
+     does not flip, so neither can its label. If this is ever revisited, the
+     fix that keeps white is a deeper fill for the control, not a darker label. */
+  --on-grad: #FFFFFF;
+}
+/* ── THE WHITE LABEL ON --grad (Pl. 06) ──────────────────────────────────────
+   White on the brand gradient measures 3.90:1 at the red end and 2.79:1 at the
+   orange, so it fails AA for button text everywhere and the 3:1 large-text
+   floor at the orange end. Three ways to make the white stand out, measured. */
+:root, .console-root {
+  /* Same two hues, darkened until white clears 4.6:1 at both ends. */
+  --grad-deep: linear-gradient(45deg, #E81408 0%, #C55007 100%);
+  /* Only the orange end moves, to the point where white clears 3:1. Legal for
+     large text only, so it is paired with a 19px bold label below. */
+  --grad-large: linear-gradient(45deg, #F72F24 0%, #F66409 100%);
+}
+.btn.grad.gx-deep { background: var(--grad-deep) }
+.btn.grad.gx-large { background: var(--grad-large); font-size: var(--t-h4); font-weight: 700 }
+/* A tight drop, the printer's trick for white type on a light fill. It helps
+   the eye and changes nothing WCAG measures, so it is shown as the cheap
+   option and not as a fix. */
+.btn.grad.gx-shadow { text-shadow: 0 1px 0 rgba(var(--sh), .35) }
+/* ── THE TINTED BUTTON (Pl. 06) ──────────────────────────────────────────────
+   The ingested citation's treatment as an action: --accent-text on a 9% wash of
+   the accent, with a 40% accent hairline. It needs no --on-accent pair, because
+   the label is never on the orange itself. Shape and type stay the button's,
+   so it is never the same object as the chip it borrows from. */
+.btn.tint {
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg));
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.btn.tint:hover { border-color: var(--accent-text) }
+
+/* ── REMOVED 2026-10-14 · explorations.css: selection, before the tray ──────
+   Matt took the tray (now .tray / .seg in components.css with the --tray
+   token). The state marks, the bar, the tint pick and the first tray, with
+   its exploration token. Segmented control as it was, outlined with an ink
+   fill, follows. */
+/* ── SELECTION PILLS (Pl. 06) ────────────────────────────────────────────────
+   A pill selects; a button acts. Today they differ only in that the pill is
+   mono uppercase, which is also how .act is set, so a row of pills reads as a
+   row of small actions. Each option below adds a STATE MARK, the convention
+   people already read as "choose one of these", without leaving the 2px
+   corner. */
+.pill.sel { gap: var(--sp-2) }
+/* A · check. A 2px box that fills and ticks when chosen: many-of. */
+.pill.sel--check::before {
+  content: ""; width: var(--sp-3); height: var(--sp-3); flex: none;
+  border: 1px solid currentColor; border-radius: var(--r-xs);
+}
+.pill.sel--check.active::before {
+  border-color: transparent; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4l2.6 2.6 5.4-5.8' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4l2.6 2.6 5.4-5.8' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+/* B · dot. The radio mark .radio-pill already uses: one-of. A status dot is
+   genuinely round, so it takes --r-full while the pill keeps its 2px. */
+.pill.sel--dot::before {
+  content: ""; width: var(--sp-2); height: var(--sp-2); flex: none;
+  border: 1px solid currentColor; border-radius: var(--r-full);
+}
+.pill.sel--dot.active::before { background: currentColor }
+/* C · wash. No border and a sentence-case label on a wash of ink: a tag to
+   pick up, plainly not a control to press. */
+.pill.sel--wash {
+  border-color: transparent; background: var(--wash-2);
+  font-family: var(--sans); font-size: var(--t-ui); letter-spacing: 0; text-transform: none; color: var(--ink);
+}
+/* D · suggest. A dashed edge and a leading plus: a suggestion you can add,
+   which is what the prompt pills on the home page actually are. */
+.pill.sel--plus { border-style: dashed }
+.pill.sel--plus::before {
+  content: ""; width: var(--sp-3); height: var(--sp-3); flex: none; background: currentColor;
+  -webkit-mask: linear-gradient(currentColor, currentColor) center / 100% 1.5px no-repeat, linear-gradient(currentColor, currentColor) center / 1.5px 100% no-repeat;
+          mask: linear-gradient(#000, #000) center / 100% 1.5px no-repeat, linear-gradient(#000, #000) center / 1.5px 100% no-repeat;
+}
+.pill.sel--plus.active { border-style: solid }
+/* ── ACT OR CHOOSE, AS ONE-COLOUR SYSTEMS SOLVE IT (Pl. 06) ─────────────────
+   An ink fill means two things today: the primary button (act) and the chosen
+   pill or segment (a state). That shared fill is why a row of pills reads as a
+   row of buttons. Systems that live in one colour keep the two apart by giving
+   each its own form. Three ways, each a modifier on a .pills group; the chosen
+   pill is .active or aria-pressed="true".
+
+   Read from the live source on 9 October: Cal.com's ToggleGroup and button
+   shadows (github.com/calcom/cal.com, packages/ui and packages/config/theme)
+   and the Ford Foundation's site stylesheet (fordfoundation.org). */
+
+/* Tray, after Cal.com. The choices sit in a recessed tray and the chosen one
+   rises out of it as a tile of the page surface, with a hairline and the
+   lowest shadow. Unchosen choices have no edge. Ink keeps meaning "act".
+   FITTED TO THE SURFACE SYSTEM (9 October, night). The chosen tile is
+   --panel-face, the system's own raised face: the page tone plus a hairline
+   in light, the lighter panel in dark, because a raised surface moves toward
+   the light. The tray is the surface pressed in one step, so it has to go
+   the other way in each theme: a wash of ink in light, a wash of shadow in
+   dark. --wash-2 cannot do that, since it lightens in dark and the tray read
+   as raised with the tile sunk into it. --pick-tray is that recess, restated
+   in every band context like the other composed tokens. */
+:root,
+.console-root { --pick-tray: rgba(var(--sh), .06) }
+.on-dark,
+.surface--invert,
+.console-root .surface--invert { --pick-tray: rgba(var(--sh), .34) }
+.pills.pick--tray { display: inline-flex; gap: calc(var(--sp-1) / 2); padding: calc(var(--sp-1) / 2); background: var(--pick-tray); border-radius: var(--r-md) }
+.pick--tray .pill { background: transparent; border-color: transparent }
+.pick--tray .pill:not(.active):hover { border-color: transparent; color: var(--ink) }
+.pick--tray .pill:is(.active, [aria-pressed="true"]) { background: var(--panel-face); color: var(--ink); border-color: var(--line-2); box-shadow: var(--elev-1) }
+/* Bar, after the Ford Foundation. Its one warm colour marks where you are, as
+   a bar under the current section and the open search, and nothing else.
+   Here the choices are plain labels on a hairline and the chosen one stands
+   on an accent bar: an accent mark for a state, which the states-only rule
+   allows. */
+.pills.pick--bar { gap: var(--sp-6); border-bottom: 1px solid var(--line-2) }
+.pick--bar .pill {
+  height: auto; padding: var(--sp-2) 0 var(--sp-3); margin-bottom: -1px;
+  background: none; border: 0; border-radius: 0; box-shadow: inset 0 -2px 0 transparent;
+  transition: color var(--mo-base), box-shadow var(--mo-base);
+}
+.pick--bar .pill:not(.active):hover { box-shadow: inset 0 -2px 0 var(--ink-35) }
+.pick--bar .pill:is(.active, [aria-pressed="true"]) { background: none; color: var(--ink); box-shadow: inset 0 -3px 0 var(--accent) }
+/* Tint, after the ingested chip. The chosen pill wears the accent wash, the
+   accent-text label and the accent hairline. A chosen pill is a state, so
+   the states-only rule allows it; the cost is that tier one wears the same
+   dress. */
+.pick--tint .pill:is(.active, [aria-pressed="true"]) {
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg)); color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+/* Segmented control. RECONCILED: was .seg (r8, 12.5px) / .seg (r9, 13.5px) /
+   .mode-toggle (r8, mono 10px) / .rail-switch across four files, with two
+   different activation attributes. One component, aria-pressed. */
+.seg {
+  display: inline-flex; background: var(--bg);
+  border: 1px solid var(--line-2); border-radius: var(--r-md); overflow: hidden;
+}
+.seg button {
+  font-family: var(--sans); font-weight: 600; font-size: var(--t-ui);
+  padding: var(--sp-2) var(--sp-5); color: var(--ink-55); white-space: nowrap;
+  transition: background var(--mo-base), color var(--mo-base);
+}
+.seg button + button { border-left: 1px solid var(--line-2) }
+.seg button:hover { color: var(--ink) }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg) }
+/* When two stack they stay identical — hierarchy comes from the label to the
+   left and from reading order, never from shrinking the second row. */
+.seg.mono button {
+  font-family: var(--mono); font-size: var(--eb-3);
+  letter-spacing: var(--eb-3-ls); text-transform: uppercase;
+  padding: var(--sp-2) var(--sp-3);
+}
+
+/* ── REMOVED 2026-10-14 · components.css: the secondary ink button ─────────
+   No page used it, and with the accent meaning "act" an ink action is a
+   second primary. Production's .btn-dl / .fb-submit / .jump map to
+   .btn.tint or .btn.ghost. */
+/* Secondary ink button (app: .btn-dl / .fb-submit / .jump were three
+   near-identical copies; this is the one definition). */
+.btn-ink {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  background: var(--ink); color: var(--bg);
+  border-radius: var(--r-md); padding: var(--sp-2) var(--sp-4);
+  font-family: var(--sans); font-weight: 600; font-size: var(--t-ui);
+}
+.btn-ink:hover { box-shadow: var(--elev-1) }
+
+/* ══ REMOVED 2026-10-14 · UNUSED COMPONENTS ═══════════════════════════════════
+   Matt asked for a systematic pass. Each block here was used by no page
+   (home, landing, rotary) and no console screen, or contradicted a decision
+   already taken (a card is raised by its edge only, so the shadow variants
+   went). Moved verbatim. */
+.band--panel { background: var(--panel) }   /* legacy alias for .surface--raised */
+/* Textured band: the dithered video treatment, medium cell / 7% mono Bayer. */
+.band--texture { overflow: hidden }
+.band--texture > .band-vid {
+  position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+  opacity: .16; mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+}
+.band--texture > .band-vid video {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; image-rendering: pixelated; filter: grayscale(1) contrast(1.05);
+}
+.band--texture > .wrap { position: relative; z-index: 1 }
+.band--dark.rounded {
+  border-radius: var(--r-2xl);
+  padding: var(--sp-22) var(--sp-10);
+  text-align: center;
+  overflow: hidden;
+}
+.band--dark .grid-reveal {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background-image: var(--gridinv); background-size: 20px 20px;
+  opacity: 0; transition: opacity var(--mo-atmos);
+  -webkit-mask-image: radial-gradient(ellipse 56% 66% at 50% 46%, #000 0%, #000 26%, transparent 76%);
+  mask-image: radial-gradient(ellipse 56% 66% at 50% 46%, #000 0%, #000 26%, transparent 76%);
+}
+.band--dark.lit .grid-reveal { opacity: .14 }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-7) }
+  .band--dark.rounded { padding: var(--sp-12) var(--sp-5) }
+.display {
+  font-family: var(--serif); font-weight: 700;
+  font-size: var(--t-display); line-height: var(--t-display-lh);
+  letter-spacing: -.005em;
+}
+.card.interactive { box-shadow: var(--elev-1) }
+.card.interactive:hover { box-shadow: var(--elev-2); border-color: var(--ink-35) }
+.card.flat { box-shadow: none }
+.card.lead { box-shadow: var(--elev-2) }
+/* Quiet: still opaque, just lower contrast. It was transparent, which broke
+   the moment it sat on a textured region. */
+.card.quiet { background: var(--bg); border-color: var(--line); box-shadow: none }
+/* Warm: RESOLVED 2026-09-24 to three uses and no others.
+
+     callouts    a pulled-out note or a caption that has to be read
+     violators   a badge or flag that breaks out of its container
+     gradients   the stylised fields, which are built from this tone
+
+   It is no longer a card background or a band fill. A warm card in a grid of
+   cards is the old system leaking through; that job now belongs to .raised,
+   which is a hairline plus a three percent wash and is quiet enough to use
+   everywhere. Warm earns its place by being rare. */
+.card.warm, .warm {
+  background: var(--warm);
+  border: var(--warm-border);
+  box-shadow: none;
+}
+
+/* Radio pill — the .read-opts pattern, aligned to .pill's metrics. */
+.radio-pill {
+  display: inline-flex; align-items: center; gap: var(--sp-2);
+  font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls);
+  text-transform: uppercase; color: var(--ink-55);
+  background: var(--bg); border: 1px solid var(--line-2);
+  border-radius: var(--r-sm); height: 38px; padding: 0 var(--sp-4); cursor: pointer;
+  transition: border-color var(--mo-base), color var(--mo-base);
+}
+.radio-pill::before { content: ""; width: 9px; height: 9px; border-radius: var(--r-full); border: 1.5px solid currentColor; flex: none }
+input[type="radio"] { position: absolute; opacity: 0; pointer-events: none }
+input[type="radio"]:not(:checked) + .radio-pill:hover { border-color: var(--ink-35); color: var(--ink) }
+input[type="radio"]:checked + .radio-pill { background: var(--ink); color: var(--bg); border-color: transparent }
+input[type="radio"]:checked + .radio-pill::before { background: currentColor }
+input[type="radio"]:focus-visible + .radio-pill { outline: 2px solid var(--accent); outline-offset: 2px }
+/* Card: inside a card or a grid cell. */
+.lockup--card { --lk-gap: var(--sp-2) }
+.lockup--card .lk-head { font-family: var(--serif); font-weight: 700; font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.lockup--card .lk-lede { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+
+/* Figure: a number and what it counts. Inverted order — the figure leads. */
+.lockup--figure { --lk-gap: var(--sp-3) }
+.lockup--figure .lk-head { font-family: var(--serif); font-weight: 800; font-size: var(--t-stat); line-height: 1; letter-spacing: -.01em }
+.lockup--figure .lk-lede { font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55) }
+/* ═══ D · SURFACE APPROACHES ════════════════════════════════════════════════
+
+   Light mode was reading heavy, and the cause was one tone used twice: a card
+   at --panel sitting on a band at --panel. That is fixed at the base — a raised
+   COMPONENT now takes --panel-face, which is the page tone in light — and these
+   are the alternatives to what the fixed version does, so the choice is visible
+   rather than asserted.
+
+   All six are the same card with the same content. Only the surface treatment
+   changes, and none of them touches the ink, so any difference you see is the
+   surface doing it.
+
+   Apply to a .card. They are variations on .card.raised, not on .card.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+
+/* ══ REMOVED 2026-10-15 · REV 9 ══════════════════════════════════════════════
+   Matt's 15 October review: no gradient, one corner, one entry primitive,
+   monochrome evidence badges, the console reskinned, and every component no
+   page used. Verbatim, so the archive renders as it was.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── tokens.css ─────────────────────────────────────────────────────────────
+   The gradient. Defined here (and nowhere that ships) so the archive's swatch
+   still renders. */
+:root {
+  --pi-grad: linear-gradient(45deg, #F72F24 0%, #F77524 100%);
+  --grad: var(--pi-grad);
+  /* The translucent face, removed with .card.sheer. */
+  --panel-sheer: color-mix(in srgb, var(--bg) 82%, transparent);
+  /* How far out of focus .mo-focus started, and the beat in .mo-rule. */
+  --mo-blur: 6px;
+  --mo-in-lag: 450ms;
+}
+.on-dark, .surface--invert { --panel-sheer: color-mix(in srgb, var(--bg) 78%, transparent) }
+/* As values only, because restating them here would change the archive's own
+   corners and shadows:
+     --r-xs: 2px; --r-sm: 2px; (the 2px step, 2026-09-25 to 2026-10-15)
+     --elev-1: 0 1px 2px rgba(var(--sh), .03), 0 5px 12px -9px rgba(var(--sh), .13);
+     --elev-2: 0 2px 4px rgba(var(--sh), .04), 0 18px 38px -26px rgba(var(--sh), .22);
+     --elev-3: 0 3px 6px rgba(var(--sh), .05), 0 34px 68px -30px rgba(var(--sh), .32);
+     on a dark band: .16/.40, .20/.50, .24/.60 at the same geometry. */
+
+/* ── components.css ───────────────────────────────────────────────────────── */
+
+.badge.accent {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+.eyebrow.strong { color: var(--ink) }
+
+/* Scoped to .was-tinted here so it styles only the archive's own specimens. */
+.was-tinted .evi-badge.t1 {
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: color-mix(in srgb, var(--accent) 9%, transparent);
+}
+.was-tinted .evi-badge.t2 { color: var(--accent-text); border-color: color-mix(in srgb, var(--accent) 40%, transparent) }
+.was-tinted .evi-badge.t3 { color: var(--ink-70); border-color: var(--ink-35); border-style: dashed }
+/* Sheer: the translucent face. Same tone as .raised, but what is behind it
+   comes through, so a card on a gradient field belongs to the field instead of
+   punching a hole in it. The blur is what keeps text legible over a moving
+   background; without it the dither crawls under the copy.
+
+   NOT over the dashed grid. The dashes read through as dirt, which is the
+   original reason .quiet stopped being transparent. Opaque and sheer are both
+   first-class — pick by what is behind the card, not by taste. */
+.card.sheer {
+  background: var(--panel-sheer);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  backdrop-filter: blur(10px) saturate(1.1);
+  border: var(--panel-border);
+  box-shadow: none;
+}
+/* No backdrop-filter means no blur, and translucency without blur is
+   unreadable over texture. Fall back to the opaque face. */
+@supports not (backdrop-filter: blur(4px)) {
+  .card.sheer { background: var(--panel-face) }
+}
+.textured .card.sheer, .gx .card.sheer { background: var(--panel-face); backdrop-filter: none }
+
+.card.sm { border-radius: var(--r-lg); padding: var(--sp-5) }
+.card.sm h3 { font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+.card.sm p { font-size: var(--t-ui); line-height: var(--t-ui-lh) }
+
+/* A dark card is just a card carrying .on-dark. The old .card used a hardcoded
+   #1C1A16 that was a fourth near-black with no token, plus a bespoke
+   rgba(255,255,255,.22) eyebrow pill with no shared code path to .act. */
+.card.on-dark { border-color: var(--on-dark-line) }
+
+.violator.accent { background: var(--accent-fill); border-color: var(--accent-fill); color: var(--on-accent) }
+
+
+/* Marginal note. The researcher's annotation in the margin — the one place the
+   system speaks in a human register rather than an institutional one. Use it
+   sparingly, for a caveat or an aside that would be dishonest to state flatly. */
+.marginal {
+  font-family: var(--serif); font-style: italic;
+  font-size: var(--t-ui); line-height: 1.65; color: var(--ink-55);
+  border-left: 1px solid var(--line-2); padding-left: var(--sp-3);
+  max-width: 34ch;
+}
+
+.band--tight { padding: var(--band-y-tight) 0 }
+
+.media--hero, .media--band { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none }
+.media--hero { opacity: .18; mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 72%, transparent 100%) }
+.media--band { opacity: .16; mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 86%, transparent 100%) }
+.media--hero video, .media--band video, .media--hero img, .media--band img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; image-rendering: pixelated; filter: grayscale(1) contrast(1.05);
+}
+/* On dark surfaces multiply would erase the asset; screen keeps it legible.
+   An inverted band is dark only on a light page. On a dark page it is the light
+   band, so it was screening onto paper and washing the asset out. */
+.on-dark .media--hero, .on-dark .media--band,
+.surface--invert .media--hero,
+.surface--invert .media--band { mix-blend-mode: screen; opacity: .22 }
+
+/* From the MOTION header and its first four primitives, removed 2026-10-15 */
+/*
+   What intelligence work actually feels like, and what the motion borrows:
+     · evidence RESOLVES out of noise       -> .mo-resolve  (the signature)
+     · a print DEVELOPS to full density     -> .mo-develop
+     · an instrument comes into FOCUS       -> .mo-focus
+     · a rule is DRAWN, then written under  -> .mo-rule
+     · claims arrive in order of confidence -> .mo-deal (the group reveal)
+
+   The dither is already the brand's image language. Making it the motion
+   language too means the product's core claim — evidence emerging from noise —
+   is stated by the interface itself rather than described in copy.
+
+   TIMING, REVISED 2026-09-25. Everything here used to run between 320 and
+   520ms, on the reasoning that interface motion should be quick. That is right
+   for a control answering a click and wrong for a reveal: a reveal that lands
+   before the eye has arrived at it did not happen. Resolve at 520ms was over
+   by the time you looked at it, which made the signature move of the system
+   invisible. Entry motion now runs on --mo-in-1 to --mo-in-5, which is 700 to
+   1600ms. Interaction motion — hover,
+   focus, press — is untouched at --mo-fast and --mo-base, because that IS
+   answering a click.
+
+   The test is whether you can describe what happened after seeing it once. If
+   the answer is "something appeared", it is too fast.
+
+   .mo-sweep is gone. A raking pass of light across a surface was the one
+   primitive here with no counterpart in the work: nothing in research gets
+   swept, and on a real card it read as the shimmer on a loading skeleton,
+   which is a promise that data is coming. Removed rather than retimed.
+
+   CUT 2026-10-09: .mo-settle (no shipped page used it) and .reg, with the
+   scroll loop that drove it. Both are in archive/retired.css and the decision
+   record in archive.html. Five primitives remain, and every one is used on
+   the Rotary page.
+
+   All of these are opt-in and trigger once on entry via .is-in.
+
+   SAFETY: every hidden starting state is gated behind [data-js], which script
+   sets on <html> at startup. With JavaScript off, or if an observer never fires
+   because the element lives inside its own scroll container, the content is
+   simply visible. Animation must never be load-bearing for legibility.
+   They are also killed entirely by the reduced-motion block in tokens.css.
+*/
+
+
+/* 1 · RESOLVE. Content emerges through clearing dither. The signature move.
+      Use on a hero, a key figure, or a first answer. Once per view.
+
+      Retimed 2026-09-25. The content fades over 1100ms and the dither over it
+      clears over 1600ms, so the noise is still lifting after the words are
+      readable — you watch it finish rather than catching the end of it. The
+      old 520 / 640 pair was over before the eye tracked to the element, which
+      is why the signature move was the one nobody noticed.
+
+      The two durations are deliberately unequal. Matched, the layers move as
+      one flat crossfade; offset, the noise reads as sitting ON the content and
+      coming off it, which is the whole image. */
+.mo-resolve { position: relative }
+[data-js] .mo-resolve { opacity: 0; transition: opacity var(--mo-in-3) cubic-bezier(.22,.61,.24,1) }
+[data-js] .mo-resolve::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background-image: var(--grid); background-size: calc(var(--dither-cell) * 3px) calc(var(--dither-cell) * 3px);
+  opacity: .9; transition: opacity var(--mo-in-5) cubic-bezier(.3,.5,.2,1);
+}
+.mo-resolve.is-in { opacity: 1 }
+.mo-resolve.is-in::after { opacity: 0 }
+
+/* 1b · DEVELOP. The same idea in tone rather than in noise: the surface arrives
+      washed out and low in contrast and comes up to full density, the way a
+      print does in the tray. Slower than resolve and quieter, because nothing
+      moves and nothing is overlaid — only the values change.
+
+      Use where resolve would be too much: a section of body copy, a table, a
+      list of sources. It is the only primitive here that is safe on a large
+      block of text, because text that fades in from transparent flickers and
+      text that comes up in density does not.
+
+      filter animates on the compositor, so this is cheap even full-page. */
+[data-js] .mo-develop {
+  filter: contrast(.34) brightness(1.1) saturate(.4); opacity: .18;
+  transition: filter var(--mo-in-4) cubic-bezier(.3,.5,.2,1), opacity var(--mo-in-2) ease;
+}
+.mo-develop.is-in { filter: none; opacity: 1 }
+
+/* 1c · FOCUS. The instrument metaphor without the crosshair: the element
+      arrives soft and sharpens onto the page. Six pixels of blur is enough to
+      read as out of focus and little enough that the shape is legible the whole
+      way, so nothing is ever hidden.
+
+      Pair it with almost no movement. Blur plus travel plus fade is three
+      things happening, and the third is always the one that makes it feel like
+      a template. Two pixels of rise is there only to stop it feeling weightless.
+
+      Reserve for a figure, a portrait, a chart. On type, blur is expensive to
+      composite and reads as a rendering fault rather than a focus pull. */
+[data-js] .mo-focus {
+  /* Two pixels of rise. Not on the spacing scale and deliberately so: it is
+     not space, it is the smallest movement that stops a blur-to-sharp reveal
+     feeling weightless, and one step of the scale would be travel. */
+  opacity: 0; filter: blur(var(--mo-blur)); transform: translateY(2px);
+  transition: opacity var(--mo-in-1) ease, filter var(--mo-in-3) cubic-bezier(.2,.7,.2,1),
+              transform var(--mo-in-3) cubic-bezier(.2,.7,.2,1);
+}
+.mo-focus.is-in { opacity: 1; filter: blur(0); transform: none }
+
+/* 1d · RULE. A hairline draws itself across the top of the block, and the
+      content writes in underneath it once the line has arrived. The most
+      restrained thing in the set and the one to reach for by default on a
+      section head: it is a typographic gesture rather than an effect, and it
+      never looks like software.
+
+      The line takes --mo-in-2 and the content follows after --mo-in-lag, so the
+      sequence is legible as cause and effect rather than as one fade. Requires
+      the element to be a positioning context; it adds one to itself. */
+.mo-rule { position: relative; padding-top: var(--sp-5) }
+.mo-rule::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: var(--line-2); transform-origin: left; pointer-events: none;
+}
+[data-js] .mo-rule::before { transform: scaleX(0); transition: transform var(--mo-in-2) cubic-bezier(.2,.7,.2,1) }
+[data-js] .mo-rule > * { opacity: 0; transition: opacity var(--mo-in-1) ease var(--mo-in-lag) }
+.mo-rule.is-in::before { transform: scaleX(1) }
+.mo-rule.is-in > * { opacity: 1 }
+
+
+
+/* ── explorations.css ─────────────────────────────────────────────────────── */
+/* The comparison end-stop: --ink-35 instead of --line-2. Same five even steps,
+   same dither, two and a half times the contrast. */
+.gfield--loud {
+  --f-1: color-mix(in srgb, var(--ink) 8.75%, var(--bg));
+  --f-2: color-mix(in srgb, var(--ink) 17.5%, var(--bg));
+  --f-3: color-mix(in srgb, var(--ink) 26.25%, var(--bg));
+  --f-4: color-mix(in srgb, var(--ink) 35%,   var(--bg));
+}
+
+/* TEXT SAFETY.
+
+   Live headlines and body copy sit directly on the field in the band example,
+   which is where a gradient background usually goes wrong: the ramp reaches a
+   value dark enough that --ink-70 stops passing AA over it, and nothing on the
+   page says so.
+
+   Taking the chroma out fixed most of this. The old warm ramp put --ink-70 at
+   about 3.6:1 over --f-4, so ember and soot could carry text only inside an
+   opaque card. The monochrome ramp tops out at 15% ink, which every ink token
+   above --ink-35 clears, so all five moods are text-safe as declared.
+
+   THE MEASUREMENT STAYS ANYWAY. The plate reads the darkest pixel out of the
+   rendered canvas rather than out of the ramp declaration, because the whole
+   point is that a change to the blobs, the gamma or the live drift cannot
+   quietly break it. A rule that is only true in a comment is not a rule. */
+.gfield--dawn { /* the text-safe mood. See the readout on the plate. */ }
+
+
+.gfield-safe { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-4);
+  align-items: center; margin-top: var(--sp-4) }
+
+/* ═══ B4 · THE STAGE ════════════════════════════════════════════════════════
+   A full-height field held fixed while the page travels over it.
+
+   The background is a sticky 100vh layer with a negative bottom margin, so it
+   pins without taking up flow height. background-attachment: fixed would be
+   fewer lines and is unreliable on iOS, which is why this is built from sticky
+   instead.
+
+   Panels move at their own rates through --par. Keep the offsets small; past
+   about 80px the panels stop feeling attached to the page. Everything that has
+   to be read is in an opaque card, because the field underneath is ember.
+   ─────────────────────────────────────────────────────────────────────────── */
+.stage { position: relative; --sg: 0 }
+/* Specificity matters here. The pinned layer also carries .gfield, which sets
+   position: relative later in this file and silently un-pinned it. Scoping to
+   .stage > wins on specificity rather than on order.
+
+   THE OVERLAP GOES ON THE FLOW, NOT ON THE BACKGROUND. The first version put
+   margin-bottom: -100vh on the sticky layer itself, which makes its margin box
+   zero-height, which makes the browser compute a sticky travel 100vh longer
+   than the stage. At the end of the stage the pinned field slid on down over
+   the next section — that was the broken transition into Pl. 14. Pulling the
+   flow up instead leaves the background's own box alone, so it stops exactly
+   at the stage's bottom edge. Same total height either way. */
+.stage > .stage-bg {
+  position: sticky; top: 0; height: 100vh;
+  overflow: hidden; z-index: 0; isolation: isolate;
+  /* At full height the grid's default vignette reached the edges and stopped
+     reading as a vignette at all. Pull it in. */
+  --gx-vig: .72;
+  /* Not live. A full-height field at the 3px cell is ninety thousand pixels a
+     frame, which is fine to paint once and far too much to paint ten times a
+     second. Static here, and the movement comes from the parallax instead. */
+}
+.stage-flow { position: relative; z-index: 1; margin-top: -100vh; padding: 46vh var(--sp-8) }
+.stage-panel {
+  max-width: 44ch; margin: 0 0 40vh;
+  transform: translate3d(0, calc(var(--sg) * var(--par, 0px)), 0);
+  will-change: transform;
+}
+.stage-panel:nth-child(2) { margin-left: auto; margin-right: 0 }
+.stage-panel:last-child { margin-bottom: 0 }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage-panel { transform: none }
+}
+
+
+.veil--band { --veil-o: .11 }   /* a section backdrop, quieter than a hero */
+
+/* A veil at the foot of a hero, where only the bottom edge needs to dissolve
+   because the other three are off-frame anyway. */
+.veil--foot { --veil-mask: linear-gradient(to bottom, #000 0%, #000 62%, transparent 100%) }
+
+.vrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-5) }
+@media (max-width: 860px) { .vrow { grid-template-columns: 1fr } }
+.vcap { margin-top: var(--sp-2) }
+
+
+/* ── reference.css ────────────────────────────────────────────────────────── */
+  .grad-spec { height: 104px; border-radius: var(--r-md); background: var(--grad) }
+  /* Plate only. A radius scope for the Pl. 16 comparison — nothing in the
+     catalog hardcodes a radius, so overriding the six names here re-renders
+     every atom inside without a single component override. That property is
+     the reason the names were kept when the scale went to zero. */
+  [data-radius="246"] { --r-xs: 2px; --r-sm: 2px; --r-md: 4px; --r-lg: 6px; --r-xl: 6px; --r-2xl: 6px }
+
+
+/* ══ REMOVED 2026-10-15 · REV 10 ════════════════════════════════════════════
+   The tint options were settled (A with C's arrow), the icon screen was
+   settled (centred three-quarter squares), and the pixel glyphs left the
+   console. Two blocks below are kept as comments only, because the names they
+   style are still live and restating them here would restyle the archive. */
+
+/* The tint as it was until 2026-10-15 (comment only):
+.btn.tint {
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg));
+  color: var(--accent-text);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+.btn.tint:hover { background: color-mix(in srgb, var(--accent) 14%, var(--bg)); border-color: var(--accent-text) }
+
+*/
+
+/* The held pixel icon, dotted, and .points, as they were (comment only; both
+   are in components.css now with the square screen):
+/* PIXEL ICON. An open-library icon passed through media/mkicons.cjs onto a
+   grid of cells (25 at 2px since 2026-10-09; it was 17 on the 3px dither
+   cell), inlined as one path of squares. It has no fill of its
+   own, so it takes currentColor and follows the theme and any surface context.
+
+   Ink, not accent: an icon is a label for a claim, and the accent means
+   evidence, action, focus or state. A row of five orange icons would spend the
+   page's accent on decoration. crispEdges keeps the cells square at any zoom. * /
+.px-icon {
+  display: block; flex: none;
+  width: var(--icon-px); height: var(--icon-px);
+  fill: currentColor; color: var(--ink);
+  shape-rendering: crispEdges;
+  /* DOTTED, picked 2026-10-09: every cell is drawn as a dot, so a 2px raster
+     reads as a print screen rather than as an icon drawn without smoothing.
+     A mask, so the generator still writes squares and the squares are what
+     shows if the mask is unsupported. --cells is the icon's grid. * /
+  --cells: 25;
+  -webkit-mask: radial-gradient(circle closest-side, #000 76%, transparent 90%) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells));
+          mask: radial-gradient(circle closest-side, #000 76%, transparent 90%) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells));
+}
+/* The control glyph stays solid on the brand cell: inside a 38px button a
+   dotted 9-cell arrow is mostly gap. * /
+.send .px-icon { width: var(--glyph-px); height: var(--glyph-px); color: inherit; -webkit-mask: none; mask: none }
+
+/* POINTS. A row of up to five short claims, each led by a pixel icon. The
+   rule-row grammar: one rule on top, verticals between, no box. Five columns
+   under about 1080px leave a claim 130px wide, so below that the row becomes
+   a list with the icon beside the copy rather than above it. * /
+.points { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--line-2) }
+.point { padding: var(--sp-8) var(--sp-6); border-right: 1px solid var(--line) }
+.point:last-child { border-right: none }
+.point .px-icon { margin-bottom: var(--sp-6) }
+.point h3 { font-family: var(--serif); font-weight: 700; font-size: var(--t-h4); line-height: var(--t-h4-lh); text-wrap: balance }
+.point p { font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink-70); margin-top: var(--sp-2) }
+@media (max-width: 1080px) {
+  .points { grid-template-columns: minmax(0, 1fr) }
+  .point {
+    display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-6);
+    padding: var(--sp-6) 0; border-right: none; border-bottom: 1px solid var(--line);
+  }
+  .point:last-child { border-bottom: none }
+  .point .px-icon { grid-row: span 2; margin-bottom: 0 }
+}
+
+
+*/
+
+/* ── THE SCREEN: SQUARES OR DOTS (Pl. 19 and Pl. 01, 14 October) ────────────
+   Matt: Dotted wins unless a square can carry white space around it so the
+   icon stops reading as a solid block. These try it. One cell pattern is
+   shared by the icons and the J2 offset, so a pixel mark and a pixel shadow
+   are made of the same thing. Two-thirds of a cell is the one square that is
+   crisp on every screen: on the brand's 3px cell it is a 2px square and a 1px
+   gap. Three-quarters only works on a 2px cell, and only on a retina screen,
+   because its gap is half a pixel. Each tile is a mask, so the generator
+   still writes plain squares. */
+:root, .console-root {
+  --screen-sq: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Crect width='2' height='2'/%3E%3C/svg%3E");
+  --screen-sq-34: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Crect width='3' height='3'/%3E%3C/svg%3E");
+}
+.px-icon.sq    { -webkit-mask: var(--screen-sq) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells)); mask: var(--screen-sq) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells)) }
+.px-icon.sq-34 { -webkit-mask: var(--screen-sq-34) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells)); mask: var(--screen-sq-34) 0 0 / calc(100% / var(--cells)) calc(100% / var(--cells)) }
+/* Grid and size: 17, 21 or 25 cells on the brand's 3px cell. */
+.px-icon.c17 { --cells: 17; width: calc(var(--dither-cell) * 17px); height: calc(var(--dither-cell) * 17px) }
+.px-icon.c21 { --cells: 21; width: calc(var(--dither-cell) * 21px); height: calc(var(--dither-cell) * 21px) }
+.px-icon.c25 { --cells: 25; width: calc(var(--dither-cell) * 25px); height: calc(var(--dither-cell) * 25px) }
+.icon-lab { display: grid; grid-template-columns: max-content repeat(5, minmax(0, 1fr)); gap: var(--sp-5) var(--sp-6); align-items: center }
+.icon-lab .eyebrow { white-space: nowrap }
+.icon-lab .px-icon { max-width: 100%; height: auto; aspect-ratio: 1 }
+@media (max-width: 760px) { .icon-lab { grid-template-columns: repeat(5, minmax(0, 1fr)) } .icon-lab .eyebrow { grid-column: 1 / -1 } }
+
+
+
+/* ── THE TINT, LEADING (Pl. 06, 15 October) ─────────────────────────────────
+   Matt: can the tint stand out more than the ghost? On paper it does; on a
+   dark band it does not, because the ghost's label is the lightest thing on
+   the band and the tint's is orange on a wash that barely leaves the ground.
+   Three ways to make the tint lead, each one class added to .btn.tint so it
+   can be compared beside today's. Nothing here is for pages yet. */
+/* A · Deeper. A solid accent edge everywhere, and on a dark band twice the
+   wash. On paper the wash cannot deepen: past 9% the label drops under 4.5:1. */
+.btn.tint.tint--deep { border-color: var(--accent-text) }
+:is(.on-dark, .surface--invert) .btn.tint.tint--deep { background: color-mix(in srgb, var(--accent) 20%, var(--bg)) }
+:is(.on-dark, .surface--invert) .btn.tint.tint--deep:hover { background: color-mix(in srgb, var(--accent) 26%, var(--bg)) }
+/* B · Lit on dark. On paper it stays the wash; inside a dark band it becomes
+   the accent fill with ink on it (6.66:1), the one place a solid orange reads
+   as light rather than as a slab. */
+:is(.on-dark, .surface--invert) .btn.tint.tint--lit { background: var(--accent-fill); color: var(--on-accent); border-color: var(--accent-fill) }
+:is(.on-dark, .surface--invert) .btn.tint.tint--lit:hover { background: color-mix(in srgb, var(--accent-fill) 88%, var(--ink)) }
+/* C · With an arrow. The tint carries the send glyph, the 9-cell arrow on the
+   brand cell, turned to point forward: a ghost never has one, so the action
+   that leads is the one that goes somewhere. */
+.btn.tint.tint--arrow { display: inline-flex; align-items: center; gap: var(--sp-2) }
+.btn.tint.tint--arrow::after {
+  content: ""; width: calc(var(--dither-cell) * 4px); height: calc(var(--dither-cell) * 5px); background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h-1zM1 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM0 4h1v1h-1z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h-1zM1 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM0 4h1v1h-1z'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform var(--mo-fast);
+}
+.btn.tint.tint--arrow:hover::after { transform: translateX(calc(var(--dither-cell) * 1px)) }
+.tint-lab { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: var(--sp-4) }
+.tint-lab > div { padding: var(--sp-6); border: 1px solid var(--line); border-radius: var(--r-md); display: flex; flex-direction: column; gap: var(--sp-4) }
+.tint-lab .row { gap: var(--sp-3) }
+
+/* ══ REMOVED 2026-10-15 · REV 11 ════════════════════════════════════════════
+   Matt's second review of 15 October. The console became a working prototype
+   with projects, documents, sources and sharing; the structure exploration
+   kept the margin numeral and the contents strip. What follows is what those
+   replaced. Rules whose class names are live again (.pj-home, .pj-title,
+   .pj-list, .pj-row, .pj-scope, .st-num, .st-body, .st-toc) are scoped under
+   .pj-r1 and .st-r1, so the archive can show the first round without
+   overriding the second. */
+
+/* components.css: the rail's tray of Chats / Reports / Projects. The rail is
+   sectioned now (projects, then recent), and documents live in a project. */
+.rail-head { margin-bottom: var(--sp-3) }
+.rail-head .seg { display: flex }
+.rail-head .seg button { flex: 1 }
+
+/* tokens.css: --tray on paper was rgba(var(--sh), .06), a wash of shadow.
+   It is the panel tone since 15 October; a raised band keeps the wash. */
+
+/* explorations.css: projects, round one. Three still mockups; the scope chip
+   in the composer could be removed in one click, which Matt ruled out ("if
+   someone is in that project, assume they want the resources therein"). */
+/* ── PROJECTS IN THE CONSOLE (Pl. 08, 15 October) ────────────────────────────
+   Matt: how should project management sit in the interface, taking what works
+   from Claude and ChatGPT? Three parts, shown together because they are one
+   flow rather than alternatives. Built from the console's own parts; only the
+   pieces below are new. Nothing here is for the product yet.
+
+     THE RAIL     projects are a section of the rail, above the recent chats,
+                  each a row that opens to its own chats (ChatGPT's sidebar).
+                  The rail's Chats / Reports / Projects tabs go: a tab hides
+                  the projects until you ask for them.
+     THE HOME     a project opens to its own page: what it is, a composer that
+                  starts a chat inside it, its chats, and on the side its
+                  instructions and its sources (Claude's project page). For
+                  Peace Intel the sources are a slice of the library.
+     THE CHAT     inside a project the toolbar names it as a breadcrumb and the
+                  composer carries it as a scope you can remove, so a person
+                  always knows which sources an answer is drawn from. */
+.pj-r1 .pj-frame { border: 1px solid var(--line-2); border-radius: var(--r-md); background: var(--bg); overflow: hidden }
+.pj-r1 .pj-flow { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr); gap: var(--sp-6); align-items: start }
+@media (max-width: 1080px) { .pj-r1 .pj-flow { grid-template-columns: minmax(0, 1fr) } }
+.pj-r1 .pj-cap { margin-top: var(--sp-3) }
+
+/* The rail, sectioned. */
+.pj-r1 .pj-rail { padding: var(--sp-4) }
+.pj-r1 .pj-sec + .pj-sec { margin-top: var(--sp-6) }
+.pj-r1 .pj-sec-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-1) }
+.pj-r1 .pj-sec-h .icon-btn { width: var(--sp-6); height: var(--sp-6) }
+.pj-r1 .pj-sec-h .glyph { width: var(--sp-4); height: var(--sp-4) }
+.pj-r1 .pj-item {
+  display: flex; align-items: center; gap: var(--sp-2); width: 100%; text-align: left;
+  padding: var(--sp-2) var(--sp-3); border-radius: var(--r-md);
+  font-size: var(--t-ui); color: var(--ink); transition: background var(--mo-base);
+}
+.pj-r1 .pj-item:hover { background: var(--wash-1) }
+.pj-r1 .pj-item .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55) }
+.pj-r1 .pj-item .pj-n { margin-left: auto; font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+/* A project's own chats hang from it on a hairline, so the nesting is drawn
+   rather than only indented. */
+.pj-r1 .pj-kids { margin: var(--sp-1) 0 var(--sp-2) calc(var(--sp-3) + var(--sp-2)); padding-left: var(--sp-2); border-left: 1px solid var(--line-2) }
+.pj-r1 .pj-kids .thread { padding: var(--sp-2) var(--sp-3) }
+
+/* The project's home. */
+.pj-r1 .pj-home { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); }
+.pj-r1 .pj-main { padding: var(--sp-8) var(--sp-10) var(--sp-10) }
+.pj-r1 .pj-side { padding: var(--sp-8) var(--sp-6); border-left: 1px solid var(--line); background: var(--panel); display: grid; gap: var(--sp-4); align-content: start }
+@media (max-width: 900px) { .pj-r1 .pj-home { grid-template-columns: minmax(0, 1fr) } .pj-r1 .pj-side { border-left: 0; border-top: 1px solid var(--line) } .pj-r1 .pj-main { padding: var(--sp-6) } }
+.pj-r1 .pj-title { font-family: var(--serif); font-weight: 700; font-size: var(--t-h2); line-height: var(--t-h2-lh); margin-top: var(--sp-3) }
+.pj-r1 .pj-main .composer { margin: var(--sp-6) 0 var(--sp-8); max-width: none }
+.pj-r1 .pj-list > * + * { border-top: 1px solid var(--line) }
+.pj-r1 .pj-row { display: flex; align-items: baseline; gap: var(--sp-4); width: 100%; text-align: left; padding: var(--sp-3) 0; font-size: var(--t-ui); color: var(--ink) }
+.pj-r1 .pj-row:hover { color: var(--accent-text) }
+.pj-r1 .pj-row .th-m { margin-left: auto; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); white-space: nowrap }
+.pj-r1 .pj-card { background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-md); padding: var(--sp-4) }
+.pj-r1 .pj-card-h { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-2) }
+.pj-r1 .pj-card .note { margin-top: 0 }
+.pj-r1 .pj-card .lib-item { padding: var(--sp-3); margin-top: var(--sp-2) }
+
+/* The breadcrumb, and the scope a project puts on the composer. */
+.pj-r1 .pj-crumb { display: flex; align-items: center; gap: var(--sp-1); min-width: 0; font-size: var(--t-ui); color: var(--ink-55) }
+.pj-r1 .pj-crumb a { color: var(--ink-55); white-space: nowrap }
+.pj-r1 .pj-crumb a:hover { color: var(--ink) }
+.pj-r1 .pj-crumb .glyph { width: var(--sp-4); height: var(--sp-4) }
+.pj-r1 .pj-crumb .cur { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pj-r1 .pj-chat .app-tools { justify-content: space-between; padding: var(--sp-4) var(--sp-6) }
+.pj-r1 .pj-chat .app-tools .row { flex-wrap: nowrap }
+.pj-r1 .pj-chat .composer-wrap { padding: var(--sp-4) var(--sp-6) var(--sp-6) }
+.pj-r1 .pj-scope {
+  display: inline-flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3);
+  padding: var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-3); border: 1px solid var(--line-2); border-radius: var(--r-sm);
+  background: var(--panel); font-size: var(--t-sm); color: var(--ink-70);
+}
+.pj-r1 .pj-scope .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55) }
+.pj-r1 .pj-scope .icon-btn { width: var(--sp-6); height: var(--sp-6) }
+
+
+/* explorations.css: structure, round one. A, B and D were not kept; C and E
+   were carried into the numbered document. */
+/* ── STRUCTURE (Pl. 20, 15 October) ─────────────────────────────────────────
+   Matt: the brand feels too minimal; find elegant ways to give it structure.
+   Five devices from printed reports and reference books, each a frame around
+   the same section. None adds a colour, a weight or an ornament the system
+   does not already have: they use the hairline, the mono label, the serif
+   numeral and the grid. */
+.st-r1 .st-demo { border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--sp-10); background: var(--bg) }
+.st-r1 .st-demo .sec-head { margin-bottom: var(--sp-8) }
+.st-r1 .st-demo .sec-head h2 { font-size: var(--t-h2); line-height: var(--t-h2-lh); max-width: 24ch }
+.st-r1 .st-demo .rule-row > * { padding: var(--sp-5) var(--sp-5) 0 }
+.st-r1 .st-demo .rule-row > *:first-child { padding-left: 0 }
+@media (max-width: 760px) { .st-r1 .st-demo { padding: var(--sp-6) } }
+
+/* A · Running head. The report's own header: where you are, on a hairline. */
+.st-r1 .st-runhead {
+  display: flex; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap;
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase;
+  color: var(--ink-55); padding-bottom: var(--sp-3); border-bottom: 1px solid var(--line-2); margin-bottom: var(--sp-10);
+}
+.st-r1 .st-runhead b { font-weight: 400; color: var(--ink) }
+
+/* B · The column grid, drawn. Twelve hairline columns behind the section,
+   faded top and bottom like every texture, so the alignment the layout
+   already keeps becomes something you can see. */
+.st-r1 .st-cols { position: relative; isolation: isolate }
+.st-r1 .st-cols::before {
+  content: ""; position: absolute; inset: 0 var(--sp-10); z-index: -1; pointer-events: none;
+  border-right: 1px solid var(--line);
+  background-image: repeating-linear-gradient(to right, var(--line) 0 1px, transparent 1px calc(100% / 12));
+  -webkit-mask-image: var(--grid-mask-band); mask-image: var(--grid-mask-band);
+}
+@media (max-width: 760px) { .st-r1 .st-cols::before { inset: 0 var(--sp-6) } }
+
+/* C · Margin numeral. The section's number in the serif, in a margin column
+   of its own, with the rule over the text column only. */
+.st-r1 .st-margin { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 5fr); gap: var(--sp-8) }
+.st-r1 .st-num { font-family: var(--serif); font-weight: 700; font-size: var(--t-display); line-height: 1; color: var(--ink-35); border-top: 2px solid var(--ink); padding-top: var(--sp-4) }
+.st-r1 .st-body { border-top: 1px solid var(--line-2); padding-top: var(--sp-4) }
+@media (max-width: 760px) { .st-r1 .st-margin { grid-template-columns: minmax(0, 1fr); gap: 0 } .st-r1 .st-num { border-top: 0; padding-top: 0; margin-bottom: var(--sp-4) } }
+
+/* D · Section rule. A heavy line and a hairline close under it, the way a
+   financial report opens a chapter, with the label set into the gap. */
+.st-r1 .st-rule { border-top: 2px solid var(--ink); padding-top: 3px }
+.st-r1 .st-rule-in {
+  display: flex; justify-content: space-between; gap: var(--sp-4); border-top: 1px solid var(--ink);
+  padding-top: var(--sp-3); margin-bottom: var(--sp-10);
+  font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55);
+}
+
+/* E · Contents strip. The page's sections, numbered, as a row under the nav:
+   the structure stated once at the top and the current section marked by a
+   bar under it (after the Ford Foundation's active nav). */
+.st-r1 .st-toc { display: flex; gap: var(--sp-8); border-bottom: 1px solid var(--line-2); margin-bottom: var(--sp-10); overflow-x: auto }
+.st-r1 .st-toc a {
+  display: flex; gap: var(--sp-2); align-items: baseline; padding: var(--sp-3) 0; white-space: nowrap;
+  font-size: var(--t-ui); color: var(--ink-55); box-shadow: inset 0 -2px 0 transparent;
+}
+.st-r1 .st-toc a span { font-family: var(--mono); font-size: var(--eb-4) }
+.st-r1 .st-toc a:hover { color: var(--ink) }
+.st-r1 .st-toc a[aria-current="true"] { color: var(--ink); box-shadow: inset 0 -2px 0 var(--ink) }
+
+
+/* ══ REMOVED 2026-10-15 · REV 12 ════════════════════════════════════════════
+   Matt's review of 15 October. Projects were overhauled after Claude's project
+   page: the right-hand pane became the project's panel, sources became
+   CONTEXT (in a dialog), documents became ARTIFACTS, memory was added, and
+   the composer's line naming the sources went. The object mark D, the
+   legend, moved into components.css as .obj; A, B and C are below, with the
+   live legend switched off on their specimens. Rules whose names are live
+   again are not repeated; the console as it was is two stills in the
+   archive. */
+
+/* explorations.css: projects, round two. The scope line in the composer,
+   the project page's four parts (chats, documents, sources, instructions),
+   the instructions edited in place, uploads listed in the library pane. */
+.pj-scope { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-2); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.pj-scope .glyph { width: var(--sp-4); height: var(--sp-4) }
+.pj-scope b { font-weight: 600; color: var(--ink-70) }
+.pj-parts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: var(--sp-10) var(--sp-8) }
+.pj-parts + .pj-parts { margin-top: var(--sp-10) }
+.pj-part-h { display: flex; align-items: center; gap: var(--sp-2); min-height: var(--sp-8); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--line-2) }
+.pj-part-h .eyebrow { margin: 0 }
+.pj-part-h .pj-n { margin-left: 0 }
+.pj-part-h .act { margin-left: auto }
+.pj-instr p { margin-top: var(--sp-3); font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink-70); max-width: var(--measure-prose) }
+.pj-instr textarea { margin-top: var(--sp-3); width: 100%; font-size: var(--t-ui); line-height: var(--t-ui-lh) }
+.pj-instr .row { margin-top: var(--sp-3) }
+.pj-srcs { display: grid; gap: var(--sp-2); padding-top: var(--sp-3) }
+.pj-srcs .lib-item { padding: var(--sp-3) }
+.lib-item .tm .glyph { display: inline-block; width: var(--sp-3); height: var(--sp-3); vertical-align: -2px }
+.lib-item.up .tm { color: var(--ink-55) }
+.lib-item.up[data-status="reading"] .li-m { color: var(--ink-35) }
+.app[data-drop] .pane-body { outline: 1px dashed var(--ink-35); outline-offset: calc(var(--sp-2) * -1) }
+
+/* explorations.css: the object mark, A to C. */
+/* ── OBJECTS (Pl. 08, exploration, 15 October) ────────────────────────────────
+   Matt: papers and documents are both things you open and keep; can they
+   share one mark that says "this is an object", in a minimal way? Four
+   candidates, each a single detail added to the card every object already is
+   (.obj on .lib-item, .pj-doc, .pj-saved). A container chooses one with
+   data-obj; the reference applies it to the live console and to specimens.
+   --obj-ground is the surface the object sits on, which C needs to cut its
+   corner; the pane sets it to the panel.
+
+     A · TAB       a short 2px ink tab on the top edge, the same tab the
+                   margin numeral wears in Pl. 20: an object is a filed thing.
+     B · CORNERS   four ink corner marks over the hairline, the brackets that
+                   frame the dove in the logo: an object is a framed thing.
+     C · FOLD      the top right corner turned down three cells on the brand
+                   cell, the pixel arrow's family: an object is a sheet.
+     D · LEGEND    its kind (PAPER, DOC, SHEET, PDF) set into the top edge in
+                   mono, the way a form's fieldset names itself: an object is
+                   a labelled thing. */
+
+[data-obj="tab"] .obj::before {
+  content: ""; position: absolute; top: -1px; left: -1px; width: var(--sp-6); height: 2px;
+  background: var(--ink); border-top-left-radius: var(--r-md); pointer-events: none;
+}
+
+[data-obj="corners"] .obj::before {
+  content: ""; position: absolute; inset: -1px; pointer-events: none;
+  --c: var(--ink); --l: var(--sp-2);
+  background:
+    linear-gradient(var(--c), var(--c)) left top / var(--l) 1px,
+    linear-gradient(var(--c), var(--c)) left top / 1px var(--l),
+    linear-gradient(var(--c), var(--c)) right top / var(--l) 1px,
+    linear-gradient(var(--c), var(--c)) right top / 1px var(--l),
+    linear-gradient(var(--c), var(--c)) left bottom / var(--l) 1px,
+    linear-gradient(var(--c), var(--c)) left bottom / 1px var(--l),
+    linear-gradient(var(--c), var(--c)) right bottom / var(--l) 1px,
+    linear-gradient(var(--c), var(--c)) right bottom / 1px var(--l);
+  background-repeat: no-repeat;
+}
+[data-obj="corners"] .obj { border-radius: 0 }
+
+[data-obj="fold"] .obj::before, [data-obj="fold"] .obj::after {
+  content: ""; position: absolute; top: -1px; right: -1px; pointer-events: none;
+  width: calc(var(--dither-cell) * 3px + 1px); height: calc(var(--dither-cell) * 3px + 1px);
+}
+/* The ground shows through where the corner was, a stair of three cells. */
+[data-obj="fold"] .obj::before {
+  background: var(--obj-ground, var(--bg));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v2h-1v-1h-1z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v2h-1v-1h-1z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+}
+/* The turned-down flap below it, in the hairline's tone. */
+[data-obj="fold"] .obj::after {
+  background: var(--ink-35);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h-3z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h-3z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+}
+/* In the archive the live legend (components.css .obj::after) is off on
+   these specimens, and C's flap does not take its offsets. */
+.obj-r1 [data-obj="tab"] .obj::after, .obj-r1 [data-obj="corners"] .obj::after { content: none }
+.obj-r1 [data-obj="fold"] .obj::after { content: ""; transform: none; padding: 0 }
+.obj-r1 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6); margin-top: var(--sp-6) }
+.obj-r1-demo { display: grid; gap: var(--sp-4); padding: var(--sp-6) var(--sp-5); margin-bottom: var(--sp-3); background: var(--panel); border-radius: var(--r-md); --obj-ground: var(--panel) }
+@media (max-width: 900px) { .obj-r1 { grid-template-columns: minmax(0, 1fr) } }
+.arch-stills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6); margin-top: var(--sp-6) }
+.arch-stills figure { margin: 0 }
+.arch-stills img { display: block; width: 100%; height: auto; border: 1px solid var(--line-2); border-radius: var(--r-md) }
+.arch-stills figcaption { margin-top: var(--sp-2) }
+@media (max-width: 900px) { .arch-stills { grid-template-columns: minmax(0, 1fr) } }
+
+/* explorations.css: the elevation exploration as it closed (15 October).
+   Matt chose I, the echo, which moved to components.css as the hover of every
+   clickable card; C, J and J2 are here, verbatim, with I's specimen class. */
+/* ── ELEVATION, FOUR WAYS (Pl. 01, and explore-elevation.html) ──────────────
+   Matt's rule, 9 October: elevation and its hover are for things you can
+   click, so every option is scoped to a real link (a[href]) or a button and
+   does nothing on a static block. The attribute also lifts the selector over
+   .card.raised, which would otherwise cancel the shadow. Eleven were built;
+   Matt kept C, I and J on 9 October and asked for J2. The other eight are in
+   archive/retired.css. Hover moves run at --mo-fast. */
+.elx {
+  display: block;
+  background: var(--panel-face); border: 1px solid var(--line-2);
+  border-radius: var(--r-lg); padding: var(--sp-5);
+}
+.elx h3 { font-family: var(--serif); font-weight: 700; font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+.elx p { font-size: var(--t-sm); color: var(--ink-70); margin-top: var(--sp-2) }
+:is(a[href], button)[class*="elx--"] {
+  position: relative;
+  transition: transform var(--mo-fast), box-shadow var(--mo-fast), border-color var(--mo-fast),
+              outline-color var(--mo-fast), outline-offset var(--mo-fast);
+}
+/* C · brutalist block. A solid ink offset that lifts on hover and presses flat
+   on click, so elevation is a physical position rather than a blur. */
+:is(a[href], button).elx--block { border-color: var(--ink); box-shadow: var(--sp-1) var(--sp-1) 0 0 var(--ink) }
+:is(a[href], button).elx--block:hover { transform: translate(calc(var(--sp-1) * -.5), calc(var(--sp-1) * -.5)); box-shadow: calc(var(--sp-1) * 1.5) calc(var(--sp-1) * 1.5) 0 0 var(--ink) }
+:is(a[href], button).elx--block:active { transform: translate(var(--sp-1), var(--sp-1)); box-shadow: 0 0 0 0 var(--ink) }
+/* I · echo. A second hairline arrives a step outside the first, the way a
+   print is matted. Drawn with the outline, so it costs no layout; keyboard
+   focus replaces it with the focus ring, which is the right priority. */
+:is(a[href], button).elx--echo { outline: 1px solid transparent; outline-offset: 0 }
+:is(a[href], button).elx--echo:hover { outline-color: var(--ink-35); outline-offset: var(--sp-1); border-color: var(--ink-35) }
+/* J · halftone, and J2 · dither. The offset is a screen at the dither cell
+   instead of a solid block or a blur: the brand's print vocabulary used as
+   depth. J is a screen of dots, always there and pulled further out under the
+   pointer. J2 is square, drawn with the icons' own screen (--px-screen,
+   three-quarter squares on a 2px cell, since 2026-10-15), in --ink-55 so a
+   field of it reads as a shadow rather than a solid (Matt: full ink was too
+   dark), and it is not there at all until the pointer arrives. The face moves to a layer of its own
+   so the screen can sit behind it. */
+:is(a[href], button):is(.elx--halftone, .elx--dither) { isolation: isolate; background: transparent; border-color: transparent }
+:is(a[href], button):is(.elx--halftone, .elx--dither)::before,
+:is(a[href], button):is(.elx--halftone, .elx--dither)::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+}
+:is(a[href], button):is(.elx--halftone, .elx--dither)::before { z-index: -1; background: var(--panel-face); border: 1px solid var(--line-2) }
+:is(a[href], button):is(.elx--halftone, .elx--dither)::after { z-index: -2; transition: transform var(--mo-fast), opacity var(--mo-fast) }
+:is(a[href], button):is(.elx--halftone, .elx--dither):hover { transform: translate(calc(var(--sp-1) * -.5), calc(var(--sp-1) * -.5)) }
+:is(a[href], button).elx--halftone::after {
+  transform: translate(var(--sp-1), var(--sp-1));
+  background: radial-gradient(circle closest-side, var(--ink-35) 62%, transparent 80%) 0 0 / calc(var(--dither-cell) * 1px) calc(var(--dither-cell) * 1px);
+}
+:is(a[href], button).elx--halftone:hover::after { transform: translate(var(--sp-2), var(--sp-2)) }
+:is(a[href], button).elx--dither::after {
+  opacity: 0; transform: translate(0, 0);
+  background: var(--ink-55);
+  -webkit-mask: var(--px-screen) 0 0 / calc(var(--icon-px) / 25) calc(var(--icon-px) / 25);
+          mask: var(--px-screen) 0 0 / calc(var(--icon-px) / 25) calc(var(--icon-px) / 25);
+}
+:is(a[href], button).elx--dither:hover::after { opacity: 1; transform: translate(var(--sp-2), var(--sp-2)) }
+.elx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--sp-8) var(--sp-6) }
+
+/* ══ REMOVED 2026-10-15 · REV 14 ════════════════════════════════════════════
+   Matt asked for the two sides of the console to match. The rail is built as
+   the pane is now (a head, its tools, a body that scrolls), with no padding of
+   its own. Archive shells that put threads straight in the rail keep the old
+   padding here; the row that held the new chat, a members button and the
+   fold is below. */
+.app-rail:not(:has(> .pane-head)) { padding: var(--sp-4); overflow: auto }
+.app-rail > .eyebrow { display: block; margin-bottom: var(--sp-2) }
+.rail-act { display: flex; align-items: center; gap: var(--sp-1); margin-bottom: var(--sp-6) }
+.rail-act .btn { flex: 1; display: inline-flex; align-items: center; gap: var(--sp-2) }
+.rail-act .btn .glyph { width: var(--sp-4); height: var(--sp-4) }
+
+/* ══ REMOVED 2026-10-15 · REV 15 · Pl. 22 DATA ═════════════════════════════
+   Matt removed the data plate. The chart frame (.viz) and the forest plot
+   stay in explorations.css, because the report and the deck draw with them;
+   what only the plate used is here: the ranked bars, the texture series, the
+   dither map, and the reference's figure grid. */
+:root { --viz-fill-2: repeating-linear-gradient(-45deg, var(--ink) 0 1px, transparent 1px calc(var(--dither-cell) * 1px + 1px)) }
+/* Bars: a ranked list with the value at the end of each bar. One bar may
+   take the accent, the one the headline is about. */
+.bars { display: grid; grid-template-columns: minmax(0, calc(var(--sp-26) * 1.7)) minmax(0, 1fr); gap: var(--sp-2) var(--sp-4); font-variant-numeric: tabular-nums }
+.bar-l { align-self: center; font-size: var(--t-ui); color: var(--ink) }
+.bar-t { display: flex; align-items: center; gap: var(--sp-2) }
+.bar-t i { display: block; width: var(--v); height: var(--sp-5); background: var(--viz-fill-1) }
+.bar-t b { font-family: var(--mono); font-weight: 400; font-size: var(--eb-3); color: var(--ink) }
+.bar-focus i { background: var(--viz-focus) }
+.bar-focus b { color: var(--accent-text) }
+
+/* Series swatches: texture, not hue. */
+.viz-series { display: grid; gap: var(--sp-3) }
+.viz-series li { display: flex; align-items: center; gap: var(--sp-2); font-size: var(--t-sm); color: var(--ink-70) }
+.viz-sw { width: var(--sp-6); height: var(--sp-4); flex: none; border: 1px solid var(--ink) }
+.viz-sw.s1 { background: var(--viz-fill-1) }
+.viz-sw.s2 { background: var(--viz-fill-2) }
+.viz-sw.s3 { background: var(--ink); -webkit-mask: var(--px-screen) 0 0 / calc(var(--icon-px) / 25) calc(var(--icon-px) / 25); mask: var(--px-screen) 0 0 / calc(var(--icon-px) / 25) calc(var(--icon-px) / 25) }
+.viz-sw.s4 { background: transparent }
+.viz-sw.sf { background: var(--viz-focus); border-color: var(--viz-focus) }
+
+/* The map: land in the dither screen at four pitches, the sea the panel, a
+   country without data the page, borders cut in the page tone, the focus
+   outlined in the accent. Labels in mono, haloed in the page tone. */
+.viz-map { padding: 0; overflow: hidden }
+.viz-map .viz-h, .viz-map .viz-src, .viz-map .map-key { margin-left: var(--sp-6); margin-right: var(--sp-6) }
+.viz-map .viz-h { margin-top: var(--sp-6) }
+.map { display: block; width: 100%; height: auto; background: var(--panel); color: var(--ink) }
+.map pattern rect { fill: currentColor }
+.map .m-land path { stroke: var(--bg); stroke-width: 1; stroke-linejoin: round }
+.map .m-0 { fill: var(--bg); stroke: var(--line-2) }
+.map .m-d1 { fill: url(#m-p1) } .map .m-d2 { fill: url(#m-p2) } .map .m-d3 { fill: url(#m-p3) } .map .m-d4 { fill: url(#m-p4) }
+.map .m-land .m-focus { stroke: var(--viz-focus); stroke-width: 2.5 }
+.map .m-labels text { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; text-anchor: middle; fill: var(--ink); paint-order: stroke; stroke: var(--bg); stroke-width: 3px; stroke-linejoin: round }
+.map-key { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3) var(--sp-5); margin-top: var(--sp-4); font-size: var(--t-sm); color: var(--ink-70) }
+.map-key svg { width: var(--sp-6); height: var(--sp-4); border: 1px solid var(--line-2); color: var(--ink); vertical-align: middle }
+.map-key .k-focus { display: inline-block; width: var(--sp-6); height: var(--sp-4); border: 2px solid var(--viz-focus); vertical-align: middle }
+
+  .viz-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--sp-6); align-items: start }
+  .viz-grid > .viz:first-child { grid-column: 1 / -1 }
+  @media (max-width: 1000px) { .viz-grid { grid-template-columns: minmax(0, 1fr) } }
+
+/* ══ DECIDED 2026-10-15 · REV 18 · Pl. 21 THE HEADLINE SERIF ═══════════════
+   Matt chose Source Serif 4, at 400, and 500 at --t-display and --t-h1. The
+   plate that compared the candidates is in the archive with these styles; the
+   faces it loads are in type-candidates.css, and the bench that tried them on
+   the real pages is archive/type-test.html, with its styles below. */
+  html[data-serif="nanum"] { --serif: "PI Marks", "Nanum Myeongjo", Georgia, serif }
+  /* Pl. 21: the headline serif. The tray resets --serif for the whole page;
+     each specimen card sets its own. PI Marks stays first in every stack. */
+  html[data-serif="newsreader"] { --serif: "PI Marks", "Newsreader", Georgia, serif }
+  html[data-serif="ebgaramond"] { --serif: "PI Marks", "EB Garamond", Georgia, serif }
+  html[data-serif="cormorant"] { --serif: "PI Marks", "Cormorant Garamond", Georgia, serif }
+  html[data-serif="literata"] { --serif: "PI Marks", "Literata", Georgia, serif }
+  html[data-serif="sourceserif"] { --serif: "PI Marks", "Source Serif 4", Georgia, serif }
+  html[data-serif="librebask"] { --serif: "PI Marks", "Libre Baskerville", Georgia, serif }
+  html[data-serif="baskervville"] { --serif: "PI Marks", "Baskervville", Georgia, serif }
+  html[data-serif="bpunch"] { --serif: "PI Marks", "Baskerville Punch", Georgia, serif }
+  html[data-serif="cooper"] { --serif: "PI Marks", "Cooper Star", Georgia, serif }
+  html[data-serif="charis"] { --serif: "PI Marks", "Charis SIL", Georgia, serif }
+  html[data-serif="merri"] { --serif: "PI Marks", "Merriweather", Georgia, serif }
+  html[data-serif="noto"] { --serif: "PI Marks", "Noto Serif", Georgia, serif }
+  html[data-serif="gelasio"] { --serif: "PI Marks", "Gelasio", Georgia, serif }
+  html[data-serif="spectral"] { --serif: "PI Marks", "Spectral", Georgia, serif }
+  html[data-serif="ptserif"] { --serif: "PI Marks", "PT Serif", Georgia, serif }
+  html[data-serif="crimson"] { --serif: "PI Marks", "Crimson Pro", Georgia, serif }
+  html[data-serif="petrona"] { --serif: "PI Marks", "Petrona", Georgia, serif }
+  html[data-serif="brygada"] { --serif: "PI Marks", "Brygada 1918", Georgia, serif }
+  html[data-serif="andada"] { --serif: "PI Marks", "Andada Pro", Georgia, serif }
+  html[data-serif="charter"] { --serif: "PI Marks", "PI Try Charter", Georgia, serif }
+  html[data-serif="iowan"] { --serif: "PI Marks", "PI Try Iowan Old Style", Georgia, serif }
+  html[data-serif="founders"] { --serif: "PI Marks", "PI Try Founders Caslon", Georgia, serif; font-synthesis: none }
+  html[data-serif="brabo"] { --serif: "PI Marks", "PI Try FS Brabo", Georgia, serif }
+  html[data-serif="picnic"] { --serif: "PI Marks", "PI Try Picnic Club", Georgia, serif }
+  html[data-serif="bneo"] { --serif: "PI Marks", "PI Try Baskerville Neo", Georgia, serif }
+  html[data-serif="eaves"] { --serif: "PI Marks", "PI Try Mrs Eaves XL", Georgia, serif }
+  html[data-serif="monobask"] { --serif: "PI Marks", "PI Try Monotype Baskerville", Georgia, serif }
+  .sf-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-6) }
+  @media (max-width: 900px) { .sf-grid { grid-template-columns: minmax(0, 1fr) } }
+  .sf-card { margin: 0; padding: var(--sp-8) var(--sp-6) var(--sp-6); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-md); --sf: "Nanum Myeongjo" }
+  .sf-card[data-sf="newsreader"] { --sf: "Newsreader" }
+  .sf-card[data-sf="ebgaramond"] { --sf: "EB Garamond" }
+  .sf-card[data-sf="cormorant"] { --sf: "Cormorant Garamond" }
+  .sf-card[data-sf="literata"] { --sf: "Literata" }
+  .sf-card[data-sf="sourceserif"] { --sf: "Source Serif 4" }
+  .sf-card[data-sf="librebask"] { --sf: "Libre Baskerville" }
+  .sf-card[data-sf="baskervville"] { --sf: "Baskervville" }
+  .sf-card[data-sf="bpunch"] { --sf: "Baskerville Punch" }
+  .sf-card[data-sf="cooper"] { --sf: "Cooper Star" }
+  .sf-card[data-sf="charis"] { --sf: "Charis SIL" }
+  .sf-card[data-sf="merri"] { --sf: "Merriweather" }
+  .sf-card[data-sf="noto"] { --sf: "Noto Serif" }
+  .sf-card[data-sf="gelasio"] { --sf: "Gelasio" }
+  .sf-card[data-sf="spectral"] { --sf: "Spectral" }
+  .sf-card[data-sf="ptserif"] { --sf: "PT Serif" }
+  .sf-card[data-sf="crimson"] { --sf: "Crimson Pro" }
+  .sf-card[data-sf="petrona"] { --sf: "Petrona" }
+  .sf-card[data-sf="brygada"] { --sf: "Brygada 1918" }
+  .sf-card[data-sf="andada"] { --sf: "Andada Pro" }
+  .sf-card[data-sf="charter"] { --sf: "PI Try Charter" }
+  .sf-card[data-sf="iowan"] { --sf: "PI Try Iowan Old Style" }
+  .sf-card[data-sf="founders"] { --sf: "PI Try Founders Caslon"; font-synthesis: none }
+  .sf-card[data-sf="brabo"] { --sf: "PI Try FS Brabo" }
+  .sf-card[data-sf="picnic"] { --sf: "PI Try Picnic Club" }
+  .sf-card[data-sf="bneo"] { --sf: "PI Try Baskerville Neo" }
+  .sf-card[data-sf="eaves"] { --sf: "PI Try Mrs Eaves XL" }
+  .sf-card[data-sf="monobask"] { --sf: "PI Try Monotype Baskerville" }
+  /* A commercial face shows only when it is installed on the computer
+     viewing the page (a trial activated, a font bought, or one the system
+     ships). Until then the card says how to get it and sets nothing, so no
+     specimen is ever Georgia standing in. */
+  .sf-card.sf-off { border-style: dashed; background: none }
+  .sf-card.sf-off > p { display: none }
+  .sf-card .sf-get { display: none; font-family: var(--sans); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-70) }
+  .sf-card.sf-off .sf-get { display: block }
+  .sf-card.sf-off figcaption { margin-top: var(--sp-4) }
+  .sf-card .sf-on { color: var(--ink) }
+  .sf-card.sf-off .sf-on { display: none }
+  [data-serif-pick] { flex-wrap: wrap; height: auto }
+  /* The weight tray sets --sf-w on every specimen's two headlines. Each card
+     reads the weights its face really has from the browser, lists them, and
+     flags the weight it is shown at when the one asked for is missing, so no
+     card fakes a weight it does not have. */
+  .sf-card .sf-ws { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+  .sf-card .sf-ws b { font-weight: 400; color: var(--ink) }
+  /* type-test.html: the headline serif tried on the real pages, one setting
+     or two side by side. Each frame draws a page at its own width and is
+     scaled to fit. */
+  .tt-page { padding: 0; height: 100svh; display: flex; flex-direction: column; overflow: hidden }
+  .tt { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) }
+  .tt[data-split="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .tt[data-split="1"] .tt-side[data-side="b"] { display: none }
+  .tt-side { display: flex; flex-direction: column; min-width: 0; min-height: 0 }
+  .tt-side + .tt-side { border-left: 1px solid var(--line-2) }
+  .tt-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2) var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--line) }
+  .tt-k { font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); color: var(--ink) }
+  .tt-pick .input { width: auto; padding-top: var(--sp-1); padding-bottom: var(--sp-1) }
+  .tt-bar .seg button { font-size: var(--eb-4); padding: var(--sp-2) var(--sp-2) }
+  .tt-has { flex-basis: 100%; min-height: var(--sp-4); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+  .tt-has b { font-weight: 400; color: var(--ink) }
+  .tt-view { flex: 1; min-height: 0; position: relative; overflow: hidden; background: var(--panel) }
+  .tt-view iframe { position: absolute; top: 0; border: 0; transform-origin: 0 0; background: var(--bg) }
+  @media (max-width: 900px) {
+    .tt[data-split="2"] { grid-template-columns: minmax(0, 1fr); grid-template-rows: repeat(2, minmax(0, 1fr)) }
+    .tt-side + .tt-side { border-left: 0; border-top: 1px solid var(--line-2) }
+  }
+
+/* ══ REMOVED 2026-10-15 · REV 19 ════════════════════════════════════════════
+   The reference reorganised for handoff. Pl. 12, the gradient fields, was
+   removed (landing.html's corpus band moved to the rendered grid); the video
+   map's footage form (.vmap--bleed, .vmap--dissolve) was retired with its
+   placement rule, keeping .vmap--still, the veil's still counterpart that Home
+   and Rotary use; and .app-mark, a typed wordmark, went when every page took
+   the logo image. The field driver is in archive/retired.js. */
+/* ═══ A · GRADIENT FIELDS ═══════════════════════════════════════════════════
+
+   The brief: muddy, asymmetrical, grainy. All three words are doing work.
+
+   MONOCHROME, DECIDED 2026-09-25, and this replaces the muddy-warm reasoning
+   below. Every mood is now built from paper and ink and nothing else. The
+   accent is out of the ramp entirely.
+
+   The argument for the mud was that ink mixed into the warm stops a large
+   field reading as a sale banner, which was true and was solving the wrong
+   problem. A field is the largest object on whatever page it appears on, so
+   whatever colour it carries becomes the page's colour — and an atmospheric
+   wash of brand orange, however muddied, is a consumer move in front of an
+   institutional reader. It also forced the text-safety caveat below, because a
+   ramp with chroma in it reaches a dark enough value that --ink-70 stops
+   clearing AA over the bottom stop.
+
+   With no hue there is nothing for a headline to fight, nothing to clash with a
+   photograph laid over it, and nothing to re-tune if the accent ever changes.
+   The dawn-neutral variant built last round was the test of this and it read
+   better than any of the warm ones, so it stopped being a variant.
+
+   MUDDY now means TONAL rather than chromatic: the mud is produced by OVERLAP,
+   three ellipses of the same grey family compounding into values none of them
+   contains on its own.
+
+   ASYMMETRICAL means no blob is centred and no two are the same size. Two of
+   the three are anchored off-canvas. A centred radial gradient reads as a
+   vignette or a spotlight; an off-canvas one reads as a much larger field that
+   the viewport happens to be cropping, which is the whole effect.
+
+   GRAINY is ordered Bayer dithering, in canvas, against a five-stop palette
+   built from brand tokens. Fractal grain was explored alongside it and dropped:
+   it looked like film, which is somebody else's language, whereas the dither is
+   already ours and is already what every video asset is treated with.
+
+   The dither version has a property the gradient version does not: the field
+   contains only five colours, all of them brand tokens. The gradient is an
+   illusion made by the dither pattern. Nothing in it is off-palette, which is
+   a real answer to how a brand survives a big atmospheric background.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.gfield {
+  position: relative; isolation: isolate;
+
+  /* The five-stop ramp, monochrome. Canvas reads these by name, so editing the
+     ramp here changes both the CSS gradient and the dithered one.
+
+     THE RAMP SPANS THE PAGE TONE TO --line-2, corrected 2026-09-26. It went to
+     --wash-1 first, which is three percent of ink, and three percent is past
+     quiet into invisible: on a real page the field was a rumour. Fourteen
+     percent is the hairline tone, so the darkest part of a field is exactly as
+     dark as the line around a card — which is the argument for it. The field
+     never introduces a value the page does not already use, and it still has
+     somewhere to go.
+
+     The step before this one was 15%, and it was wrong for a different reason:
+     that was the WARM tone at 15%, so the field carried chroma and read as a
+     thing on the page. This is ink, monochrome, at the weight of a rule.
+
+     This is also what makes the motion viable. A field this quiet can move
+     continuously without competing with anything, which is what lets every
+     field be live — and a still one is simply a slightly uneven sheet of paper,
+     which is worse than no field at all.
+
+     The stops are evenly spaced rather than eased, because the dither is doing
+     the easing: five flat values with an 8x8 threshold between them produces a
+     smoother apparent ramp than five eased values ever did. */
+  --f-0: var(--bg);
+  --f-1: color-mix(in srgb, var(--ink) 3.5%,  var(--bg));
+  --f-2: color-mix(in srgb, var(--ink) 7%,    var(--bg));
+  --f-3: color-mix(in srgb, var(--ink) 10.5%, var(--bg));
+  --f-4: color-mix(in srgb, var(--ink) 14%,   var(--bg));   /* = --line-2 over --bg */
+
+  /* THE CELL comes from --dither-cell, which is measured off the original
+     dove and magnifying glass clips rather than picked. Overridable per
+     instance for a plate, never for a page. */
+  --gfield-cell: var(--dither-cell);
+
+  /* THE WHITE FLOOR, 2026-10-09. Heat below this renders as pure paper and the
+     rest is stretched across the full ramp, so a field always shows a large
+     area of untouched page and keeps its densest tone. The floor is a share of
+     each frame's own peak, so quiet and loaded moods both keep their weight. Asked
+     for as "less heavy, same darkness". Set per instance for a plate, never
+     for a page; 0 is the field as it was before. */
+  --gfield-floor: .4;
+}
+
+
+.gfield > *:not(canvas) { position: relative; z-index: 1 }
+
+/* The smooth field. Three ellipses, none centred, two anchored off-canvas.
+   Always present, so a .gfield--dither still has something to show with JS off. */
+.gfield::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background-color: var(--f-0);
+  background-image:
+    radial-gradient(ellipse 82% 66% at 6% 116%,   var(--f-4) 0%, var(--f-3) 24%, var(--f-2) 42%, transparent 60%),
+    radial-gradient(ellipse 46% 78% at 96% -18%,  var(--f-3) 0%, var(--f-2) 30%, transparent 52%);
+  /* The third, wide wash of --f-1 went with the white floor on 2026-10-09: it
+     covered most of the frame, which is exactly the heaviness being removed. */
+}
+
+/* THE MOODS.
+
+   Five shapes. A single gradient shape used everywhere is the same problem as a
+   single raised surface used everywhere: it becomes a signature, and by the
+   fourth page it reads as a template.
+
+   Each mood is a different ASYMMETRY. The ramp never changes, and now that the
+   ramp is monochrome the shape is the ONLY thing that varies, which is a better
+   system than it was: five moods that differ in colour are five brands, and
+   five that differ in weight and placement are one. Nine were built and four were cut: ridge, shore, cleave and verge
+   all put a hard directional line through the frame, which is graphic rather
+   than ETHEREAL, and ethereal is the register this is for. They are in
+   archive/rev3 if a page ever needs a field with a direction.
+
+     BLOOMS   heat radiating from an off-canvas anchor        ember soot dawn
+     EDGES    heat held against one boundary or hollowed out  hollow drift
+
+   MOTION IS DAWN ONLY. A moving background has to be quiet enough that nothing
+   is competing with it, and the loaded moods are not: ember behind an empty
+   band reads as a distraction rather than as atmosphere. Ember, soot, hollow
+   and drift are for STILL fields with content on top. See --live below.
+
+   The canvas versions are the real ones; the geometry lives in the MOODS table
+   in the page script, expressed as blobs and bands. What follows is the CSS
+   fallback for each, which runs with script off and is deliberately a coarser
+   approximation rather than an attempt to match the canvas exactly.
+
+   Pick by what the section needs to do, and do not use the same mood twice in
+   one page. */
+
+/* BLOOMS ─────────────────────────────────────────────────────────────────── */
+
+/* Soot: ink-dominant, the ember demoted to a small bloom high right. For a
+   section that needs weight without warmth. */
+.gfield[data-mood="soot"]::before {
+  background-image:
+    radial-gradient(ellipse 40% 56% at 92% -6%,   var(--f-4) 0%, var(--f-3) 34%, transparent 64%),
+    radial-gradient(ellipse 100% 82% at 18% 108%, var(--f-2) 0%, var(--f-1) 48%, transparent 76%),
+    radial-gradient(ellipse 134% 94% at 50% 40%,  var(--f-1) 0%, transparent 82%);
+}
+
+/* Dawn: the quiet one, and the only mood that moves — see --live below. */
+.gfield[data-mood="dawn"]::before {
+  background-image:
+    radial-gradient(ellipse 92% 70% at 14% 104%,  var(--f-2) 0%, var(--f-1) 46%, transparent 78%),
+    radial-gradient(ellipse 124% 92% at 72% 18%,  var(--f-1) 0%, transparent 82%);
+}
+
+/* EDGES ──────────────────────────────────────────────────────────────────── */
+
+/* Hollow: bright at the centre-left with the weight pushed out to the corners.
+   An inverted vignette, and the only mood that frames rather than fills. */
+.gfield[data-mood="hollow"]::before {
+  background-image:
+    radial-gradient(ellipse 74% 84% at 34% 48%, transparent 0%, transparent 38%, var(--f-2) 62%, var(--f-4) 100%),
+    radial-gradient(ellipse 120% 100% at 34% 48%, var(--f-0) 0%, transparent 52%);
+}
+
+/* Drift: two small lobes far apart, top-left and bottom-right, with nothing in
+   between. The quietest of the loaded moods and the most spacious. */
+.gfield[data-mood="drift"]::before {
+  background-image:
+    radial-gradient(ellipse 34% 40% at 12% 10%,  var(--f-3) 0%, var(--f-2) 40%, transparent 70%),
+    radial-gradient(ellipse 44% 48% at 92% 96%,  var(--f-4) 0%, var(--f-2) 42%, transparent 72%),
+    radial-gradient(ellipse 130% 100% at 50% 50%, var(--f-1) 0%, transparent 84%);
+}
+
+/* Dither. The canvas paints the whole field, so the CSS gradient underneath is
+   hidden — but only once JS has confirmed itself, per the [data-js] rule. */
+.gfield-c { position: absolute; inset: 0; z-index: 0; display: block;
+  width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none }
+[data-js] .gfield--dither::before { opacity: 0 }
+
+/* EVERY FIELD MOVES. The opt-in inverted on 2026-09-25: a field is live unless
+   it carries .gfield--still.
+
+   Blob centres drift and the noise lattice is sampled against time, so it reads
+   as weather rather than as an animation with a beginning and an end. It is the
+   answer to wanting moving atmosphere without shipping a video.
+
+   Why it stopped being optional: at the current ramp a still field is three
+   percent of ink spread across a band, which is not atmosphere, it is a
+   slightly uneven sheet of paper. The movement is what makes that weight
+   legible as weather rather than as a printing fault. The same decision made it
+   safe — the restriction to dawn existed because the loaded moods were too
+   heavy to move behind an empty band, and at three percent nothing is.
+
+   Deliberately slow — a full cycle is about fifty seconds — and deliberately
+   stepped at ten frames a second. The step is not a compromise: a dithered
+   image at 10fps is exactly what the video assets look like, and at 60fps the
+   dot pattern crawls and reads as noise. It repaints only while on screen and
+   stops entirely under reduced motion, where a still field is the correct
+   fallback rather than a choice. */
+.gfield--still { /* marker class; the work is in the canvas driver */ }
+
+/* A field is a surface like any other, so anything sitting on it that needs to
+   be read gets an opaque face. Same rule as .textured. */
+.gfield .card { background: var(--bg) }
+
+
+/* PLACEMENT. A veil can go anywhere, because it has no edges. A MAP CAN ONLY GO
+   EDGE TO EDGE.
+
+   Footage with no white to lose is a rectangle, and a rectangle of treated
+   video set into a column reads as an imported asset sitting on the page no
+   matter how well it is mapped or how carefully it is mounted. Full-bleed, the
+   same rectangle stops being an object and becomes the surface — there is no
+   edge left for the eye to find, so nothing is sitting on anything.
+
+   So: scene footage is a band, a hero ground, a section backdrop. It is never a
+   figure in a two-column split and never a card. If a composition needs the
+   clip inset, the clip is the wrong asset and the answer is a veil or a still.
+   */
+.vmap--bleed { width: 100vw; margin-left: calc(50% - 50vw); aspect-ratio: auto; min-height: 52vh }
+
+/* DISSOLVE, the edge of a full-bleed map. Moved here from the mounts on
+   2026-10-09: Matt ruled that dissolve is only ever a full-width background,
+   which is also what the placement rule above already said of scene footage,
+   and the Pl. 11 specimen had been breaking it by setting a clip in a column.
+   A full-bleed band has no left or right edge to lose, so it dissolves where
+   it meets the page, top and bottom. Same two masks as before: the band fades
+   out, and the dither tile appears exactly where it is fading. Nothing is
+   set over it; copy over a map needs the veil. */
+.vmap--dissolve {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 74%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 26%, #000 74%, transparent 100%);
+}
+.vmap--dissolve::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background-image: var(--grid);
+  background-size: calc(var(--dither-cell) * 3px) calc(var(--dither-cell) * 3px);
+  opacity: calc(var(--grid-opacity) * .9);
+  -webkit-mask-image: linear-gradient(to bottom, #000 4%, transparent 36%, transparent 64%, #000 96%);
+          mask-image: linear-gradient(to bottom, #000 4%, transparent 36%, transparent 64%, #000 96%);
+}
+
+
+
+.app-mark { font-family: var(--mono); font-weight: 700; font-size: var(--eb-2); letter-spacing: .08em }
+
+
+/* ═══ ROW HOVERS A TO E (retired 2026-10-16) ═══════════════════════════════
+   The six ways to hover a chat in a project. Matt picked F, the arrow, which
+   is now the row's hover in explorations.css; the other five are kept here
+   for the archive's comparison. The arrow is switched off on them. */
+.hov-demo .pj-list[data-hov]:not([data-hov="f"]) .pj-row::after { content: none }
+/* HOVERING A CHAT IN A PROJECT: six options (Matt, 2026-10-15). The row has
+   no box, and turning its words --accent-text read too heavy. Each option is
+   keyed by data-hov on .pj-list; .is-hover holds one still on the reference.
+     a  ACCENT UNDERLINE   an accent rule drawn in under the title from the
+                           left: the citation's own hover, so one gesture
+                           means "this opens" across the console
+     b  A TICK IN MARGIN   a short accent bar in the margin at the row's left,
+                           the 2px tab the numbered document uses
+     c  INK UNDERLINE      the title underlined in ink, as a text link is
+     d  THE RULE DARKENS   the row's own rule goes from --line to ink: the
+                           card's rule (its edge darkens) applied to a row
+     e  GREY WASH          the row takes --wash-1, bleeding a step past the
+                           column, as the rail's threads do
+     f  THE ARROW          the call to action's pixel arrow appears at the
+                           row's end and steps a cell, as on .card.go */
+.pj-list[data-hov="a"] .pj-row > span:first-child { flex: 0 1 auto; margin-right: auto; position: relative }
+.pj-list[data-hov="a"] .pj-row > span:first-child::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px;
+  background: var(--accent); transform: scaleX(var(--row-on)); transform-origin: left; transition: transform var(--mo-fast);
+}
+.pj-list[data-hov="b"] .pj-row { position: relative }
+.pj-list[data-hov="b"] .pj-row::before {
+  content: ""; position: absolute; left: calc(var(--sp-3) * -1); top: var(--sp-4); bottom: var(--sp-4); width: 2px;
+  background: var(--accent); transform: scaleY(var(--row-on)); transition: transform var(--mo-fast);
+}
+.pj-list[data-hov="c"] .pj-row:is(:hover, :focus-visible, .is-hover) > span:first-child { text-decoration: underline 1px var(--ink); text-underline-offset: 5px }
+.pj-list[data-hov="d"] .pj-row { transition: border-color var(--mo-fast) }
+.pj-list[data-hov="d"] .pj-row:is(:hover, :focus-visible, .is-hover) { border-bottom-color: var(--ink) }
+.pj-list[data-hov="e"] .pj-row { transition: background var(--mo-fast), box-shadow var(--mo-fast) }
+.pj-list[data-hov="e"] .pj-row:is(:hover, :focus-visible, .is-hover) { background: var(--wash-1); box-shadow: calc(var(--sp-3) * -1) 0 0 var(--wash-1), var(--sp-3) 0 0 var(--wash-1) }
+/* --ink-55 under the wash on the panel measures under 4.5:1; the date steps up. */
+.pj-list[data-hov="e"] .pj-row:is(:hover, :focus-visible, .is-hover) .pj-m { color: var(--ink-70) }
+.pj-list[data-hov="f"] .pj-row::after {
+  content: ""; flex: none; width: calc(var(--dither-cell) * 4px); height: calc(var(--dither-cell) * 5px); background: var(--ink);
+  -webkit-mask: var(--px-arrow) center / contain no-repeat; mask: var(--px-arrow) center / contain no-repeat;
+  opacity: var(--row-on); transform: translateX(calc(var(--dither-cell) * 1px * var(--row-on) - var(--dither-cell) * 1px)); transition: opacity var(--mo-fast), transform var(--mo-fast);
+}
+
+.hov-demo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-8) var(--sp-8); padding: var(--sp-6) var(--sp-8) var(--sp-8); border: 1px solid var(--line); border-radius: var(--r-md) }
+.hov-demo figure { margin: 0 }
+.hov-demo figcaption { display: grid; gap: var(--sp-1); margin-top: var(--sp-4); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.hov-demo figcaption b { font-family: var(--mono); font-weight: 400; font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink) }
+@media (max-width: 1000px) { .hov-demo { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+@media (max-width: 600px) { .hov-demo { grid-template-columns: minmax(0, 1fr); padding: var(--sp-5) } }
+
+/* ── THE BRACKETS AS A LINE (Pl. 16 line work D and BD), retired 16 Oct ───
+   Matt: "cheesy", "too literal". Shown in archive.html#brackets. */
+:is(.lw[data-lw="d"], .lw[data-lw="bd"]) .lockup {
+  width: fit-content; max-width: calc(100% + var(--sp-6) * 2);
+  margin-inline: calc(var(--sp-6) * -1); padding: var(--sp-6);
+  background:
+    linear-gradient(var(--ink), var(--ink)) left top / var(--lw-bk) var(--lw-bw),
+    linear-gradient(var(--ink), var(--ink)) left top / var(--lw-bw) var(--lw-bk),
+    linear-gradient(var(--ink), var(--ink)) right top / var(--lw-bk) var(--lw-bw),
+    linear-gradient(var(--ink), var(--ink)) right top / var(--lw-bw) var(--lw-bk),
+    linear-gradient(var(--ink), var(--ink)) left bottom / var(--lw-bk) var(--lw-bw),
+    linear-gradient(var(--ink), var(--ink)) left bottom / var(--lw-bw) var(--lw-bk),
+    linear-gradient(var(--ink), var(--ink)) right bottom / var(--lw-bk) var(--lw-bw),
+    linear-gradient(var(--ink), var(--ink)) right bottom / var(--lw-bw) var(--lw-bk);
+  background-repeat: no-repeat;
+}
+.lw[data-lw="d"] .rule-row { background: none }
+.lw[data-lw="d"] .rule-row > * {
+  border-left: 0;
+  background:
+    linear-gradient(var(--ink), var(--ink)) left top / var(--lw-bk) var(--lw-bw),
+    linear-gradient(var(--ink), var(--ink)) left top / var(--lw-bw) var(--lw-bk);
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 620px) { .lw[data-lw="d"] .rule-row > * { padding: var(--sp-6) } }
+/* BD took B's tab on its row. */
+.lw[data-lw="bd"] .rule-row > * { border-left: 0; padding-top: var(--lw-pt) }
+.lw[data-lw="bd"] .rule-row > * > .eyebrow { position: relative }
+.lw[data-lw="bd"] .rule-row > * > .eyebrow::before { content: ""; position: absolute; left: 0; right: 0; top: calc(var(--lw-pt) * -1); height: 2px; background: var(--ink) }
+
+/* ═══ LINE WORK, RETIRED 2026-10-16 (Rev 25) ════════════════════════════
+   The whole of Pl. 16's line-work block as it stood, so archive.html#lines-r25
+   draws every option. Matt kept I, V and Z, which stay in explorations.css. */
+/* ═══ LINE WORK (Pl. 16, 16 October) ═══════════════════════════════════════
+   Matt: "not totally sold on this visual approach for lockups. This might be
+   the final part of the brand guide to work on: unique yet consistent ways
+   of using line work." Six grammars, then twenty more (below), each drawn on the same two things, a
+   section lockup and a row of three, so the comparison is the line and
+   nothing else. Each is built from a mark the brand already owns:
+
+     a  AS IT STANDS     one rule on top, verticals between, open outer edges
+                         (the rule row, fixed the same day)
+     b  THE TAB          one hairline, thickened to 2px of ink over the label
+                         it introduces: the numbered document's tab, made the
+                         general rule. No verticals; the gutter separates
+     c  THE LEGEND       the label set into the line, which runs on from it:
+                         the object mark's legend, at the start of the line
+     d  THE BRACKETS     retired the same day (Matt: "cheesy", "too literal");
+                         in the archive with BD, b and d together
+     e  THE CELL RULE    a line of squares at the dither cell's pitch, the
+                         texture's own unit, for the rule and the verticals
+     f  THE COLUMN RULE  verticals only, one before every item, no rule on
+                         top: a margin line, as in a notebook
+
+   Scoped to .lw[data-lw] so nothing outside Pl. 16 changes. Every line is a
+   token: --line-2 for hairlines, --ink for tabs and brackets, --ink-35 for
+   the cell rule (squares at 14% vanish). */
+.lw { --lw-pt: var(--sp-6); --lw-bk: var(--sp-4); --lw-bw: 2px }
+.lw .lockup { margin-bottom: var(--sp-10) }
+.lw .rule-row > * > .eyebrow { display: block; width: fit-content; margin-bottom: var(--sp-3) }
+
+/* b · the tab. The tab is as wide as the label under it. */
+.lw[data-lw="b"] .lockup { padding-top: var(--lw-pt); background: linear-gradient(var(--line-2), var(--line-2)) left top / 100% 1px no-repeat }
+.lw[data-lw="b"] .rule-row > * { border-left: 0; padding-top: var(--lw-pt) }
+.lw[data-lw="b"] .rule-row > * > .eyebrow,
+.lw[data-lw="b"] .lockup > .eyebrow { position: relative }
+.lw[data-lw="b"] .rule-row > * > .eyebrow::before,
+.lw[data-lw="b"] .lockup > .eyebrow::before {
+  content: ""; position: absolute; left: 0; right: 0; top: calc(var(--lw-pt) * -1); height: 2px; background: var(--ink);
+}
+
+/* c · the legend. The label opens the line and the line runs on from it. */
+.lw[data-lw="c"] .rule-row { background: none }
+.lw[data-lw="c"] .rule-row > * { border-left: 0; padding-top: 0 }
+.lw[data-lw="c"] .lockup > .eyebrow,
+.lw[data-lw="c"] .rule-row > * > .eyebrow { display: flex; align-items: center; gap: var(--sp-3); width: 100% }
+.lw[data-lw="c"] .lockup > .eyebrow::after,
+.lw[data-lw="c"] .rule-row > * > .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line-2) }
+
+/* e · the cell rule: 2px squares on a 4px pitch. */
+.lw[data-lw="e"] { --lw-cells: repeating-linear-gradient(to right, var(--ink-35) 0 2px, transparent 2px 4px); --lw-cells-v: repeating-linear-gradient(to bottom, var(--ink-35) 0 2px, transparent 2px 4px) }
+.lw[data-lw="e"] .lockup { padding-top: var(--lw-pt); background: var(--lw-cells) left top / 100% 2px no-repeat }
+.lw[data-lw="e"] .rule-row { background: var(--lw-cells) top center / calc(100% - var(--sp-6) * 2) 2px no-repeat }
+.lw[data-lw="e"] .rule-row > * { border-left: 0; margin-left: -2px; background: var(--lw-cells-v) left top / 2px 100% no-repeat }
+
+/* f · the column rule: a line before every item, and nothing across. */
+.lw[data-lw="f"] .lockup { border-left: 1px solid var(--line-2); padding-left: var(--sp-6) }
+.lw[data-lw="f"] .rule-row { margin-inline: 0; background: none; overflow-x: visible }
+.lw[data-lw="f"] .rule-row > * { margin-left: 0; padding: 0 var(--sp-6) 0 var(--sp-6) }
+.lw[data-lw="f"] .rule-row > * + * { margin-left: var(--sp-4) }
+
+/* ── TWENTY MORE, G to Z (16 October, second pass) ─────────────────────────
+   Matt: D, the brackets, "look kind of cheesy and are too literal" (moved to
+   the archive with BD); "give me another twenty distinct options. Look at
+   the latest trends", and perhaps "a mask over it that makes it subtly
+   evolve with raster edges". The trends they draw on: instruments and spec
+   sheets (G, V), the index and the contents page (H, O), print's own
+   accidents and the hand, answering a year of perfectly synthetic images
+   (P, Q), the 1-bit raster (J, K, R, X), the editorial rule revived (L, W, Z),
+   and texture standing in for structure (Y). Same lockup, same row, same
+   tokens: --line-2 for hairlines, --ink-35 and --ink-55 for marks, ink for
+   weight. J, K, R and X are drawn by system.js ([data-lr]).
+
+     g  THE RULER       a hairline with ticks hung under it, every 8px
+     h  THE LEADER      no rule: the label runs a dotted leader to its number
+     i  THE FOLDER      the label hangs from the hairline in an open tab
+     j  THE DISSOLVE    raster: solid at the label, dithering out
+     k  THE DEVELOP     raster: builds as it arrives, its edge shifting as the
+                        page scrolls (Matt's mask)
+     l  THE SCANLINES   three lines at a 3px pitch, fading down
+     m  THE DASH        no divider: one short stroke before each label
+     n  THE NODES       one line through the row, a square at each start
+     o  THE ASCII RULE  the line typed, in the mono: +-- 01 ------
+     p  THE MISPRINT    two hairlines a pixel out of register
+     q  THE HAND        a line with a drawn wobble
+     r  THE WEDGE       raster: three rows thinning to nothing
+     s  THE SPINE       a vertical hairline with the label set up it
+     t  THE BASELINE    the line closes the group, under it, with a terminal
+     u  THE FADE        a hairline of ink fading to nothing
+     v  THE GRID LINE   the texture's own dash, a cross at each start
+     w  THE SCOTCH RULE 2px of ink over a hairline
+     x  THE DRAW        raster: the line draws itself as the block arrives
+     y  THE FIELD       no line: a patch of the grid opens each group
+     z  THE BLEED       one line of ink from the text to the edge of the page
+
+   --lw-in is where an item's text starts inside its box, so a mark can sit on
+   it; it is 0 on a phone, where the row is a list. */
+.lw .rule-row > * { --lw-in: var(--sp-6); position: relative }
+.lw .lockup { --lw-in: 0px; position: relative }
+.lw { --lr-ink: var(--ink-55) }
+:where(.lw[data-lw]:not([data-lw="a"])) .rule-row { background: none }
+:where(.lw[data-lw]:not([data-lw="a"])) .rule-row > * { border-left: 0 }
+
+/* g · the ruler */
+.lw[data-lw="g"] {
+  --lw-rule:
+    linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat,
+    repeating-linear-gradient(to right, var(--ink-35) 0 1px, transparent 1px var(--sp-2)) 0 1px / 100% 3px no-repeat,
+    repeating-linear-gradient(to right, var(--ink-55) 0 1px, transparent 1px var(--sp-10)) 0 1px / 100% 6px no-repeat;
+}
+
+/* g, l, w draw one rule across the lockup and one across the row, the row's
+   on an absolute ::before inset by the gutter (out of the grid's flow). */
+:is(.lw[data-lw="g"], .lw[data-lw="l"], .lw[data-lw="w"]) .lockup { padding-top: var(--lw-pt); background: var(--lw-rule) }
+:is(.lw[data-lw="g"], .lw[data-lw="l"], .lw[data-lw="w"]) .rule-row { position: relative }
+:is(.lw[data-lw="g"], .lw[data-lw="l"], .lw[data-lw="w"]) .rule-row::before {
+  content: ""; position: absolute; top: 0; left: var(--sp-6); right: var(--sp-6); height: 7px; background: var(--lw-rule); pointer-events: none;
+}
+:is(.lw[data-lw="g"], .lw[data-lw="l"], .lw[data-lw="w"]) .rule-row > * { padding-top: var(--lw-pt) }
+
+/* h · the leader. The section is numbered, its items under it. */
+.lw[data-lw="h"] { counter-reset: lw-s lw-i }
+.lw[data-lw="h"] .lockup { counter-increment: lw-s }
+.lw[data-lw="h"] .rule-row > * { counter-increment: lw-i; padding-top: var(--sp-4) }
+.lw[data-lw="h"] .lockup > .eyebrow,
+.lw[data-lw="h"] .rule-row > * > .eyebrow { display: flex; align-items: baseline; gap: var(--sp-2); width: auto }
+.lw[data-lw="h"] .lockup > .eyebrow::before,
+.lw[data-lw="h"] .rule-row > * > .eyebrow::before {
+  content: ""; order: 1; flex: 1; align-self: center; height: var(--sp-1);
+  background: radial-gradient(circle, var(--ink-35) 0 1px, transparent 1px) left center / var(--sp-1) var(--sp-1) repeat-x;
+}
+.lw[data-lw="h"] .lockup > .eyebrow::after { content: counter(lw-s, decimal-leading-zero); order: 2; color: var(--ink) }
+.lw[data-lw="h"] .rule-row > * > .eyebrow::after { content: counter(lw-s) "." counter(lw-i); order: 2; color: var(--ink) }
+
+/* i · the folder. The label hangs from the hairline in a tab open at the
+   top, like a divider in a file drawer, so a label that wraps only makes its
+   own tab deeper and the line stays level across the row. */
+.lw[data-lw="i"] .lockup { background: linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat }
+.lw[data-lw="i"] .rule-row { background: linear-gradient(var(--line-2), var(--line-2)) top center / calc(100% - var(--sp-6) * 2) 1px no-repeat }
+.lw[data-lw="i"] .rule-row > * { padding-top: 0 }
+.lw[data-lw="i"] .lockup > .eyebrow,
+.lw[data-lw="i"] .rule-row > * > .eyebrow {
+  display: block; width: fit-content; padding: var(--sp-1) var(--sp-3) var(--sp-2);
+  border: 1px solid var(--line-2); border-top: 0; border-radius: 0 0 var(--r-sm) var(--r-sm);
+  margin-bottom: var(--sp-6);
+}
+@media (max-width: 620px) { .lw[data-lw="i"] .rule-row { background: none } .lw[data-lw="i"] .rule-row > * { background: linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat } }
+
+/* j, k, r, x · the rendered lines. The canvas is laid on the item's own
+   line; system.js draws it. */
+.lw .lr-c { position: absolute; top: 0; left: var(--lw-in); width: calc(100% - var(--lw-in) * 2); height: 6px; pointer-events: none; image-rendering: pixelated }
+.lw[data-lr] .lockup { padding-top: var(--lw-pt) }
+.lw[data-lr] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="x"] { --lr-ink: var(--ink-70) }
+
+/* l · the scanlines */
+.lw[data-lw="l"] { --lw-rule: linear-gradient(var(--ink-55), var(--ink-55)) 0 0 / 100% 1px no-repeat, linear-gradient(var(--ink-35), var(--ink-35)) 0 3px / 100% 1px no-repeat, linear-gradient(var(--line-2), var(--line-2)) 0 6px / 100% 1px no-repeat }
+
+/* m · the dash */
+.lw[data-lw="m"] .rule-row > * { padding-top: var(--sp-4) }
+.lw[data-lw="m"] .lockup > .eyebrow,
+.lw[data-lw="m"] .rule-row > * > .eyebrow { display: flex; align-items: center; gap: var(--sp-3) }
+.lw[data-lw="m"] .lockup > .eyebrow::before,
+.lw[data-lw="m"] .rule-row > * > .eyebrow::before { content: ""; flex: none; width: var(--sp-6); height: 2px; background: var(--ink) }
+
+/* n · the nodes */
+.lw[data-lw="n"] { --lw-node: calc(var(--sp-1) * 1.5) }
+.lw[data-lw="n"] .lockup { padding-top: var(--lw-pt); background: linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat }
+.lw[data-lw="n"] .rule-row { background: linear-gradient(var(--line-2), var(--line-2)) top center / calc(100% - var(--sp-6) * 2) 1px no-repeat }
+.lw[data-lw="n"] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="n"] .lockup::before,
+.lw[data-lw="n"] .rule-row > *::before {
+  content: ""; position: absolute; left: var(--lw-in); top: calc(var(--lw-node) / -2 + .5px);
+  width: var(--lw-node); height: var(--lw-node); background: var(--ink);
+}
+
+/* o · the ASCII rule */
+.lw[data-lw="o"] { counter-reset: lw-s lw-i }
+.lw[data-lw="o"] .lockup { counter-increment: lw-s }
+.lw[data-lw="o"] .rule-row > * { counter-increment: lw-i; padding-top: var(--sp-4) }
+.lw[data-lw="o"] .lockup::before,
+.lw[data-lw="o"] .rule-row > *::before {
+  display: block; min-width: 0; max-width: 100%; overflow: hidden; white-space: pre; margin-bottom: var(--sp-3);
+  font-family: var(--mono); font-size: var(--eb-3); line-height: 1; color: var(--ink-35);
+}
+.lw[data-lw="o"] .lockup::before { content: "+-- " counter(lw-s, decimal-leading-zero) " ----------------------------------------------------------------------------------------------------------------------------------------" }
+.lw[data-lw="o"] .rule-row > *::before { content: "+-- " counter(lw-s) "." counter(lw-i) " ----------------------------------------------------------------------------------------" }
+
+/* p · the misprint: a second pass a pixel low and a step late. */
+.lw[data-lw="p"] .lockup, .lw[data-lw="p"] .rule-row > * {
+  padding-top: var(--lw-pt);
+  background:
+    linear-gradient(var(--ink-55), var(--ink-55)) var(--lw-in) 0 / calc(100% - var(--lw-in) * 2 - var(--sp-2)) 1px no-repeat,
+    linear-gradient(var(--ink-35), var(--ink-35)) calc(var(--lw-in) + var(--sp-2)) 2px / calc(100% - var(--lw-in) * 2 - var(--sp-2)) 1px no-repeat;
+}
+
+/* q · the hand. One 1200px stroke, offset per item so it never repeats. */
+.lw[data-lw="q"] { --lw-hand: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='6' viewBox='0 0 1200 6'%3E%3Cpath d='M0 3.3 Q0 3.3 12.0 3.38 Q24 3.47 36.0 3.64 Q48 3.81 60.0 3.52 Q72 3.22 84.0 3.29 Q96 3.37 108.0 3.31 Q120 3.26 132.0 3.27 Q144 3.29 156.0 3.62 Q168 3.96 180.0 3.93 Q192 3.9 204.0 4.03 Q216 4.16 228.0 3.87 Q240 3.57 252.0 3.3 Q264 3.03 276.0 2.88 Q288 2.72 300.0 2.69 Q312 2.66 324.0 2.39 Q336 2.12 348.0 2.23 Q360 2.34 372.0 2.57 Q384 2.8 396.0 2.92 Q408 3.03 420.0 2.78 Q432 2.53 444.0 2.28 Q456 2.03 468.0 2.07 Q480 2.11 492.0 1.75 Q504 1.39 516.0 1.81 Q528 2.22 540.0 2.28 Q552 2.33 564.0 2.55 Q576 2.78 588.0 2.96 Q600 3.14 612.0 3.26 Q624 3.38 636.0 3.5 Q648 3.61 660.0 3.3 Q672 3.0 684.0 3.13 Q696 3.26 708.0 3.39 Q720 3.52 732.0 3.62 Q744 3.73 756.0 3.98 Q768 4.23 780.0 4.13 Q792 4.04 804.0 3.95 Q816 3.86 828.0 3.68 Q840 3.51 852.0 3.4 Q864 3.29 876.0 3.0 Q888 2.7 900.0 2.58 Q912 2.47 924.0 2.61 Q936 2.75 948.0 2.79 Q960 2.82 972.0 2.79 Q984 2.75 996.0 2.83 Q1008 2.9 1020.0 2.67 Q1032 2.43 1044.0 2.06 Q1056 1.68 1068.0 1.68 Q1080 1.68 1092.0 1.71 Q1104 1.74 1116.0 2.06 Q1128 2.38 1140.0 2.59 Q1152 2.81 1164.0 2.88 Q1176 2.94 1188.0 3.27 T1200 3.61' fill='none' stroke='%23000' stroke-width='1.3' stroke-linecap='round'/%3E%3C/svg%3E") }
+.lw[data-lw="q"] .lockup, .lw[data-lw="q"] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="q"] .lockup::before,
+.lw[data-lw="q"] .rule-row > *::before {
+  content: ""; position: absolute; top: -3px; left: var(--lw-in); right: var(--lw-in); height: 6px; background: var(--ink-55);
+  -webkit-mask: var(--lw-hand) 0 0 / 1200px 6px repeat-x; mask: var(--lw-hand) 0 0 / 1200px 6px repeat-x;
+}
+.lw[data-lw="q"] .rule-row > :nth-child(2)::before { -webkit-mask-position: -400px 0; mask-position: -400px 0 }
+.lw[data-lw="q"] .rule-row > :nth-child(3)::before { -webkit-mask-position: -800px 0; mask-position: -800px 0 }
+
+/* s · the spine. The line stands in the gutter, so the text keeps its edge. */
+.lw[data-lw="s"] .lockup { margin-left: calc(var(--sp-6) * -1); padding-left: var(--sp-6); border-left: 1px solid var(--line-2) }
+.lw[data-lw="s"] .rule-row > * { border-left: 1px solid var(--line-2); padding-top: 0; min-height: calc(var(--sp-16) * 2) }
+.lw[data-lw="s"] .lockup > .eyebrow,
+.lw[data-lw="s"] .rule-row > * > .eyebrow {
+  position: absolute; left: 0; top: 0; margin: 0; padding-block: var(--sp-2); background: var(--bg);
+  writing-mode: vertical-rl; transform: translateX(-50%) rotate(180deg);
+}
+.lw[data-lw="s"] .lockup > .eyebrow + * { margin-top: 0 }
+.lw[data-lw="s"] .rule-row { overflow-x: visible }
+
+/* t · the baseline, with a terminal */
+.lw[data-lw="t"] { --lw-term: calc(var(--sp-1) * 1.5) }
+.lw[data-lw="t"] .lockup, .lw[data-lw="t"] .rule-row > * {
+  padding-bottom: var(--sp-6);
+  background:
+    linear-gradient(var(--ink), var(--ink)) right var(--lw-in) bottom 0 / var(--lw-term) var(--lw-term) no-repeat,
+    linear-gradient(var(--line-2), var(--line-2)) var(--lw-in) calc(100% - var(--lw-term) / 2 + .5px) / calc(100% - var(--lw-in) * 2) 1px no-repeat;
+}
+.lw[data-lw="t"] .rule-row > * { padding-top: 0 }
+
+/* u · the fade */
+.lw[data-lw="u"] { --lw-fade: linear-gradient(to right, var(--ink-70), transparent) }
+.lw[data-lw="u"] .lockup { padding-top: var(--lw-pt); background: var(--lw-fade) 0 0 / 100% 1px no-repeat }
+.lw[data-lw="u"] .rule-row > * { padding-top: var(--lw-pt); background: var(--lw-fade) var(--lw-in) 0 / calc(100% - var(--lw-in) * 2) 1px no-repeat }
+
+/* v · the grid line: the texture's 3-on-2 dash, and its crossing */
+.lw[data-lw="v"] { --lw-dash: repeating-linear-gradient(to right, var(--ink-35) 0 3px, transparent 3px 5px); --lw-x: 7px }
+.lw[data-lw="v"] .lockup { padding-top: var(--lw-pt); background: var(--lw-dash) 0 0 / 100% 1px no-repeat }
+.lw[data-lw="v"] .rule-row { background: var(--lw-dash) top center / calc(100% - var(--sp-6) * 2) 1px no-repeat }
+.lw[data-lw="v"] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="v"] .lockup::before,
+.lw[data-lw="v"] .rule-row > *::before {
+  content: ""; position: absolute; top: calc(var(--lw-x) / -2 + .5px); left: calc(var(--lw-in) - var(--lw-x) / 2 + .5px);
+  width: var(--lw-x); height: var(--lw-x);
+  background: linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 1px 100% no-repeat;
+}
+
+/* w · the scotch rule */
+.lw[data-lw="w"] { --lw-rule: linear-gradient(var(--ink), var(--ink)) 0 0 / 100% 2px no-repeat, linear-gradient(var(--line-2), var(--line-2)) 0 4px / 100% 1px no-repeat }
+
+/* y · the field. Tier-four texture used as structure: the grid, doubled so
+   it holds at this size, faded out from each group's corner. */
+.lw[data-lw="y"] .lockup, .lw[data-lw="y"] .rule-row > * { padding-top: var(--lw-pt); isolation: isolate }
+.lw[data-lw="y"] .rule-row > * { padding-top: var(--sp-10) }
+.lw[data-lw="y"] .lockup::before,
+.lw[data-lw="y"] .rule-row > *::before {
+  content: ""; position: absolute; z-index: -1; top: calc(var(--sp-4) * -1); left: calc(var(--lw-in) - var(--sp-4)); width: calc(var(--sp-16) * 3); height: calc(var(--sp-16) * 1.5); pointer-events: none;
+  background-image: var(--grid), var(--grid), var(--grid); background-size: 20px 20px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 18% 22%, #000 0%, #000 20%, transparent 72%);
+  mask-image: radial-gradient(ellipse 60% 70% at 18% 22%, #000 0%, #000 20%, transparent 72%);
+}
+
+/* z · the bleed: from the text's edge to the edge of the page */
+.lw[data-lw="z"] .lockup { padding-top: var(--lw-pt) }
+.lw[data-lw="z"] .rule-row { overflow-x: visible }
+.lw[data-lw="z"] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="z"] .lockup::before,
+.lw[data-lw="z"] .rule-row::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 200vw; height: 1px; background: var(--ink);
+}
+.lw[data-lw="z"] .rule-row { position: relative }
+.lw[data-lw="z"] .rule-row::before { left: var(--sp-6) }
+
+
+/* On a phone every grammar keeps its line on top of each item: the row is a
+   list, and a vertical has nothing to stand between. */
+@media (max-width: 620px) {
+  .lw .rule-row > * { --lw-in: 0px }
+  :where(.lw[data-lw]:not([data-lw="a"])) .rule-row > * { border-bottom: 0 }
+  :where(.lw[data-lw]:not([data-lw="a"], [data-lw="f"])) .rule-row > * + * { margin-top: var(--sp-6) }
+  .lw[data-lw="f"] .rule-row > * + * { margin-left: 0; margin-top: var(--sp-6) }
+  :is(.lw[data-lw="g"], .lw[data-lw="l"], .lw[data-lw="w"]) .rule-row::before { display: none }
+  :is(.lw[data-lw="g"], .lw[data-lw="l"], .lw[data-lw="w"]) .rule-row > * { background: var(--lw-rule) }
+  .lw[data-lw="n"] .rule-row, .lw[data-lw="v"] .rule-row { background: none }
+  .lw[data-lw="n"] .rule-row > * { background: linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat }
+  .lw[data-lw="v"] .rule-row > * { background: var(--lw-dash) 0 0 / 100% 1px no-repeat }
+  .lw[data-lw="s"] .rule-row > * { padding-left: var(--sp-6) }
+  .lw[data-lw="s"] .lockup { margin-left: 0 }
+  .lw[data-lw="z"] .rule-row::before { left: 0 }
+}
+
+/* ═══ LINE WORK I, V AND Z (retired 16 Oct, Rev 36; Pl. 16 kept the lines as they stand) ═══ */
+/* ═══ LINE WORK (Pl. 16) ═════════════════════════════════════════════
+   Matt: "not totally sold on this visual approach for lockups ... unique yet
+   consistent ways of using line work." Twenty-five grammars were drawn on
+   16 October; Matt kept three the same day and the other twenty-two are in
+   archive.html#lines-r25 (their CSS in archive/retired.css, the raster
+   driver in archive/retired.js):
+
+     1I  THE FOLDER     the label hangs from the hairline in an open tab
+     1V  THE GRID LINE  the texture's own dash, a cross at each start
+     1Z  THE BLEED      one line of ink from the text to the edge of the page
+
+   Scoped to .lw[data-lw]; the rule row in components.css is unchanged until
+   one is picked. --lw-in is where an item's text starts inside its box, so a
+   mark can sit on it; it is 0 on a phone, where the row is a list. */
+.lw { --lw-pt: var(--sp-6) }
+.lw .lockup { margin-bottom: var(--sp-10); --lw-in: 0px; position: relative }
+.lw .rule-row > * { --lw-in: var(--sp-6); position: relative }
+.lw .rule-row > * > .eyebrow { display: block; width: fit-content; margin-bottom: var(--sp-3) }
+:where(.lw[data-lw]:not([data-lw="a"])) .rule-row { background: none }
+:where(.lw[data-lw]:not([data-lw="a"])) .rule-row > * { border-left: 0 }
+
+/* i · the folder. The label hangs from the hairline in a tab open at the
+   top, like a divider in a file drawer, so a label that wraps only makes its
+   own tab deeper and the line stays level across the row. */
+.lw[data-lw="i"] .lockup { background: linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat }
+.lw[data-lw="i"] .rule-row { background: linear-gradient(var(--line-2), var(--line-2)) top center / calc(100% - var(--sp-6) * 2) 1px no-repeat }
+.lw[data-lw="i"] .rule-row > * { padding-top: 0 }
+.lw[data-lw="i"] .lockup > .eyebrow,
+.lw[data-lw="i"] .rule-row > * > .eyebrow {
+  display: block; width: fit-content; padding: var(--sp-1) var(--sp-3) var(--sp-2);
+  border: 1px solid var(--line-2); border-top: 0; border-radius: 0 0 var(--r-sm) var(--r-sm);
+  margin-bottom: var(--sp-6);
+}
+@media (max-width: 620px) { .lw[data-lw="i"] .rule-row { background: none } .lw[data-lw="i"] .rule-row > * { background: linear-gradient(var(--line-2), var(--line-2)) 0 0 / 100% 1px no-repeat } }
+
+/* v · the grid line: the texture's 3-on-2 dash, and its crossing */
+.lw[data-lw="v"] { --lw-dash: repeating-linear-gradient(to right, var(--ink-35) 0 3px, transparent 3px 5px); --lw-x: 7px }
+.lw[data-lw="v"] .lockup { padding-top: var(--lw-pt); background: var(--lw-dash) 0 0 / 100% 1px no-repeat }
+.lw[data-lw="v"] .rule-row { background: var(--lw-dash) top center / calc(100% - var(--sp-6) * 2) 1px no-repeat }
+.lw[data-lw="v"] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="v"] .lockup::before,
+.lw[data-lw="v"] .rule-row > *::before {
+  content: ""; position: absolute; top: calc(var(--lw-x) / -2 + .5px); left: calc(var(--lw-in) - var(--lw-x) / 2 + .5px);
+  width: var(--lw-x); height: var(--lw-x);
+  background: linear-gradient(var(--ink), var(--ink)) center / 100% 1px no-repeat, linear-gradient(var(--ink), var(--ink)) center / 1px 100% no-repeat;
+}
+
+/* z · the bleed: from the text's edge to the edge of the page */
+.lw[data-lw="z"] .lockup { padding-top: var(--lw-pt) }
+.lw[data-lw="z"] .rule-row { overflow-x: visible }
+.lw[data-lw="z"] .rule-row > * { padding-top: var(--lw-pt) }
+.lw[data-lw="z"] .lockup::before,
+.lw[data-lw="z"] .rule-row::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 200vw; height: 1px; background: var(--ink);
+}
+.lw[data-lw="z"] .rule-row { position: relative }
+.lw[data-lw="z"] .rule-row::before { left: var(--sp-6) }
+
+
+@media (max-width: 620px) {
+  .lw .rule-row > * { --lw-in: 0px }
+  :where(.lw[data-lw]:not([data-lw="a"])) .rule-row > * { border-bottom: 0 }
+  :where(.lw[data-lw]:not([data-lw="a"], [data-lw="f"])) .rule-row > * + * { margin-top: var(--sp-6) }
+  .lw[data-lw="v"] .rule-row { background: none }
+  .lw[data-lw="v"] .rule-row > * { background: var(--lw-dash) 0 0 / 100% 1px no-repeat }
+  .lw[data-lw="z"] .rule-row::before { left: 0 }
+}
+
+/* THE MOVING IMAGE IN THE MARGIN (Matt, 16 October: "rather than using
+   icons, let's see what it looks like to use the moving image of the dove
+   and hourglass, made larger than the footprint the current icon takes").
+   The clip fills the margin column, 208px wide against the icon's 50 (the
+   column widens for it: Matt, 16 Oct, "make the video images larger"; it was
+   136), and
+   is a veil: grayscale and multiplied, so its white ground drops into the
+   page, and screened and inverted on a dark band. Two subjects for five
+   sections, so they alternate by meaning, not in turn: the dove where a
+   section is about the promise, the glass where it is about the evidence.
+   [data-mark] on the frame switches the specimen between this and the
+   icons. system.js plays at most two clips at once, so a long page costs no
+   more than a hero. */
+.st-m { width: 100%; aspect-ratio: 5 / 4; --veil-o: .62; --veil-mask: radial-gradient(ellipse 72% 72% at 50% 50%, #000 0%, #000 62%, transparent 100%) }
+/* Contained, not cropped: the glass turns through 360 degrees and a square
+   crop cut it to a sliver on half its beats. .62 keeps the dither's cells
+   apart at this size; at full ink the masters read as solid blots. */
+.st-m video { object-fit: contain }
+/* The dove fills about 60% of its frame, the glass nearly all of its own, so
+   the dove is brought forward to match. */
+.st-m video[src*="dove"] { transform: scale(1.3) }
+/* The margin is sticky, which makes it its own stacking context, so the
+   clip's multiply only blended inside it and its white ground showed as a
+   pale patch. The margin takes the blend instead, as .veil--side's box does:
+   multiply on paper, screen on a dark band. Everything else in it is ink on
+   the band's own tone, which either blend leaves as it is. */
+.st-num:has(.st-m) { mix-blend-mode: multiply }
+:is(.on-dark, .surface--invert) .st-num:has(.st-m) { mix-blend-mode: screen }
+[data-mark="icon"] .st-m, [data-mark="image"] .st-i { display: none }
+.st-sec:has(.st-m:not([hidden])) > .st-num { gap: var(--sp-2) }
+[data-mark="image"] .st-sec { grid-template-columns: calc(var(--sp-26) * 2) minmax(0, 1fr) }
+@container (max-width: 560px) {
+  .st-m { width: var(--sp-22) }
+}
+
+

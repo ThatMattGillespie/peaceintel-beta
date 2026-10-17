@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="F">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction F · Trace</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="description" content="Landing exploration F. One claim followed down through depth, from the question to the passage it came from, with each plane coming into focus as the reader arrives.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=256d5f62">
+<link rel="stylesheet" href="components.css?v=8d4342df">
+<link rel="stylesheet" href="explorations.css?v=a10e7f9b">
+<link rel="stylesheet" href="archive/retired.css?v=12fe2490"><!-- drafted before the 2026-10-09 cuts -->
+<link rel="stylesheet" href="review.css?v=47f3ff70">
+<script src="review.js?v=e67c21ad"></script>
+<style>
+  /* ═══ DIRECTION F · TRACE ══════════════════════════════════════════════════
+     POSITIONING. The research tool built to be checked. Its readers (trustees,
+     private offices, quality reviewers) are sceptical of AI, and their test is
+     one question: says who? So the page does not ask for trust. It takes one
+     claim and follows it down to the passage it came from, then invites the
+     reader to test it on something they already know.
+
+     AESTHETIC. Optics: depth of field and the focus pull. E took the brand's
+     dither and made it the page; F takes the brand's other instrument idea,
+     .mo-focus, and makes it the page. Each step of the trace is a plane in
+     depth, waiting soft in the distance and sharpening as the reader arrives,
+     with a lens-style focus scale for a progress bar. E looks across (breadth,
+     cold, tiny mono, points); F looks down (depth, warm, huge serif, sentences).
+
+     BREAKS, with Matt's permission (2026-09-30), each named in its tag:
+       1  perspective space   planes at depth, scaled by a real perspective sum
+       2  invented motion     scroll-linked fly-through with holds at each plane
+       3  blur on type        .mo-focus says never on type; here it is the idea
+       4  off-scale type      plane headlines above --t-display */
+
+  /* ── F1 · the fly-through ──────────────────────────────────────────────── */
+  .f-fly { padding: 0 }
+  /* Static by default: with script off or motion reduced the planes are an
+     ordinary stack, readable top to bottom. .is-live turns on the depth. */
+  .f-plane { max-width: var(--col-text); margin: 0 auto; padding: var(--sp-18) var(--sp-6); text-align: center }
+  .f-plane + .f-plane { border-top: 1px solid var(--line) }
+  .f-scale, .f-readout { display: none }
+
+  .f-fly.is-live .f-stage { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)); overflow: hidden }
+  .f-fly.is-live .f-plane {
+    position: absolute; left: 50%; top: 48%; margin: 0; padding: 0; border: 0;
+    width: min(var(--col-text), calc(100% - var(--sp-12)));
+    transform-origin: 50% 50%;
+  }
+  .f-fly.is-live .f-scale { display: block }
+  .f-fly.is-live .f-readout { display: flex }
+
+  /* BREAK 4. Plane type. The claim has to hold a screen on its own. */
+  .f-mega { font-family: var(--serif); font-weight: 700; font-size: clamp(40px, 6.4vw, 92px); line-height: 1.04; letter-spacing: -.018em }
+  .f-claim { font-family: var(--serif); font-weight: 700; font-size: clamp(28px, 4vw, 54px); line-height: 1.16; letter-spacing: -.01em }
+  .f-q { font-family: var(--serif); font-weight: 400; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.24 }
+  .f-lab { display: block; margin-bottom: var(--sp-6) }
+  .f-plane .lede { margin: var(--sp-6) auto 0 }
+  .f-plane .row { justify-content: center; margin-top: var(--sp-8) }
+  .f-answer { text-align: left; max-width: var(--measure-lead); margin: 0 auto }
+  .f-answer .body { margin-top: var(--sp-3); font-size: var(--t-lead); line-height: var(--t-lead-lh); color: var(--ink-70) }
+  .f-answer .body strong { color: var(--ink); font-weight: 600 }
+
+  /* The citation, at the size of a headline. Tier 1's own recipe, scaled. */
+  .f-chip {
+    display: inline-flex; align-items: center; gap: var(--sp-3);
+    font-family: var(--mono); font-weight: 700; font-size: clamp(40px, 6vw, 84px); line-height: 1;
+    color: var(--accent-text); padding: var(--sp-3) var(--sp-6);
+    border: 2px solid color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+    border-radius: var(--r-md);
+  }
+  .f-chip .cm { font-size: .5em }
+  .f-src { font-family: var(--serif); font-size: var(--t-h2); line-height: var(--t-h2-lh); margin-top: var(--sp-6) }
+  .f-plane .evi-badge { margin-top: var(--sp-5) }
+
+  /* The page the passage sits in. Greeked lines, because the source's own
+     text is not ours to reproduce; the caption says so. */
+  .f-page {
+    text-align: left; max-width: calc(var(--measure-lead) - var(--sp-10)); margin: 0 auto;
+    background: var(--face); border: 1px solid var(--line-2); border-radius: var(--r-lg);
+    box-shadow: var(--elev-2); padding: var(--sp-8) var(--sp-8) var(--sp-6);
+  }
+  .f-page-h { display: flex; justify-content: space-between; gap: var(--sp-4); padding-bottom: var(--sp-4); border-bottom: 1px solid var(--line); margin-bottom: var(--sp-4) }
+  .f-ln { display: block; height: var(--sp-2); border-radius: var(--r-xs); background: var(--line); margin: var(--sp-3) 0 }
+  .f-ln:nth-child(3n) { width: 92% } .f-ln:nth-child(4n) { width: 97% } .f-ln:nth-child(5n) { width: 64% }
+  .f-hit { background: var(--hl); border-left: 2px solid var(--accent); padding: var(--sp-1) var(--sp-4); margin: var(--sp-4) calc(var(--sp-4) * -1) }
+  .f-hit .f-ln { background: color-mix(in srgb, var(--accent) 38%, transparent) }
+  .f-page .note { margin-top: var(--sp-4) }
+
+  /* The focus scale: a lens distance scale for a progress bar. */
+  .f-scale { position: absolute; right: var(--sp-10); top: 18%; bottom: 18%; width: 1px; background: var(--line-2); z-index: 200 }
+  .f-scale .f-cap { position: absolute; top: calc(var(--sp-8) * -1); right: 0; white-space: nowrap }
+  .f-mark {
+    position: absolute; right: var(--sp-4); transform: translateY(-50%);
+    font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase;
+    color: var(--ink-55); white-space: nowrap; padding: var(--sp-1) 0;
+    transition: color var(--mo-base);
+  }
+  .f-mark::after { content: ""; position: absolute; right: calc(var(--sp-4) * -1); top: 50%; width: var(--sp-2); height: 1px; background: var(--ink-35) }
+  .f-mark:hover, .f-mark.on { color: var(--ink) }
+  .f-mark.on::after { background: var(--ink) }
+  .f-idx { position: absolute; left: 0; width: var(--sp-2); height: var(--sp-2); border-radius: var(--r-full); background: var(--accent); transform: translate(-50%, -50%) }
+  .f-readout {
+    position: absolute; left: var(--sp-10); bottom: var(--sp-8); z-index: 200;
+    gap: var(--sp-4); align-items: baseline;
+  }
+  @media (max-width: 760px) {
+    .f-scale { right: var(--sp-4) }
+    .f-mark { font-size: 0; padding: var(--sp-2) var(--sp-3) }
+    .f-scale .f-cap { display: none }
+    .f-readout { left: var(--sp-4); bottom: var(--sp-5) }
+    .f-fly.is-live .f-plane { width: calc(100% - var(--sp-16)) }
+  }
+
+  /* ── F2 · how far down ─────────────────────────────────────────────────── */
+  .f-gauges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-10); margin-top: var(--sp-4) }
+  @media (max-width: 860px) { .f-gauges { grid-template-columns: 1fr; gap: var(--sp-14) } }
+  .f-g-head { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-8) }
+  .f-g-head .cite { margin: 0 }
+  .f-g-head h3 { font-family: var(--serif); font-weight: 700; font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+  .f-track {
+    --fill: 1; position: relative; list-style: none; height: calc(var(--sp-22) * 2.5);
+    display: flex; flex-direction: column; justify-content: space-between; padding-left: var(--sp-10);
+  }
+  .f-track::before, .f-track::after { content: ""; position: absolute; left: var(--sp-2); top: 0; transform: translateX(-50%) }
+  .f-track::before { bottom: 0; width: 1px; background: var(--line-2) }
+  .f-track::after { width: 2px; height: calc(var(--fill) * var(--reach) * 100%); background: var(--accent) }
+  .f-gauge[data-tier="3"] .f-track::after { background: repeating-linear-gradient(to bottom, var(--ink-55) 0 var(--sp-1), transparent var(--sp-1) var(--sp-2)) }
+  .f-track li { position: relative; height: 0; display: flex; align-items: center; font-size: var(--t-ui); color: var(--ink-55); transition: color var(--mo-base) }
+  .f-track li b { font-weight: 600; margin-right: var(--sp-2) }
+  .f-track li i {
+    position: absolute; left: calc(var(--sp-10) * -1 + var(--sp-2)); width: var(--sp-4); height: var(--sp-4);
+    transform: translateX(-50%); border-radius: var(--r-full);
+    border: 2px solid var(--line-2); background: var(--bg);
+    transition: background var(--mo-base), border-color var(--mo-base);
+  }
+  .f-track li.on { color: var(--ink) }
+  .f-gauge[data-tier="1"] li.on i { background: var(--accent); border-color: var(--accent) }
+  .f-gauge[data-tier="2"] li.on i { border-color: var(--accent) }
+  .f-gauge[data-tier="2"] li.on:first-child i, .f-gauge[data-tier="2"] li.on:nth-child(2) i { background: var(--accent) }
+  .f-gauge[data-tier="3"] li.on i { border-color: var(--ink-55); border-style: dashed }
+  .f-track li.stop i { border-style: dashed; border-color: var(--ink-35) }
+  .f-track li.stop { color: var(--ink-55) }
+  .surface--ground .f-track li i { background: var(--ground) }
+
+  /* ── F3 · says who ─────────────────────────────────────────────────────── */
+  .f-says { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-10) }
+  .f-says .mount--seam p { font-family: var(--serif); font-size: var(--t-h3); line-height: var(--t-h3-lh); color: var(--ink); margin-top: var(--sp-3) }
+  @media (max-width: 860px) { .f-says { grid-template-columns: 1fr; gap: var(--sp-8) } }
+
+  /* ── F4 · test it ──────────────────────────────────────────────────────── */
+  .f-test { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-16); align-items: center }
+  @media (max-width: 900px) { .f-test { grid-template-columns: 1fr; gap: var(--sp-10) } }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+  @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr } }
+  .form-grid .full { grid-column: 1 / -1 }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ F1 · THE TRACE ═══════════════════════════════════════════════════════
+     Seven planes in depth. The hero is plane 0; the next plane already waits,
+     small and soft, behind it, which is the invitation to scroll. -->
+<section id="top" class="band f-fly" aria-label="One claim, traced from the question to its source">
+  <span class="crit-tag"><b>F1</b> Trace <i>· 7 planes in depth, focus pull on scroll</i><em class="brk">breaks: perspective space, new motion, blur on type, type scale</em></span>
+  <div class="f-stage">
+
+    <div class="f-plane" data-label="Start">
+      <span class="eyebrow accent f-lab">Peace Intel</span>
+      <h1 class="f-mega">Check everything it tells you.</h1>
+      <p class="lede">A research agent for people who verify. Follow one claim from the answer down to the passage it came from.</p>
+      <div class="row">
+        <a class="btn primary lg" href="#access">Request access</a>
+        <a class="btn ghost lg" href="#depth">How far each claim goes</a>
+      </div>
+    </div>
+
+    <div class="f-plane" data-label="Question">
+      <span class="eyebrow f-lab">01 &middot; The question</span>
+      <p class="f-q">&ldquo;What happened in Darfur between 2003 and 2011? Who intervened, and what resulted?&rdquo;</p>
+    </div>
+
+    <div class="f-plane" data-label="Answer">
+      <span class="eyebrow f-lab">02 &middot; The answer</span>
+      <div class="f-answer">
+        <h2 class="f-claim">Three interventions, three different failures.</h2>
+        <p class="body">The African Union deployed <strong>AMIS</strong> in 2004 with a monitoring mandate it was never resourced to fulfil <span class="cite t1"><span class="cm">&#9679;</span>1</span>. Its successor <strong>UNAMID</strong> was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested <span class="cite t2"><span class="cm">&#9680;</span>2</span>.</p>
+      </div>
+    </div>
+
+    <div class="f-plane" data-label="Claim">
+      <span class="eyebrow f-lab">03 &middot; One claim</span>
+      <p class="f-claim">AMIS was deployed in 2004 with a monitoring mandate it was never resourced to fulfil. <span class="cite t1"><span class="cm">&#9679;</span>1</span></p>
+    </div>
+
+    <div class="f-plane" data-label="Citation">
+      <span class="eyebrow f-lab">04 &middot; Its citation</span>
+      <span class="f-chip"><span class="cm">&#9679;</span>1</span>
+      <p class="f-src">de Waal, <em>War in Darfur</em></p>
+      <span class="evi-badge t1">&#9679; Tier 1 <span class="es">held in full</span></span>
+    </div>
+
+    <div class="f-plane" data-label="Passage">
+      <span class="eyebrow f-lab">05 &middot; The passage</span>
+      <div class="f-page">
+        <div class="f-page-h"><span class="eyebrow eb-4 strong">de Waal, <em>War in Darfur</em></span><span class="eyebrow eb-4 accent">Passage located</span></div>
+        <span class="f-ln"></span><span class="f-ln"></span><span class="f-ln"></span><span class="f-ln"></span>
+        <div class="f-hit"><span class="f-ln"></span><span class="f-ln"></span><span class="f-ln"></span></div>
+        <span class="f-ln"></span><span class="f-ln"></span><span class="f-ln"></span><span class="f-ln"></span><span class="f-ln"></span>
+        <p class="note">In the product this is the source&rsquo;s own text, opened at the passage beside the answer. Shown here as a placeholder.</p>
+      </div>
+    </div>
+
+    <div class="f-plane" data-label="Every claim">
+      <span class="eyebrow f-lab">06 &middot; And back up</span>
+      <p class="f-mega">That was one claim. Every answer works this way.</p>
+      <div class="row">
+        <a class="btn primary lg" href="#access">Test it yourself</a>
+        <a class="btn ghost lg" href="#depth">When the trace stops short</a>
+      </div>
+    </div>
+
+    <div class="f-scale" aria-label="Depth">
+      <span class="eyebrow eb-4 faint f-cap">Depth</span>
+      <span class="f-idx" aria-hidden="true"></span>
+    </div>
+    <div class="f-readout" aria-hidden="true">
+      <span class="eyebrow eb-4 strong" id="f-ro">Depth &middot; 00 / 06</span>
+      <span class="eyebrow eb-4 faint">Scroll to go deeper</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ F2 · HOW FAR DOWN ════════════════════════════════════════════════════
+     The tiers as depth. E drew them as geography; here each is a trace that
+     reaches a different floor, drawn down as the section scrolls up. -->
+<section id="depth" class="band surface--ground">
+  <span class="crit-tag"><b>F2</b> Depth gauges <i>· tiers as how far down a trace reaches</i><em class="brk">breaks: new motion (scroll-drawn)</em></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule">
+      <span class="eyebrow">When the trace stops short</span>
+      <h2>The answer tells you how far down each claim goes.</h2>
+      <p>Some sources are held in full and some are not. A claim is only as checkable as the floor its source reaches, so every citation carries that floor on its face.</p>
+    </div>
+    <div class="f-gauges" id="f-gauges">
+      <div class="f-gauge" data-tier="1" data-reach="1">
+        <div class="f-g-head"><span class="cite t1"><span class="cm">&#9679;</span>1</span><h3>Held in full</h3></div>
+        <ol class="f-track">
+          <li><i></i><b>Claim</b></li>
+          <li><i></i><b>Citation</b></li>
+          <li><i></i><b>Source</b>the full text</li>
+          <li><i></i><b>Passage</b>located</li>
+        </ol>
+      </div>
+      <div class="f-gauge" data-tier="2" data-reach=".6667">
+        <div class="f-g-head"><span class="cite t2"><span class="cm">&#9680;</span>2</span><h3>Abstract only</h3></div>
+        <ol class="f-track">
+          <li><i></i><b>Claim</b></li>
+          <li><i></i><b>Citation</b></li>
+          <li><i></i><b>Source</b>the abstract</li>
+          <li class="stop"><i></i><b>Passage</b>not held</li>
+        </ol>
+      </div>
+      <div class="f-gauge" data-tier="3" data-reach=".6667">
+        <div class="f-g-head"><span class="cite t3"><span class="cm">&#8599;</span>3</span><h3>From the web</h3></div>
+        <ol class="f-track">
+          <li><i></i><b>Claim</b></li>
+          <li><i></i><b>Citation</b></li>
+          <li><i></i><b>Source</b>a web page</li>
+          <li class="stop"><i></i><b>Passage</b>outside the corpus</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ F3 · SAYS WHO ════════════════════════════════════════════════════════
+     The reader this is for, in each institution: the person who checks. -->
+<section class="band">
+  <span class="crit-tag"><b>F3</b> Says who <i>· three seams</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule">
+      <span class="eyebrow">Who it is for</span>
+      <h2>Built for the person in the room who asks, &ldquo;says who?&rdquo;</h2>
+    </div>
+    <div class="f-says mo-deal">
+      <div class="mount mount--seam"><span class="eyebrow eb-3">Philanthropy</span><p>The trustee who reads the footnotes.</p></div>
+      <div class="mount mount--seam"><span class="eyebrow eb-3">Foreign service</span><p>The private office that wants the source before the line goes out.</p></div>
+      <div class="mount mount--seam"><span class="eyebrow eb-3">Development banks</span><p>The quality review where every lesson needs a document behind it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ F4 · TEST IT ═════════════════════════════════════════════════════════
+     The positioning, as a call to action: do not take our word for it. -->
+<section id="access" class="band band--dark on-dark">
+  <span class="crit-tag"><b>F4</b> Test it <i>· challenge form</i></span>
+  <div class="wrap f-test">
+    <div class="lockup lockup--section">
+      <span class="eyebrow mo-develop">Private beta &middot; January 2027</span>
+      <h2 class="lk-head mo-develop">Test it on something you already know.</h2>
+      <p class="lk-lede mo-develop">The quickest way to judge a research tool is to ask it a question you can answer yourself, then check its work. Tell us yours, and we will show you the trace.</p>
+    </div>
+    <form class="card raised mo-develop" onsubmit="return false">
+      <div class="form-grid">
+        <label class="field full"><span>A question you already know the answer to</span><textarea class="input" name="q" rows="3" placeholder="What did the last ceasefire in this region depend on?"></textarea></label>
+        <label class="field"><span>Work email</span><input class="input" type="email" name="email" autocomplete="email" placeholder="name@institution.org"></label>
+        <label class="field"><span>Institution</span><select class="input" name="inst"><option value="">Choose one</option><option>Philanthropy</option><option>Foreign service</option><option>Development bank</option><option>Other</option></select></label>
+      </div>
+      <div class="row" style="margin-top:var(--sp-4)">
+        <button class="btn primary lg" type="submit">Request access</button>
+        <span class="note" style="margin:0">We do not share your information with third parties.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ══ F5 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>F5</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="system.js?v=eb50598a"></script>
+<script src="archive/retired.js?v=cba1a8cf"></script>
+<script>
+/* ═══ THE TRACE ══════════════════════════════════════════════════════════════
+   BREAK 1 + 2 + 3. Scroll moves a camera through seven planes. Each plane sits
+   one depth step behind the last; its scale is a real perspective sum, its
+   blur is its distance from the focal plane, and it holds sharp for a stretch
+   of scroll before the camera moves on (the same hold registration uses, so a
+   plane can be read, not just passed). Planes ahead drift in from an offset so
+   they peek out behind the current one. With motion reduced, none of this
+   runs and the planes stay an ordinary stack. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var fly = document.querySelector('.f-fly'), stage = fly.querySelector('.f-stage');
+  var planes = [].slice.call(fly.querySelectorAll('.f-plane')), n = planes.length;
+  var scale = fly.querySelector('.f-scale'), idx = scale.querySelector('.f-idx'), ro = document.getElementById('f-ro');
+  var P = 900, D = 1100, HOLD = .22, raf = 0, last = -1;
+  var OFF = planes.map(function (_, i) { return i ? [(i % 2 ? 1 : -1) * .24, -.2] : [0, 0]; });
+  function pad(k) { return (k < 10 ? '0' : '') + k; }
+
+  function navH() { return parseFloat(getComputedStyle(root).getPropertyValue('--nav-h')) || 0; }
+  function travel() { return fly.offsetHeight - stage.offsetHeight; }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  function progress() { var r = fly.getBoundingClientRect(); return Math.max(0, Math.min(1, (navH() - r.top) / travel())); }
+  function depthOf(p) {
+    var q = p * (n - 1), i = Math.min(n - 2, Math.floor(q)), t = q - i;
+    return i + (t < HOLD ? 0 : t > 1 - HOLD ? 1 : smooth((t - HOLD) / (1 - 2 * HOLD)));
+  }
+
+  /* The focus scale: one mark per plane, each a button that racks to it. */
+  var marks = planes.map(function (pl, i) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'f-mark'; b.textContent = pl.getAttribute('data-label');
+    b.style.top = (i / (n - 1) * 100) + '%';
+    b.addEventListener('click', function () {
+      var top = fly.getBoundingClientRect().top + window.scrollY - navH();
+      window.scrollTo({ top: top + travel() * (i / (n - 1)), behavior: 'smooth' });
+    });
+    scale.appendChild(b); return b;
+  });
+
+  function render() {
+    raf = 0;
+    var s = depthOf(progress());
+    if (Math.abs(s - last) < .0004) return;
+    last = s;
+    var W = stage.clientWidth, H = stage.clientHeight;
+    planes.forEach(function (pl, i) {
+      var d = s - i;
+      var op = d > 0 ? Math.max(0, 1 - d / .52) : Math.max(0, 1 + d * .8);
+      if (op < .002) { pl.style.visibility = 'hidden'; return; }
+      pl.style.visibility = '';
+      var sc = P / (P - d * D);
+      var k = Math.max(0, Math.min(1, -d));
+      var blur = Math.min(12, Math.abs(d) * 10);
+      pl.style.transform = 'translate(-50%, -50%) translate(' + (OFF[i][0] * W * k).toFixed(1) + 'px, ' + (OFF[i][1] * H * k).toFixed(1) + 'px) scale(' + sc.toFixed(4) + ')';
+      pl.style.opacity = op.toFixed(3);
+      pl.style.filter = blur > .25 ? 'blur(' + blur.toFixed(1) + 'px)' : 'none';
+      pl.style.zIndex = 100 - i;
+      pl.style.pointerEvents = Math.abs(d) < .12 ? 'auto' : 'none';
+    });
+    idx.style.top = (s / (n - 1) * 100) + '%';
+    var a = Math.round(s);
+    marks.forEach(function (m, i) { m.classList.toggle('on', i === a); });
+    ro.textContent = 'Depth · ' + pad(a) + ' / ' + pad(n - 1);
+  }
+
+  if (!reduced) {
+    fly.classList.add('is-live');
+    fly.style.height = 'calc(' + ((n - 1) * 95) + 'vh + 100svh)';
+    window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(render); }, { passive: true });
+    window.addEventListener('resize', function () { last = -1; render(); });
+    render();
+  }
+
+  /* ═══ F2 · depth gauges, drawn down as the section rises ═══════════════ */
+  var gw = document.getElementById('f-gauges');
+  var gauges = [].slice.call(gw.querySelectorAll('.f-gauge'));
+  gauges.forEach(function (g) { g.querySelector('.f-track').style.setProperty('--reach', g.getAttribute('data-reach')); });
+  function gRender() {
+    var r = gw.getBoundingClientRect(), vh = window.innerHeight;
+    var g = reduced ? 1 : Math.max(0, Math.min(1, (vh * .9 - r.top) / (vh * .55)));
+    gauges.forEach(function (el) {
+      var reach = parseFloat(el.getAttribute('data-reach')), fill = Math.min(1, g / reach);
+      var track = el.querySelector('.f-track'); track.style.setProperty('--fill', fill.toFixed(3));
+      [].forEach.call(track.children, function (li, i) {
+        var pos = i / 3;
+        li.classList.toggle('on', !li.classList.contains('stop') && g >= pos - .001 && pos <= reach + .001);
+      });
+    });
+  }
+  var graf = 0;
+  window.addEventListener('scroll', function () { if (!graf) graf = requestAnimationFrame(function () { graf = 0; gRender(); }); }, { passive: true });
+  gRender();
+})();
+</script>
+</body>
+</html>

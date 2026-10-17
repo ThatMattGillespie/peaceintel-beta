@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Brand board</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="description" content="The Peace Intel identity on one page: the line, the mark, colour, type, imagery, the product, print and the details.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=256d5f62">
+<link rel="stylesheet" href="components.css?v=8d4342df">
+<link rel="stylesheet" href="explorations.css?v=a10e7f9b">
+<style>
+  /* ── Page-level composition only. ──────────────────────────────────────────
+     The identity on one sheet, nine panels, built from the shipping CSS so it
+     can never drift from the system (a generated image would redraw the logo).
+     What is here is the board's grid and the size of each panel's one thing;
+     every colour, face, size and line is a token. Exploration (Rev 22). */
+  body { background: var(--ground-2) }
+  .bb { max-width: calc(var(--col-max) + var(--sp-16)); margin: 0 auto; padding: var(--sp-10) var(--sp-8) var(--sp-16) }
+  .bb-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--sp-6); flex-wrap: wrap; margin-bottom: var(--sp-6) }
+  .bb-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4) }
+  .bb-p { position: relative; min-height: calc(var(--sp-16) * 5.5); padding: var(--sp-8); background: var(--bg); border: var(--edge); display: flex; flex-direction: column; overflow: hidden }
+  .bb-p.on-dark { border-color: transparent }
+  .bb-p > .eyebrow:first-child { margin-bottom: auto }
+  .bb-n { position: absolute; right: var(--sp-6); top: var(--sp-6) }
+  .bb-foot { margin-top: var(--sp-6) }
+
+  /* 1 · the logo */
+  .bb-logo { display: grid; place-items: center; flex: 1 }
+  .bb-logo img { height: calc(var(--logo-h) * 2); width: auto }
+  /* 2 · the line */
+  .bb-line { font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-h1); line-height: var(--t-h1-lh); margin-top: auto; text-wrap: balance }
+  /* 3 · the mark at three sizes */
+  .bb-mark { display: flex; align-items: flex-end; gap: var(--sp-8); margin-top: auto }
+  .bb-dove { width: calc(var(--sp-16) * 2); height: calc(var(--sp-16) * 2); overflow: hidden }
+  .bb-dove img { height: 100%; width: auto; max-width: none; display: block }
+  .bb-fav { width: var(--sp-12); height: var(--sp-12); border: var(--edge) }
+  .bb-fav.sm { width: var(--sp-4); height: var(--sp-4); border: 0 }
+  /* 4 · colour, as proportions */
+  .bb-prop { display: flex; height: var(--sp-16); margin-top: auto; border: var(--edge) }
+  .bb-prop i { display: block }
+  .bb-sw { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-2); margin-top: var(--sp-4) }
+  .bb-sw span { display: block; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); overflow-wrap: anywhere }
+  /* 5 · type */
+  .bb-aa { font-family: var(--serif); font-weight: var(--serif-w); font-size: calc(var(--t-display) * 2.2); line-height: 1; margin-top: auto }
+  .bb-ty { display: grid; gap: var(--sp-2); margin-top: var(--sp-4) }
+  .bb-ty .s { font-family: var(--sans); font-size: var(--t-body); color: var(--ink-70) }
+  /* 6 · the product, in a window */
+  .bb-win { margin-top: auto; border: var(--edge); background: var(--bg) }
+  .bb-win-bar { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--line) }
+  .bb-win-bar i { width: var(--sp-2); height: var(--sp-2); border-radius: var(--r-full); background: var(--line-2) }
+  .bb-win-bar span { margin-left: var(--sp-2); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+  /* The console at a readable size: the answer and its sources, cropped. */
+  .bb-win-v { aspect-ratio: 4 / 3; overflow: hidden }
+  .bb-win img { display: block; width: 220%; max-width: none; height: auto; margin-left: -46%; margin-top: -4% }
+  /* 7 · the picture */
+  .bb-p .doc-shot { margin-top: auto; margin-inline: calc(var(--sp-8) * -1); margin-bottom: var(--sp-3) }
+  .bb-cap { font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+  /* 8 · print: a report cover and a badge */
+  .bb-print { display: flex; align-items: flex-end; gap: var(--sp-6); margin-top: auto }
+  .bb-cover { flex: none; width: calc(var(--sp-16) * 2.4); aspect-ratio: 1 / 1.414; background: var(--bg); border: var(--edge); padding: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-2) }
+  .bb-cover img.lg { height: var(--sp-4); width: auto; align-self: flex-start }
+  .bb-cover h4 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-ui); line-height: var(--t-ui-lh); margin-top: auto }
+  .bb-cover .vmap--still { width: 72%; align-self: flex-end }
+  .bb-badge { flex: none; width: calc(var(--sp-16) * 1.5); aspect-ratio: 2 / 3; padding: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2) }
+  .bb-badge .nm { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh); margin-top: auto }
+  .bb-badge img { height: var(--sp-3); width: auto; align-self: flex-start }
+  .bb-badge .hole { width: var(--sp-6); height: var(--sp-1); border-radius: var(--r-full); background: var(--ground-2); align-self: center }
+  /* 9 · the details */
+  .bb-det { display: grid; gap: var(--sp-4); margin-top: auto; justify-items: start }
+  .bb-det .row { display: flex; flex-wrap: wrap; gap: var(--sp-2); align-items: center }
+
+  @media (max-width: 1080px) { .bb-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+  @media (max-width: 680px) {
+    .bb { padding: var(--sp-6) var(--sp-4) var(--sp-12) }
+    .bb-grid { grid-template-columns: minmax(0, 1fr) }
+    .bb-p { min-height: calc(var(--sp-16) * 4.5); padding: var(--sp-6) }
+    .bb-p .doc-shot { margin-inline: calc(var(--sp-6) * -1) }
+  }
+</style>
+</head>
+<body>
+
+<main class="bb">
+  <div class="bb-head">
+    <span class="eyebrow">Peace Intel &middot; Brand board &middot; Rev. 22 &middot; Exploration</span>
+    <a class="btn-text" href="brand-reference.html">The full reference</a>
+  </div>
+
+  <div class="bb-grid">
+
+    <!-- 1 · THE LOGO -->
+    <section class="bb-p" aria-label="The logo">
+      <span class="eyebrow eb-3">BB 1 &middot; The logo</span>
+      <div class="bb-logo"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></div>
+      <p class="note bb-foot">The dove in its focus brackets, beside the name. Always the image, never typed.</p>
+    </section>
+
+    <!-- 2 · THE LINE -->
+    <section class="bb-p on-dark" aria-label="The line">
+      <span class="eyebrow eb-3">BB 2 &middot; The line</span>
+      <p class="bb-line">Clear evidence for consequential decisions.</p>
+    </section>
+
+    <!-- 3 · THE MARK -->
+    <section class="bb-p" aria-label="The mark">
+      <span class="eyebrow eb-3">BB 3 &middot; The mark</span>
+      <div class="bb-mark">
+        <div class="bb-dove"><img src="media/peaceintel-logo-light.png?v=v6" alt=""></div>
+        <img class="bb-fav" src="media/favicon.svg?v=21" alt="">
+        <img class="bb-fav sm" src="media/favicon.svg?v=21" alt="">
+      </div>
+      <p class="note bb-foot">The dove alone above 24px; the empty brackets below it, as the favicon.</p>
+    </section>
+
+    <!-- 4 · COLOUR -->
+    <section class="bb-p" aria-label="Colour">
+      <span class="eyebrow eb-3">BB 4 &middot; Colour</span>
+      <div class="bb-prop" aria-hidden="true"><i style="flex:1;background:var(--bg)"></i><i style="flex:1;background:var(--ground-2)"></i><i style="flex:1;background:var(--ink)"></i><i style="flex:1;background:var(--accent)"></i></div>
+      <div class="bb-sw"><span>Paper</span><span>Ground</span><span>Ink</span><span>Orange</span></div>
+      <p class="note bb-foot">In proportion, from the most surface to the least: paper, a ground that sets back, ink, and one accent for what you can act on and what cites.</p>
+    </section>
+
+    <!-- 5 · TYPE -->
+    <section class="bb-p" aria-label="Type">
+      <span class="eyebrow eb-3">BB 5 &middot; Type</span>
+      <div class="bb-aa" aria-hidden="true">Aa</div>
+      <div class="bb-ty">
+        <span class="s">Source Serif 4, set light, for what is read as a headline. Barlow for what is read at length.</span>
+        <span class="eyebrow eb-4">Space Mono for labels and readings</span>
+      </div>
+    </section>
+
+    <!-- 6 · THE PRODUCT -->
+    <section class="bb-p surface--ground-2" aria-label="The product">
+      <span class="eyebrow eb-3">BB 6 &middot; The product</span>
+      <div class="bb-win">
+        <div class="bb-win-bar"><i></i><i></i><i></i><span>peaceintel.org/console</span></div>
+        <div class="bb-win-v"><img src="media/snapshots/console-chat.jpg" alt="The Peace Intel console: a cited answer beside its sources"></div>
+      </div>
+    </section>
+
+    <!-- 7 · THE PICTURE -->
+    <section class="bb-p on-dark" aria-label="Imagery">
+      <span class="eyebrow eb-3">BB 7 &middot; Imagery</span>
+      <div class="vmap doc-shot doc-dark" data-vmap data-vmode="scene"><img src="media/doc-mosul-rubble-mono.png" alt="Rubble and broken buildings on a street in the Old City of Mosul"><canvas aria-hidden="true"></canvas></div>
+      <p class="bb-cap">Places, in the dither, named and dated. A street in Mosul&rsquo;s Old City, 2019. Photograph: Levi Clancy, CC0.</p>
+    </section>
+
+    <!-- 8 · PRINT -->
+    <section class="bb-p surface--ground" aria-label="Print">
+      <span class="eyebrow eb-3">BB 8 &middot; Print</span>
+      <div class="bb-print">
+        <div class="bb-cover">
+          <img class="lg" src="media/peaceintel-logo-light.png?v=v6" alt="">
+          <span class="eyebrow eb-4">Evidence brief</span>
+          <div class="vmap vmap--still" data-vmap data-vmode="subject"><img src="media/step-00-branch.png?v=0e1685b4" alt=""><canvas aria-hidden="true"></canvas></div>
+          <h4>What the evidence says about local mediation</h4>
+        </div>
+        <div class="bb-badge on-dark">
+          <span class="hole" aria-hidden="true"></span>
+          <img src="media/peaceintel-logo-dark.png?v=v6" alt="">
+          <span class="nm">Your name</span>
+          <span class="eyebrow eb-4">Pilot partner</span>
+        </div>
+      </div>
+      <p class="note bb-foot">A report cover and an event badge: the logo, one label, a serif title, one figure.</p>
+    </section>
+
+    <!-- 9 · THE DETAILS -->
+    <section class="bb-p" aria-label="The details">
+      <span class="eyebrow eb-3">BB 9 &middot; The details</span>
+      <div class="bb-det">
+        <div class="row"><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="cite t2"><span class="cm">&#9680;</span>2</span><span class="cite t3"><span class="cm">&#8599;</span>3</span><span class="note">every claim carries its tier</span></div>
+        <div class="seg"><button type="button" aria-pressed="true">Funder</button><button type="button" aria-pressed="false">Practitioner</button></div>
+        <a class="btn tint" href="landing.html">Request access</a>
+      </div>
+      <p class="note bb-foot">Citations by tier, choices in a tray, one action in the accent.</p>
+    </section>
+
+  </div>
+</main>
+
+<script src="system.js?v=eb50598a"></script>
+</body>
+</html>
