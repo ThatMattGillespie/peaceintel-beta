@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,32 +12,45 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=256d5f62">
-<link rel="stylesheet" href="components.css?v=8d4342df">
-<link rel="stylesheet" href="explorations.css?v=a10e7f9b">
+<link rel="stylesheet" href="tokens.css?v=12724ec5">
+<link rel="stylesheet" href="components.css?v=902c0e14">
+<link rel="stylesheet" href="explorations.css?v=45ac9467">
 <!-- No page style block. Every shape here is a named block in components.css
-     or explorations.css, and every entry is a .mo-* primitive. The ?v= on each
-     file is its content hash, so an edited stylesheet is never served from
-     cache against newer markup. -->
+     or explorations.css, and the one entry primitive is .mo-deal. The ?v= on
+     each file is its content hash, so an edited stylesheet is never served
+     from cache against newer markup.
+
+     Rev 37 (16 Oct): rebuilt on the guide as it stands after Rev 36. The
+     floating bar (Pl. 19 · B, decided) replaces .nav; the corpus band carries
+     the documentary picture (Pl. 18 · A1, decided) where the Rotary book was;
+     the footer opens with the logo and the brand line (Pl. 06). -->
 </head>
 <body>
 
-<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
-<nav class="nav">
-  <div class="nav-in">
-    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="media/peaceintel-logo-dark.png?v=v6" alt=""></a>
-    <div class="nav-links">
+<!-- ══ THE FLOATING BAR (Pl. 19 · B) ════════════════════════════════════════
+     An object over the page: the face and an edge, set in to the body's
+     edges. On the way down it pulls in to the whole logo, centred; on the way
+     up, or a tap on the logo, it opens again (system.js, floatNav). Under 620px
+     the text links go, under 440px Sign in goes, and Try it now stays. -->
+<header class="fnav" data-fnav>
+  <div class="fnav-in">
+    <a class="fnav-mark" href="#top" aria-label="Peace Intel, back to the top"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></a>
+    <nav class="fnav-links" aria-label="Main">
+      <a href="#corpus">The evidence</a>
+      <a href="#for">Who it is for</a>
+      <a href="#try">Workflows</a>
       <a class="btn ghost sm" href="#try">Sign in</a>
       <a class="btn tint sm" href="#try">Try it now</a>
-    </div>
+    </nav>
   </div>
-</nav>
+</header>
 
 <!-- ══ 1 · HERO ═════════════════════════════════════════════════════════════
      The one tier-one element on the page: the dove, as a veil on the right
-     half, leaving with the reader as the screen scrolls away. The copy arrives
-     in the order it is read: the claim resolves, the lede develops, the action
-     is dealt, and the collaborators come up last. -->
+     half, leaving with the reader as the screen scrolls away. The copy is
+     dealt in the order it is read: the lockup, then its action, then the
+     collaborators last. The headline runs past the two lines Pl. 02 asks
+     for at 64px; it is the doc's copy and stays until Matt rewrites it. -->
 <header id="top" class="band screen hero-stack textured textured--side" data-land>
 
   <div class="veil veil--behind veil--side" aria-hidden="true" data-veil-scroll>
@@ -65,22 +78,31 @@
 </header>
 
 <!-- ══ 2 · THE CORPUS ═══════════════════════════════════════════════════════
-     The page's one dark section. The open book is the Rotary set's evidence
-     still, mapped through the ramp at runtime: paper on the dark band in the
-     light theme, the reversed "infrared" ramp in the dark theme. The figures
-     are a ledger beside it, read down like the book's own contents page. -->
+     The first of two dark bands (the footer is the other; a light band always
+     sits between). The picture is the documentary treatment decided on
+     16 October (Pl. 18 · A1): a place the evidence is about, mapped through
+     the compressed dark ramp so its brightest pixel stays darker than the
+     type, with the glitch's short bursts. A figure, so it is captioned with
+     the place, the date and the credit. The heading sits over the picture
+     and the figures run beside both, since at --t-stat (72px) the ledger is
+     the taller column. -->
 <section id="corpus" class="band band--dark on-dark" data-land>
   <div class="wrap">
     <div class="fig-split fig-split--even">
-      <div class="vmap vmap--still mo-deal" data-vmap data-vmode="subject" data-at="300">
-        <img src="media/step-02-evidence.png?v=c2f203a0" alt="">
-        <canvas aria-hidden="true"></canvas>
-      </div>
-
       <div class="stack">
         <div class="sec-head mo-deal" data-at="0">
           <h2>The world&rsquo;s largest corpus of peacebuilding evidence, in one place.</h2>
         </div>
+        <figure class="doc-fig mo-deal" data-at="300">
+          <div class="vmap doc-shot doc-dark" data-vmap data-docglitch data-vmode="scene">
+            <img src="media/doc-mosul-rubble-mono.png?v=2b6b3c05" alt="Rubble and broken buildings on a street in the Old City of Mosul">
+            <canvas aria-hidden="true"></canvas>
+          </div>
+          <figcaption>A street in the Old City of Mosul, summer 2019, after the war with the Islamic State. Photograph: Levi Clancy, CC0, <a class="btn-text" href="https://commons.wikimedia.org/wiki/File:Views_around_the_old_city_of_Mosul_in_2019_during_the_summer,_following_war_with_the_Islamic_State_23.jpg">Wikimedia Commons</a>.</figcaption>
+        </figure>
+      </div>
+
+      <div>
         <div class="ledger ledger--figures mo-deal" data-at="600">
           <p class="stat"><span class="n">258,621</span><span class="l">Papers</span></p>
           <p class="stat"><span class="n">42</span><span class="l">Structured, searchable datasets</span></p>
@@ -137,7 +159,7 @@
      The organisation type is a blank in the sentence, and choosing it rewrites
      the three roles under it (system.js, switch). Practitioners are an
      implementer role; each funder type gets its own third role instead. -->
-<section class="band surface--ground" data-land>
+<section id="for" class="band surface--ground" data-land>
   <div class="wrap">
     <div class="sec-head wide mo-deal" data-at="0">
       <h2>Designed to integrate evidence into every level of decision making at your
@@ -276,6 +298,11 @@
 <!-- ══ FOOTER ═══════════════════════════════════════════════════════════════ -->
 <footer class="band band--dark on-dark">
   <div class="wrap">
+    <!-- The logo with the brand line under it, word for word (Pl. 06). -->
+    <div class="brand-sign">
+      <img src="media/peaceintel-logo-dark.png?v=v6" alt="Peace Intel">
+      <p class="brand-line">Clear evidence for consequential decisions.</p>
+    </div>
     <div class="foot-cols">
       <div>
         <img class="foot-logo" src="media/epi-reverse.png" alt="">

@@ -1,7 +1,7 @@
 /* ============================================================================
    PEACE INTEL · PROTOTYPES FOR THE BRAND REFERENCE
    ----------------------------------------------------------------------------
-   Working mocks, for brand-reference.html only. NOT part of the system:
+   Working mocks, for brand-guide.html and console.html. NOT part of the system:
    system.js is the runtime pages load, and nothing in this file is for
    production. It exists so Matt can click through an idea before anyone
    builds it. Two of them:
@@ -15,7 +15,7 @@
 
    Both draw only parts that exist: the console in components.css and the
    projects and numbered-document explorations in explorations.css.
-   The console's markup in brand-reference.html is the same console as a
+   The console's markup in brand-guide.html is the same console as a
    still, which is what shows with script off; this redraws it on load.
 
    State lives in memory and resets on reload, and nothing leaves the
@@ -85,6 +85,11 @@
     'ellipsis': '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
     'arrow-left': '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
     'arrow-up-right': '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+    'copy': '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+    'thumbs-up': '<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>',
+    'thumbs-down': '<path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/>',
+    'paperclip': '<path d="m16 6-8.414 8.586a2 2 0 0 0 2.829 2.829l8.414-8.586a4 4 0 1 0-5.657-5.657l-8.379 8.551a6 6 0 1 0 8.485 8.485l8.379-8.551"/>',
+    'corner-down-right': '<path d="m15 10 5 5-5 5"/><path d="M4 4v7a4 4 0 0 0 4 4h12"/>',
     'globe': '<circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/>',
     'history': '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/>',
     'link':'<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>',
@@ -142,6 +147,9 @@
     berman:   { t: 'Do Working Men Rebel? Insurgency and Unemployment in Afghanistan, Iraq, and the Philippines', a: 'Berman, Callen, Felter, Shapiro', y: 2011, k: 'Empirical study', tier: 1 },
     mercy:    { t: 'Youth and Consequences: Unemployment, Injustice and Violence', a: 'Mercy Corps', y: 2015, k: 'Policy report', tier: 2 },
     elfv:     { t: 'Central Politics and Local Peacemaking: The Conditions for Peace after Communal Conflict', a: 'Elfversson', y: 2017, k: 'Dissertation', tier: 1 },
+    undp:     { t: 'Journey to Extremism in Africa: Pathways to Recruitment and Disengagement', a: 'UNDP', y: 2023, k: 'Web', tier: 3, m: 'Treat with caution' },
+    icg:      { t: 'Speaking with the “Bad Guys”: Toward Dialogue with Central Mali’s Jihadists', a: 'International Crisis Group', y: 2019, k: 'Web', tier: 3, m: 'Treat with caution' },
+    hrw:      { t: 'Ballots to Bullets: Organized Political Violence and Kenya’s Crisis of Governance', a: 'Human Rights Watch', y: 2008, k: 'Web', tier: 3, m: 'Treat with caution' },
     waki:     { t: 'Report of the Commission of Inquiry into Post-Election Violence', a: 'CIPEV', y: 2008, k: 'Policy report', tier: 2 }
   };
   /* WHAT A PAPER OPENS TO (Pl. 22, Matt 16 Oct, from the production
@@ -235,7 +243,7 @@
         parts: [
           { h: '1. Unemployment is a weak predictor of violence', ps: [
             'Berman and colleagues found no positive relationship between unemployment and insurgent violence in Afghanistan, Iraq or the Philippines; where there was a relationship it ran the other way {berman}. The study is from 2011, older than this project’s 2015 line.',
-            'Mercy Corps’ interviews with young people reached a similar conclusion: experiences of injustice, discrimination and corruption explained participation in violence better than joblessness did {mercy}.'] },
+            'Mercy Corps’ interviews with young people reached a similar conclusion: experiences of injustice, discrimination and corruption explained participation in violence better than joblessness did {mercy}. UNDP’s interviews with former recruits across the Sahel, a web source outside the library, give a more mixed picture, with employment named more often than in earlier rounds {undp}.'] },
           { h: '2. Where livelihood support has moved behaviour', ps: [
             'The strongest test is a randomised trial with high-risk young men in Liberia. Agricultural training and capital shifted men into farming and away from illegal mining, and reduced their interest in mercenary work during the 2011 Ivorian crisis; much of that effect came from the promise of future payments rather than income already earned {blattman}.'] },
           { h: '3. What it means for the portfolio', ps: [
@@ -245,7 +253,7 @@
     mali: { t: 'Farmer–herder mediation in Mali', d: 'Oct 12', p: 'sahel', by: 'AD', msgs: [
       { u: 'What does the evidence say about farmer–herder mediation in central Mali?', at: '4:02 PM' },
       { at: '4:03 PM', a: { intro: [
-        'Thinner than the practice. Most of what exists is programme evaluation rather than trials, and it favours standing local institutions, such as committees that include both farmers and herders, over one-off dialogues.',
+        'Thinner than the practice. Most of what exists is programme evaluation rather than trials, and it favours standing local institutions, such as committees that include both farmers and herders, over one-off dialogues. Crisis Group’s field reporting from central Mali, outside the library, describes the same committees under strain {icg}.',
         'Treat the record as promising rather than proven, and fund measurement alongside the mediation: the design and evaluation standards in this project ask for conflict outcomes to be measured, not only activities {standards}.'] } }
     ] },
     board: { t: 'Board briefing, first draft', d: 'Oct 9', p: 'sahel', msgs: [
@@ -280,7 +288,7 @@
       { u: 'What happened in Kenya’s 2007 to 2008 post-election violence?', at: '5:30 PM' },
       { at: '5:31 PM', a: { intro: [
         'After the disputed December 2007 election, violence killed more than 1,100 people and displaced several hundred thousand.',
-        'It ended with a power-sharing agreement in February 2008, mediated by a panel led by Kofi Annan. The commission of inquiry that followed, known by its chair as the Waki commission, is the standard account {waki}.'] } }
+        'It ended with a power-sharing agreement in February 2008, mediated by a panel led by Kofi Annan. The commission of inquiry that followed, known by its chair as the Waki commission, is the standard account {waki}; Human Rights Watch’s field report, a web source, documents how much of the violence was organised {hrw}.'] } }
     ] },
     legit: { t: 'Tell me about governmental legitimacy after civil war', d: 'Sep 3', p: null, msgs: [
       { u: 'Tell me about governmental legitimacy after civil war', at: '3:44 PM' },
@@ -320,6 +328,12 @@
         'Yes. Each citation opens its source in the library pane at the passage the answer draws on, highlighted, so you can read the sentence in context before you rely on it {fortna}.'] } }
     ] }
   };
+  /* H1.13: staff see every user's chats. Three from other organisations, for
+     the admin view only (mock). */
+  CHATS.x1 = { t: 'Which DDR programmes reduced re-recruitment in the Great Lakes?', d: 'Oct 15', by: 'JO', other: true, msgs: [{ u: 'Which DDR programmes reduced re-recruitment in the Great Lakes?', at: '2:10 PM' }, { at: '2:11 PM', a: { intro: ['A mock answer from another user, shown only in the admin view.'] } }] };
+  CHATS.x2 = { t: 'Early warning indicators for election violence', d: 'Oct 14', by: 'WK', other: true, msgs: [{ u: 'Early warning indicators for election violence', at: '9:02 AM' }, { at: '9:03 AM', a: { intro: ['A mock answer from another user, shown only in the admin view.'] } }] };
+  CHATS.x3 = { t: 'Evidence on women mediators in local peace processes', d: 'Oct 12', by: 'AD', other: true, msgs: [{ u: 'Evidence on women mediators in local peace processes', at: '11:40 AM' }, { at: '11:41 AM', a: { intro: ['A mock answer from another user, shown only in the admin view.'] } }] };
+  var OTHERS = ['x1', 'x2', 'x3'];
   var ORDER = ['recruit', 'mali', 'board', 'water', 'centers', 'kenya2', 'kenya1', 'legit', 'proof', 'mediation', 'corpus', 'passages'];
 
   /* WHAT A PROJECT PRODUCES: its ARTIFACTS, made in its chats. One registry
@@ -368,7 +382,7 @@
         ['Local peace committees', 'Moderate', 'Low', 'Needs support between elections']] } }
   ];
 
-  var S = { view: 'chat', chat: 'recruit', project: 'sahel', doc: null, tab: 'chats', sort: 'tier', q: '', browse: false, mode: 'normal', spoken: true, dictate: false, rail: 'on', pane: 'on', drawer: null, access: {}, src: null, reader: false };
+  var S = { view: 'chat', chat: 'recruit', project: 'sahel', doc: null, tab: 'chats', sort: 'tier', q: '', browse: false, mode: 'normal', spoken: false, dictate: false, rail: 'on', pane: 'on', drawer: null, access: {}, src: null, reader: false, admin: true, scope: 'mine', attach: [], vote: {}, reflect: {}, fold: {} };
   var seq = 10;
 
   function proj(id) { return PROJECTS.filter(function (p) { return p.id === id; })[0]; }
@@ -431,14 +445,80 @@
   /* Citations, numbered in order of first use within one chat or document. */
   function citer() {
     var seen = [];
-    return function (html) {
+    var f = function (html) {
       return html.replace(/\{(\w+)\}/g, function (_, id) {
         var s = LIB[id]; if (!s) return '';
         var n = seen.indexOf(id); if (n < 0) { seen.push(id); n = seen.length - 1; }
         return '<button type="button" class="cite t' + s.tier + '" data-act="src" data-id="' + id + '" aria-label="Source ' + (n + 1) + ': ' + esc(s.t) + '"><span class="cm" aria-hidden="true">' + TM[s.tier] + '</span>' + (n + 1) + '</button>';
       });
     };
+    f.seen = seen;
+    return f;
   }
+  /* The papers one answer cites, in the order it cites them. */
+  function citedInAnswer(a) {
+    var out = [], txt = [].concat(a.intro || [], [].concat.apply([], (a.parts || []).map(function (x) { return x.ps; }))).join(' ');
+    txt.replace(/\{(\w+)\}/g, function (_, id) { if (LIB[id] && out.indexOf(id) < 0) out.push(id); });
+    return out;
+  }
+  /* H1.1, H1.2: after each answer, its sources, folded by default to one
+     line: the same citation marks the text uses, in the order it cites them,
+     so the strip is a key to the text. The mark carries the tier (filled in
+     the library, outlined abstract only, dashed arrow on the web), which is
+     why the rows need no group headings or "read on platform" labels. Every
+     row opens the paper's quick view; pointing at a row lights its citations
+     in the answer. */
+  var TIERN = { 1: 'In the library', 2: 'Abstract only', 3: 'Web source, opens off-platform' };
+  function eviGroup(a, cite) {
+    var ids = citedInAnswer(a); if (!ids.length) return '';
+    function mark(id) { var s = LIB[id]; return '<span class="cite sm t' + s.tier + '" title="' + TIERN[s.tier] + '"><span class="cm" aria-hidden="true">' + TM[s.tier] + '</span>' + (cite.seen.indexOf(id) + 1) + '</span>'; }
+    function row(id) {
+      var s = LIB[id], who = [esc(s.a), s.y].filter(Boolean).join(' &middot; ');
+      return '<button class="evi-row" type="button" data-act="src" data-id="' + id + '" aria-label="Source ' + (cite.seen.indexOf(id) + 1) + ', ' + TIERN[s.tier] + ': ' + esc(s.t) + '">' + mark(id) + '<span class="tt"><i>' + esc(s.t) + '</i>' + (who ? '<span class="by">' + who + '</span>' : '') + '</span><span class="px-go' + (s.tier === 3 ? ' out' : '') + '" aria-hidden="true"></span></button>';
+    }
+    /* The closed line counts the sources by tier, one chip per tier used. */
+    var strip = [1, 2, 3].map(function (t) { var k = ids.filter(function (id) { return LIB[id].tier === t; }).length; return k ? '<span class="cite sm t' + t + '" title="' + k + ' ' + TIERN[t].split(',')[0].toLowerCase() + '"><span class="cm" aria-hidden="true">' + TM[t] + '</span>' + k + '</span>' : ''; }).join('');
+    return { n: ids.length, strip: strip, list: ids.map(row).join('') };
+  }
+  /* H1.3 to H1.5: under an answer, one quiet line. The tools it used fold
+     away in mono at the left; copying with citations and the two votes sit at
+     the right, as icons. */
+  var TOOLS = ['Searched the library', 'Ranked the strongest studies', 'Read the full text of the top papers', 'Checked the abstracts of the rest', 'Searched the web for anything missing', 'Matched each claim to its passage'];
+  /* H1.6, the session reflection (production's "Before you go" card,
+     restyled): the suggestion opens it in the thread, above the composer. */
+  var USES = ['Evaluating a proposal', 'Researching a conflict', 'Literature review', 'Program design', 'Funding decision', 'Briefing or talking points', 'Monitoring and evaluation', 'Personal learning', 'Other'];
+  var DIMS = ['Peace Intel understood what I was looking for', 'Responses were accurate and well-grounded', 'Peace Intel cited sources appropriately', 'The answers were useful for my work'];
+  function scale(name, v) {
+    return '<div class="rf-scale" role="group" aria-label="' + esc(name) + '">' + [1, 2, 3, 4, 5].map(function (n) { return '<button type="button" data-act="rf" data-id="' + name + ':' + n + '" aria-pressed="' + (v === n) + '">' + n + '</button>'; }).join('') + '</div>';
+  }
+  function reflectCard(r) {
+    if (!r) return '';
+    if (r.sent) return '<p class="rf-done">' + g('check') + 'Thanks. Your take on this session is saved.</p>';
+    return '<form class="reflect" data-rf onsubmit="return false"><header class="rf-h"><span class="eyebrow eb-4">Before you go</span><h3>How did this session go?</h3></header>' +
+      '<div class="rf-q"><p>Did Peace Intel meet your expectations?</p>' + scale('overall', r.overall) + '<p class="rf-key">1 fell short &middot; 5 exceeded</p></div>' +
+      '<div class="rf-q"><p>What were you using it for?</p><div class="rf-uses">' + USES.map(function (u) { return '<button class="chip-q" type="button" data-act="rf-use" data-id="' + esc(u) + '" aria-pressed="' + ((r.uses || []).indexOf(u) > -1) + '">' + esc(u) + '</button>'; }).join('') + '</div></div>' +
+      '<div class="rf-q"><label for="rf-t">What was missing, or what would have helped most?</label><textarea class="input" id="rf-t" rows="3" placeholder="One or two sentences is plenty">' + esc(r.text || '') + '</textarea></div>' +
+      '<div class="rf-q"><p>How would you rate it across these?</p>' + DIMS.map(function (d, i) { return '<div class="rf-dim"><span>' + esc(d) + '</span>' + scale('d' + i, r['d' + i]) + '</div>'; }).join('') + '</div>' +
+      '<div class="rf-f"><button class="btn ghost sm" type="button" data-act="rf-skip">Not now</button><button class="btn tint sm" type="button" data-act="rf-send">Send</button></div></form>';
+  }
+  /* Rev 45: the tools used and the sources share one line, tools at the
+     left, so an answer ends in a single row; each opens its own panel under
+     the row, which stays open through a redraw (S.fold). */
+  function ansFoot(m, i, ev, fb) {
+    var v = S.vote[S.chat + ':' + i] || '', k = S.chat + ':' + i, f = S.fold[k] || '';
+    function tog(w, cls, inner) { return '<button class="' + cls + '" type="button" data-act="fold" data-id="' + i + ':' + w + '" aria-expanded="' + (f === w) + '" aria-controls="af-' + w + '-' + i + '">' + inner + '</button>'; }
+    return '<div class="ans-foot"><div class="af-row">' +
+      (ev ? tog('s', 'af-src', '<span class="evi-head">Sources</span><span class="evi-strip" aria-label="' + plural(ev.n, 'source') + '">' + ev.strip + '</span>' + g('chevron-down')) : '') +
+      tog('t', 'af-tools', '<span>' + (m.a.tools || 25) + ' tools<span class="af-w"> used</span></span>' + g('chevron-down')) +
+      (fb ? '<button class="af-tools af-fb" type="button" data-act="wrap-up" aria-expanded="' + !!S.reflect[S.chat] + '" aria-label="Give feedback on this session">' + g('message-square') + '<span>Give feedback</span>' + g('chevron-down') + '</button>' : '') +
+      '<span class="af-acts">' +
+      '<button class="icon-btn" type="button" data-act="copy-cite" aria-label="Copy with citations" title="Copy with citations">' + g('copy') + '</button>' +
+      '<button class="icon-btn" type="button" data-act="vote" data-id="' + i + ':up" aria-pressed="' + (v === 'up') + '" aria-label="Good answer">' + g('thumbs-up') + '</button>' +
+      '<button class="icon-btn" type="button" data-act="vote" data-id="' + i + ':down" aria-pressed="' + (v === 'down') + '" aria-label="Poor answer">' + g('thumbs-down') + '</button></span></div>' +
+      '<ol class="af-list" id="af-t-' + i + '"' + (f === 't' ? '' : ' hidden') + '>' + TOOLS.map(function (t) { return '<li>' + t + '</li>'; }).join('') + '</ol>' +
+      (ev ? '<div class="evi-list" id="af-s-' + i + '"' + (f === 's' ? '' : ' hidden') + '>' + ev.list + '</div>' : '') + '</div>';
+  }
+
 
   function avatar(i, cls) { return '<span class="avatar' + (cls ? ' ' + cls : '') + '" title="' + esc(personName(i)) + '">' + i + '</span>'; }
   function personName(i) { return PEOPLE[i] || i; }
@@ -447,7 +527,7 @@
   function thread(id, withDate) {
     var c = CHATS[id];
     return '<button class="thread" type="button" data-act="chat" data-id="' + id + '" aria-current="' + (S.view === 'chat' && S.chat === id) + '"><div class="th-t">' + esc(c.t) + '</div>' +
-      (withDate ? '<div class="th-m">' + c.d + '</div>' : '') + '</button>';
+      (withDate ? '<div class="th-m">' + c.d + (c.other ? ' &middot; ' + esc(personName(c.by)) : '') + '</div>' : '') + '</button>';
   }
   /* The rail is built as the pane is (Matt, 2026-10-15): a head with its mark,
      its name, its two tools as icons (a new chat, the finder) and the button
@@ -456,7 +536,7 @@
      search bar under the head until the same day, and took a fifth of it. */
   function railTools(cls) {
     return '<button class="icon-btn' + cls + '" type="button" data-act="new-chat" aria-label="New chat">' + g('square-pen') + '</button>' +
-      '<button class="icon-btn' + cls + '" type="button" data-act="find" aria-haspopup="dialog" aria-keyshortcuts="Meta+K" aria-label="Search chats" title="Search chats (&#8984;K)">' + g('search') + '</button>';
+      '<button class="icon-btn' + cls + '" type="button" data-act="find" aria-haspopup="dialog" aria-keyshortcuts="Meta+K" aria-label="Search chats and projects" title="Search chats and projects (&#8984;K)">' + g('search') + '</button>';
   }
   /* A folded side keeps a shelf: its divider and the button that reopens it. */
   function shelf(act, glyph, label) {
@@ -481,8 +561,12 @@
           '<button class="pj-more" type="button" data-act="artifacts" data-id="' + p.id + '">' + g('file-text') + plural(docs.length, 'artifact') + '</button></div>';
       }
     });
-    h += '</div><div class="pj-sec"><div class="pj-sec-h"><span class="eyebrow eb-4 faint">Recent</span></div>' +
-      ORDER.filter(function (id) { return !CHATS[id].p; }).map(function (id) { return thread(id, true); }).join('') + '</div></div>' +
+    /* H1.13, staff only: one quiet toggle on the Recent line widens the list
+       to every user's chats, each carrying its owner's initials. */
+    var all = S.admin && S.scope === 'all';
+    h += '</div><div class="pj-sec"><div class="pj-sec-h"><span class="eyebrow eb-4 faint">' + (all ? 'Recent, all users' : 'Recent') + '</span>' +
+      (S.admin ? '<button class="pj-scope" type="button" data-act="scope" aria-pressed="' + all + '" title="Staff only: show every user\u2019s chats">' + g('users') + '<span>All users</span></button>' : '') + '</div>' +
+      ORDER.filter(function (id) { return !CHATS[id].p; }).concat(all ? OTHERS : []).map(function (id) { return thread(id, true); }).join('') + '</div></div>' +
       /* 21 · B: in the drawer the console's links sit at the foot, as
          Claude's settings do; on a desk they stay in the top bar. */
       '<nav class="rail-nav" aria-label="Console">' + [].map.call(document.querySelectorAll('.app-nav a'), function (a) { return '<a href="' + a.getAttribute('href') + '">' + esc(a.textContent) + '</a>'; }).join('') + '</nav>';
@@ -492,7 +576,9 @@
   function folded(side) {
     /* A folded side reopens from its own shelf; the toolbar carries the
        rail's tools only where there is no rail at all (narrow screens). */
-    return side === 'rail' ? railTools(' tools-rail') : '';
+    /* At narrow widths the toolbar leads with the chats shelf, the same
+       glyph that reopens a folded rail on desktop; search lives in the shelf. */
+    return side === 'rail' ? '<button class="icon-btn tools-rail rail-open" type="button" data-act="drawer-rail" aria-haspopup="dialog" aria-expanded="' + (S.drawer === 'rail') + '" aria-label="Projects and chats">' + g('panel-left-open') + '</button>' + railTools(' tools-rail') : '';
   }
   function crumb(p, cur) {
     return '<nav class="pj-crumb" aria-label="Breadcrumb">' + g('folder') + '<button type="button" data-act="project" data-id="' + p.id + '">' + esc(p.name) + '</button>' +
@@ -523,18 +609,21 @@
      replies, settings and the version badge give way to one chip that
      names the mode and opens a menu holding all of them, so the bar is one
      row: the mode at the left, the microphone and send at the right. */
-  var MODES = [['quick', 'Quick'], ['normal', 'Normal'], ['deep', 'Deep research']];
+  /* Eirene is a mode of answering (H1.9, Matt 16 Oct): it left the top bar. */
+  var MODES = [['quick', 'Quick'], ['normal', 'Normal'], ['deep', 'Deep research'], ['eirene', 'Eirene']];
   function modeName() { return MODES.filter(function (m) { return m[0] === S.mode; })[0][1]; }
   function composer(p, placeholder) {
     var modes = MODES;
     return '<div class="composer">' +
+      (S.attach.length ? '<div class="cb-files">' + S.attach.map(function (f, i) { return '<span class="cb-file">' + g('file') + '<span>' + esc(f) + '</span><button class="icon-btn" type="button" data-act="unattach" data-id="' + i + '" aria-label="Remove ' + esc(f) + '">' + g('x') + '</button></span>'; }).join('') + '</div>' : '') +
       '<textarea class="ci" rows="2" name="q" aria-label="Ask a question" data-ph="' + esc(placeholder) + '" placeholder="' + esc(S.dictate ? LISTENING : placeholder) + '"></textarea>' +
       '<div class="composer-bar">' +
         '<div class="seg mono" aria-label="Answer mode" data-tray="mode">' + modes.map(function (m) { return '<button type="button" data-v="' + m[0] + '" aria-pressed="' + (S.mode === m[0]) + '">' + m[1] + '</button>'; }).join('') + '</div>' +
         '<button class="act cb-mode" type="button" data-act="mode-menu" aria-haspopup="menu" aria-expanded="false" aria-label="Answer mode and options"><span>' + modeName() + '</span>' + g('chevron-down') + '</button>' +
+        '<button class="icon-btn" type="button" data-act="attach" aria-label="Attach a file">' + g('paperclip') + '</button>' +
         '<button class="icon-btn" type="button" data-act="spoken" aria-pressed="' + S.spoken + '" aria-label="Spoken replies">' + g('volume-2') + '</button>' +
         '<button class="icon-btn" type="button" aria-label="Settings">' + g('settings') + '</button>' +
-        '<span class="spacer"></span><span class="badge">v1</span>' +
+        '<span class="spacer"></span><span class="badge cb-ver" title="Internal: the version answering">v1</span>' +
         '<span class="cb-send"><button class="icon-btn" type="button" data-act="dictate" aria-pressed="' + S.dictate + '" aria-label="Dictate">' + g('mic') + '</button>' +
         '<button class="send" type="button" data-act="send" aria-label="Send"></button></span>' +
       '</div></div>';
@@ -564,14 +653,19 @@
     if (empty) {
       body = '<div class="app-scroll"><div class="app-empty"><h2>What are you working on?</h2><p>Ask about the evidence, or start from a project in the rail.</p></div></div>';
     } else {
-      body = '<div class="app-scroll"><div class="chat">' + c.msgs.map(function (m) {
+      var last = c.msgs.length - 1;
+      body = '<div class="app-scroll"><div class="chat">' + c.msgs.map(function (m, i) {
         if (m.u) return '<div class="msg user"><div class="who">' + (c.by && c.by !== 'MA' ? esc(personName(c.by)) : 'You') + ' &middot; ' + m.at + '</div><div class="bubble">' + esc(m.u) + '</div></div>';
         return '<div class="msg agent"><div class="who">Peace Intel &middot; ' + m.at +
           (m.pending ? '' : ' <button class="icon-btn" type="button" aria-label="Read the answer aloud">' + g('play') + '</button>') + '</div>' +
-          '<div class="body">' + (m.pending ? '<p>' + esc(m.pending) + '</p>' : answer(m.a, cite)) + '</div></div>';
-      }).join('') + DOCS.filter(function (r) { return r.from === S.chat && r.kind === 'doc'; }).map(savedCard).join('') + '</div></div>';
+          '<div class="body">' + (m.pending ? '<p>' + esc(m.pending) + '</p>' : answer(m.a, cite)) + '</div>' +
+          (m.pending ? '' : ansFoot(m, i, eviGroup(m.a, cite), i === last && c.msgs.length > 1)) + '</div>';
+      }).join('') + DOCS.filter(function (r) { return r.from === S.chat && r.kind === 'doc'; }).map(savedCard).join('') +
+        /* H1.6: a suggestion under the last answer, as production has it. */
+        (c.msgs[last] && c.msgs[last].a && c.msgs.length > 1 ? reflectCard(S.reflect[S.chat]) : '') +
+        '</div></div>';
     }
-    return tools + body + '<div class="composer-wrap">' + composer(p, p ? 'Ask about ' + p.name : 'Ask Peace Intel about peacebuilding evidence') + '</div>';
+    return tools + body + '<div class="composer-wrap">' + composer(p, p ? 'Ask about ' + p.name : 'Ask Peace Intel about peacebuilding evidence…') + '</div>';
   }
 
   function docCard(r) {
@@ -723,6 +817,9 @@
       '</div><div class="pane-body"></div>';
     drawList();
   }
+  /* Where a source's link goes. Mock addresses, obviously so (CONSOLE.md
+     section 7): production has the real ones. */
+  function srcUrl(id) { return LIB[id].tier === 3 ? 'example.org/web-source/' + id : 'doi.org/10.0000/mock.' + id; }
   function citedNo(id) { return S.view === 'chat' && S.chat ? citedIn(CHATS[S.chat]).indexOf(id) + 1 : 0; }
   function drawSource() {
     var id = S.src, s = LIB[id], d = SRC[id] || {}, n = citedNo(id), t = TIER[s.tier];
@@ -736,8 +833,10 @@
           '<header class="src-h"><h3 class="src-t">' + esc(s.t) + '</h3><p class="src-m">' + meta + '</p>' + tier +
             (n ? '<p class="src-n">Cited as <span class="cite sm t' + s.tier + '"><span class="cm" aria-hidden="true">' + TM[s.tier] + '</span>' + n + '</span> in this chat</p>' : '') + '</header>' +
           '<div class="src-acts">' + (s.tier < 3 ? '<button class="act" type="button" data-act="src-read">' + g('book-open') + (d.abstractOnly ? 'Read the abstract' : 'Read the full entry') + '</button>' : '') +
-            (s.tier === 1 ? '<button class="act" type="button" data-act="src-pdf">' + g('download') + 'PDF</button>' : '') +
-            '<button class="act" type="button">Original' + g('arrow-up-right') + '</button></div>' +
+            (s.tier === 1 ? '<button class="act" type="button" data-act="src-pdf">' + g('download') + 'Download PDF</button>' : '') +
+            '<button class="act" type="button" title="' + esc(srcUrl(id)) + '">Original source' + g('arrow-up-right') + '</button>' +
+            /* H1.2: where the link goes, before it goes there. */
+            '<p class="src-url">Original source opens <span>' + esc(srcUrl(id)) + '</span></p></div>' +
           (d.as ? '<section class="src-s"><h4 class="eyebrow eb-4 faint">Key assertions</h4><ol class="src-as">' + d.as.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ol></section>' : '') +
           (d.tags ? '<section class="src-s"><h4 class="eyebrow eb-4 faint">Details</h4><div class="src-tags">' + d.tags.map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('') + '</div></section>' : '') +
           (d.sum ? '<section class="src-s"><h4 class="eyebrow eb-4 faint">Summary</h4><p class="src-sum">' + esc(d.sum) + '</p></section>' : '<p class="pj-empty">No summary has been written for this source yet.</p>') +
@@ -773,11 +872,17 @@
     };
     ids.sort(by[S.sort]);
     var lead = cited.filter(function (id) { return ids.indexOf(id) > -1; });
-    ids = lead.concat(ids.filter(function (id) { return cited.indexOf(id) < 0; }));
+    var rest = ids.filter(function (id) { return cited.indexOf(id) < 0; });
     if (S.browse) pane.querySelector('.pane-meta').innerHTML = 'Adding to the context of <b>' + esc(p.name) + '</b> &middot; ' + plural(papersOf(p).length, 'paper') + ' there';
-    pane.querySelector('.pane-body').innerHTML = ids.length
-      ? ids.map(function (id) { return libItem(id, { pick: S.browse, cited: cited.indexOf(id) + 1 }); }).join('')
-      : '<p class="pj-empty">Nothing in the library matches “' + esc(S.q.trim()) + '”.</p>';
+    function items(list) { return list.map(function (id) { return libItem(id, { pick: S.browse, cited: cited.indexOf(id) + 1 }); }).join(''); }
+    var body = pane.querySelector('.pane-body');
+    /* In a chat that cites anything, the library shows only what the chat
+       cites. Searching widens it: the chat's matches first, then the rest of
+       the library under its own line, so a search never stops at the chat. */
+    if (!cited.length) { body.innerHTML = ids.length ? items(ids) : '<p class="pj-empty">Nothing in the library matches “' + esc(S.q.trim()) + '”.</p>'; return; }
+    if (!q) { body.innerHTML = items(lead) + '<p class="pane-hint">Search to reach the whole library.</p>'; return; }
+    body.innerHTML = '<h4 class="pane-sec eyebrow eb-4 faint">In this chat &middot; ' + lead.length + '</h4>' + (lead.length ? items(lead) : '<p class="pane-hint">None of this chat’s sources match.</p>') +
+      '<h4 class="pane-sec eyebrow eb-4 faint">In the library &middot; ' + rest.length + '</h4>' + (rest.length ? items(rest) : '<p class="pane-hint">Nothing else in the library matches.</p>');
   }
 
   function draw() {
@@ -798,45 +903,52 @@
   var narrow = matchMedia('(max-width: 1080px)'), phone = matchMedia('(max-width: 620px)');
   /* On a phone the top bar goes while the thread scrolls down (Pl. 21). */
   var lastY = 0;
-  /* THE SHEET (21 · H3, adopted Rev 31). The library rises from the foot on
-     --mo-sheet and drops back the same way; dragged by its handle or head it
-     follows the finger, and let go past a quarter of its height, or flicked,
-     it closes. Reduced motion makes both instant. */
+  /* THE DRAWERS (Rev 49). Under 1080px the chats slide in from the left and
+     the library from the right, on --mo-sheet, and back the same way; swiped
+     toward its edge a drawer follows the finger, and let go past a quarter of
+     its width, or flicked, it closes. Reduced motion makes both instant. */
   var calm = matchMedia('(prefers-reduced-motion: reduce)');
   function closeDrawer() {
     var was = S.drawer; if (!was) return;
+    var el = was === 'rail' ? rail : pane;
     function done() {
-      app.classList.remove('is-sheet-off'); app.style.removeProperty('--sheet-y');
-      S.drawer = null; S.src = null; S.reader = false; draw(); refocus(was === 'rail' ? '.app-burger' : '.src-tick');
+      app.classList.remove('is-sheet-off'); app.style.removeProperty('--sheet-x');
+      S.drawer = null; S.src = null; S.reader = false; draw(); refocus(was === 'rail' ? '.rail-open' : '.src-tick');
     }
-    if (was !== 'pane' || !narrow.matches || calm.matches) return done();
+    if (!narrow.matches || calm.matches) return done();
     app.classList.add('is-sheet-off');
     var t = setTimeout(done, 500);
-    pane.addEventListener('transitionend', function te(e) { if (e.target !== pane) return; pane.removeEventListener('transitionend', te); clearTimeout(t); done(); });
+    el.addEventListener('transitionend', function te(e) { if (e.target !== el) return; el.removeEventListener('transitionend', te); clearTimeout(t); done(); });
   }
   var drag = null;
-  pane.addEventListener('pointerdown', function (e) {
-    if (S.drawer !== 'pane' || !narrow.matches || e.button) return;
-    if (e.target.closest('button, input, select, a') || e.clientY - pane.getBoundingClientRect().top > 64) return;
-    drag = { y0: e.clientY, t0: Date.now(), dy: 0, h: pane.offsetHeight };
-    pane.setPointerCapture(e.pointerId); app.classList.add('is-dragging');
-  });
-  pane.addEventListener('pointermove', function (e) {
-    if (!drag) return;
-    drag.dy = Math.max(0, e.clientY - drag.y0); app.style.setProperty('--sheet-y', drag.dy + 'px');
+  [rail, pane].forEach(function (el) {
+    var side = el === rail ? 'rail' : 'pane', dir = el === rail ? -1 : 1;
+    el.addEventListener('pointerdown', function (e) {
+      if (S.drawer !== side || !narrow.matches || e.button || e.pointerType === 'mouse') return;
+      if (e.target.closest('input, select, textarea')) return;
+      drag = { el: el, dir: dir, x0: e.clientX, y0: e.clientY, t0: Date.now(), dx: 0, w: el.offsetWidth, on: false, id: e.pointerId };
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (!drag || drag.el !== el) return;
+      var dx = (e.clientX - drag.x0) * drag.dir, dy = Math.abs(e.clientY - drag.y0);
+      if (!drag.on) { if (dy > 10 && dy > dx) { drag = null; return; } if (dx < 10) return; drag.on = true; el.setPointerCapture(drag.id); app.classList.add('is-dragging'); }
+      drag.dx = Math.max(0, dx); app.style.setProperty('--sheet-x', drag.dx * drag.dir + 'px');
+    });
+    el.addEventListener('pointerup', endDrag); el.addEventListener('pointercancel', endDrag);
   });
   function endDrag() {
     if (!drag) return;
-    var d = drag; drag = null; app.classList.remove('is-dragging');
-    if (d.dy > d.h * 0.25 || d.dy / Math.max(1, Date.now() - d.t0) > 0.6) closeDrawer();
-    else app.style.removeProperty('--sheet-y');
+    var d = drag; drag = null; if (!d.on) return;
+    app.classList.remove('is-dragging');
+    if (d.dx > d.w * 0.25 || d.dx / Math.max(1, Date.now() - d.t0) > 0.6) closeDrawer();
+    else app.style.removeProperty('--sheet-x');
   }
-  pane.addEventListener('pointerup', endDrag); pane.addEventListener('pointercancel', endDrag);
   main.addEventListener('scroll', function (e) {
     if (!phone.matches || !e.target.classList || !e.target.classList.contains('app-scroll')) return;
-    var y = e.target.scrollTop, d = y - lastY;
-    if (Math.abs(d) < 12) return;
-    app.classList.toggle('is-top-off', d > 0 && y > 64);
+    /* Rev 50: the top bar (logo, account, menu) shows only at the top of the
+       thread; once the reader scrolls past it, it stays away until they return. */
+    var y = e.target.scrollTop;
+    app.classList.toggle('is-top-off', y > 64);
     lastY = y;
   }, true);
   narrow.addEventListener('change', function () { if (S.drawer) { S.drawer = null; draw(); } });
@@ -864,7 +976,8 @@
     }
     var c = CHATS[S.chat], p = c.p ? proj(c.p) : null;
     var wait = { at: now(), pending: p ? 'Reading the context of ' + p.name + ', and the library…' : 'Reading the library…' };
-    c.msgs.push({ u: text, at: now() }, wait);
+    c.msgs.push({ u: text + (S.attach.length ? ' [' + plural(S.attach.length, 'file') + ' attached]' : ''), at: now() }, wait);
+    S.attach = [];
     draw(); bottom();
     say('Question sent');
     setTimeout(function () {
@@ -1060,6 +1173,13 @@
   dlg.innerHTML = '<div class="dlg-in"></div>';
   document.body.appendChild(dlg);
   var dlgIn = dlg.firstChild, D = { view: null, opts: {}, q: '', sel: null };
+  var attachPicker = document.createElement('input');
+  attachPicker.type = 'file'; attachPicker.multiple = true; attachPicker.hidden = true;
+  app.appendChild(attachPicker);
+  attachPicker.addEventListener('change', function () {
+    [].forEach.call(attachPicker.files, function (f) { S.attach.push(f.name); });
+    attachPicker.value = ''; drawMain(); refocus('.composer .ci'); say('File attached');
+  });
   var picker = document.createElement('input');
   picker.type = 'file'; picker.multiple = true; picker.hidden = true;
   picker.accept = '.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.md';
@@ -1539,6 +1659,15 @@
   window.PIProto = { pdf: pdf, flatten: flatten };
 
   /* ── what every button does ─────────────────────────────────────────────── */
+  function lightCites(e, on) {
+    var r = e.target.closest && e.target.closest('.evi-row'); if (!r || (e.relatedTarget && r.contains(e.relatedTarget))) return;
+    var msg = r.closest('.msg') || app;
+    [].forEach.call(msg.querySelectorAll('.cite[data-id="' + r.dataset.id + '"]'), function (c) { c.classList.toggle('lit', on); });
+  }
+  app.addEventListener('mouseover', function (e) { lightCites(e, true); });
+  app.addEventListener('mouseout', function (e) { lightCites(e, false); });
+  app.addEventListener('focusin', function (e) { lightCites(e, true); });
+  app.addEventListener('focusout', function (e) { lightCites(e, false); });
   app.addEventListener('click', function (e) {
     var tray = e.target.closest('[data-tray] button');
     if (tray) {
@@ -1564,13 +1693,26 @@
     else if (act === 'find') showDlg('search', { here: !!b.closest('.app-tools') && S.view === 'chat' && !!S.chat && CHATS[S.chat].msgs.length > 0 });
     else if (act === 'drawer-pane' && S.drawer === 'pane') closeDrawer();
     else if (act === 'drawer-rail' || act === 'drawer-pane') {
-      /* The sheet rises to the foot of the top bar (to the top of the screen
-         while the bar is away). */
-      var tp = app.querySelector('.app-top'); app.style.setProperty('--top-b', Math.max(0, tp ? tp.getBoundingClientRect().bottom : 0) + 'px');
       S.drawer = act.slice(7); if (S.drawer === 'pane') { S.src = null; S.reader = false; } draw(); refocus('.app-' + S.drawer + ' .pane-head .icon-btn:last-child'); }
+    else if (act === 'scope') { S.scope = S.scope === 'all' ? 'mine' : 'all'; drawRail(); refocus('[data-act="scope"]'); say(S.scope === 'all' ? 'Showing every user’s chats' : 'Showing your chats'); }
+    else if (act === 'attach') attachPicker.click();
+    else if (act === 'unattach') { S.attach.splice(+id, 1); drawMain(); refocus('[data-act="attach"]'); }
+    else if (act === 'copy-cite') { try { navigator.clipboard.writeText(b.closest('.msg').querySelector('.body').innerText); } catch (_) {} say('Answer copied with its citations'); }
+    else if (act === 'fold') { var fk = S.chat + ':' + id.split(':')[0], fw = id.split(':')[1]; S.fold[fk] = S.fold[fk] === fw ? '' : fw; drawMain(); refocus('[data-act="fold"][data-id="' + id + '"]'); }
+    else if (act === 'vote') { var k = S.chat + ':' + id.split(':')[0], v = id.split(':')[1]; S.vote[k] = S.vote[k] === v ? '' : v; drawMain(); refocus('[data-act="vote"][data-id="' + id + '"]'); say(S.vote[k] ? 'Thanks for the feedback' : 'Feedback removed'); }
+    else if (act === 'wrap-up' && S.reflect[S.chat] && !S.reflect[S.chat].sent) { delete S.reflect[S.chat]; drawMain(); refocus('[data-act="wrap-up"]'); }
+    else if (act === 'wrap-up') { S.reflect[S.chat] = {}; drawMain(); var sc2 = main.querySelector('.reflect'); if (sc2) { sc2.scrollIntoView({ block: 'start' }); sc2.querySelector('button').focus(); } }
+    else if (act === 'rf' || act === 'rf-use') {
+      var r = S.reflect[S.chat], t2 = main.querySelector('#rf-t'); if (t2) r.text = t2.value;
+      if (act === 'rf') { var kv = id.split(':'); r[kv[0]] = r[kv[0]] === +kv[1] ? null : +kv[1]; }
+      else { r.uses = r.uses || []; var ix = r.uses.indexOf(id); if (ix > -1) r.uses.splice(ix, 1); else r.uses.push(id); }
+      var y = main.querySelector('.app-scroll').scrollTop; drawMain(); main.querySelector('.app-scroll').scrollTop = y; refocus('[data-act="' + act + '"][data-id="' + id + '"]');
+    }
+    else if (act === 'rf-skip') { delete S.reflect[S.chat]; drawMain(); refocus('[data-act="wrap-up"]'); }
+    else if (act === 'rf-send') { S.reflect[S.chat].sent = true; drawMain(); say('Thanks. Your take on this session is saved.'); }
     else if (act === 'src') {
       S.src = id; S.reader = false; S.pane = 'on';
-      if (narrow.matches && S.drawer !== 'pane') { var tp2 = app.querySelector('.app-top'); app.style.setProperty('--top-b', Math.max(0, tp2 ? tp2.getBoundingClientRect().bottom : 0) + 'px'); S.drawer = 'pane'; }
+      if (narrow.matches && S.drawer !== 'pane') S.drawer = 'pane';
       draw(); refocus('.app-pane .pane-head .icon-btn');
     }
     else if (act === 'src-read') { S.reader = true; draw(); refocus('.app-pane .pane-head .icon-btn'); }
@@ -1605,10 +1747,6 @@
       menu.dataset.ctx = 'mode';
       open(menu, b, '<span class="menu-l">Answer</span>' + MODES.map(function (m) { return item('mode', m[0], S.mode === m[0] ? 'check' : 'blank', m[1], ''); }).join('') +
         '<hr>' + item('spoken-toggle', '', 'volume-2', 'Spoken replies', S.spoken ? 'On' : 'Off'));
-    }
-    else if (act === 'nav-menu') {
-      menu.dataset.ctx = 'nav';
-      open(menu, b, [].map.call(app.querySelectorAll('.app-nav a'), function (a) { return item('nav', a.getAttribute('href'), 'blank', a.textContent, ''); }).join(''));
     }
     else if (act === 'browse-done') { S.browse = false; S.q = ''; syncPanel(); refocus('.app-pane [data-act="add-menu"]'); }
     else if (act === 'pick') {
@@ -1651,7 +1789,7 @@
   /* ?src=berman&reader=1 opens on a paper, for the reference's frames (Pl. 22). */
   (function () {
     var q = new URLSearchParams(location.search), id = q.get('src');
-    if (id && LIB[id]) { S.src = id; S.reader = q.get('reader') === '1'; if (narrow.matches) { S.drawer = 'pane'; var tp3 = app.querySelector('.app-top'); app.style.setProperty('--top-b', (tp3 ? tp3.getBoundingClientRect().bottom : 0) + 'px'); } }
+    if (id && LIB[id]) { S.src = id; S.reader = q.get('reader') === '1'; if (narrow.matches) S.drawer = 'pane'; }
   })();
   draw();
 })();

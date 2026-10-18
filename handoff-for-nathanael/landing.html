@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · An evidence library, made answerable</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="description" content="A decision-support platform built on the peacebuilding evidence base, with a research agent that finds, compares and applies the literature. Every claim traceable to its source.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=c23b99a4">
+<link rel="stylesheet" href="components.css?v=902c0e14">
+<link rel="stylesheet" href="explorations.css?v=45ac9467">
+<style>
+  /* ── Page-level composition only. ──────────────────────────────────────────
+     Everything visual comes from the catalog. What is here is the handful of
+     arrangements a landing page needs that a component cannot know about: how
+     the hero splits, how the logo strip sits, how the console figure is framed.
+     If any of this turns out to be needed twice, it belongs in components.css
+     instead, which is the rule that kept the last set of pages from drifting. */
+
+  /* Hero: copy left, motion right, collapsing to one column early because the
+     lockup is the thing that has to survive a phone. */
+  .hero-split {
+    display: grid; grid-template-columns: 1.05fr .95fr;
+    gap: var(--sp-16); align-items: center;
+  }
+  @media (max-width: 900px) { .hero-split { grid-template-columns: 1fr; gap: var(--sp-10) } }
+
+  /* The project-of strip (.orgs) moved to components.css on 2026-10-08, when
+     the home page became the second page to need it. */
+
+  /* The console figure. The app shell is a fixed-height object on a landing
+     page: it is a photograph of the product, not a live pane, so it must show
+     all of its content without scrolling internally.
+
+     These two heights are the one place this file carries a raw length, and
+     deliberately. A figure's height is determined by the content inside it, not
+     by a scale — it is measured against the conversation it holds, and if the
+     copy changes the number changes with it. Putting it on the spacing scale
+     would be pretending it is a rhythm decision. */
+  .console-figure { height: 684px }
+  @media (max-width: 900px) { .console-figure { height: 760px } }
+
+  .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--sp-8) }
+  @media (max-width: 760px) { .stat-row { grid-template-columns: repeat(2, 1fr); gap: var(--sp-6) } }
+
+  .tier-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--sp-8) }
+  @media (max-width: 860px) { .tier-row { grid-template-columns: 1fr; gap: var(--sp-6) } }
+  .tier-row .cite { margin-bottom: var(--sp-3) }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+  @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr } }
+  .form-grid .full { grid-column: 1 / -1 }
+</style>
+</head>
+<body>
+
+<!-- ══ THE FLOATING BAR (Pl. 19 · B, adopted 16 Oct) ════════════════════════
+     As on Home: the face and an edge, set in to the body's edges; on the way
+     down it pulls in to the whole logo, centred (system.js, floatNav). -->
+<header class="fnav" data-fnav>
+  <div class="fnav-in">
+    <a class="fnav-mark" href="#top" aria-label="Peace Intel, back to the top"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></a>
+    <nav class="fnav-links" aria-label="Main">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn tint sm" href="#access">Request access</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ══ HERO ═════════════════════════════════════════════════════════════════
+     The one tier-one element on the page. The dove is a VEIL, not a map: a
+     subject shot on a seamless, so the ground blends away entirely and what is
+     left is a dithered silhouette on the paper with no box and no edge. It was
+     a .vmap, which put it through the accent ramp and made a coloured figure
+     out of it — the loudest object on a page built for institutional readers,
+     and the wrong class besides. A map is footage you look at. A veil is
+     atmosphere you look through, which is what this clip has always been.
+
+     No grid here — a tier-one asset and a tier-four texture in the same
+     viewport is two tiers competing. -->
+<header id="top" class="band">
+  <div class="wrap">
+    <div class="hero-split">
+      <div class="lockup lockup--hero mo-deal">
+        <span class="eyebrow">An invitation</span>
+        <p class="lede" style="font-family:var(--serif);font-size:var(--t-h3);line-height:var(--t-h3-lh);color:var(--ink);max-width:24ch;margin-bottom:var(--sp-5)">
+          The peacebuilding field has more evidence than ever, and too little of it
+          reaches the decisions that matter.
+        </p>
+        <h1 class="lk-head">Peace&nbsp;Intel aims to change that.</h1>
+        <p class="lk-lede">
+          A decision-support platform built on the peacebuilding evidence base, with a
+          research agent that finds, compares and applies what the literature already
+          knows. Every claim traceable to the passage it came from.
+        </p>
+        <div class="lk-actions">
+          <a class="btn tint lg" href="#access">Request access</a>
+          <a class="btn ghost lg" href="#console">See it work</a>
+        </div>
+      </div>
+
+      <div class="veil" style="--veil-o:.34;aspect-ratio:4/3">
+        <video src="media/veil-dove.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+      </div>
+    </div>
+
+    <div class="orgs" style="margin-top:var(--sp-16)">
+      <span class="eyebrow eb-3 faint">A project of</span>
+      <img src="media/epi.png" alt="Effective Peacebuilding Initiative">
+      <img src="media/afp.png" alt="Alliance for Peacebuilding">
+    </div>
+  </div>
+</header>
+
+<!-- ══ THE CLAIM ════════════════════════════════════════════════════════════ -->
+<section class="band surface--ground">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Introducing Peace Intel</span>
+      <h2>An evidence library, <span class="h-alt">made answerable.</span></h2>
+      <p>
+        Over 5,000 curated papers, evaluations and policy analyses, fully parsed and
+        semantically processed, read by a research system the way a researcher would read
+        them. Ask a real question. Get a traceable answer.
+      </p>
+    </div>
+
+    <div class="rule-row" style="--cols:3;margin-top:var(--sp-12)">
+      <div>
+        <span class="eyebrow eb-4">What it holds</span>
+        <h3 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">5,000+ curated sources.</h3>
+        <p class="note">Papers, field evaluations and policy analysis, fully parsed rather than catalogued by abstract.</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-4">How it answers</span>
+        <h3 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">Answers, not documents.</h3>
+        <p class="note">It follows citation chains, compares findings across studies, and connects a question to the most relevant cases.</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-4">Why it is trusted</span>
+        <h3 style="font-family:var(--serif);font-size:var(--t-h4);margin-top:var(--sp-2)">Named, cited, traceable.</h3>
+        <p class="note">Every claim links to the study behind it and every citation points to the exact passage. No black-box assertions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE CONSOLE ══════════════════════════════════════════════════════════
+     The page's subject, and so the one registered element on it. A landing
+     page that shows a browser-chrome mockup is showing a picture of software;
+     this is the software's own shell, built from the same blocks the product
+     ships, which is the whole argument the brand system is making. -->
+<section id="console" class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">See it work</span>
+      <h2>A question, and where the answer came from.</h2>
+    </div>
+
+    <!-- Unmounted since 2026-10-14, when the mount was retired: the console
+         figure's own edge is its frame. -->
+    <div style="margin-top:var(--sp-10);margin-bottom:var(--sp-16)">
+      <div class="app console-figure" data-figure>
+        <div class="app-top">
+          <span class="nav-mark"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></span>
+          <span class="badge">Beta</span>
+          <span class="spacer"></span>
+          <div class="seg mono">
+            <button aria-pressed="true">Evidence</button>
+            <button aria-pressed="false">Case facts</button>
+          </div>
+        </div>
+        <div class="app-body">
+          <aside class="app-rail">
+            <div class="pane-head"><span class="ph-t">Threads</span></div>
+            <div class="pane-body">
+              <button class="thread" aria-current="true">
+                <div class="th-t">Darfur 2003–2011: who intervened and what resulted</div>
+                <div class="th-m">12 sources · today</div>
+              </button>
+              <button class="thread">
+                <div class="th-t">Does third-party mediation reduce recurrence?</div>
+                <div class="th-m">8 sources · yesterday</div>
+              </button>
+            </div>
+          </aside>
+
+          <main class="app-main">
+            <div class="app-scroll">
+              <div class="chat">
+                <div class="msg user">
+                  <div class="who">You</div>
+                  <div class="bubble">What happened in Darfur between 2003 and 2011? Who intervened, what did they do, and what resulted?</div>
+                </div>
+                <div class="msg agent">
+                  <div class="who">Peace Intel</div>
+                  <h3 class="answer-h">Three interventions, three different failures.</h3>
+                  <div class="body">
+                    <p>Three distinct efforts, worth separating because they failed for different reasons. The African Union deployed <strong>AMIS</strong> in 2004 with a monitoring mandate it was never resourced to fulfil <span class="cite t1"><span class="cm">&#9679;</span>1</span>. Its successor <strong>UNAMID</strong> was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested <span class="cite t2"><span class="cm">&#9680;</span>2</span>.</p>
+                    <p>A frequently cited displacement figure does not trace to a primary source in this corpus <span class="cite t3"><span class="cm">&#8599;</span>3</span>, so treat it with caution.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </main>
+
+          <aside class="app-pane">
+            <div class="pane-head"><span class="ph-t">Sources</span><button class="act sm">Filter</button></div>
+            <div class="pane-body">
+              <button class="src-chip active"><span class="n">1</span><span class="tt">de Waal, <em>War in Darfur</em></span><span class="sx">Ingested</span></button>
+              <button class="src-chip"><span class="n">2</span><span class="tt">Lynch, <em>Peacekeeping in Darfur</em></span><span class="sx">Abstract</span></button>
+              <button class="src-chip t3"><span class="n">3</span><span class="tt">Displacement figure</span><span class="sx">Web</span></button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EVIDENCE TIERS ═══════════════════════════════════════════════════════
+     Product-critical, and the thing that makes "traceable" mean something
+     rather than being a word on a landing page. -->
+<section class="band surface--ground textured textured--band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">How to read a citation</span>
+      <h2>A gradient of trust, <span class="h-alt">stated visually.</span></h2>
+      <p>
+        Not every source is equally strong, and a system that hides that is asking to be
+        trusted rather than earning it. Every citation carries its tier on its face.
+      </p>
+    </div>
+
+    <div class="tier-row" style="margin-top:var(--sp-10)">
+      <div class="card raised">
+        <span class="cite t1"><span class="cm">&#9679;</span>1</span>
+        <h3>Ingested</h3>
+        <p>The full text is in the corpus. The citation points at the passage, and you can read the surrounding argument.</p>
+      </div>
+      <div class="card raised">
+        <span class="cite t2"><span class="cm">&#9680;</span>2</span>
+        <h3>Abstract</h3>
+        <p>The abstract is held and the full text is not. Enough to place a finding, not enough to verify how it was reached.</p>
+      </div>
+      <div class="card raised">
+        <span class="cite t3"><span class="cm">&#8599;</span>3</span>
+        <h3>Web</h3>
+        <p>Found outside the corpus. Deliberately carries no accent colour at all, because it has not been through the same scrutiny.</p>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:var(--sp-10);max-width:var(--measure-prose)">
+      <span class="eyebrow eb-3">The tell</span>
+      <p style="margin-top:var(--sp-2)">
+        Solid, hollow, dashed. The shape carries the meaning, so the tiers survive a
+        colourblind reader, a greyscale print and any future change to the palette.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ AUDIENCES ════════════════════════════════════════════════════════════ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Who it is for</span>
+      <h2>Two kinds of decision.</h2>
+    </div>
+    <div class="grid-2" style="margin-top:var(--sp-10);gap:var(--sp-6)">
+      <div class="card raised has-violator">
+        <span class="violator">Now in pilot</span>
+        <span class="eyebrow eb-3">Funders</span>
+        <h3 style="margin-top:var(--sp-3)">Where the evidence already points.</h3>
+        <p>Strategic briefings, portfolio evidence reviews, proposal due diligence, and the gaps worth funding next.</p>
+      </div>
+      <div class="card raised">
+        <span class="eyebrow eb-3">Implementers</span>
+        <h3 style="margin-top:var(--sp-3)">What has worked in a context like this one.</h3>
+        <p>For senior leadership, programme managers and practitioners: logic chains, context-matched sources, and briefs you can hand to a funder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ THE CORPUS ═══════════════════════════════════════════════════════════
+     The rendered grid: it develops as the band arrives, which is the corpus
+     assembling. It was a gradient field until the fields were removed on
+     2026-10-15. -->
+<section class="band gx gx--render" data-gx>
+  <canvas class="gx-c" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="lockup lockup--section" style="max-width:var(--measure-lead)">
+      <span class="eyebrow">The corpus</span>
+      <h2 class="lk-head">Decades of evidence, in one queryable place.</h2>
+      <p class="lk-lede">
+        Assembled and curated by the Effective Peacebuilding Initiative and the Alliance
+        for Peacebuilding, and growing.
+      </p>
+    </div>
+
+    <div class="stat-row" style="margin-top:var(--sp-14)">
+      <div class="stat"><span class="n">5,000+</span><span class="l">Curated sources</span></div>
+      <div class="stat"><span class="n">190</span><span class="l">Conflicts mapped</span></div>
+      <div class="stat"><span class="n">4.2M</span><span class="l">Citations indexed</span></div>
+      <div class="stat"><span class="n">1997</span><span class="l">Earliest record</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ACCESS ═══════════════════════════════════════════════════════════════
+     No field, no texture, no gradient behind a form. An input is the one place
+     the system should be plainest, because anything behind the text competes
+     with what the person is typing. -->
+<section id="access" class="band">
+  <div class="wrap">
+    <div class="sec-head centered">
+      <span class="eyebrow">Join Peace Intel</span>
+      <h2>Get early access.</h2>
+      <p>The private beta opens in January 2027. Early access includes the full research findings and a say in what gets built.</p>
+    </div>
+
+    <form class="card raised" style="max-width:var(--col-text);margin:var(--sp-10) auto 0" onsubmit="return false">
+      <div class="form-grid">
+        <label class="field"><span>First name</span><input class="input" type="text" name="first" autocomplete="given-name"></label>
+        <label class="field"><span>Last name</span><input class="input" type="text" name="last" autocomplete="family-name"></label>
+        <label class="field full"><span>Work email</span><input class="input" type="email" name="email" autocomplete="email" placeholder="jane@organisation.org"></label>
+        <label class="field full"><span>Organisation <span class="faint">(optional)</span></span><input class="input" type="text" name="org" autocomplete="organization"></label>
+        <label class="field full"><span>What are you working on? <span class="faint">(optional)</span></span><textarea class="input" name="about" rows="3" placeholder="Your role, the kind of work you do, and what you are hoping to get from Peace Intel"></textarea></label>
+      </div>
+      <div class="row" style="margin-top:var(--sp-6);gap:var(--sp-4);align-items:center">
+        <button class="btn tint lg" type="submit">Request access</button>
+        <span class="note" style="margin:0">We will be in touch to arrange a conversation.</span>
+      </div>
+    </form>
+
+    <p class="note" style="text-align:center;margin-top:var(--sp-6)">
+      Just want to be told when it launches? <a class="btn-text" href="#access">Keep me posted &rarr;</a>
+    </p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <div class="wrap">
+    <div class="grid-3" style="gap:var(--sp-10);align-items:start">
+      <div>
+        <img src="media/epi.png" alt="" style="height:var(--logo-h-sm);width:auto;display:block;opacity:.7;filter:invert(1)">
+        <p class="note" style="margin-top:var(--sp-3)"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <img src="media/afp.png" alt="" style="height:var(--logo-h-sm);width:auto;display:block;opacity:.7;filter:invert(1)">
+        <p class="note" style="margin-top:var(--sp-3)"><strong>Alliance for Peacebuilding</strong><br>alliancepeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note" style="margin-top:var(--sp-3)">We do not share your information with third parties or use it for marketing.</p>
+        <div class="row" style="margin-top:var(--sp-4);gap:var(--sp-4)">
+          <a class="btn-text" href="#access">Privacy policy</a>
+          <a class="btn-text" href="#access">Terms of use</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar" style="margin-top:var(--sp-14)">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="system.js?v=eb50598a"></script>
+</body>
+</html>

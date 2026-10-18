@@ -13,7 +13,7 @@
      Layer 2 semantics, or color-mix() off them.
    - Every text token is solved against a contrast target, not eyeballed, and
      against the HARDEST surface it can legally sit on — not just the page
-     background. brand-reference.html prints the ratios live.
+     background. brand-guide.html prints the ratios live.
 
    ONE THEME. Dark mode was removed on 2026-10-14: Matt found it too heavy and
    too intense for the brand. There is no switch; every page is the light
@@ -553,8 +553,9 @@
   --mo-base: .18s ease;
   --mo-struct: .22s ease;
   --mo-atmos: 1.2s ease;
-  /* THE SHEET (Rev 31, Matt 16 Oct): the phone's library rises from the foot
-     and drops back. Longer than a control because it moves a screen's height,
+  /* THE DRAWERS (Rev 31, as the library sheet; Rev 49, Matt 17 Oct): the
+     phone's chats slide in from the left and its library from the right.
+     Longer than a control because it moves most of a screen,
      decelerating so it lands rather than stops. Dragging it follows the finger
      with no easing at all. The one motion here that moves a surface. */
   --mo-sheet: .32s cubic-bezier(.2, .8, .2, 1);
@@ -660,6 +661,8 @@
      picked it for the call to action on 2026-10-15 and asked for the send
      button to carry the same one the same day. */
   --px-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h-1zM1 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM0 4h1v1h-1z'/%3E%3C/svg%3E");
+  /* The pixel arrow turned to leave: a source that opens off the platform. */
+  --px-arrow-out: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 5' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h4v1h-4zM4 1h1v3h-1zM3 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM0 4h1v1h-1z'/%3E%3C/svg%3E");
   /* A UI icon (2026-10-15): a conventional line icon, Lucide at a 1.5 stroke,
      drawn 18px inside a 32px .icon-btn or the send button. Pixel icons are for
      page content; inside the product's controls they read as noise. */

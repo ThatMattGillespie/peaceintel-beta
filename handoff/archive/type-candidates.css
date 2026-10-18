@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   HEADLINE SERIF CANDIDATES — reference furniture, not the system
+   ---------------------------------------------------------------------------
+   Every face Pl. 21 and type-test.html compare, in one file so the test page
+   can inject it into a real page. The Google faces load their whole weight
+   range; Baskerville Punch is served from Fonts/; the commercial faces are
+   local() aliases, found only if installed on the computer viewing the page,
+   and never downloaded.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Newsreader:opsz,wght@6..72,200..800&family=EB+Garamond:wght@400..800&family=Cormorant+Garamond:wght@300..700&family=Literata:opsz,wght@7..72,200..900&family=Source+Serif+4:opsz,wght@8..60,200..900&family=Libre+Baskerville:wght@400..700&family=Baskervville:wght@400..700&family=Charis+SIL:wght@400;700&family=Merriweather:opsz,wght@18..144,300..900&family=Noto+Serif:wght@100..900&family=Gelasio:wght@400..700&family=Spectral:wght@200;300;400;500;600;700;800&family=Crimson+Pro:wght@200..900&family=PT+Serif:wght@400;700&family=Petrona:wght@100..900&family=Brygada+1918:wght@400..700&family=Andada+Pro:wght@400..840&display=swap");
+
+/* The faces that are not on Google Fonts. Baskerville Punch is open
+   (OFL) and served from Fonts/. The commercial ones are local() only: each
+   alias is found if the font is installed on the computer viewing the page,
+   under any of the names foundries give it, and is never downloaded. */
+@font-face { font-family: "Baskerville Punch"; src: url("../../Fonts/BaskervillePunch/BaskervillePunch-Text.woff2") format("woff2"); font-weight: 400; font-display: swap }
+@font-face { font-family: "Baskerville Punch"; src: url("../../Fonts/BaskervillePunch/BaskervillePunch-TextBold.woff2") format("woff2"); font-weight: 700; font-display: swap }
+@font-face { font-family: "PI Try Founders Caslon"; font-weight: 400; src: local("ITC Founders Caslon 30"), local("ITC Founder's Caslon 30"), local("ITC Founders Caslon 30 Regular"), local("FoundersCaslon30ITC-Regular"), local("FoundersCaslonITC-Thirty"), local("ITC Founders Caslon 42"), local("ITC Founder's Caslon 42"), local("ITC Founders Caslon 12"), local("ITC Founder's Caslon 12"), local("ITC Founders Caslon 12 Regular"), local("FoundersCaslon12ITC-Regular") }
+@font-face { font-family: "PI Try FS Brabo"; font-weight: 300; src: local("FS Brabo Light"), local("FS Brabo Pro Light"), local("FSBrabo-Light"), local("FSBraboPro-Light") }
+@font-face { font-family: "PI Try FS Brabo"; font-weight: 400; src: local("FS Brabo"), local("FS Brabo Regular"), local("FS Brabo Pro"), local("FS Brabo Pro Regular"), local("FSBrabo-Regular"), local("FSBraboPro-Regular") }
+@font-face { font-family: "PI Try FS Brabo"; font-weight: 500; src: local("FS Brabo Medium"), local("FS Brabo Pro Medium"), local("FSBrabo-Medium"), local("FSBraboPro-Medium") }
+@font-face { font-family: "PI Try FS Brabo"; font-weight: 600; src: local("FS Brabo SemiBold"), local("FS Brabo Semibold"), local("FS Brabo Pro SemiBold"), local("FS Brabo Pro Semibold"), local("FSBrabo-SemiBold"), local("FSBrabo-Semibold"), local("FSBraboPro-SemiBold"), local("FSBraboPro-Semibold") }
+@font-face { font-family: "PI Try FS Brabo"; font-weight: 700; src: local("FS Brabo Bold"), local("FS Brabo Pro Bold"), local("FSBrabo-Bold"), local("FSBraboPro-Bold") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 200; src: local("The Picnic Club ExtraLight"), local("Picnic Club ExtraLight"), local("ThePicnicClub-ExtraLight"), local("PicnicClub-ExtraLight") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 300; src: local("The Picnic Club Light"), local("Picnic Club Light"), local("ThePicnicClub-Light"), local("PicnicClub-Light") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 400; src: local("The Picnic Club"), local("The Picnic Club Regular"), local("Picnic Club"), local("Picnic Club Regular"), local("ThePicnicClub-Regular"), local("PicnicClub-Regular") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 500; src: local("The Picnic Club Medium"), local("Picnic Club Medium"), local("ThePicnicClub-Medium"), local("PicnicClub-Medium") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 600; src: local("The Picnic Club SemiBold"), local("Picnic Club SemiBold"), local("ThePicnicClub-SemiBold"), local("PicnicClub-SemiBold") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 700; src: local("The Picnic Club Bold"), local("Picnic Club Bold"), local("ThePicnicClub-Bold"), local("PicnicClub-Bold") }
+@font-face { font-family: "PI Try Picnic Club"; font-weight: 800; src: local("The Picnic Club ExtraBold"), local("Picnic Club ExtraBold"), local("ThePicnicClub-ExtraBold"), local("PicnicClub-ExtraBold") }
+@font-face { font-family: "PI Try Baskerville Neo"; font-weight: 300; src: local("Baskerville Neo Display Light"), local("Baskerville Neo Display Pro Light"), local("Baskerville Neo Light"), local("BaskervilleNeoDisplay-Light"), local("BaskervilleNeoDisplayPro-Light"), local("BaskervilleNeo-Light") }
+@font-face { font-family: "PI Try Baskerville Neo"; font-weight: 400; src: local("Baskerville Neo Display"), local("Baskerville Neo Display Regular"), local("Baskerville Neo Display Pro"), local("Baskerville Neo Display Pro Regular"), local("Baskerville Neo"), local("Baskerville Neo Regular"), local("BaskervilleNeoDisplay-Regular"), local("BaskervilleNeoDisplayPro-Regular"), local("BaskervilleNeo-Regular") }
+@font-face { font-family: "PI Try Baskerville Neo"; font-weight: 500; src: local("Baskerville Neo Display Medium"), local("Baskerville Neo Display Pro Medium"), local("Baskerville Neo Medium"), local("BaskervilleNeoDisplay-Medium"), local("BaskervilleNeoDisplayPro-Medium"), local("BaskervilleNeo-Medium") }
+@font-face { font-family: "PI Try Baskerville Neo"; font-weight: 600; src: local("Baskerville Neo Display SemiBold"), local("Baskerville Neo Display Semibold"), local("Baskerville Neo Display Pro SemiBold"), local("Baskerville Neo Display Pro Semibold"), local("Baskerville Neo SemiBold"), local("Baskerville Neo Semibold"), local("BaskervilleNeoDisplay-SemiBold"), local("BaskervilleNeoDisplay-Semibold"), local("BaskervilleNeoDisplayPro-SemiBold"), local("BaskervilleNeoDisplayPro-Semibold"), local("BaskervilleNeo-SemiBold"), local("BaskervilleNeo-Semibold") }
+@font-face { font-family: "PI Try Baskerville Neo"; font-weight: 700; src: local("Baskerville Neo Display Bold"), local("Baskerville Neo Display Pro Bold"), local("Baskerville Neo Bold"), local("BaskervilleNeoDisplay-Bold"), local("BaskervilleNeoDisplayPro-Bold"), local("BaskervilleNeo-Bold") }
+@font-face { font-family: "PI Try Mrs Eaves XL"; font-weight: 300; src: local("Mrs Eaves XL Serif OT Light"), local("Mrs Eaves XL Serif Light"), local("MrsEavesXLSerifOT-Light"), local("MrsEavesXLSerif-Light") }
+@font-face { font-family: "PI Try Mrs Eaves XL"; font-weight: 400; src: local("Mrs Eaves XL Serif OT"), local("Mrs Eaves XL Serif OT Reg"), local("Mrs Eaves XL Serif OT Regular"), local("Mrs Eaves XL Serif"), local("Mrs Eaves XL Serif Reg"), local("Mrs Eaves XL Serif Regular"), local("MrsEavesXLSerifOT-Reg"), local("MrsEavesXLSerifOT-Regular"), local("MrsEavesXLSerif-Reg"), local("MrsEavesXLSerif-Regular"), local("mrs-eaves-xl-serif") }
+@font-face { font-family: "PI Try Mrs Eaves XL"; font-weight: 700; src: local("Mrs Eaves XL Serif OT Bold"), local("Mrs Eaves XL Serif Bold"), local("MrsEavesXLSerifOT-Bold"), local("MrsEavesXLSerif-Bold") }
+@font-face { font-family: "PI Try Monotype Baskerville"; font-weight: 400; src: local("Baskerville"), local("Baskerville-Regular"), local("Monotype Baskerville"), local("BaskervilleMT") }
+@font-face { font-family: "PI Try Monotype Baskerville"; font-weight: 600; src: local("Baskerville SemiBold"), local("Baskerville-SemiBold") }
+@font-face { font-family: "PI Try Monotype Baskerville"; font-weight: 700; src: local("Baskerville Bold"), local("Baskerville-Bold"), local("BaskervilleMT-Bold") }
+
+/* Cooper* (Owen Earl, indestructible type*, 2024, OFL): a revival of Oswald
+   Cooper's Cooper Old Style of 1919 and the heavier cuts after it, one
+   variable file from 400 to 900, served from Fonts/. */
+@font-face { font-family: "Cooper Star"; src: url("../../Fonts/Cooper/Cooper-Variable.woff2") format("woff2"); font-weight: 400 900; font-display: swap }
+/* Two faces of Source Serif's kind that every Mac has. */
+@font-face { font-family: "PI Try Charter"; font-weight: 400; src: local("Charter Roman"), local("Charter-Roman") }
+@font-face { font-family: "PI Try Charter"; font-weight: 700; src: local("Charter Bold"), local("Charter-Bold") }
+@font-face { font-family: "PI Try Charter"; font-weight: 900; src: local("Charter Black"), local("Charter-Black") }
+@font-face { font-family: "PI Try Iowan Old Style"; font-weight: 400; src: local("Iowan Old Style Roman"), local("IowanOldStyle-Roman") }
+@font-face { font-family: "PI Try Iowan Old Style"; font-weight: 700; src: local("Iowan Old Style Bold"), local("IowanOldStyle-Bold") }
+@font-face { font-family: "PI Try Iowan Old Style"; font-weight: 900; src: local("Iowan Old Style Black"), local("IowanOldStyle-Black") }

@@ -12,9 +12,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=256d5f62">
-<link rel="stylesheet" href="components.css?v=8d4342df">
-<link rel="stylesheet" href="explorations.css?v=a10e7f9b">
+<link rel="stylesheet" href="tokens.css?v=12724ec5">
+<link rel="stylesheet" href="components.css?v=902c0e14">
+<link rel="stylesheet" href="explorations.css?v=45ac9467">
 <style>
   /* ── Page-level composition only. ──────────────────────────────────────────
      Everything visual comes from the catalog. What is here is the handful of
@@ -60,16 +60,18 @@
 </head>
 <body>
 
-<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
-<nav class="nav">
-  <div class="nav-in">
-    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="media/peaceintel-logo-dark.png?v=v6" alt=""></a>
-    <div class="nav-links">
+<!-- ══ THE FLOATING BAR (Pl. 19 · B, adopted 16 Oct) ════════════════════════
+     As on Home: the face and an edge, set in to the body's edges; on the way
+     down it pulls in to the whole logo, centred (system.js, floatNav). -->
+<header class="fnav" data-fnav>
+  <div class="fnav-in">
+    <a class="fnav-mark" href="#top" aria-label="Peace Intel, back to the top"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></a>
+    <nav class="fnav-links" aria-label="Main">
       <a class="btn ghost sm" href="#access">Sign in</a>
       <a class="btn tint sm" href="#access">Request access</a>
-    </div>
+    </nav>
   </div>
-</nav>
+</header>
 
 <!-- ══ HERO ═════════════════════════════════════════════════════════════════
      The one tier-one element on the page. The dove is a VEIL, not a map: a

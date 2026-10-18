@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    PEACE INTEL · REFERENCE CHROME
-   The specimen sheet's own furniture, shared by brand-reference.html and
+   The specimen sheet's own furniture, shared by brand-guide.html and
    archive.html: plate numbering, spec heads, the theme bar, the archive sheet.
    Not part of the delivered system; a product page never loads it.
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -359,8 +359,7 @@
   /* Pl. 18: documentary images. */
   .doc-band { padding: var(--sp-10) }
   .doc-pair { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: var(--sp-10); align-items: center }
-  .doc-fig { margin: 0; min-width: 0 }
-  .doc-fig figcaption { margin-top: var(--sp-3); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55); max-width: 64ch }
+  /* .doc-fig and its caption moved to explorations.css (16 Oct, home.html). */
   .doc-fig--sm { width: min(100%, calc(var(--sp-16) * 5)); margin-top: var(--sp-10) }
   .doc-fig--lg { margin-bottom: var(--sp-6) }
   @media (max-width: 900px) { .doc-pair { grid-template-columns: minmax(0, 1fr) } .doc-band { padding: var(--sp-6) } }
@@ -515,4 +514,12 @@
 .ls-fig figcaption b { display: block; margin-bottom: var(--sp-1); font-weight: 600; color: var(--ink) }
 .ls-stage .step { grid-template-columns: var(--sp-10) minmax(0, 1fr); gap: var(--sp-4); padding: var(--sp-4) 0 }
 @media (max-width: 900px) { .ls-grid { grid-template-columns: minmax(0, 1fr) } .ls-stage { padding: var(--sp-5) } }
+/* Pl. 17: the ask, four forms. */
+.ask-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-10) var(--sp-8); margin-top: var(--sp-8) }
+.ask-stage { padding: var(--sp-8); border: 1px solid var(--line); border-radius: var(--r-md); background: var(--bg); min-width: 0 }
+.ask-stage .ask { max-width: none }
+.ask-stage .ask .pills.tray { flex-wrap: wrap }
+.ask-fig figcaption { margin-top: var(--sp-3); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.ask-fig figcaption b { display: block; margin-bottom: var(--sp-1); font-weight: 600; color: var(--ink) }
+@media (max-width: 900px) { .ask-grid { grid-template-columns: minmax(0, 1fr) } .ask-stage { padding: var(--sp-5) } }
 

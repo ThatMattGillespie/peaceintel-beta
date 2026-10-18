@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Console Prototype</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=c23b99a4">
+<link rel="stylesheet" href="components.css?v=902c0e14">
+<link rel="stylesheet" href="explorations.css?v=45ac9467">
+<link rel="stylesheet" href="reference.css?v=72b99065">
+<!-- THE REPORT, a template (exploration, 15 October). What a project's
+     written artifact looks like when it leaves the console: an A4 document
+     built from the system's parts. Print it, or save it as a PDF from the
+     browser's print dialog; the pages, cover, running head and folio come
+     from the print styles. The content is the console's Portfolio appraisal;
+     the programmes are fictional and the forest plot's values illustrative. -->
+<style>
+  /* The running head and folio: the one thing only this page knows, its title. */
+  @page { @top-left { content: "Peace Intel · Portfolio appraisal, draft 2"; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) } @bottom-right { content: counter(page) " / " counter(pages); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) } }
+  @page cover { @top-left { content: none } @bottom-right { content: none } }
+</style>
+</head>
+<body>
+<main class="rp">
+
+  <section class="rp-sheet rp-cover" aria-label="Cover">
+    <img class="rp-logo" src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel">
+    <p class="rp-kind">Portfolio appraisal · Draft 2</p>
+    <h1>Livelihood programmes and recruitment in the Sahel</h1>
+    <p class="lede">Five programmes, appraised against the evidence before the March board: what the studies support, where the claims outrun them, and what to fund next.</p>
+    <dl class="rp-meta">
+      <div><dt>Prepared for</dt><dd>The programme committee</dd></div>
+      <div><dt>Prepared in</dt><dd>Sahel portfolio review, Peace Intel</dd></div>
+      <div><dt>Date</dt><dd>12 October 2026</dd></div>
+    </dl>
+    <p class="rp-key" aria-label="How to read the citations"><span><b class="t1">&#9679;</b> Full text read</span><span><b class="t2">&#9680;</b> Abstract only</span><span><b>&#8599;</b> Web source, treat with caution</span></p>
+  </section>
+
+  <section class="rp-sheet">
+    <div class="rp-run" aria-hidden="true"><span>Peace Intel · Portfolio appraisal, draft 2</span><span>Page 2</span></div>
+    <div class="rp-body">
+      <section class="st-sec"><div class="st-num"><span class="st-n">01</span><span class="st-l">Summary</span></div><div class="st-body">
+        <h3>Two programmes rest on strong evidence; two claim more than any study supports.</h3>
+        <p>Of the five livelihood programmes, two rest on strong evidence for their stated aim and one on moderate evidence. Two claim an effect on recruitment that no study in this project supports.</p>
+        <div class="rp-finding"><b>The finding</b><p>Income alone rarely moves recruitment into armed groups. Support that reaches the young people armed groups are already approaching has the strongest record.</p></div>
+      </div></section>
+
+      <section class="st-sec"><div class="st-num"><span class="st-n">02</span><span class="st-l">The evidence</span></div><div class="st-body">
+        <h3>What the evidence supports</h3>
+        <p>Income alone rarely moves recruitment into armed groups <span class="cite t1"><span class="cm">&#9679;</span>1</span> <span class="cite t2"><span class="cm">&#9680;</span>2</span>. Support that reaches young people already approached by armed groups, and pairs income with a stake in local decisions, has the strongest record <span class="cite t1"><span class="cm">&#9679;</span>3</span>.</p>
+        <p>Conflict-resolution training has the most rigorous recent evidence in the region, from a 2026 cluster trial in Niger <span class="cite t1"><span class="cm">&#9679;</span>4</span>.</p>
+        <figure class="viz">
+          <figcaption class="viz-h"><b>Effect on intention to join an armed group</b><span>Standardised mean difference with its 95&nbsp;percent confidence interval</span></figcaption>
+          <div class="forest" style="--zero:25%" role="img" aria-label="Forest plot. Programme A 0.28, C 0.22, B 0.10, D 0.03, E minus 0.02; pooled 0.14, interval 0.05 to 0.23.">
+<div class="fp-row"><span class="fp-l">Programme A<small>Evaluation, 2024</small></span><span class="fp-t" style="--lo:40.0%;--est:60.0%;--hi:80.0%"><i class="fp-ci"></i><i class="fp-pt" aria-hidden="true">●</i></span><span class="fp-v">0.28 [0.12, 0.44]</span></div>
+<div class="fp-row"><span class="fp-l">Programme C<small>Evaluation, 2025</small></span><span class="fp-t" style="--lo:31.2%;--est:52.5%;--hi:73.8%"><i class="fp-ci"></i><i class="fp-pt" aria-hidden="true">●</i></span><span class="fp-v">0.22 [0.05, 0.39]</span></div>
+<div class="fp-row"><span class="fp-l">Programme B<small>Evaluation, 2023</small></span><span class="fp-t" style="--lo:17.5%;--est:37.5%;--hi:57.5%"><i class="fp-ci"></i><i class="fp-pt" aria-hidden="true">◐</i></span><span class="fp-v">0.10 [−0.06, 0.26]</span></div>
+<div class="fp-row"><span class="fp-l">Programme D<small>Evaluation, 2024</small></span><span class="fp-t" style="--lo:6.3%;--est:28.7%;--hi:51.2%"><i class="fp-ci"></i><i class="fp-pt" aria-hidden="true">◐</i></span><span class="fp-v">0.03 [−0.15, 0.21]</span></div>
+<div class="fp-row"><span class="fp-l">Programme E<small>Evaluation, 2022</small></span><span class="fp-t" style="--lo:2.5%;--est:22.5%;--hi:42.5%"><i class="fp-ci"></i><i class="fp-pt" aria-hidden="true">◐</i></span><span class="fp-v">−0.02 [−0.18, 0.14]</span></div>
+<div class="fp-row fp-pool"><span class="fp-l">All five, pooled</span><span class="fp-t" style="--lo:31.2%;--est:42.5%;--hi:53.8%;--peak:50.0%"><i class="fp-pt" aria-hidden="true"></i></span><span class="fp-v">0.14 [0.05, 0.23]</span></div>
+            <span></span><div class="fp-axis"><span style="left:0.0%">−0.20</span><span style="left:25.0%">0</span><span style="left:50.0%">0.20</span><span style="left:75.0%">0.40</span><span style="left:100.0%">0.60</span></div><span></span>
+            <span></span><div class="fp-dir"><span>&larr; Favours comparison</span><span>Favours programme &rarr;</span></div><span></span>
+          </div>
+          <p class="viz-src">Each estimate is drawn with its source&rsquo;s tier. <span class="viz-flag">Illustrative values</span></p>
+        </figure>
+      </div></section>
+
+      <section class="st-sec"><div class="st-num"><span class="st-n">03</span><span class="st-l">The programmes</span></div><div class="st-body">
+        <h3>The five programmes</h3>
+        <p>Programmes A and C target the right people and measure the right outcome. Programme B measures jobs created, and would need a recruitment measure to support its claim. Programmes D and E are cash-for-work schemes with no violence outcome: fund them for income, which they deliver, and not for peace, which they do not measure.</p>
+        <div class="sheet-v"><table class="sheet-t">
+          <thead><tr><th scope="col">Programme</th><th scope="col">Who it reaches</th><th scope="col">What it measures</th><th scope="col">Evidence</th><th scope="col">Recommendation</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">A</th><td>Young men already approached by armed groups</td><td>Recruitment</td><td>Strong</td><td>Keep</td></tr>
+            <tr><th scope="row">B</th><td>Unemployed young people</td><td>Jobs created</td><td>Moderate</td><td>Add a recruitment measure</td></tr>
+            <tr><th scope="row">C</th><td>Returnees and their families</td><td>Recruitment and local trust</td><td>Strong</td><td>Keep</td></tr>
+            <tr><th scope="row">D</th><td>Households, cash for work</td><td>Income</td><td>None on violence</td><td>Fund for income</td></tr>
+            <tr><th scope="row">E</th><td>Women&rsquo;s savings groups</td><td>Income</td><td>None on violence</td><td>Fund for income</td></tr>
+          </tbody>
+        </table></div>
+      </div></section>
+
+      <section class="st-sec"><div class="st-num"><span class="st-n">04</span><span class="st-l">Gaps</span></div><div class="st-body">
+        <h3>Gaps worth funding</h3>
+        <p>No study in this project follows participants for more than three years, and none covers women recruited into armed groups. Either would be a contribution to the field as well as to the portfolio.</p>
+      </div></section>
+
+      <section class="st-sec"><div class="st-num"><span class="st-n">05</span><span class="st-l">Sources</span></div><div class="st-body">
+        <h3>Sources</h3>
+        <ol class="rp-refs">
+          <li><span class="n">1 <i>&#9679;</i></span><span>Berman, E., Callen, M., Felter, J. H. and Shapiro, J. N. (2011). <em>Do Working Men Rebel? Insurgency and Unemployment in Afghanistan, Iraq, and the Philippines.</em> Journal of Conflict Resolution. Full text read.</span></li>
+          <li><span class="n">2 <i>&#9680;</i></span><span>Mercy Corps (2015). <em>Youth and Consequences: Unemployment, Injustice and Violence.</em> Abstract only.</span></li>
+          <li><span class="n">3 <i>&#9679;</i></span><span>Blattman, C. and Annan, J. (2016). <em>Can Employment Reduce Lawlessness and Rebellion? A Field Experiment with High-Risk Men in a Fragile State.</em> American Political Science Review. Full text read.</span></li>
+          <li><span class="n">4 <i>&#9679;</i></span><span>Olawole, Ribar, Sheely et al. (2026). <em>Equipped for Peace: Conflict Resolution Training and Youth Violence.</em> Full text read.</span></li>
+        </ol>
+        <p class="note" style="margin-top:var(--sp-6)">Made in Peace Intel from the project&rsquo;s context and the library. Each citation carries its source&rsquo;s tier: whether the full text was read, only its abstract, or a web page.</p>
+      </div></section>
+    </div>
+  </section>
+
+</main>
+</body>
+</html>

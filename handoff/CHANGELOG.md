@@ -1,5 +1,10 @@
 # Peace Intel design system — changelog
 
+> **History, not instructions.** Entries below were often reversed by later ones: the brown
+> accent, DIN 2014, the dark theme, gradients, shadows at rest, Pl. numbers and option codes all
+> changed. For what is true now, read `AGENTS.md`, `CONSOLE.md` and the CSS. Codes in old entries
+> (16 · 4A2, 21 · H3) were renumbered; the archive's start AR.
+
 Every revision of the handoff, oldest first: what changed and why. This was HANDOFF.md until
 Rev 19 (2026-10-15), when HANDOFF.md became a short guide to adopting the current system and
 this history moved here. Statements below are true as of the revision they sit under; where a
@@ -1356,4 +1361,165 @@ prototypes.js (`7A2`). All restored from the pre-Rev-32 copies and checked again
   to six seconds) instead of the drift; `system.js`'s driver is `docGlitch` again.
 - **The archive is AR.** Plates are AR 01 to AR 28, each with the plate it came from; codes and
   option letters inside take the plate number (AR 20 · D6, AR 22 · K).
+
+## Rev 37 · ready for handoff: one console spec, one ignore list, files where they belong (2026-10-16)
+
+- **`CONSOLE.md`** (new): the console written down, apart from the mock code. Status of each part,
+  the desktop console, narrow screens (1080 and 620), search, share and export, what a paper opens
+  to with the data each view needs, keyboard and focus, what is illustrative, the production
+  features the prototype does not draw (H1.1 to H1.18) and the interface words that differ (H8),
+  both with Matt's verdicts pending, and twelve reference screenshots.
+- **AGENTS.md opens with what to trust, what to ignore and what may ship**: a status table
+  (Stable; decided, not on a page; used by a worked page but still in explorations.css; open;
+  archived) and the files that look authoritative and are not.
+- **HANDOFF.md** brought to Rev 37: CONSOLE.md in the start and the package, "What changed since
+  you last looked", the repo map flagged to be re-checked, adoption step 5 with what is now Stable.
+- **Files moved to `archive/`**: the eleven `explore-*.html` drafts with `review.css` and
+  `review.js`, `sans-test.html` with `sans-candidates.css`, and `type-candidates.css`. Their paths
+  were rewritten and each was loaded to check it.
+- **Stale facts fixed**: AGENTS.md's `--t-body` (16, not 15); explorations.css's header, now by
+  status; the dead `nav-menu` action in prototypes.js.
+- **Outside `handoff/`**: `DESIGN-TOKENS.md` is marked superseded at its top; the root CLAUDE.md
+  names the old consoles; each of the 24 root pages carries a comment saying it predates the
+  system (no visible change).
+- **Screenshots retaken**: the seven in `media/snapshots/`, and a new set of console states in
+  `media/snapshots/console/`.
+- **Open question for Matt**: the veil, the ask and the margin are used by the worked pages but
+  still live in `explorations.css`.
+
+## Rev 38 · Home on the guide as it stands (2026-10-16)
+
+Matt asked for `home.html` redesigned from the latest refinements. Copy, sections and order are
+unchanged; what changed is what the guide has decided since the page was drafted.
+
+- **The floating bar (Pl. 19 · B)** replaces `.nav` on Home, with three text links (The evidence,
+  Who it is for, Workflows), Sign in and Try it now. New in `explorations.css`: `.fnav + .screen`
+  is the whole window, because the bar takes no room in the flow. Landing and Rotary keep `.nav`.
+- **The documentary picture (Pl. 18 · A1)** replaces the Rotary set's open book on the corpus
+  band: the Mosul street, dark-mapped, with the glitch's bursts, captioned with place, date and
+  credit. The heading now sits over the picture and the figures run beside both, because at
+  `--t-stat` (72px) the ledger is the taller column; the band is one screen again (812px, was
+  1,039). `.doc-fig` and its caption moved from `reference.css` to `explorations.css`, and its
+  margin reset is `:where()` so a layout block can still space it.
+- **The logo and the brand line** open Home's footer: `.brand-sign` (new in `components.css`),
+  the line a logo's height under the dark logo, at `--t-h2`, left on the brackets, with a hairline
+  before the partner columns. Pl. 06 names the class.
+- **No `data-theme`** on Home's root, since there is no theme to set.
+- **Not changed, for Matt:** the headline runs to four lines at 64px against Pl. 02's two-line
+  note; the margin's moving image (16 · M1) was left off, because Home's five-column points and
+  three-card row would lose the margin's 240px; the offer cards stay level 1 (a ghost button in
+  the foot), as Pl. 09 shows them.
+
+## Rev 39 · Matt's handoff verdicts, built (2026-10-16)
+
+Matt answered every open point (H1, H8, H9, H10). Written into `CONSOLE.md` sections 8 and 9,
+AGENTS.md's status table and HANDOFF.md, and built:
+
+- **The console** (`prototypes.js`, `components.css`): an `.evi-group` after every answer, *In the
+  library* then *Web source*, each row opening the quick view first; the quick view shows where
+  the original source link goes; a quiet foot line (*25 tools used*, folded; copy with citations;
+  two votes); the *Wrap up this session* suggestion under the last answer; the paperclip with
+  attachment chips; Eirene as an answer mode, removed from the top bar; the version badge as bare
+  mono; a staff-only *All users* toggle on the rail's Recent line. Words: Download PDF, Original
+  source, Search chats and projects, the new-chat placeholder with its ellipsis.
+- **Moved to components.css as Stable**: the veil and the still, the console's projects, context,
+  memory, artifacts, dialogs and finder, the margin, the floating bar (Matt: build them).
+- **`.step` opens with its line** (Pl. 16 · S2): a hairline on top, the first of a run at
+  `--line-2`. Rotary's steps follow.
+- **The glitch is adopted** as the one timed effect, documentary pictures only; AGENTS.md names it
+  and the library sheet as the two exceptions to the closed set of motion.
+- **Landing takes the floating bar**, as Home did in Rev 38. Rotary keeps `.nav`.
+- **Pl. 17, the ask** (Exploration): four forms, A as on Home, B the console's composer with rows,
+  C a sentence, D chips in the box.
+- **The production repo, read**: StyleGuide.jsx (recommend deleting the page and route),
+  adminTokens.js, the agent's own design notes and memory; in HANDOFF.md.
+- `brand-board.html` is internal. The brown accent was old branding; dark mode is a later sprint.
+- Rev 38 (Home, written by another session the same evening) is unchanged by this.
+
+## Rev 40 · the brand guide, and a clean copy for Nathanael (2026-10-16)
+
+- **`brand-reference.html` is `brand-guide.html`.** Every link, doc and comment follows; the old
+  name stays in the working folder as a page that forwards to the new one, so outside links keep
+  working. The control bar now reads Rev. 39 (it said Rev. 22).
+- **`handoff-for-nathanael/`**, beside `handoff/`, is the package and nothing else: the system,
+  the docs, the worked pages, the console, the guides, the media they use and Barlow in its own
+  `Fonts/` (so `tokens.css` reads `Fonts/…`, not `../Fonts/…`). Left out on purpose: `archive.html`,
+  `archive/`, `audit/`, `brand-board.html`, the forwarding page, and 19 media files no page uses.
+  Links into the archive are plain text there, the guide has no Archive button, and AGENTS.md,
+  HANDOFF.md and a new README.md say what was left out. **`handoff/` stays the working copy;
+  rebuild the clean copy from it after changes.**
+
+## Rev 50 · the phone's top bar stays at the top; the shelf button is outlined (2026-10-17)
+
+The phone's top bar (logo, account, menu) now shows only at the top of a thread; it no longer
+returns on the way up. The chats shelf button (`.rail-open`) carries the `--line-2` outline the
+⋯ utility button has, with the same hover, so the toolbar's two buttons read as a pair.
+
+## Rev 49 · two drawers, one pattern (2026-10-17)
+
+Matt: unify the phone's two sides, bring the sources in from the right, and lose the heavy line on
+the left drawer's edge. That line was a bug: the drawer set `border-color: var(--edge)`, but
+`--edge` is a whole border, so the colour fell back to ink. Both drawers now carry one hairline,
+`border-left` or `border-right: var(--edge)`. The library sheet (21 · H3) is replaced: the library
+slides in from the right, full height, as the chats do from the left, both on `--mo-sheet`, and
+either closes with a swipe toward its own edge. The sheet's handle, rounded top and `--top-b` are
+gone; the library drawer's fold button is back. `--mo-sheet` now covers both drawers.
+
+## Rev 48 · the chats shelf on narrow screens (2026-10-17)
+
+Matt: on a phone the projects and chats were only reachable from the hamburger, at the far right.
+The chat's toolbar now leads with a chats-shelf button (`.rail-open`, panel-left-open) that opens
+the chats drawer from the left, where it lives; search and new chat leave the toolbar, since the
+drawer's head has both. The hamburger still opens the same drawer.
+
+## Rev 47 · sources count by tier, first in the row; no trailing gap (2026-10-17)
+
+The sources toggle leads the answer row, and its closed line counts the answer's sources by tier,
+one chip per tier that has any (three at most): *Sources ● 2 ◐ 1 ↗ 1*. The open list still numbers
+each source as cited. The last item in a chat drops its bottom margin (`.chat > :last-child`), so
+the space above the composer is the scroll area's own padding.
+
+## Rev 46 · Give feedback joins the answer row (2026-10-17)
+
+The wrap-up row under the last answer is gone (`.chat-next` retired). *Give feedback* (`.af-fb`)
+now sits in the last answer's foot, after the sources, with the same chevron; it opens and closes
+the "Before you go" card. At phone width it is a speech-bubble icon beside copy, and the row's
+icons shrink to 24px so it stays one line (four sources fit; more would crowd it).
+
+## Rev 45 · tools and sources share one line (2026-10-16)
+
+Matt: put the tools used to the left of the sources to save height. The answer foot is now one
+`.af-row`: *25 tools used* (`.af-tools`), *Sources · N* with its marks (`.af-src`), then copy and
+the votes (`.af-acts`). Both toggles are the same height and use the same chevron, and each opens
+its own panel under the row; the open one survives a redraw. At phone width the words *used* and
+*Sources · N* drop so the row stays one line. `.evi-group` and `.ans-tools` are retired.
+
+## Rev 44 · the library beside a chat holds what it cites (2026-10-16)
+
+Beside a chat that cites anything, the library lists only those sources, with a hint that a search
+reaches the whole library. Searching shows two parts, *In this chat* and *In the library*, each
+under a `.pane-sec` line (new in components.css, with `.pane-hint`). A chat that cites nothing, a
+new one, still shows the whole library.
+
+## Rev 43 · pixel arrows on sources, web sources, spoken off (2026-10-16)
+
+Each source row now ends in the brand's pixel arrow (`--px-arrow`), ink 35 at rest and ink on
+hover; a web source gets the new `--px-arrow-out`, the same arrow turned to leave the platform.
+Three web sources join the demo chats (UNDP, Crisis Group, Human Rights Watch). Spoken replies
+start off. `tokens.json` carries `--px-arrow-out` (added 17 Oct).
+
+## Rev 42 · sources fold to their marks, votes read (2026-10-16)
+
+Matt: the sources list wasted space, as did the tier headings and *Read on platform*. The
+`.evi-group` is now a `<details>`, closed by default, whose summary is the answer's citation marks
+in order. Open, each `.evi-row` leads with its mark (the tier lives in the mark, so the headings
+and labels are gone) and ends in a chevron, or ↗ for the web. Pointing at a row lights its marks in
+the text (`.cite.lit`). `.evi-sub` is retired. A cast vote was ink on ink and vanished; under an
+answer it is now a filled glyph on no fill.
+
+## Rev 41 · the session reflection (2026-10-16)
+
+Matt: the wrap-up survey was missed. *Wrap up this session* now opens production's "Before you
+go" card in the thread, restyled (`.reflect` in components.css): overall rating, uses, what was
+missing, four dimensions, Not now and Send. `.chip-q` moved to components.css with it.
 

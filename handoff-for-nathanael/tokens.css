@@ -1,0 +1,712 @@
+/* ============================================================================
+   PEACE INTEL — BRAND TOKENS
+   ----------------------------------------------------------------------------
+   Source of truth for the Peace Intel visual system. Drops in as the token
+   block of src/pages/console/console.css.
+
+   CONTRACT
+   - Every token name here is one production already consumes. Nothing is
+     renamed, so adoption is a values swap, not a refactor.
+   - Scoped to `:root, .console-root` so the same file works in the prototype
+     repo (bare HTML) and in the React app (.console-root wrapper).
+   - Components never reference Layer 1 primitives or raw hex. They compose
+     Layer 2 semantics, or color-mix() off them.
+   - Every text token is solved against a contrast target, not eyeballed, and
+     against the HARDEST surface it can legally sit on — not just the page
+     background. brand-guide.html prints the ratios live.
+
+   ONE THEME. Dark mode was removed on 2026-10-14: Matt found it too heavy and
+   too intense for the brand. There is no switch; every page is the light
+   theme. Dark BANDS remain (.on-dark, .surface--invert): an ink-dark section on
+   a light page is the strongest emphasis the system has that costs no chroma,
+   and since 2026-10-15 a page may have more than one. The removed theme is in
+   archive/retired.css.
+
+   NO GRADIENT, 2026-10-15. The July red-to-orange (--grad) was removed for now,
+   with every use of it. It is in archive/retired.css.
+
+   The raised-surface and corner axes are gone. Both were resolved and a switch
+   for a settled decision is just a way for the two halves of a codebase to
+   drift apart again. Every corner is 4px (2026-10-15). The raised surface is
+   one treatment, described below.
+
+   WHY THE ACCENT IS SPLIT
+   Brand orange #D9481C is 4.18:1 on the page background and fails WCAG AA for
+   text under 24px. Production forked the whole palette to a brown to solve it,
+   which is why the live site renders two brands by route. The brown was
+   rejected on 2026-09-24. The fix is --accent for graphics and large type,
+   --accent-text for small type — same hue, AA compliant.
+
+   WHY THE RAMPS ARE SOLVED AGAINST THE WARM PAPER, NOT --bg
+   An earlier revision solved them against --bg only. --ink-55 then measured
+   4.52:1 on the page and 4.04:1 on a raised surface, so every piece of muted
+   text on a card or a chat bubble silently failed AA. Solving against the
+   raised tone fixes both at once.
+   ============================================================================ */
+
+/* ── LAYER 1 · PRIMITIVES ────────────────────────────────────────────────────
+   Raw values. No component may reference these directly. */
+:root,
+.console-root {
+  /* warm paper */
+  --pi-paper-000: #FCFCFB;   /* page */
+  --pi-paper-100: #F3EFE7;   /* raised, warm (default) */
+
+  /* light ink ramp — solved against --pi-paper-100, so it clears AA on both
+     the page and any raised surface */
+  --pi-ink-900: #141310;
+  --pi-ink-600: #4B463E;
+  --pi-ink-400: #706B63;
+  --pi-ink-300: #8C877F;
+
+  /* dark surfaces */
+  --pi-dark-band: #1C1A16;  /* a dark band inside a LIGHT page */
+
+  /* dark ink ramp — solved against #211D16, the dark theme's raised tone
+     (removed 2026-10-14), which is lighter than the band, so the ramp holds
+     on any dark band with margin to spare */
+  --pi-dark-ink: #F3EFE7;
+  --pi-dark-600: #B9B3A9;
+  --pi-dark-400: #8C867C;
+  --pi-dark-300: #6F695F;
+
+  /* brand */
+  --pi-orange: #D9481C;
+  --pi-orange-text: #C04019;   /* AA on both page and raised surfaces */
+  --pi-orange-warm: #F77524;
+}
+
+/* ── LAYER 2 · SEMANTIC ──────────────────────────────────────────────────────
+   The names production consumes. These are what components reference. */
+:root,
+.console-root {
+  --bg: var(--pi-paper-000);
+
+  /* Text. Opaque, not alpha: alpha inks composite differently on every surface
+     and cannot be tuned against a target. Ratios below are on --pi-paper-100,
+     the warm primitive the ramp was solved on. On --ground-2, the darkest tone
+     text sits on (4% ink), --ink-55 measures 4.76:1; on --bg each is ~0.5
+     higher. */
+  --ink: var(--pi-ink-900);      /* 17.38:1  primary */
+  --ink-70: var(--pi-ink-600);   /*  8.75:1  secondary body */
+  --ink-55: var(--pi-ink-400);   /*  4.95:1  muted, AA floor for body text */
+  /* --ink-35 IS NOT A TEXT COLOUR. 3.11:1 clears the 3:1 floor for UI
+     components and large type and nothing else. It is for lines, hover
+     borders, disabled states and dashed rules. (It reads 3.34 since the panel
+     lightened on 25 Sep and 3.11 before; either way it is nowhere near 4.5.)
+
+     It was being used for the colour of 9 and 10px micro labels — thread
+     metadata, the speaker name above a message, the source suffix, the footer
+     rule, .eyebrow.faint — which need 4.5:1 and were measuring about 3.4. Nine
+     of them, found by auditing the landing page rather than the token sheet,
+     because the harness measures tokens against surfaces and this was a
+     question of which token a component reached for.
+
+     There is no room between "faint" and "muted" that is also legible at 9px,
+     so micro text takes --ink-55 and the faint/muted distinction survives only
+     in the lines. That is a real constraint, not a compromise: a hierarchy you
+     cannot read is not a hierarchy. */
+  --ink-35: var(--pi-ink-300);   /*  3.34:1  UI + large type ONLY, never text */
+
+  /* Borders stay alpha: they sit on every surface and must composite.
+
+     LIGHTENED 2026-09-25, from .12 / .18. The system had drifted heavy: every
+     card edge, every divider and every input outline drawn at a weight that
+     announced itself, which on a page of twelve cards is twelve announcements.
+     A hairline should be the thing you notice only when it is missing.
+
+     --line   dividers, quiet card edges, table rules. Decoration.
+     --line-2 the edge of anything a person can act on — a card, an input, a
+              pill. It stays heavier than --line on purpose: 1.4.11 asks that a
+              control be identifiable, and an input whose boundary you have to
+              hunt for is a worse failure than a border that is slightly darker
+              than the divider beside it. This is the floor, not a preference.
+              Do not take it below .12. */
+  --line: rgba(20, 19, 16, .08);
+  --line-2: rgba(20, 19, 16, .14);
+
+  /* Washes. Alpha ink for hover states, kept separate from the text ramp so
+     the opaque inks above can be tuned for contrast without breaking hovers. */
+  --wash-1: rgba(20, 19, 16, .03);
+  --wash-2: rgba(20, 19, 16, .06);
+
+  --accent: var(--pi-orange);           /* graphics, large type, fills */
+  --accent-text: var(--pi-orange-text); /* 4.93:1 — any text under 24px */
+  /* The accent on a slab of --ink, a near-black chip on the paper page, so the
+     accent on it has to move the opposite way to everything else. */
+  --accent-on-ink: var(--pi-orange-warm);
+  --hl: color-mix(in srgb, var(--accent) 14%, transparent);
+
+  --kicker: var(--ink-55);
+  --link-h: var(--ink);
+  --sh: 20, 19, 16;
+
+  /* REFINED 2026-10-15, after being lightened with the lines on 2026-09-25.
+     Each step is two layers: a one-pixel contact shadow that gives the edge a
+     foot, and an ambient one pulled in by a negative spread so it never reaches
+     past the sides. The ambient layers are shorter and fainter than before
+     (the old elev-3 threw 34px at .32), so a lift reads as paper resting on
+     paper rather than as a card floating over it. */
+  --elev-1: 0 1px 1px rgba(var(--sh), .04), 0 2px 5px -3px rgba(var(--sh), .08);
+  --elev-2: 0 1px 1px rgba(var(--sh), .04), 0 6px 14px -9px rgba(var(--sh), .12);
+  --elev-3: 0 1px 2px rgba(var(--sh), .05), 0 14px 28px -18px rgba(var(--sh), .16);
+  /* What a modal dialog dims the page with (2026-10-15): the shadow's ink at a
+     third, so the page stays legible behind it, as paper under tracing paper. */
+  --scrim: rgba(var(--sh), .32);
+
+  /* --gridink is the light-page grid by name, so a light band on a dark page can
+     ask for it back. --grid is whichever one the current surface wants. */
+  --gridink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23141310' stroke-opacity='0.05' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23141310' fill-opacity='0.06'/%3E%3C/svg%3E");
+  --grid: var(--gridink);
+  --gridinv: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Cline x1='0' y1='10' x2='20' y2='10' stroke='%23ffffff' stroke-opacity='0.9' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Cline x1='10' y1='0' x2='10' y2='20' stroke='%23ffffff' stroke-opacity='0.9' stroke-width='0.7' stroke-dasharray='3 2'/%3E%3Ccircle cx='10' cy='10' r='0.9' fill='%23ffffff' fill-opacity='0.95'/%3E%3C/svg%3E");
+
+  /* Grid vignette masks. The texture always fades before it reaches an edge;
+     it is never a hard-edged rectangle of grid. Five shapes since 2026-10-15,
+     when the left and right fades were added. See components.css .textured. */
+  --grid-mask-center: radial-gradient(ellipse 62% 58% at 50% 50%, #000 0%, #000 28%, transparent 76%);
+  --grid-mask-top:    radial-gradient(ellipse 72% 70% at 50% 8%,  #000 0%, #000 22%, transparent 72%);
+  --grid-mask-band:   linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  --grid-mask-side:   linear-gradient(to right, transparent 0%, transparent 40%, #000 82%); /* clear under left-hand copy */
+  --grid-mask-left:   linear-gradient(to right, #000 0%, #000 18%, transparent 72%);  /* held on the left, gone by the right */
+  --grid-mask-right:  linear-gradient(to left,  #000 0%, #000 18%, transparent 72%);  /* held on the right, gone by the left */
+  --grid-mask-bottom: linear-gradient(to top, #000 0%, #000 12%, transparent 62%);    /* held at the foot, gone by two thirds up */
+  --grid-opacity: 1;
+
+  /* app shell structure (unchanged from production) */
+  --rail-w: 290px;
+  --rail-collapsed: 52px;
+  --pane-w: 396px;
+  --pane-collapsed: 44px;
+  --topbar-h: 52px;
+}
+
+/* ── LAYER 2b · SURFACE TREATMENT ────────────────────────────────────────────
+   RESOLVED 2026-09-24. One treatment, not a choice.
+
+   The three candidates were a hairline, a warm fill and a neutral wash. All
+   three were good, which is why picking one felt arbitrary. The resolution is
+   that they were never really alternatives: a hairline is the edge, a wash is
+   the face, and warm is emphasis. A raised surface wants an edge AND a face.
+
+   TONE SAYS "SET BACK"; THE EDGE SAYS "OBJECT" (renamed 2026-10-16, Rev 20).
+   The tone that used to be called --panel was doing two jobs under a name
+   that meant neither: it is the ground behind objects (a band, the console's
+   rail and library) and the fill of a few small objects (a badge, an avatar,
+   your own message). Both mean the same thing, quieter than the page, so the
+   tone keeps one meaning and the names now say which job is being done:
+
+   --ground    a region set back from the page: a band (.surface--ground), the
+               recess a choice sits in. Two percent of ink.
+   --ground-2  a region set further back: the console's chrome around the
+               conversation, the rail, the library and a project's page, so
+               the chat is the brightest thing on screen. Four percent.
+   --face      the face of an object lifted off a ground: a card, a library
+               entry, the open chat in the rail. The page tone; the hairline
+               does the lifting.
+   --fill      a small object that is itself set back: a badge, an avatar, the
+               bubble around your question, which is quieter than the answer.
+               The ground's tone at object size.
+   --edge      an object's hairline.
+
+   The old names (--panel, --panel-face, --panel-border) are kept at the end of
+   this block as aliases, because production's console.css spells --panel.
+   Nothing in this package uses them.
+
+   WARM IS NOT A SURFACE TREATMENT ANY MORE. It is reserved for three things
+   and nothing else: callouts, violators, and the stylised gradient fields. If
+   warm is being used as the background of an ordinary card, that is the old
+   system leaking through. See --warm below. */
+:root,
+.console-root {
+  /* ONE THEME, SAID OUT LOUD (2026-10-15). Without it the browser follows the
+     operating system: on a Mac in dark mode an SVG image with a
+     prefers-color-scheme rule (the favicon) drew in its dark colours on this
+     light page, and native controls and scrollbars can go dark. Dark bands say
+     dark below. */
+  color-scheme: light;
+  /* Two percent, down from three on 2026-09-25. On a warm paper white, three
+     percent of ink was a visible tone change and a band of it read as a
+     different colour rather than as the same paper, lifted. Two is the point
+     where the edge does the identifying and the fill only gives it a body. */
+  --ground: color-mix(in srgb, var(--ink) 2%, var(--bg));
+  /* Four percent (Matt, 2026-10-16: "a slightly darker background for the
+     left sidebar, right sidebar and project page"). It is the darkest tone
+     text sits on, so it is capped by --ink-55: 4.76:1 here, 4.52:1 at six. */
+  --ground-2: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  --fill: var(--ground);
+  --edge: 1px solid var(--line-2);
+  /* The recess a choice sits in (.tray, .seg; 2026-10-14). On paper it is
+     the ground tone since 2026-10-15 (Matt): the 6% shadow wash it was read as
+     grey. On a ground the recess goes back to a wash of shadow; on a dark band
+     it is restated in the dark-band block below. */
+  --tray: var(--ground);
+
+  /* THE FACE OF A RAISED COMPONENT IS NOT THE TONE OF A RAISED BAND.
+
+     Resolved 2026-09-25. A card taking --panel on a page and a band taking
+     --panel on the same page is the same tone twice, and a grid of those on a
+     raised band was the whole reason light mode read heavy: everything was the
+     same two percent and nothing lifted off anything.
+
+     The principle that fixes it is the one dark mode was already following by
+     accident. A RAISED SURFACE MOVES AWAY FROM THE PAGE TOWARD THE LIGHT. On
+     warm paper that direction is whiter, so a raised card is --bg with a
+     hairline. On near-black it is lighter, so a raised card is the panel tone.
+     Same rule, opposite direction, which is why dark looked right and light
+     did not.
+
+     --ground     a REGION. A band, a rail, a pane. 2% ink (--ground-2, 4%).
+     --face       an OBJECT on it. A card, a tile, a row. The page tone;
+                  on a dark band, the band's ground tone.
+
+     The consequence worth saying out loud: in light mode the inside of a card
+     is white, and it is the hairline that does the raising. That is the
+     refinement the hairline-versus-wash argument was reaching for all along —
+     the wash belongs to the region, the edge belongs to the object. */
+  --face: var(--bg);
+
+
+  /* WARM. Three uses, and nothing else:
+       callouts     a pulled-out note, a figure caption that matters
+       violators    a badge or flag that breaks out of its container
+       gradients    the stylised field backgrounds, which are built from it
+     It is no longer available as a card background or a band fill. Applied with
+     .warm on a callout or violator; the fields reference it through their own
+     ramp. If two warm things are visible at once, something is over-emphasised. */
+  --warm: var(--pi-paper-100);
+  --warm-border: 1px solid transparent;
+
+  /* FORMER NAMES, for production only. console.css reads --panel; these let
+     it keep working while its token block is swapped. Remove them once it
+     reads the names above. Nothing in handoff/ may use them. */
+  --panel: var(--ground);
+  --panel-face: var(--face);
+  --panel-border: var(--edge);
+}
+
+/* ── LAYER 3 · SURFACE CONTEXTS ──────────────────────────────────────────────
+   A surface context remaps the semantic tokens for everything inside it, so a
+   component dropped into any of them works unchanged with no overrides. This
+   is what makes bands able to vary: a page is no longer one tone with one
+   raised tone, it is a sequence of surfaces.
+
+   .surface--ground   a band set back from the page (was .surface--raised)
+   .surface--ground-2 the console's chrome, a step further back (2026-10-16)
+   .surface--invert   a dark band. Since dark mode went (2026-10-14) it is the
+                      same ramp as .on-dark; both names are kept because pages
+                      use both.
+   .on-dark           a dark band.
+
+   THERE IS NO .surface--warm, AND THERE WILL NOT BE ONE. Removed 2026-09-25.
+   Warm is a colour with three jobs — callouts, violators, gradient fields —
+   and a section background is not one of them. A whole band of it turns the
+   emphasis tone into a second page tone, which is precisely how the tone
+   stopped meaning anything the first time. The token comment had already said
+   this; the band in Pl. 02 was the old system outliving its own rule. Warm is
+   documented as a colour in Pl. 01, where a colour belongs.
+
+   DARK BANDS, NOT A DARK THEME. A page may run ink-dark sections, and more
+   than one (Matt, 2026-10-15; it was one per page): dark is the strongest
+   emphasis the system has that costs no chroma, which makes it the right tool
+   for an audience that will not be shouted at. Reach for .on-dark on the
+   sections that have to land: a closing call to action, a single claim, a
+   figure that carries the argument, the footer. Two dark bands do not sit
+   back to back; a light band goes between them.
+
+/* On a ground the face of an object stays the PAGE tone, so a grid of cards
+   lifts off the band instead of dissolving into it. That is the whole point of
+   splitting --face out of --ground. Called .surface--raised until 2026-10-16:
+   the band is set back, and only what sits on it is raised. */
+.surface--ground,
+.surface--ground-2 {
+  background: var(--ground);
+  --face: var(--bg);
+  --tray: rgba(var(--sh), .06);
+  --wash-1: rgba(20, 19, 16, .04);
+  --wash-2: rgba(20, 19, 16, .07);
+}
+.surface--ground-2 { background: var(--ground-2) }
+
+/* The dark ink ramp, as a reusable block. Used by .on-dark and .surface--invert. */
+.on-dark,
+.surface--invert,
+.console-root .surface--invert {
+  color-scheme: dark;
+  --on-dark-surface: var(--pi-dark-band);
+  --on-dark: var(--pi-dark-ink);
+  --on-dark-70: var(--pi-dark-600);
+  --on-dark-55: var(--pi-dark-400);
+  --on-dark-35: var(--pi-dark-300);
+  --on-dark-line: rgba(252, 252, 251, .12);
+  --on-dark-line-2: rgba(252, 252, 251, .20);
+  --on-dark-accent: var(--pi-orange-warm); /* the light accent is only 4.05:1 here */
+
+  --bg: var(--on-dark-surface);
+  --ink: var(--on-dark);
+  --ink-70: var(--on-dark-70);
+  --ink-55: var(--on-dark-55);
+  --ink-35: var(--on-dark-35);
+  --line: var(--on-dark-line);
+  --line-2: var(--on-dark-line-2);
+  /* On near-black, set back is lighter, and so is lifted: one tone does both. */
+  --ground: color-mix(in srgb, var(--on-dark) 6%, var(--on-dark-surface));
+  --ground-2: var(--ground);
+  --face: var(--ground);
+  --fill: var(--ground);
+  --edge: 1px solid var(--on-dark-line);
+  --panel: var(--ground);
+  --panel-face: var(--face);
+  --panel-border: var(--edge);
+  --accent: var(--on-dark-accent);
+  --accent-text: var(--on-dark-accent);
+  --accent-on-ink: var(--pi-orange-text); /* --ink is light inside a dark band */
+  /* Bright orange on near-black is a fine fill; white on it is 2.79:1. The
+     text goes ink and measures 6.66:1. */
+  --accent-fill: var(--on-dark-accent);
+  --on-accent: var(--pi-ink-900);
+  --kicker: var(--on-dark-55);
+  --wash-1: rgba(252, 252, 251, .05);
+  --wash-2: rgba(252, 252, 251, .09);
+  --sh: 0, 0, 0;
+  --grid: var(--gridinv);
+  --grid-opacity: .14;
+
+  /* COMPOSED TOKENS, RESTATED HERE (2026-10-09). A custom property that uses
+     var() resolves where it is declared, so a value composed at the root keeps
+     the root's colours inside a band: the link hover was near-black on a dark
+     band, the highlight carried the light accent, and the shadows stayed
+     paper-weight. Restating them makes each compose from this context. The
+     rule underneath: a dark band is the dark ramp, scoped to a band. */
+  --hl: color-mix(in srgb, var(--accent) 14%, transparent);
+  --link-h: var(--ink);
+  --warm: var(--ground);   /* a callout on a dark band lifts toward the light */
+  --tray: rgba(var(--sh), .34);
+  --elev-1: 0 1px 1px rgba(var(--sh), .18), 0 2px 5px -3px rgba(var(--sh), .30);
+  --elev-2: 0 1px 1px rgba(var(--sh), .18), 0 6px 14px -9px rgba(var(--sh), .40);
+  --elev-3: 0 1px 2px rgba(var(--sh), .22), 0 14px 28px -18px rgba(var(--sh), .50);
+
+  background: var(--on-dark-surface);
+  color: var(--on-dark);
+}
+
+
+/* ── ACCENT: DECIDED ─────────────────────────────────────────────────────────
+   Resolved 2026-09-24. Warm orange is the accent. The brown #8A5A2B that
+   production currently ships at the base was reviewed and rejected.
+
+   The brown existed because it solves a real problem: brand orange is 4.18:1
+   on the page background and fails WCAG AA for text under 24px. That problem is
+   now solved without changing hue, by splitting the token — --accent for
+   graphics and large type, --accent-text (#C04019, 4.59:1) for anything
+   smaller. There is no longer any reason to carry a second accent.
+
+   Action for production: set --accent at the base in console.css and delete the
+   per-page overrides in research-landing.css, beta-landing.css and the rotary
+   stylesheet. That removes the two-brand split in one change.
+   ============================================================================ */
+
+/* ── TYPEFACES · DECIDED ─────────────────────────────────────────────────────
+   Source Serif 4 / Barlow / Space Mono. The serif replaced Nanum Myeongjo on
+   2026-10-15. BARLOW REPLACED DIN 2014 on 2026-10-16 (Rev 24, Matt, "Barlow
+   with 0 tracking as the final"): DIN 2014 would have needed a paid web
+   licence, and Barlow, free under the SIL Open Font License, keeps the same
+   engineered, road-sign plainness and has a true SemiBold for 600. It was
+   chosen in sans-test.html over Clear Sans (no 600) and D-DIN (no 600).
+   Self-hosted in Fonts/Barlow/ with OFL.txt: 400, 400 italic, 500, 600, 700,
+   in the Latin, Latin Extended and Vietnamese subsets, so the sans covers
+   what the serif covers. Set at the system's own tracking, no adjustment.
+   DM Sans stays as the fallback. The DIN WOFFs are still in Fonts/DIN2014/,
+   loaded by nothing. */
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-vietnamese-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-vietnamese-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-vietnamese-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-vietnamese-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-vietnamese-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-ext-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-ext-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-ext-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-ext-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-ext-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD }
+@font-face { font-family: "Barlow"; src: url("Fonts/Barlow/barlow-latin-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD }
+
+
+/* THE TIER MARKS ARE DRAWN, NOT BORROWED (2026-10-15). The citation marks
+   ● ◐ ↗ are in neither the sans nor Space Mono, so each device drew them from
+   whatever fallback font it had, and the brand's most important mark changed
+   shape from a Mac to a Windows laptop to a phone, and again in a PDF. PI Marks
+   is a 450-byte font of exactly those three glyphs, drawn for this system: a
+   full disc, a disc filled on its left half inside a ring, and a line arrow,
+   all on one 0.56em body with one stroke weight. It sits first in every stack
+   and its unicode-range covers only those three characters, so the markup
+   keeps the plain characters (which survive copy, paste and export) and every
+   other glyph is untouched. Inlined so it can never fail to load. The source
+   file is Fonts/PIMarks.woff2. */
+@font-face { font-family: "PI Marks"; src: url("data:font/woff2;base64,d09GMk9UVE8AAAHEAAkAAAAAAygAAAF+AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAADYFvBmAARAE2AiQDEAQGBWMHIBuFAiAeCXZsyrZEjmmxBc/XWvl+98zNHHMfOUAOsANix2hMbKJQRgGBMIu9VVszsMXhPXVTfyyTd1+NJRBPkMCjTMIuCtcwCxPP2kXp2vCZmmUd5StlSHAEEfEXTN2iMjXNC5epslq/uBlJCj9136afDx3P+pKJI5KQnFHw7b2oSVBz0DI0MXESgiCnFa6I4zXuuBl6nOb7IgsiSaF7ubbBZgbYIDJDsMGnpquZMttxe8euyw23eiHvf731rFdPwvIJVPqZ4WO5r0JHvBF7Kzf09ZXtxe7artzwrvDuhytiu2O73DS0KpEruDhAEjAGOPAZYGqeaxPvBG144rCBqq6BHDRCtzk0Aj4+CjAVt2uex+MCnnXEf9z+EbL0YQQW/9+3Mr034Gv9H+Bv0CG6bpwkdUB1AxoFgMDm3lD3gQuqEQGZllrI1shi7QJwAYd2BADBB9QVCg8fjTiJCBmko1aKNMqP3n3r6gELmMIwx2r2sJW9LGI9G9nPtsb2GgAAAAA=") format("woff2"); unicode-range: U+25CF, U+25D0, U+2197; font-display: block }
+
+:root,
+.console-root {
+  /* THE HEADLINE SERIF IS SOURCE SERIF 4 (Matt, 2026-10-15), after Nanum
+     Myeongjo, whose Latin had no accented letter, so "Sénégal" in a heading
+     was set partly in Georgia. Source Serif covers French, the European
+     languages and Vietnamese, and has optical sizes, so a 46px headline takes
+     the display cut and a card title the text cut, automatically. It is set
+     LIGHT, which is what Nanum gave the brand: --serif-w (400) for every serif
+     heading. --serif-w-display was 500 at the two largest sizes until Rev 22
+     (16 Oct): when display went from 46 to 64px Matt asked for it at 400,
+     since the size now carries the weight. The token stays so a page can
+     still tell the two apart. Nothing serif is bold. The
+     candidates it was chosen from, and the bench, are in the archive. */
+  --serif: "PI Marks", "Source Serif 4", Georgia, serif;
+  --serif-w: 400;
+  --serif-w-display: 400;
+  --sans: "PI Marks", "Barlow", "DM Sans", system-ui, sans-serif;
+  --mono: "PI Marks", "Space Mono", ui-monospace, monospace;
+}
+/* ── SCALES ──────────────────────────────────────────────────────────────────
+   Closed sets. A value that is not on a scale is a bug, not a preference.
+   These replace 32 ad-hoc font sizes, 24 margin values and 13 letter-spacings
+   found across the prototype pages. */
+:root,
+.console-root {
+  /* spacing — 4px grid */
+  --sp-1: 4px;   --sp-2: 8px;   --sp-3: 12px;  --sp-4: 16px;
+  --sp-5: 20px;  --sp-6: 24px;  --sp-7: 28px;  --sp-8: 32px;
+  --sp-10: 40px; --sp-12: 48px; --sp-14: 56px; --sp-16: 64px;
+  --sp-18: 72px; --sp-22: 88px; --sp-26: 104px;
+
+  /* type scale — 10 steps. Display and h1 grew on 16 Oct (Rev 22, from 46
+     and 36) so the jump from body to headline is about four times: the
+     studied gallery median is 4.3, and at 3.1 every page read as all one
+     middle size. Display leading tightens as it grows. */
+  --t-display: 64px; --t-display-lh: 1.06;
+  --t-h1: 48px;      --t-h1-lh: 1.1;
+  --t-h2: 30px;      --t-h2-lh: 1.26;
+  --t-h3: 24px;      --t-h3-lh: 1.28;
+  --t-h4: 19px;      --t-h4-lh: 1.34;
+  --t-lead: 17px;    --t-lead-lh: 1.62;
+  --t-body: 16px;    --t-body-lh: 1.6;   /* 15px until Rev 22; still --ink-70 */
+  --t-ui: 13px;      --t-ui-lh: 1.5;
+  /* Tracking for a run of titles at --t-ui. It was .02em because DIN closed
+     up at 13px (Matt, 2026-10-15); Barlow does not, and Matt chose it at 0
+     tracking (Rev 24), so it is 0. The token stays so the library's titles
+     can be opened again without touching components. */
+  --t-ui-ls: 0em;
+  --t-sm: 12px;      --t-sm-lh: 1.45;
+  --t-xs: 10px;      --t-xs-lh: 1.4;
+
+  /* eyebrow ladder — 4 steps. tracking scales inversely with size.
+     replaces .04 .05 .06 .07 .08 .09 .1 .11 .12 .14 .16 .18 .2em + 3 px values
+     THE FLOOR IS 10px (2026-10-15). The ladder ran 12 / 11 / 10 / 9, and in the
+     console 65 of 109 text elements were 10px or under: metadata, counts and
+     legends in mono capitals at 9px, for readers who are often past fifty. The
+     whole ladder moved up a pixel so its four steps stay four steps; nothing
+     in the system now sets type under 10px. */
+  --eb-1: 13px; --eb-1-ls: .14em;  /* section kickers */
+  --eb-2: 12px; --eb-2-ls: .12em;  /* nav, pane titles, stat labels */
+  --eb-3: 11px; --eb-3-ls: .10em;  /* badges, timestamps, action buttons */
+  --eb-4: 10px; --eb-4-ls: .08em;  /* micro labels, source suffixes */
+
+  /* RADII — ONE CORNER, 4px (Matt, 2026-10-15).
+
+     It was two and four from 2026-09-25: 2px for things whose silhouette is
+     the corner (chips, badges, pills, the focus ring) and 4px for anything with
+     an interior. On 15 October every corner became 4px. One answer is one
+     fewer place for two components to disagree, and a chip and the button
+     beside it now read as one family of object. The history, and the 2 / 4 / 6
+     comparison, are in the archive.
+
+     The names all stay, so adoption is still a values swap, and a component
+     keeps the name that says what it is. Never write a literal in place of
+     one: if the corner moves again it moves here.
+
+     --r-full is genuinely circular things: a status dot, an avatar. Round
+     things are round; it is not a corner. */
+  --r-xs: 4px;    /* focus ring */
+  --r-sm: 4px;    /* citation chips, badges, violators, pills, chips */
+  --r-md: 4px;    /* buttons, inputs */
+  --r-lg: 4px;    /* cards, chat bubbles */
+  --r-xl: 4px;    /* composer, hero surfaces */
+  --r-2xl: 4px;   /* CTA band */
+  --r-full: 999px;/* avatars, status dots — actually round */
+
+  /* section rhythm */
+  --band-y: var(--sp-26);
+  --band-y-tight: var(--sp-18);
+
+  /* measures */
+  --measure-prose: 64ch;
+  --measure-lead: 56ch;
+  --measure-head: 20ch;
+  --col-max: 1120px;
+  --col-text: 720px;
+  --col-chat: 720px;
+
+  /* MOTION, TWO SCALES, BECAUSE THEY ARE TWO DIFFERENT JOBS.
+
+     INTERACTION. A control answering a click, a hover, a focus ring. Nothing
+     longer than .3s: past that the interface feels like it is thinking. */
+  --mo-fast: .15s ease;
+  --mo-base: .18s ease;
+  --mo-struct: .22s ease;
+  --mo-atmos: 1.2s ease;
+  /* THE DRAWERS (Rev 31, as the library sheet; Rev 49, Matt 17 Oct): the
+     phone's chats slide in from the left and its library from the right.
+     Longer than a control because it moves most of a screen,
+     decelerating so it lands rather than stops. Dragging it follows the finger
+     with no easing at all. The one motion here that moves a surface. */
+  --mo-sheet: .32s cubic-bezier(.2, .8, .2, 1);
+
+  /* ENTRY. An element arriving as you scroll to it. Five steps, added
+     2026-09-25 when the entry animations were retimed and seven of them turned
+     out to be writing raw milliseconds.
+
+     These are two to three times the interaction scale, and that is the whole
+     point: a reveal that finishes before the eye arrives at it did not happen.
+     The old set ran 320 to 520ms and made the signature move of the system
+     invisible. The test is whether you can describe what happened after seeing
+     it once; if the answer is "something appeared", it is too fast.
+
+     Why five and not three: a reveal usually has two parts moving at different
+     rates — content and the noise over it, a line and the text under it — and
+     matched durations flatten the two layers into one crossfade. The gap
+     between the steps is what makes the layers legible as layers. */
+  --mo-in-1: 700ms;    /* the quick part of a two-part reveal */
+  --mo-in-2: 900ms;    /* a line drawing, a tone lifting */
+  --mo-in-3: 1100ms;   /* the default entry */
+  --mo-in-4: 1400ms;   /* a long reveal: a mask travelling, a print developing */
+  --mo-in-5: 1600ms;   /* the dither clearing. The slowest thing in the system */
+  --mo-page: 1100ms;   /* one eased move between two snapped screens (system.js pager) */
+  --mo-in-step: 90ms;  /* the interval between staggered children */
+}
+
+/* ── LAYER 4 · COMPONENT TOKENS ──────────────────────────────────────────────
+   Only where a component genuinely sits between scale steps and the difference
+   is load-bearing. Each one is named, so it shows up in a grep and cannot be
+   mistaken for an improvised value. Everything else composes Layer 2. */
+:root,
+.console-root {
+  /* THE ACCENT AS A FILL. Found 2026-09-25 by measuring every rendered
+     foreground on this page rather than every token pair, which is a different
+     audit and catches different things.
+
+     There is NO legible text colour on brand orange. #D9481C measures 4.29:1
+     against white and 4.33:1 against ink, so a solid orange button with 14px
+     type fails AA whichever way you turn it. The accent split solved orange as
+     a FOREGROUND and left orange as a BACKGROUND unsolved; this is the other
+     half of the same problem.
+
+     Nothing new is invented to fix it. On a light surface the fill moves down
+     to the darker orange that already exists for text (#C04019, 5.26:1 under
+     white). On a dark surface the accent is already lighter, so the fill stays
+     and the TEXT goes to ink instead: 6.66:1 on the on-dark accent. White on it
+     measures 2.79 and was the worst failure on the page.
+
+     So: a filled accent control always writes --accent-fill and --on-accent
+     together. Never --accent with a hardcoded white. */
+  --accent-fill: var(--accent-text);
+  --on-accent: #FFFFFF;
+
+
+  /* Buttons sit between --t-ui (13) and --t-body (15). 14 is the established
+     value across every prototype and production file; snapping it either way
+     visibly changes every button on the site. */
+  --t-btn: 14px;
+
+  /* The hero prompt is a signature surface and reads as oversized body copy,
+     between --t-h4 (19) and --t-h3 (24). */
+  --t-prompt: 20px;
+
+  /* The library / landing stat number. Deliberately larger than --t-display so
+     it reads as a figure rather than a headline. */
+  --t-stat: 72px;
+
+  /* Partner logo height. Two marks of very different proportions — one
+     wordmark, one seal — have to sit on one optical line, so they are sized by
+     height rather than width and the height is the token. 34 in a strip beside
+     a label, 30 in a footer column where the name underneath carries the
+     weight. Neither is on the spacing scale because neither is spacing. */
+  --logo-h: 34px;
+  --logo-h-sm: 30px;
+
+  /* PIXEL ICONS. Added 2026-10-08 with media/mkicons.cjs, which passes an open
+     icon library (Lucide) through one raster rule so the icons are made of the
+     same unit as everything else dithered. A page icon is 25 cells drawn at
+     2px, finer than the dove's 3px cell; Matt picked the finer grid on
+     2026-10-09, because at 17 cells on the brand cell the strokes broke up.
+
+     A control glyph is drawn on a smaller GRID, not a smaller cell: 9 cells at
+     the brand cell is 27px inside a 38px send button. The first version kept
+     13 cells and dropped to 2px, which put one glyph on the page off the unit
+     every other pixel mark shares.
+
+     ADOPTED 2026-10-15, with the screen below. Matt picked three-quarter
+     squares at 25 cells on 2px: every cell is drawn as a square three quarters
+     of its width, centred, so the raster reads as a grid of separate squares
+     rather than a block. .px-icon and .points are in components.css (Pl. 18).
+
+     THE SQUARE IS CENTRED IN ITS CELL. It was drawn from the cell's top-left
+     corner, and on a standard-density screen a 1.5px square blurs on its
+     right and bottom edges only, which read as a drop shadow. Centred, any
+     softness is the same on all four sides. */
+  --icon-px: 50px;
+  --px-screen: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'%3E%3Crect x='.5' y='.5' width='3' height='3'/%3E%3C/svg%3E");
+  /* THE ARROW. The one pixel mark a control wears: a 3 x 5 chevron on the
+     brand cell, which .btn.tint::after and .send::after draw as a mask in
+     currentColor. Every other icon in a control is a line (.glyph); the arrow
+     is the deliberate exception, because it is the mark of the action. Matt
+     picked it for the call to action on 2026-10-15 and asked for the send
+     button to carry the same one the same day. */
+  --px-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h-1zM1 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM0 4h1v1h-1z'/%3E%3C/svg%3E");
+  /* The pixel arrow turned to leave: a source that opens off the platform. */
+  --px-arrow-out: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 5' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h4v1h-4zM4 1h1v3h-1zM3 1h1v1h-1zM2 2h1v1h-1zM1 3h1v1h-1zM0 4h1v1h-1z'/%3E%3C/svg%3E");
+  /* A UI icon (2026-10-15): a conventional line icon, Lucide at a 1.5 stroke,
+     drawn 18px inside a 32px .icon-btn or the send button. Pixel icons are for
+     page content; inside the product's controls they read as noise. */
+  --glyph-ui: 18px;
+  /* The top bar's rendered height, measured at 390, 768 and 1440 (72 at all
+     three). Exists so a full-screen hero can subtract it: the nav is sticky and
+     in flow, so a 100vh hero would push its own bottom 72px below the fold. */
+  --nav-h: 72px;
+
+  /* THE DITHER CELL. One number for the whole brand.
+
+     Every dithered thing on the site — the video assets, the gradient fields,
+     the rendered grid, the motion primitives — is the same 8x8 Bayer matrix,
+     and until now they were rendering at different scales, so they read as
+     three effects that happen to look similar rather than one treatment. The
+     fields were at 3, the clips land between 0.7 and 1.8 depending on how big
+     they are drawn.
+
+     THREE, AND IT IS MEASURED RATHER THAN CHOSEN. The question was whether the
+     system matched the original site, and it did not: measuring run lengths in
+     hero-dove.mp4 and hero-glass.mp4 gives a modal cell of TWO SOURCE PIXELS in
+     a 720px master, drawn across a 1120px hero stage, which is 3.1 CSS pixels
+     on screen. The handoff clips were 1 source pixel in a 340px master at about
+     540px, which is 1.6, and the fields were at 2. So the brand's own assets
+     had always been roughly twice as coarse as anything built since.
+
+     Three is what makes it read as distinctly PIXELATED rather than merely
+     fine-grained, which is the quality the dove and the glass have and the
+     reason they work. It is also cheaper: a band-scale live field at cell 3 is
+     56,000 pixels a frame against 126,000 at cell 2.
+
+     Video cells are set by the master's resolution against its drawn width, so
+     this token governs the canvas work, and the encode rule is the other half:
+     ENCODE SO THE ON-SCREEN CELL LANDS NEAR THIS NUMBER. For a full-bleed veil
+     that is a master about 1.5x narrower than its drawn width with a 2px baked
+     cell, which is exactly what the original pipeline produced. The two veil
+     clips in media/ ARE those originals, copied rather than re-derived. */
+  --dither-cell: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+}

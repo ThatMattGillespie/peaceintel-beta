@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="D">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction D · Desk</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="description" content="Landing exploration D. The page drafts the document its reader already writes: a board paper, a ministerial submission or an appraisal annex, from the same cited sources.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="retired.css?v=12fe2490"><!-- drafted before the 2026-10-09 cuts -->
+<link rel="stylesheet" href="review.css?v=47f3ff70">
+<script src="review.js?v=e67c21ad"></script>
+<style>
+  /* ═══ DIRECTION D · DESK ═══════════════════════════════════════════════════
+     Written for three readers who never decide alone: a foundation programme
+     officer, an embassy desk officer, a development-bank task team leader.
+     Each writes a document for someone above them and has to defend it in a
+     room. So the page does not describe the product; it drafts their document.
+
+     THIS PAGE BREAKS RULES ON PURPOSE, with Matt's permission (2026-09-30).
+     Every break is marked BREAK below and named in its section's review tag,
+     so each can be kept or rejected on its own:
+       1  off-scale type      --d-mega and --d-huge sit above --t-display
+       2  a fourth warm use   --hl as a highlighter on cited sentences
+       3  invented motion     the highlighter wipe and the gap-map bloom
+       4  static elevation    the draft is a paper sheet with a real shadow
+     Everything else is still tokens and catalog. */
+
+  :root {
+    /* BREAK 1. The sentence is the hero and has to read across a room. */
+    --d-mega: clamp(40px, 6.6vw, 96px);
+    --d-huge: clamp(34px, 5.2vw, 76px);
+  }
+
+  /* ── D1 · the sentence ─────────────────────────────────────────────────── */
+  .d-sentence {
+    font-family: var(--serif); font-weight: 700;
+    font-size: var(--d-mega); line-height: 1.08; letter-spacing: -.015em;
+    max-width: 16ch; margin-top: var(--sp-6);
+  }
+  .d-sentence .blank {
+    border-bottom-width: var(--sp-1); padding-right: var(--sp-1);
+    color: var(--accent-text); font-weight: 700; letter-spacing: inherit;
+  }
+  .d-sentence .blank:focus-visible { border-bottom-width: var(--sp-1) }
+  .d-caret { font-size: .32em; color: var(--accent-text); vertical-align: .9em; margin-left: var(--sp-1) }
+  .d-hero-foot {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--sp-10);
+    align-items: end; margin-top: var(--sp-14); padding-top: var(--sp-6);
+    border-top: 1px solid var(--line-2);
+  }
+  @media (max-width: 900px) { .d-hero-foot { grid-template-columns: 1fr; gap: var(--sp-6) } }
+
+  /* ── D2 · the draft ────────────────────────────────────────────────────── */
+  .d-doc { display: grid; grid-template-columns: minmax(0, .62fr) minmax(0, 1.38fr); gap: var(--sp-14); align-items: start }
+  .d-doc .sec-head { position: sticky; top: calc(var(--nav-h) + var(--sp-8)); margin-bottom: 0 }
+  .d-doc .seg { margin-top: var(--sp-6) }
+  @media (max-width: 1000px) {
+    .d-doc { grid-template-columns: 1fr; gap: var(--sp-10) }
+    .d-doc .sec-head { position: static }
+  }
+
+  /* BREAK 4. A sheet of paper, with a second sheet under it. Elevation on
+     static content: the shadow says "a document you could pick up". */
+  /* The stack is the stacking context, so the under-sheet sits behind the
+     sheet and never behind the band. */
+  .d-stack { isolation: isolate }
+  /* The tilted under-sheet reaches past the gutter on a phone. clip, not
+     hidden, so the sticky heading beside it keeps working. */
+  #draft { overflow-x: clip }
+  .d-sheet {
+    position: relative; background: var(--face);
+    border: 1px solid var(--line); border-radius: var(--r-sm);
+    box-shadow: var(--elev-3); padding: var(--sp-12) var(--sp-12) var(--sp-10);
+  }
+  .d-sheet::before {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: var(--face); border: 1px solid var(--line); border-radius: var(--r-sm);
+    box-shadow: var(--elev-1); transform: rotate(1.1deg) translate(var(--sp-2), var(--sp-2));
+  }
+  .d-sheet-head {
+    display: flex; justify-content: space-between; gap: var(--sp-4); flex-wrap: wrap;
+    padding-bottom: var(--sp-4); border-bottom: 2px solid var(--ink);
+  }
+  .d-sheet-title {
+    font-family: var(--serif); font-weight: 700; font-size: var(--t-h2); line-height: var(--t-h2-lh);
+    margin-top: var(--sp-6); max-width: 24ch;
+  }
+  .d-meta { display: flex; gap: var(--sp-6); flex-wrap: wrap; margin-top: var(--sp-4); padding-bottom: var(--sp-6); border-bottom: 1px solid var(--line) }
+  .d-paras { list-style: none; margin-top: var(--sp-2) }
+  .d-paras li {
+    display: grid; grid-template-columns: var(--sp-8) minmax(0, 1fr) calc(var(--sp-22) * 2);
+    gap: var(--sp-5); padding: var(--sp-5) 0; border-bottom: 1px solid var(--line);
+  }
+  .d-paras li:last-child { border-bottom: 0 }
+  .d-paras .pn { font-family: var(--mono); font-size: var(--eb-2); color: var(--ink-55); padding-top: var(--sp-1) }
+  .d-paras .pt { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+  .d-paras .pt b { color: var(--ink); font-weight: 600 }
+  .d-paras .sn { display: flex; flex-direction: column; align-items: flex-start; gap: var(--sp-1); padding-top: var(--sp-1) }
+  .d-paras .sn .cite { margin: 0 }
+  .d-paras .sn .note { margin-top: 0 }
+  .d-paras .sn .marginal { font-size: var(--t-sm) }
+  @media (max-width: 620px) {
+    .d-sheet { padding: var(--sp-6) var(--sp-5) }
+    .d-paras li { grid-template-columns: var(--sp-6) minmax(0, 1fr); gap: var(--sp-3) }
+    .d-paras .sn { grid-column: 2 }
+  }
+
+  /* BREAK 2 + 3. The highlighter: warm used a fourth way, drawn on in
+     sequence when the sheet lands, and redrawn when the reader changes. */
+  mark.hl {
+    color: inherit; background: linear-gradient(var(--hl), var(--hl)) no-repeat 0 90% / 0% 78%;
+    padding: 0 2px; box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  }
+  html:not([data-js]) mark.hl, .d-stack.is-in mark.hl { background-size: 100% 78% }
+  .d-stack.is-in mark.hl { transition: background-size var(--mo-in-4) cubic-bezier(.3,.6,.2,1) var(--mo-in-2) }
+
+  /* Only the reader's own draft shows. Board is the default, so the page is
+     complete with script off. */
+  body[data-aud="board"]    [data-for]:not([data-for~="board"]),
+  body[data-aud="minister"] [data-for]:not([data-for~="minister"]),
+  body[data-aud="bank"]     [data-for]:not([data-for~="bank"]) { display: none }
+
+  /* ── D3 · three desks ──────────────────────────────────────────────────── */
+  .d-desks { width: 100%; border-collapse: collapse; table-layout: fixed }
+  .d-desks th, .d-desks td { text-align: left; vertical-align: top; padding: var(--sp-5) var(--sp-5) var(--sp-5) 0; border-top: 1px solid var(--line) }
+  .d-desks thead th { border-top: 0; padding-bottom: var(--sp-4) }
+  .d-desks thead th span { display: inline-block; padding: var(--sp-1) var(--sp-2); border-radius: var(--r-xs); transition: background var(--mo-base), color var(--mo-base) }
+  .d-desks tbody th { width: 18% }
+  .d-desks td { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+  .d-desks td.q { font-family: var(--serif); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink) }
+  /* The chosen reader's column takes the system's inverted active state. */
+  body[data-aud="board"] .d-desks thead [data-col="board"] span,
+  body[data-aud="minister"] .d-desks thead [data-col="minister"] span,
+  body[data-aud="bank"] .d-desks thead [data-col="bank"] span { background: var(--ink); color: var(--bg) }
+  body[data-aud="board"] .d-desks td[data-col="board"],
+  body[data-aud="minister"] .d-desks td[data-col="minister"],
+  body[data-aud="bank"] .d-desks td[data-col="bank"] { color: var(--ink) }
+  /* A phone shows the reader's own column only; the others are one tap away
+     in the sentence at the top. */
+  @media (max-width: 760px) {
+    body[data-aud="board"]    .d-desks [data-col]:not([data-col="board"]),
+    body[data-aud="minister"] .d-desks [data-col]:not([data-col="minister"]),
+    body[data-aud="bank"]     .d-desks [data-col]:not([data-col="bank"]) { display: none }
+    .d-desks tbody th { width: 34% }
+  }
+
+  /* ── D4 · gap map ──────────────────────────────────────────────────────── */
+  .d-gapwrap { display: grid; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: var(--sp-14); align-items: center }
+  @media (max-width: 1000px) { .d-gapwrap { grid-template-columns: 1fr; gap: var(--sp-10) } }
+  .d-gap { width: 100%; border-collapse: collapse; table-layout: fixed }
+  .d-gap th { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); font-weight: 400 }
+  .d-gap thead th { text-align: center; vertical-align: bottom; padding: 0 var(--sp-1) var(--sp-4); line-height: 1.4 }
+  .d-gap tbody th { text-align: left; padding-right: var(--sp-4); width: 30% }
+  .d-gap td { height: var(--sp-14); text-align: center; vertical-align: middle; border-top: 1px dashed var(--line) }
+  .d-gap thead td { border-top: 0 }
+  .dot { display: inline-block; border-radius: var(--r-full); background: var(--ink-70); vertical-align: middle }
+  .dot.g1 { width: var(--sp-2); height: var(--sp-2) }
+  .dot.g2 { width: var(--sp-3); height: var(--sp-3) }
+  .dot.g3 { width: var(--sp-5); height: var(--sp-5) }
+  .dot.g4 { width: var(--sp-8); height: var(--sp-8); background: var(--accent) }
+  .dot.g0 { width: var(--sp-4); height: var(--sp-4); background: transparent; border: 1px dashed var(--ink-55) }
+  /* BREAK 3. Dots bloom in Bayer order, the same matrix that dithers the
+     footage, so the map fills the way an image resolves. */
+  [data-js] .d-gap .dot { transform: scale(0); opacity: 0 }
+  .d-gap.is-in .dot {
+    transform: none; opacity: 1;
+    transition: transform var(--mo-in-2) cubic-bezier(.16,.86,.24,1) var(--d), opacity var(--mo-in-1) ease var(--d);
+  }
+  .d-legend { display: flex; gap: var(--sp-6); flex-wrap: wrap; align-items: center; margin-top: var(--sp-6) }
+  .d-legend span { display: inline-flex; align-items: center; gap: var(--sp-2) }
+  .d-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+  @media (max-width: 620px) {
+    .d-gap tbody th { width: 38% }
+    .d-gap thead th { writing-mode: vertical-rl; transform: rotate(180deg); text-align: left; height: calc(var(--sp-22) + var(--sp-4)) }
+  }
+
+  /* ── D5 · handover ─────────────────────────────────────────────────────── */
+  .d-big { font-family: var(--serif); font-weight: 700; font-size: var(--d-huge); line-height: 1.1; letter-spacing: -.01em; max-width: 18ch }
+  .d-big em { font-style: normal; color: var(--ink-55) }
+
+  /* ── D6 · access ───────────────────────────────────────────────────────── */
+  .d-close { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-16); align-items: start }
+  @media (max-width: 900px) { .d-close { grid-template-columns: 1fr; gap: var(--sp-10) } }
+  .d-close .checks { margin-top: var(--sp-8) }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+  @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr } }
+  .form-grid .full { grid-column: 1 / -1 }
+</style>
+</head>
+<body data-aud="board">
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="../media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="../media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ D1 · THE SENTENCE ════════════════════════════════════════════════════
+     The reader states their own situation. The blank is the catalog's
+     audience-gate select, set at an off-scale size, and everything below
+     re-drafts to match it. -->
+<header id="top" class="band" data-land>
+  <span class="crit-tag"><b>D1</b> Sentence <i>· .blank at mega size</i><em class="brk">breaks: type scale</em></span>
+  <div class="wrap">
+    <span class="eyebrow mo-develop" data-at="0">Peace Intel &middot; for people who answer for a decision</span>
+    <h1 class="d-sentence mo-resolve" data-at="150">
+      I need to brief
+      <select class="blank" id="aud" aria-label="Who you are briefing">
+        <option value="board">my board</option>
+        <option value="minister">the minister</option>
+        <option value="bank">the review panel</option>
+      </select><span class="d-caret" aria-hidden="true">&#9662;</span>
+      on Sudan by Thursday.
+    </h1>
+    <div class="d-hero-foot mo-develop" data-at="800">
+      <p class="lede">
+        Peace Intel reads the peacebuilding evidence base and drafts in the shape you already
+        write: a board paper, a submission, an appraisal annex. Every claim is cited to the
+        passage it came from, so the draft survives the meeting.
+      </p>
+      <div class="row">
+        <a class="btn primary lg" href="#draft">Read the draft</a>
+        <a class="btn ghost lg" href="#access">Request access</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ D2 · THE DRAFT ═══════════════════════════════════════════════════════
+     One set of sources, three documents. The facts are the Darfur answer the
+     other directions use; only the genre changes. -->
+<section id="draft" class="band surface--ground" data-land>
+  <span class="crit-tag"><b>D2</b> Draft <i>· paper sheet, three genres</i><em class="brk">breaks: static shadow, highlighter, new motion</em></span>
+  <div class="wrap">
+    <div class="d-doc">
+      <div class="sec-head mo-rule" data-at="0">
+        <span class="eyebrow">What comes back</span>
+        <h2>A first draft, in your format.</h2>
+        <p>The same three sources, written up for the room you are walking into. Highlighted sentences are the ones carrying a citation.</p>
+        <div class="seg mono" role="group" aria-label="Format">
+          <button type="button" data-set="board" aria-pressed="true">Board paper</button>
+          <button type="button" data-set="minister" aria-pressed="false">Submission</button>
+          <button type="button" data-set="bank" aria-pressed="false">Annex</button>
+        </div>
+        <div class="note">Sample output, for illustration.</div>
+      </div>
+
+      <div class="d-stack mo-develop" data-at="300">
+      <article class="d-sheet">
+        <!-- ─ Board paper · philanthropy ─ -->
+        <div data-for="board">
+          <div class="d-sheet-head"><span class="eyebrow eb-3 strong">Board paper &middot; Strategy committee</span><span class="eyebrow eb-3 faint">Draft for discussion</span></div>
+          <h3 class="d-sheet-title">Sudan: what past interventions tell us about where to fund</h3>
+          <div class="d-meta"><span class="eyebrow eb-4 faint">Sources &middot; 3</span><span class="eyebrow eb-4 faint">Confidence &middot; moderate</span><span class="eyebrow eb-4 faint">Prepared with Peace Intel</span></div>
+          <ol class="d-paras">
+            <li><span class="pn">1</span><div class="pt"><b>Summary.</b> Three international efforts in Darfur between 2003 and 2011 failed for different reasons. The clearest lesson for a funder is about resourcing: <mark class="hl">the African Union deployed AMIS in 2004 with a monitoring mandate it was never resourced to fulfil.</mark></div><aside class="sn"><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="note">de Waal, <em>War in Darfur</em></span></aside></li>
+            <li><span class="pn">2</span><div class="pt"><b>Scale did not settle it.</b> <mark class="hl">UNAMID was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested.</mark></div><aside class="sn"><span class="cite t2"><span class="cm">&#9680;</span>2</span><span class="note">Lynch, <em>Peacekeeping in Darfur</em></span></aside></li>
+            <li><span class="pn">3</span><div class="pt"><b>A number to avoid.</b> A frequently cited displacement figure does not trace to a primary source in the corpus. We suggest the committee does not rely on it.</div><aside class="sn"><span class="cite t3"><span class="cm">&#8599;</span>3</span><span class="note">Web, untraced</span></aside></li>
+            <li><span class="pn">4</span><div class="pt"><b>For discussion.</b> Whether independent monitoring capacity is a fundable gap, and if so, how to size it to its mandate from the start.</div><aside class="sn"><span class="marginal">Your call. The draft stops where judgement starts.</span></aside></li>
+          </ol>
+        </div>
+
+        <!-- ─ Submission · foreign service ─ -->
+        <div data-for="minister">
+          <div class="d-sheet-head"><span class="eyebrow eb-3 strong">Submission &middot; For decision</span><span class="eyebrow eb-3 faint">Official &middot; Draft</span></div>
+          <h3 class="d-sheet-title">Sudan: supporting a ceasefire monitoring mission</h3>
+          <div class="d-meta"><span class="eyebrow eb-4 faint">Sources &middot; 3</span><span class="eyebrow eb-4 faint">Confidence &middot; moderate</span><span class="eyebrow eb-4 faint">Prepared with Peace Intel</span></div>
+          <ol class="d-paras">
+            <li><span class="pn">1</span><div class="pt"><b>Bottom line.</b> <mark class="hl">Monitoring in Darfur failed where the mandate outran the resources.</mark> Any support should be sized to the mandate from the outset.</div><aside class="sn"><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="note">de Waal, <em>War in Darfur</em></span></aside></li>
+            <li><span class="pn">2</span><div class="pt"><b>Background.</b> The African Union deployed AMIS in 2004. <mark class="hl">Its successor, UNAMID, was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested.</mark></div><aside class="sn"><span class="cite t2"><span class="cm">&#9680;</span>2</span><span class="note">Lynch, <em>Peacekeeping in Darfur</em></span></aside></li>
+            <li><span class="pn">3</span><div class="pt"><b>Confidence: moderate.</b> The resourcing finding rests on a source held in full. The protection finding rests on an abstract only, and should be checked before it is quoted.</div><aside class="sn"><span class="evi-badge t1">&#9679; 1 full text</span><span class="evi-badge t2">&#9680; 1 abstract</span></aside></li>
+            <li><span class="pn">4</span><div class="pt"><b>Handling.</b> A displacement figure in circulation does not trace to a primary source. Do not use it in lines to take.</div><aside class="sn"><span class="cite t3"><span class="cm">&#8599;</span>3</span><span class="note">Web, untraced</span></aside></li>
+          </ol>
+        </div>
+
+        <!-- ─ Appraisal annex · development bank ─ -->
+        <div data-for="bank">
+          <div class="d-sheet-head"><span class="eyebrow eb-3 strong">Annex 3 &middot; Conflict sensitivity</span><span class="eyebrow eb-3 faint">Draft for task team</span></div>
+          <h3 class="d-sheet-title">Sudan: lessons from prior interventions in Darfur</h3>
+          <div class="d-meta"><span class="eyebrow eb-4 faint">Sources &middot; 3</span><span class="eyebrow eb-4 faint">Evidence grade &middot; mixed</span><span class="eyebrow eb-4 faint">Prepared with Peace Intel</span></div>
+          <ol class="d-paras">
+            <li><span class="pn">3.1</span><div class="pt"><b>Resourcing.</b> <mark class="hl">AMIS was deployed in 2004 with a monitoring mandate it was never resourced to fulfil.</mark> Operations with a monitoring component should budget to the mandate.</div><aside class="sn"><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="note">de Waal, <em>War in Darfur</em></span></aside></li>
+            <li><span class="pn">3.2</span><div class="pt"><b>Scale is not protection.</b> <mark class="hl">UNAMID was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested.</mark></div><aside class="sn"><span class="cite t2"><span class="cm">&#9680;</span>2</span><span class="note">Lynch, <em>Peacekeeping in Darfur</em></span></aside></li>
+            <li><span class="pn">3.3</span><div class="pt"><b>Baseline data.</b> A widely cited displacement figure is untraced in the corpus. The results framework should take its baseline from a primary source.</div><aside class="sn"><span class="cite t3"><span class="cm">&#8599;</span>3</span><span class="note">Web, untraced</span></aside></li>
+            <li><span class="pn">3.4</span><div class="pt"><b>Gaps for the task team.</b> The corpus holds little on how monitoring missions affected displacement. See the gap map in section 5.</div><aside class="sn"><span class="marginal">Flagged, not filled.</span></aside></li>
+          </ol>
+        </div>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ D3 · THREE DESKS ═════════════════════════════════════════════════════
+     A real table, because these readers live in tables. The rows are
+     hypotheses from desk research, not interview findings; see the JTBD audit
+     caveat. The chosen reader's column takes the inverted active state. -->
+<section class="band" data-land>
+  <span class="crit-tag"><b>D3</b> Three desks <i>· comparison table, synced to D1 · rows are hypotheses</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule" data-at="0">
+      <span class="eyebrow">Who it is for</span>
+      <h2>Three desks, one problem.</h2>
+      <p>Different institutions, different documents. The same pressure: a decision is due, and someone will ask where the evidence came from.</p>
+    </div>
+    <table class="d-desks mo-develop" data-at="300">
+      <thead>
+        <tr>
+          <th scope="col"><span class="d-vh">Question</span></th>
+          <th scope="col" data-col="board"><span class="eyebrow eb-3">Philanthropy</span></th>
+          <th scope="col" data-col="minister"><span class="eyebrow eb-3">Foreign service</span></th>
+          <th scope="col" data-col="bank"><span class="eyebrow eb-3">Development bank</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"><span class="eyebrow eb-4 faint">You answer to</span></th>
+          <td data-col="board">A board and its strategy committee</td>
+          <td data-col="minister">A minister, and in time a parliament</td>
+          <td data-col="bank">A review panel, then a board of executive directors</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="eyebrow eb-4 faint">You write</span></th>
+          <td data-col="board">Board papers, portfolio reviews, grant due diligence</td>
+          <td data-col="minister">Submissions, briefing notes, reporting from post</td>
+          <td data-col="bank">Risk and resilience assessments, appraisal annexes, completion reports</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="eyebrow eb-4 faint">The question underneath</span></th>
+          <td class="q" data-col="board">Is this where our money makes the most difference?</td>
+          <td class="q" data-col="minister">What are the options, and what happens if we do nothing?</td>
+          <td class="q" data-col="bank">Could this operation do harm, and what did the last one learn?</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="eyebrow eb-4 faint">Where it stalls</span></th>
+          <td data-col="board">The literature review is commissioned, and arrives after the decision.</td>
+          <td data-col="minister">The desk officer is new to the country and has a week.</td>
+          <td data-col="bank">Lessons learned are copied forward from the last project.</td>
+        </tr>
+        <tr>
+          <th scope="row"><span class="eyebrow eb-4 faint">What you get</span></th>
+          <td data-col="board">Where the evidence points, and the gaps worth funding</td>
+          <td data-col="minister">A cited brief with its confidence stated</td>
+          <td data-col="bank">Lessons traced to the sources that recorded them</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══ D4 · GAP MAP ═════════════════════════════════════════════════════════
+     The format evaluators already use, drawn for one place. A concept, not a
+     shipped feature, and the values are illustrative; both are said on the
+     page. The one dark section. -->
+<section class="band band--dark on-dark" data-land>
+  <span class="crit-tag"><b>D4</b> Gap map <i>· concept, illustrative data</i><em class="brk">breaks: new motion (Bayer bloom)</em></span>
+  <div class="wrap">
+    <div class="d-gapwrap">
+      <div class="lockup lockup--section">
+        <span class="eyebrow mo-develop" data-at="0">Concept &middot; Evidence gap map</span>
+        <h2 class="lk-head mo-develop" data-at="150">See where the evidence is deep, and where nobody has looked.</h2>
+        <p class="lk-lede mo-develop" data-at="400">Interventions against outcomes, for the context you are working in. A dashed ring is a question the literature has not tested, which is often the most useful thing a funder or a task team can know.</p>
+        <div class="d-legend mo-develop" data-at="700">
+          <span><span class="dot g1" aria-hidden="true"></span><span class="eyebrow eb-4">Few studies</span></span>
+          <span><span class="dot g3" aria-hidden="true"></span><span class="eyebrow eb-4">Many</span></span>
+          <span><span class="dot g4" aria-hidden="true"></span><span class="eyebrow eb-4">Deep literature</span></span>
+          <span><span class="dot g0" aria-hidden="true"></span><span class="eyebrow eb-4">Untested</span></span>
+        </div>
+        <p class="note mo-develop" data-at="900">Illustrative values. Not a finding.</p>
+      </div>
+      <table class="d-gap" data-at="500">
+        <caption class="d-vh">Illustrative evidence gap map: interventions by outcomes</caption>
+        <thead>
+          <tr><td></td><th scope="col">Violence</th><th scope="col">Recurrence</th><th scope="col">Civilian protection</th><th scope="col">Displacement</th><th scope="col">Social cohesion</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Ceasefire monitoring</th><td><span class="dot g3" style="--d:0ms" aria-hidden="true"></span><span class="d-vh">many studies</span></td><td><span class="dot g2" style="--d:896ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g1" style="--d:224ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g0" style="--d:1120ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g0" style="--d:56ms" aria-hidden="true"></span><span class="d-vh">untested</span></td></tr>
+          <tr><th scope="row">Mediation</th><td><span class="dot g2" style="--d:1344ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g4" style="--d:448ms" aria-hidden="true"></span><span class="d-vh">a deep literature</span></td><td><span class="dot g0" style="--d:1568ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g1" style="--d:672ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g1" style="--d:1400ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td></tr>
+          <tr><th scope="row">Peacekeeping</th><td><span class="dot g4" style="--d:336ms" aria-hidden="true"></span><span class="d-vh">a deep literature</span></td><td><span class="dot g2" style="--d:1232ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g3" style="--d:112ms" aria-hidden="true"></span><span class="d-vh">many studies</span></td><td><span class="dot g2" style="--d:1008ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g0" style="--d:392ms" aria-hidden="true"></span><span class="d-vh">untested</span></td></tr>
+          <tr><th scope="row">Disarmament and reintegration</th><td><span class="dot g2" style="--d:1680ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g3" style="--d:784ms" aria-hidden="true"></span><span class="d-vh">many studies</span></td><td><span class="dot g0" style="--d:1456ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g0" style="--d:560ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g1" style="--d:1736ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td></tr>
+          <tr><th scope="row">Community dialogue</th><td><span class="dot g1" style="--d:84ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g0" style="--d:980ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g0" style="--d:308ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g1" style="--d:1204ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g3" style="--d:28ms" aria-hidden="true"></span><span class="d-vh">many studies</span></td></tr>
+          <tr><th scope="row">Cash transfers</th><td><span class="dot g1" style="--d:1428ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g0" style="--d:532ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g0" style="--d:1652ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g2" style="--d:756ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g2" style="--d:1372ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td></tr>
+          <tr><th scope="row">Security sector reform</th><td><span class="dot g2" style="--d:420ms" aria-hidden="true"></span><span class="d-vh">some studies</span></td><td><span class="dot g1" style="--d:1316ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g1" style="--d:196ms" aria-hidden="true"></span><span class="d-vh">a few studies</span></td><td><span class="dot g0" style="--d:1092ms" aria-hidden="true"></span><span class="d-vh">untested</span></td><td><span class="dot g0" style="--d:364ms" aria-hidden="true"></span><span class="d-vh">untested</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ D5 · HANDOVER ════════════════════════════════════════════════════════
+     Continuity is the job nobody names. All three institutions rotate people
+     faster than the evidence changes. -->
+<section class="band" data-land>
+  <span class="crit-tag"><b>D5</b> Handover <i>· typographic statement</i><em class="brk">breaks: type scale</em></span>
+  <div class="wrap">
+    <span class="eyebrow mo-develop" data-at="0">Continuity</span>
+    <p class="d-big mo-resolve" data-at="150" style="margin-top:var(--sp-5)">Your predecessor read all of this. <em>You have a week.</em></p>
+    <div class="rule-row mo-deal" style="--cols:3;margin-top:var(--sp-14)" data-at="700">
+      <div><span class="eyebrow eb-3 strong">Postings rotate</span><p class="note">A desk officer inherits a country, and the reading that came with it leaves with the last one.</p></div>
+      <div><span class="eyebrow eb-3 strong">Programme officers move on</span><p class="note">A strategy outlives the people who researched it, and the reasons get lost first.</p></div>
+      <div><span class="eyebrow eb-3 strong">Task teams change</span><p class="note">The team that appraises an operation is rarely the one that completes it.</p></div>
+    </div>
+    <p class="lede mo-develop" data-at="1100" style="margin-top:var(--sp-10)">A thread keeps the question, the sources and the answer together, so the next person starts where you stopped.</p>
+  </div>
+</section>
+
+<!-- ══ D6 · ACCESS ══════════════════════════════════════════════════════════ -->
+<section id="access" class="band surface--ground" data-land>
+  <span class="crit-tag"><b>D6</b> Access <i>· checks + form, institution synced to D1</i></span>
+  <div class="wrap">
+    <div class="d-close">
+      <div>
+        <div class="sec-head mo-rule" data-at="0" style="margin-bottom:0">
+          <span class="eyebrow">Private beta &middot; January 2027</span>
+          <h2>Built to be defended in a room.</h2>
+        </div>
+        <ul class="checks mo-deal" data-at="300">
+          <li><span><strong>Every claim</strong> links to the passage it came from.</span></li>
+          <li><span><strong>Every source</strong> carries its tier: full text, abstract or web.</span></li>
+          <li><span><strong>Gaps and disagreements</strong> are named in the answer.</span></li>
+          <li><span><strong>An untraced number</strong> is flagged before you repeat it.</span></li>
+        </ul>
+      </div>
+      <form class="card raised mo-develop" data-at="500" onsubmit="return false">
+        <div class="form-grid">
+          <div class="field full">
+            <label>My institution is</label>
+            <div class="row tight">
+              <input type="radio" name="inst" id="i-board" value="board" checked><label class="radio-pill" for="i-board">Philanthropy</label>
+              <input type="radio" name="inst" id="i-minister" value="minister"><label class="radio-pill" for="i-minister">Foreign service</label>
+              <input type="radio" name="inst" id="i-bank" value="bank"><label class="radio-pill" for="i-bank">Development bank</label>
+            </div>
+          </div>
+          <label class="field"><span>First name</span><input class="input" type="text" name="first" autocomplete="given-name"></label>
+          <label class="field"><span>Last name</span><input class="input" type="text" name="last" autocomplete="family-name"></label>
+          <label class="field full"><span>Work email</span><input class="input" type="email" name="email" autocomplete="email" placeholder="name@institution.org"></label>
+          <label class="field full"><span>The decision on your desk <span class="faint">(optional)</span></span><textarea class="input" name="q" rows="3" placeholder="What are you being asked to brief on?"></textarea></label>
+        </div>
+        <div class="row" style="margin-top:var(--sp-4)">
+          <button class="btn primary lg" type="submit">Request access</button>
+          <span class="note" style="margin:0">We do not share your information with third parties.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══ D7 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>D7</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="../media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../system.js?v=eb50598a"></script>
+<script src="retired.js?v=cba1a8cf"></script>
+<script>
+/* One reader state for the whole page: the sentence, the format switch, the
+   desks table and the form all read and write body[data-aud]. */
+(function () {
+  var body = document.body, sel = document.getElementById('aud');
+  var sheet = document.querySelector('.d-stack');
+
+  /* A select is as wide as its longest option, which leaves a hole after
+     "my board". Size it to the chosen option instead. */
+  var probe = document.createElement('span');
+  probe.setAttribute('aria-hidden', 'true');
+  probe.style.cssText = 'position:absolute;left:0;top:0;visibility:hidden;white-space:pre;font:inherit;letter-spacing:inherit';
+  sel.parentNode.appendChild(probe);
+  function fit() {
+    probe.textContent = sel.options[sel.selectedIndex].text;
+    var cs = getComputedStyle(sel);
+    sel.style.width = Math.ceil(probe.getBoundingClientRect().width + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight) + 2) + 'px';
+  }
+
+  function set(v) {
+    body.setAttribute('data-aud', v);
+    sel.value = v; fit();
+    [].forEach.call(document.querySelectorAll('[data-set]'), function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-set') === v); });
+    var r = document.getElementById('i-' + v); if (r) r.checked = true;
+    /* Redraw the highlighter on the new draft. */
+    if (sheet.classList.contains('is-in')) { sheet.classList.remove('is-in'); void sheet.offsetWidth; sheet.classList.add('is-in'); }
+  }
+
+  sel.addEventListener('change', function () { set(sel.value); });
+  document.addEventListener('click', function (e) { var b = e.target.closest('[data-set]'); if (b) set(b.getAttribute('data-set')); });
+  [].forEach.call(document.querySelectorAll('input[name="inst"]'), function (r) { r.addEventListener('change', function () { set(r.value); }); });
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(fit);
+  window.addEventListener('resize', fit);
+})();
+</script>
+</body>
+</html>

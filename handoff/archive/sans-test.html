@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sans Type Test</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="sans-candidates.css">
+<link rel="stylesheet" href="../reference.css?v=569be275">
+<link rel="stylesheet" href="retired.css">
+<!-- The sans test bench (Rev 23, 16 Oct 2026). Matt may need a licence for
+     DIN 2014, so its free alternatives are tried on the real pages. Built
+     like the archived headline test (archive/type-test.html), whose .tt
+     styles it borrows from archive/retired.css: each frame loads a worked
+     page untouched and resets --sans and the sans tracking from outside.
+     Two frames compare two settings on the same page, scrolled together. -->
+<style>
+  /* Page-specific: the tracking tray needs room for five values. */
+  .tt-bar .seg button { min-width: 0 }
+</style>
+</head>
+<body class="tt-page">
+
+<div class="ctrl">
+  <span class="ctrl-l">Peace Intel · Sans type test · Exploration</span>
+  <div class="ctrl-g"><span class="ctrl-l">Page</span><div class="seg mono" data-tt="page" aria-label="Page to test on"><button type="button" data-v="landing.html" aria-pressed="true">Landing</button><button type="button" data-v="home.html" aria-pressed="false">Home</button><button type="button" data-v="rotary.html" aria-pressed="false">Rotary</button><button type="button" data-v="console.html" aria-pressed="false">Console</button><button type="button" data-v="report.html" aria-pressed="false">Report</button></div></div>
+  <div class="ctrl-g"><span class="ctrl-l">Width</span><div class="seg mono" data-tt="width" aria-label="Width the page is drawn at"><button type="button" data-v="1280" aria-pressed="true">Desktop</button><button type="button" data-v="390" aria-pressed="false">Phone</button></div></div>
+  <div class="ctrl-g"><span class="ctrl-l">Compare</span><div class="seg mono" data-tt="split" aria-label="One setting or two side by side"><button type="button" data-v="1" aria-pressed="false">One</button><button type="button" data-v="2" aria-pressed="true">Two</button></div></div>
+  <span class="spacer"></span>
+  <div class="ctrl-g ctrl-meta"><a class="ctrl-link" href="../brand-guide.html#type">Pl. 02 Type</a></div>
+</div>
+
+<main class="tt" data-split="2">
+  <section class="tt-side" data-side="a" aria-label="Setting A">
+    <div class="tt-bar">
+      <span class="tt-k">A</span>
+      <label class="tt-pick"><span class="sr">Sans for A</span><select class="input" data-f></select></label>
+      <div class="seg mono" data-t aria-label="Tracking for A"></div>
+      <span class="tt-has" aria-live="polite"></span>
+    </div>
+    <div class="tt-view"><iframe title="Setting A"></iframe></div>
+  </section>
+  <section class="tt-side" data-side="b" aria-label="Setting B">
+    <div class="tt-bar">
+      <span class="tt-k">B</span>
+      <label class="tt-pick"><span class="sr">Sans for B</span><select class="input" data-f></select></label>
+      <div class="seg mono" data-t aria-label="Tracking for B"></div>
+      <span class="tt-has" aria-live="polite"></span>
+    </div>
+    <div class="tt-view"><iframe title="Setting B"></iframe></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  /* [family, label, what its semi-bold (600) is drawn as] */
+  var FACES = [
+    ['DIN 2014', 'DIN 2014 (until 16 Oct)', 'its DemiBold'],
+    ['Clear Sans', 'Clear Sans · 600 as Bold', 'Bold: there is no 600'],
+    ['Clear Sans M', 'Clear Sans · 600 as Medium', 'Medium: there is no 600'],
+    ['D-DIN', 'D-DIN', 'Bold: only 400 and 700 exist'],
+    ['Barlow', 'Barlow (chosen)', 'a true SemiBold'],
+    ['DM Sans', 'DM Sans (today’s fallback)', 'a true SemiBold']
+  ];
+  /* Tracking for running sans text, in em. 0 is as the system sets it. */
+  var TRACK = [-0.03, -0.02, -0.01, 0, 0.01];
+  var DEF = { a: ['Barlow', 0], b: ['DIN 2014', 0] };
+  var state = { page: 'landing.html', width: 1280, split: 2, a: DEF.a.slice(), b: DEF.b.slice() };
+  try { var saved = JSON.parse(localStorage.getItem('pi-sanstest2') || 'null'); if (saved) Object.keys(state).forEach(function (k) { if (k in saved) state[k] = saved[k]; }); } catch (_) {}
+  function save() { try { localStorage.setItem('pi-sanstest2', JSON.stringify(state)); } catch (_) {} }
+
+  var tt = document.querySelector('.tt'), sides = {};
+  [].forEach.call(document.querySelectorAll('.tt-side'), function (el) {
+    sides[el.dataset.side] = { el: el, frame: el.querySelector('iframe'), view: el.querySelector('.tt-view'), sel: el.querySelector('[data-f]'), t: el.querySelector('[data-t]'), has: el.querySelector('.tt-has') };
+  });
+
+  function fill() {
+    Object.keys(sides).forEach(function (k) {
+      var s = sides[k];
+      s.sel.innerHTML = FACES.map(function (f) { return '<option value="' + f[0] + '"' + (state[k][0] === f[0] ? ' selected' : '') + '>' + f[1] + '</option>'; }).join('');
+      s.t.innerHTML = TRACK.map(function (t) { return '<button type="button" data-v="' + t + '" aria-pressed="' + (state[k][1] === t) + '">' + (t > 0 ? '+' : '') + (t === 0 ? '0' : t.toFixed(2).replace('0.', '.')) + '</button>'; }).join('');
+    });
+  }
+
+  /* Into a frame: the candidates' faces, --sans reset, and the tracking set
+     on text in the sans only. --t-ui-ls exists only because DIN closes up at 13px, so another
+     face drops it. */
+  function apply(k) {
+    var s = sides[k], doc = s.frame.contentDocument; if (!doc || !doc.head) return;
+    var fam = state[k][0], t = state[k][1];
+    if (!doc.getElementById('st-faces')) {
+      var l = doc.createElement('link'); l.id = 'st-faces'; l.rel = 'stylesheet'; l.href = 'archive/sans-candidates.css'; doc.head.appendChild(l);
+      var st = doc.createElement('style'); st.id = 'st-style'; doc.head.appendChild(st);
+    }
+    /* Only text set in the sans takes the tracking: the serif and the mono
+       keep their own, even inside a sans container they would inherit it
+       from. Marked once per page, before any tracking is applied, by font
+       stack (every sans stack ends in DM Sans), and only where the system
+       sets no tracking itself. */
+    if (!doc.body.hasAttribute('data-st-marked')) {
+      doc.body.setAttribute('data-st-marked', '');
+      [].forEach.call(doc.querySelectorAll('body *'), function (el) {
+        var cs = doc.defaultView.getComputedStyle(el);
+        if (cs.letterSpacing !== 'normal') return;
+        el.setAttribute(/DM Sans/.test(cs.fontFamily) ? 'data-st-sans' : 'data-st-keep', '');
+      });
+    }
+    var din = fam === 'DIN 2014';
+    doc.getElementById('st-style').textContent =
+      ':root { --sans: "PI Marks", "' + fam + '", "DM Sans", system-ui, sans-serif;' + (din ? '' : ' --t-ui-ls: 0em;') + ' font-synthesis: none }' +
+      ' [data-st-sans] { letter-spacing: ' + t + 'em } [data-st-keep] { letter-spacing: normal }';
+    var f = FACES.filter(function (x) { return x[0] === fam; })[0];
+    s.has.textContent = f ? 'Semi-bold is ' + f[2] : '';
+  }
+
+  function fit() {
+    Object.keys(sides).forEach(function (k) {
+      var s = sides[k], box = s.view.getBoundingClientRect();
+      var scale = Math.min(1, box.width / state.width);
+      s.frame.style.width = state.width + 'px';
+      s.frame.style.height = (box.height / scale) + 'px';
+      s.frame.style.transform = 'scale(' + scale + ')';
+      s.frame.style.left = Math.max(0, (box.width - state.width * scale) / 2) + 'px';
+    });
+  }
+
+  var syncing = false;
+  function load() {
+    Object.keys(sides).forEach(function (k) {
+      var s = sides[k];
+      s.frame.onload = function () {
+        apply(k);
+        if (s.frame.contentDocument.fonts) s.frame.contentDocument.fonts.ready.then(function () { apply(k); });
+        s.frame.contentWindow.addEventListener('scroll', function () {
+          if (syncing || state.split !== 2) return;
+          var me = s.frame.contentWindow, other = sides[k === 'a' ? 'b' : 'a'].frame.contentWindow; if (!other) return;
+          var max = me.document.documentElement.scrollHeight - me.innerHeight, omax = other.document.documentElement.scrollHeight - other.innerHeight;
+          syncing = true; other.scrollTo(0, max > 0 ? me.scrollY / max * omax : 0);
+          requestAnimationFrame(function () { syncing = false; });
+        });
+      };
+      s.frame.src = '../' + state.page;
+    });
+  }
+
+  function trays() {
+    [].forEach.call(document.querySelectorAll('[data-tt] button'), function (b) {
+      var key = b.parentNode.dataset.tt, v = key === 'page' ? b.dataset.v : +b.dataset.v;
+      b.setAttribute('aria-pressed', String(state[key] === v));
+    });
+    tt.setAttribute('data-split', state.split);
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tt] button'); if (b) {
+      var key = b.parentNode.dataset.tt;
+      state[key] = key === 'page' ? b.dataset.v : +b.dataset.v; save(); trays();
+      if (key === 'page') load(); else fit();
+      return;
+    }
+    var t = e.target.closest('[data-t] button'); if (t) {
+      var k = t.closest('.tt-side').dataset.side; state[k][1] = +t.dataset.v; save();
+      [].forEach.call(t.parentNode.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', String(x === t)); });
+      apply(k);
+    }
+  });
+  document.addEventListener('change', function (e) {
+    if (!e.target.matches('[data-f]')) return;
+    var k = e.target.closest('.tt-side').dataset.side; state[k][0] = e.target.value; save(); apply(k);
+  });
+  window.addEventListener('resize', fit);
+
+  fill(); trays(); fit(); load();
+})();
+</script>
+</body>
+</html>

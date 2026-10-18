@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="G">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction G · Weave</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="description" content="Landing exploration G. Synthesis as weaving: many findings drawn into one answer, the conflicts left visible, and every thread still attached to its source.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="retired.css?v=12fe2490"><!-- drafted before the 2026-10-09 cuts -->
+<link rel="stylesheet" href="review.css?v=47f3ff70">
+<script src="review.js?v=e67c21ad"></script>
+<style>
+  /* ═══ DIRECTION G · WEAVE ══════════════════════════════════════════════════
+     POSITIONING. Synthesis you can unpick. E shows what it knows; F shows how
+     one claim checks out; G is about the hard part, turning dozens of findings
+     that partly disagree into one position. That is where AI is least trusted,
+     because the fear is that it smooths disagreement into confident mush. So
+     the conflicts stay visible in the cloth, and any thread pulls back out.
+
+     AESTHETIC. Bauhaus weaving: Anni Albers, and the weaving draft, the
+     checkerboard notation weavers use to write a cloth down before they make
+     it. The brand grid becomes warp and weft; the draft is the dither language
+     again; and peacebuilding's own metaphor is the social fabric. Type is a
+     tight, large DIN, the Swiss and Bauhaus voice, so it sits apart from E's
+     tiny mono and F's huge serif.
+
+     BREAKS, with Matt's permission (2026-09-30), each named in its tag:
+       1  a new media type    a canvas loom, and three woven swatches
+       2  invented motion     shuttles, tension, binding, a thread pulled free,
+                              a draft filling in Bayer order
+       3  sans display        the hero is DIN at an off-scale size */
+
+  /* ── G1 · the loom ─────────────────────────────────────────────────────── */
+  .g-loom { padding: 0 }
+  /* Static by default: captions stacked, cloth shown finished. */
+  .g-copy { padding: var(--sp-16) 0 var(--sp-8) }
+  .g-caps { display: grid }
+  .g-cap + .g-cap { margin-top: var(--sp-10) }
+  .g-canvas {
+    display: block; width: 100%; height: calc(var(--sp-26) * 4);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  }
+  .g-prog { display: none }
+
+  .g-loom.is-live .g-stage { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)); overflow: hidden }
+  .g-loom.is-live .g-copy { position: absolute; left: 0; right: 0; top: 0; height: 46%; padding: var(--sp-12) 0 0 }
+  /* All captions share one grid cell, so the copy area is as tall as the
+     tallest and they cross-fade in place. */
+  .g-loom.is-live .g-cap { grid-area: 1 / 1; margin: 0; opacity: 0; pointer-events: none; transition: opacity var(--mo-fast) ease }
+  /* Out fast, then in: two captions never share the frame. */
+  .g-loom.is-live .g-cap.on { opacity: 1; pointer-events: auto; transition: opacity var(--mo-in-1) ease var(--mo-base) }
+  .g-loom.is-live .g-canvas { position: absolute; left: 0; right: 0; bottom: 0; height: 54% }
+  .g-loom.is-live .g-prog { display: block; position: absolute; left: 0; right: 0; bottom: var(--sp-6); z-index: 2 }
+  @media (max-width: 760px) {
+    .g-loom.is-live .g-copy { height: 60%; padding-top: var(--sp-6) }
+    .g-loom.is-live .g-canvas { height: 40% }
+    .g-mega { font-size: 34px }
+    .g-head { font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+    .g-cap .lede { font-size: var(--t-body); line-height: var(--t-body-lh) }
+    .g-cap .row { flex-wrap: nowrap; gap: var(--sp-2) }
+    .g-cap .row .btn.lg { padding: var(--sp-3) var(--sp-4); font-size: var(--t-btn) }
+  }
+
+  /* BREAK 3. The hero in DIN, tight, at a size the scale does not have. */
+  .g-mega { font-family: var(--sans); font-weight: 700; font-size: clamp(40px, 5.6vw, 80px); line-height: 1.0; letter-spacing: -.025em; max-width: 14ch }
+  .g-head { font-family: var(--sans); font-weight: 700; font-size: var(--t-h1); line-height: var(--t-h1-lh); letter-spacing: -.012em; max-width: 22ch; margin-top: var(--sp-3) }
+  .g-cap .lede { margin-top: var(--sp-4) }
+  .g-cap .row { margin-top: var(--sp-6) }
+  .g-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-12); align-items: end }
+  @media (max-width: 900px) { .g-two { grid-template-columns: 1fr; gap: var(--sp-4) } }
+
+  /* The progress thread: five stages, a hairline, an accent fill. */
+  .g-prog-in { position: relative; padding-top: var(--sp-3) }
+  .g-prog-in::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line-2) }
+  .g-prog ol { list-style: none; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)) }
+  .g-prog .g-fill { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: var(--accent); transform-origin: left; transform: scaleX(0) }
+  .g-prog li { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); background: var(--bg); padding-right: var(--sp-2); justify-self: start; transition: color var(--mo-base) }
+  .g-prog li.on { color: var(--ink) }
+
+  /* ── G2 · the draft ────────────────────────────────────────────────────── */
+  .g-draftwrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-16); align-items: center }
+  @media (max-width: 1000px) { .g-draftwrap { grid-template-columns: 1fr; gap: var(--sp-10) } }
+  .g-draft {
+    --cell: var(--sp-7); --gap: var(--sp-1);
+    display: grid; grid-template-columns: repeat(12, var(--cell)) var(--sp-3) auto;
+    grid-auto-rows: var(--cell); gap: var(--gap); align-items: center;
+  }
+  @media (max-width: 620px) { .g-draft { --cell: var(--sp-5); --gap: 2px } }
+  .g-draft .g-sp { grid-column: 1 / -1; height: var(--sp-1) }
+  .g-h { font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55); text-align: center; align-self: end }
+  .g-cap-r { white-space: nowrap }
+  .g-t, .g-c { display: block; width: 100%; height: 100%; border-radius: var(--r-xs); transition: background var(--mo-base), border-color var(--mo-base) }
+  .g-t { width: 62%; height: 62%; justify-self: center; border: 2px solid var(--ink) }
+  .g-t.t1 { background: var(--ink) }
+  .g-t.t3 { border-style: dashed; border-color: var(--ink-55) }
+  .g-c { background: color-mix(in srgb, var(--ink) 4%, transparent) }
+  .g-c.on.t1 { background: var(--ink) }
+  .g-c.on.t2 { background: transparent; border: 2px solid var(--ink) }
+  .g-c.on.t3 { background: transparent; border: 2px dashed var(--ink-55) }
+  .g-c.on.hl.t1, .g-t.hl.t1 { background: var(--accent); border-color: var(--accent) }
+  .g-c.on.hl.t2, .g-t.hl.t2 { border-color: var(--accent) }
+  .g-c.on.hl.t3, .g-t.hl.t3 { border-color: var(--ink) }
+  .g-row {
+    font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase;
+    color: var(--ink-55); text-align: left; white-space: nowrap; padding: 0 var(--sp-2); height: 100%;
+    border-radius: var(--r-xs); transition: color var(--mo-fast), background var(--mo-fast);
+  }
+  .g-row:hover, .g-row.on { color: var(--ink); background: var(--wash-1) }
+  /* BREAK 2. The drawdown fills in Bayer order, the way a dithered image
+     resolves, when the figure arrives. */
+  [data-js] .g-draft .g-c.on { transform: scale(.25); opacity: 0 }
+  .g-draft.is-in .g-c.on { transform: none; opacity: 1; transition: transform var(--mo-in-1) cubic-bezier(.16,.86,.24,1) var(--d), opacity var(--mo-base) ease var(--d), background var(--mo-base), border-color var(--mo-base) }
+  .g-readout { min-height: calc(var(--sp-6) * 2); margin-top: var(--sp-6) }
+
+  /* ── G3 · swatches ─────────────────────────────────────────────────────── */
+  .g-sw canvas { display: block; width: 100%; aspect-ratio: 4 / 3; border-top: 1px solid var(--line-2) }
+  .g-sw h3 { font-family: var(--sans); font-weight: 700; font-size: var(--t-h3); line-height: var(--t-h3-lh); letter-spacing: -.01em; margin-top: var(--sp-5) }
+
+  /* ── G4 · close ────────────────────────────────────────────────────────── */
+  .g-close { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-16); align-items: center }
+  @media (max-width: 900px) { .g-close { grid-template-columns: 1fr; gap: var(--sp-10) } }
+  .g-close .lk-head { font-family: var(--sans); letter-spacing: -.012em }
+  .g-close .marginal { margin-top: var(--sp-8); max-width: 44ch }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+  @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr } }
+  .form-grid .full { grid-column: 1 / -1 }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="../media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="../media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ G1 · THE LOOM ════════════════════════════════════════════════════════
+     Five stages on one pinned stage: warp, weft, tension, bind, pull. The
+     captions cross-fade above a full-bleed cloth. -->
+<section id="top" class="band g-loom" aria-label="Many findings woven into one answer">
+  <span class="crit-tag"><b>G1</b> Loom <i>· warp, weft, tension, bind, pull; hover to lift a thread</i><em class="brk">breaks: new media type, new motion, sans display</em></span>
+  <div class="g-stage">
+    <div class="g-copy">
+      <div class="wrap">
+        <div class="g-caps">
+          <div class="g-cap on">
+            <span class="eyebrow accent">Peace Intel</span>
+            <div class="g-two">
+              <h1 class="g-mega" style="margin-top:var(--sp-4)">Many findings, woven into one answer.</h1>
+              <div>
+                <p class="lede">The evidence on peacebuilding rarely agrees with itself. Peace Intel draws the studies into a single position, keeps the disagreements in view, and leaves every thread attached to its source.</p>
+                <div class="row">
+                  <a class="btn primary lg" href="#access">Request access</a>
+                  <a class="btn ghost lg" href="#draft">Read the draft</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="g-cap">
+            <span class="eyebrow">01 &middot; Weft</span>
+            <h2 class="g-head">Each finding enters as a thread.</h2>
+            <p class="lede">One question, many studies. Full text runs solid, abstracts run hollow, and anything from the web runs dashed.</p>
+          </div>
+          <div class="g-cap">
+            <span class="eyebrow">02 &middot; Tension</span>
+            <h2 class="g-head">Where the studies agree, the weave is tight. Where they conflict, it pulls.</h2>
+            <p class="lede">Disagreement is information. It stays in the cloth.</p>
+          </div>
+          <div class="g-cap">
+            <span class="eyebrow">03 &middot; Bind</span>
+            <h2 class="g-head">The answer is the thread that binds them.</h2>
+            <p class="lede">One position in plain language, drawn through every finding. The tension eases and does not disappear, because the answer says where the evidence is still contested.</p>
+          </div>
+          <div class="g-cap">
+            <span class="eyebrow">04 &middot; Pull</span>
+            <h2 class="g-head">Pull any thread, and it comes out with its source.</h2>
+            <p class="lede">Every claim in the answer traces back to the study it rests on. Point at the cloth to lift a thread.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <canvas class="g-canvas" id="g-loom" role="img" aria-label="A woven band of threads, one per finding, bound by a single accent thread"></canvas>
+    <div class="g-prog" aria-hidden="true">
+      <div class="wrap">
+        <div class="g-prog-in"><span class="g-fill"></span><ol><li class="on">Warp</li><li>Weft</li><li>Tension</li><li>Bind</li><li>Pull</li></ol></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ G2 · THE DRAFT ═══════════════════════════════════════════════════════
+     A weaving draft is an evidence matrix: claims down the side, sources
+     across the top, a mark wherever they cross. Illustrative. -->
+<section id="draft" class="band">
+  <span class="crit-tag"><b>G2</b> Draft <i>· claims × sources as weaving notation; choose a claim</i><em class="brk">breaks: new motion (Bayer drawdown)</em></span>
+  <div class="wrap g-draftwrap">
+    <figure>
+      <div class="g-draft" id="g-draft" aria-label="Illustrative draft: eight claims against twelve sources">
+        <span class="g-h">01</span>
+        <span class="g-h">02</span>
+        <span class="g-h">03</span>
+        <span class="g-h">04</span>
+        <span class="g-h">05</span>
+        <span class="g-h">06</span>
+        <span class="g-h">07</span>
+        <span class="g-h">08</span>
+        <span class="g-h">09</span>
+        <span class="g-h">10</span>
+        <span class="g-h">11</span>
+        <span class="g-h">12</span>
+        <span></span><span class="g-cap-r eyebrow eb-4 faint">Sources</span>
+        <span class="g-t t1" data-c="0"></span>
+        <span class="g-t t1" data-c="1"></span>
+        <span class="g-t t1" data-c="2"></span>
+        <span class="g-t t1" data-c="3"></span>
+        <span class="g-t t1" data-c="4"></span>
+        <span class="g-t t1" data-c="5"></span>
+        <span class="g-t t1" data-c="6"></span>
+        <span class="g-t t1" data-c="7"></span>
+        <span class="g-t t2" data-c="8"></span>
+        <span class="g-t t2" data-c="9"></span>
+        <span class="g-t t3" data-c="10"></span>
+        <span class="g-t t3" data-c="11"></span>
+        <span></span><span class="g-cap-r eyebrow eb-4 faint">Tier</span>
+        <span class="g-sp"></span>
+        <span class="g-c t1 on" data-r="0" data-c="0" style="--d:0ms"></span>
+        <span class="g-c t1 on" data-r="0" data-c="1" style="--d:704ms"></span>
+        <span class="g-c t1" data-r="0" data-c="2" style="--d:176ms"></span>
+        <span class="g-c t1 on" data-r="0" data-c="3" style="--d:880ms"></span>
+        <span class="g-c t1" data-r="0" data-c="4" style="--d:44ms"></span>
+        <span class="g-c t1" data-r="0" data-c="5" style="--d:748ms"></span>
+        <span class="g-c t1" data-r="0" data-c="6" style="--d:220ms"></span>
+        <span class="g-c t1" data-r="0" data-c="7" style="--d:924ms"></span>
+        <span class="g-c t2" data-r="0" data-c="8" style="--d:0ms"></span>
+        <span class="g-c t2" data-r="0" data-c="9" style="--d:704ms"></span>
+        <span class="g-c t3" data-r="0" data-c="10" style="--d:176ms"></span>
+        <span class="g-c t3" data-r="0" data-c="11" style="--d:880ms"></span>
+        <span></span><button type="button" class="g-row" data-r="0">Claim 01</button>
+        <span class="g-c t1" data-r="1" data-c="0" style="--d:1056ms"></span>
+        <span class="g-c t1 on" data-r="1" data-c="1" style="--d:352ms"></span>
+        <span class="g-c t1 on" data-r="1" data-c="2" style="--d:1232ms"></span>
+        <span class="g-c t1" data-r="1" data-c="3" style="--d:528ms"></span>
+        <span class="g-c t1 on" data-r="1" data-c="4" style="--d:1100ms"></span>
+        <span class="g-c t1" data-r="1" data-c="5" style="--d:396ms"></span>
+        <span class="g-c t1" data-r="1" data-c="6" style="--d:1276ms"></span>
+        <span class="g-c t1" data-r="1" data-c="7" style="--d:572ms"></span>
+        <span class="g-c t2 on" data-r="1" data-c="8" style="--d:1056ms"></span>
+        <span class="g-c t2" data-r="1" data-c="9" style="--d:352ms"></span>
+        <span class="g-c t3" data-r="1" data-c="10" style="--d:1232ms"></span>
+        <span class="g-c t3" data-r="1" data-c="11" style="--d:528ms"></span>
+        <span></span><button type="button" class="g-row" data-r="1">Claim 02</button>
+        <span class="g-c t1" data-r="2" data-c="0" style="--d:264ms"></span>
+        <span class="g-c t1" data-r="2" data-c="1" style="--d:968ms"></span>
+        <span class="g-c t1 on" data-r="2" data-c="2" style="--d:88ms"></span>
+        <span class="g-c t1 on" data-r="2" data-c="3" style="--d:792ms"></span>
+        <span class="g-c t1" data-r="2" data-c="4" style="--d:308ms"></span>
+        <span class="g-c t1 on" data-r="2" data-c="5" style="--d:1012ms"></span>
+        <span class="g-c t1" data-r="2" data-c="6" style="--d:132ms"></span>
+        <span class="g-c t1" data-r="2" data-c="7" style="--d:836ms"></span>
+        <span class="g-c t2" data-r="2" data-c="8" style="--d:264ms"></span>
+        <span class="g-c t2" data-r="2" data-c="9" style="--d:968ms"></span>
+        <span class="g-c t3" data-r="2" data-c="10" style="--d:88ms"></span>
+        <span class="g-c t3" data-r="2" data-c="11" style="--d:792ms"></span>
+        <span></span><button type="button" class="g-row" data-r="2">Claim 03</button>
+        <span class="g-c t1" data-r="3" data-c="0" style="--d:1320ms"></span>
+        <span class="g-c t1" data-r="3" data-c="1" style="--d:616ms"></span>
+        <span class="g-c t1" data-r="3" data-c="2" style="--d:1144ms"></span>
+        <span class="g-c t1 on" data-r="3" data-c="3" style="--d:440ms"></span>
+        <span class="g-c t1 on" data-r="3" data-c="4" style="--d:1364ms"></span>
+        <span class="g-c t1" data-r="3" data-c="5" style="--d:660ms"></span>
+        <span class="g-c t1 on" data-r="3" data-c="6" style="--d:1188ms"></span>
+        <span class="g-c t1" data-r="3" data-c="7" style="--d:484ms"></span>
+        <span class="g-c t2" data-r="3" data-c="8" style="--d:1320ms"></span>
+        <span class="g-c t2" data-r="3" data-c="9" style="--d:616ms"></span>
+        <span class="g-c t3 on" data-r="3" data-c="10" style="--d:1144ms"></span>
+        <span class="g-c t3" data-r="3" data-c="11" style="--d:440ms"></span>
+        <span></span><button type="button" class="g-row" data-r="3">Claim 04</button>
+        <span class="g-c t1" data-r="4" data-c="0" style="--d:66ms"></span>
+        <span class="g-c t1" data-r="4" data-c="1" style="--d:770ms"></span>
+        <span class="g-c t1" data-r="4" data-c="2" style="--d:242ms"></span>
+        <span class="g-c t1" data-r="4" data-c="3" style="--d:946ms"></span>
+        <span class="g-c t1 on" data-r="4" data-c="4" style="--d:22ms"></span>
+        <span class="g-c t1 on" data-r="4" data-c="5" style="--d:726ms"></span>
+        <span class="g-c t1" data-r="4" data-c="6" style="--d:198ms"></span>
+        <span class="g-c t1 on" data-r="4" data-c="7" style="--d:902ms"></span>
+        <span class="g-c t2" data-r="4" data-c="8" style="--d:66ms"></span>
+        <span class="g-c t2 on" data-r="4" data-c="9" style="--d:770ms"></span>
+        <span class="g-c t3" data-r="4" data-c="10" style="--d:242ms"></span>
+        <span class="g-c t3" data-r="4" data-c="11" style="--d:946ms"></span>
+        <span></span><button type="button" class="g-row" data-r="4">Claim 05</button>
+        <span class="g-c t1" data-r="5" data-c="0" style="--d:1122ms"></span>
+        <span class="g-c t1" data-r="5" data-c="1" style="--d:418ms"></span>
+        <span class="g-c t1" data-r="5" data-c="2" style="--d:1298ms"></span>
+        <span class="g-c t1" data-r="5" data-c="3" style="--d:594ms"></span>
+        <span class="g-c t1" data-r="5" data-c="4" style="--d:1078ms"></span>
+        <span class="g-c t1 on" data-r="5" data-c="5" style="--d:374ms"></span>
+        <span class="g-c t1 on" data-r="5" data-c="6" style="--d:1254ms"></span>
+        <span class="g-c t1" data-r="5" data-c="7" style="--d:550ms"></span>
+        <span class="g-c t2 on" data-r="5" data-c="8" style="--d:1122ms"></span>
+        <span class="g-c t2" data-r="5" data-c="9" style="--d:418ms"></span>
+        <span class="g-c t3" data-r="5" data-c="10" style="--d:1298ms"></span>
+        <span class="g-c t3" data-r="5" data-c="11" style="--d:594ms"></span>
+        <span></span><button type="button" class="g-row" data-r="5">Claim 06</button>
+        <span class="g-c t1 on" data-r="6" data-c="0" style="--d:330ms"></span>
+        <span class="g-c t1" data-r="6" data-c="1" style="--d:1034ms"></span>
+        <span class="g-c t1" data-r="6" data-c="2" style="--d:154ms"></span>
+        <span class="g-c t1" data-r="6" data-c="3" style="--d:858ms"></span>
+        <span class="g-c t1" data-r="6" data-c="4" style="--d:286ms"></span>
+        <span class="g-c t1" data-r="6" data-c="5" style="--d:990ms"></span>
+        <span class="g-c t1 on" data-r="6" data-c="6" style="--d:110ms"></span>
+        <span class="g-c t1 on" data-r="6" data-c="7" style="--d:814ms"></span>
+        <span class="g-c t2" data-r="6" data-c="8" style="--d:330ms"></span>
+        <span class="g-c t2 on" data-r="6" data-c="9" style="--d:1034ms"></span>
+        <span class="g-c t3" data-r="6" data-c="10" style="--d:154ms"></span>
+        <span class="g-c t3 on" data-r="6" data-c="11" style="--d:858ms"></span>
+        <span></span><button type="button" class="g-row" data-r="6">Claim 07</button>
+        <span class="g-c t1" data-r="7" data-c="0" style="--d:1386ms"></span>
+        <span class="g-c t1 on" data-r="7" data-c="1" style="--d:682ms"></span>
+        <span class="g-c t1" data-r="7" data-c="2" style="--d:1210ms"></span>
+        <span class="g-c t1" data-r="7" data-c="3" style="--d:506ms"></span>
+        <span class="g-c t1" data-r="7" data-c="4" style="--d:1342ms"></span>
+        <span class="g-c t1" data-r="7" data-c="5" style="--d:638ms"></span>
+        <span class="g-c t1" data-r="7" data-c="6" style="--d:1166ms"></span>
+        <span class="g-c t1 on" data-r="7" data-c="7" style="--d:462ms"></span>
+        <span class="g-c t2 on" data-r="7" data-c="8" style="--d:1386ms"></span>
+        <span class="g-c t2" data-r="7" data-c="9" style="--d:682ms"></span>
+        <span class="g-c t3 on" data-r="7" data-c="10" style="--d:1210ms"></span>
+        <span class="g-c t3" data-r="7" data-c="11" style="--d:506ms"></span>
+        <span></span><button type="button" class="g-row" data-r="7">Claim 08</button>
+      </div>
+      <figcaption class="note g-readout" id="g-ro" aria-live="polite">Choose a claim to see what it rests on.</figcaption>
+    </figure>
+    <div class="sec-head mo-rule" style="margin-bottom:0">
+      <span class="eyebrow">The draft</span>
+      <h2 class="h-alt">Written down before it is woven.</h2>
+      <p>Weavers record a cloth as a draft: threads across the top, passes down the side, a filled square wherever they cross. An answer can be written the same way. Claims run down the side, sources across the top, and a mark sits wherever a claim rests on a source.</p>
+      <p class="note">Illustrative: one answer, eight claims, twelve sources. Solid is held in full, hollow is an abstract, dashed is the web.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ G3 · SWATCHES ════════════════════════════════════════════════════════
+     Evidence strength as cloth: tight, pulled, or not yet woven. -->
+<section class="band surface--ground">
+  <span class="crit-tag"><b>G3</b> Swatches <i>· strong, mixed, untested as cloth</i><em class="brk">breaks: new media type, new motion</em></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule">
+      <span class="eyebrow">How strong is the cloth</span>
+      <h2 class="h-alt">Every answer says how strong the evidence is.</h2>
+    </div>
+    <div class="grid-3" style="gap:var(--sp-10)">
+      <div class="g-sw">
+        <canvas data-swatch="strong" role="img" aria-label="A tight, even weave"></canvas>
+        <h3>Strong</h3>
+        <p class="note">Many studies, pulling the same way. The weave is tight and even.</p>
+      </div>
+      <div class="g-sw">
+        <canvas data-swatch="mixed" role="img" aria-label="A loose weave with bowed threads and gaps"></canvas>
+        <h3>Mixed</h3>
+        <p class="note">Studies that conflict. The answer shows where, and the tension stays visible in the weave.</p>
+      </div>
+      <div class="g-sw">
+        <canvas data-swatch="untested" role="img" aria-label="A strung loom with a single shuttle resting partway across"></canvas>
+        <h3>Untested</h3>
+        <p class="note">The loom is strung and nobody has woven it yet. The answer says so, which is often what a funder most needs to know.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ G4 · CLOSE ═══════════════════════════════════════════════════════════ -->
+<section id="access" class="band band--dark on-dark">
+  <span class="crit-tag"><b>G4</b> Close <i>· form + marginal</i></span>
+  <div class="wrap g-close">
+    <div>
+      <div class="lockup lockup--section">
+        <span class="eyebrow mo-develop">Private beta &middot; January 2027</span>
+        <h2 class="lk-head mo-develop">Bring the question with too many answers.</h2>
+        <p class="lk-lede mo-develop">Ask about the topic where the studies disagree most, and see how the answer handles it.</p>
+      </div>
+      <p class="marginal mo-develop">Peacebuilders speak of mending the social fabric. The evidence for how to do it is a fabric too, and every thread in it should hold up when pulled.</p>
+    </div>
+    <form class="card raised mo-develop" onsubmit="return false">
+      <div class="form-grid">
+        <label class="field full"><span>The question where the evidence disagrees <span class="faint">(optional)</span></span><textarea class="input" name="q" rows="3" placeholder="Does third-party mediation reduce the risk of recurrence?"></textarea></label>
+        <label class="field"><span>Work email</span><input class="input" type="email" name="email" autocomplete="email" placeholder="name@institution.org"></label>
+        <label class="field"><span>Institution</span><select class="input" name="inst"><option value="">Choose one</option><option>Philanthropy</option><option>Foreign service</option><option>Development bank</option><option>Other</option></select></label>
+      </div>
+      <div class="row" style="margin-top:var(--sp-4)">
+        <button class="btn primary lg" type="submit">Request access</button>
+        <span class="note" style="margin:0">We do not share your information with third parties.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ══ G5 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>G5</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="../media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../system.js?v=eb50598a"></script>
+<script src="retired.js?v=cba1a8cf"></script>
+<script>
+/* ═══ THE LOOM ═══════════════════════════════════════════════════════════════
+   BREAK 1 + 2. One renderer, two drivers. The hero loom is driven by scroll
+   through five stages with a hold at each (the registration hold again); the
+   swatches are driven by time, once, when they come into view. Over-under is
+   drawn the way a knot diagram is: the weft is laid, then wherever the warp
+   passes over it the weft is cut with the ground colour and the warp redrawn.
+   Colours are read from the tokens, and the ground from the actual surface
+   behind each canvas, so the cloth follows the theme and the band. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var BAYER = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,
+               3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+
+  function c01(t) { return t < 0 ? 0 : t > 1 ? 1 : t; }
+  function ease(t) { t = c01(t); return 1 - Math.pow(1 - t, 3); }
+  function eio(t) { t = c01(t); return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function ms(name, fb) { var v = getComputedStyle(root).getPropertyValue(name).trim(); if (!v) return fb; return v.indexOf('ms') > -1 ? parseFloat(v) : parseFloat(v) * 1000; }
+
+  /* Custom properties never resolve through getPropertyValue, and color-mix
+     comes back as color(srgb …), so every colour is read through a probe. */
+  function parse(c) {
+    var m = String(c).match(/rgba?\(([^)]+)\)/);
+    if (m) { var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; }
+    m = String(c).match(/color\(\s*srgb\s+([^)]+)\)/);
+    if (m) { var parts = m[1].split('/'), q = parts[0].trim().split(/\s+/).map(parseFloat); return { r: q[0] * 255, g: q[1] * 255, b: q[2] * 255, a: parts[1] ? parseFloat(parts[1]) : 1 }; }
+    return null;
+  }
+  function css(o) { return 'rgb(' + Math.round(o.r) + ',' + Math.round(o.g) + ',' + Math.round(o.b) + ')'; }
+  function tokens(host) {
+    var pr = document.createElement('span'); pr.style.display = 'none'; host.appendChild(pr);
+    var o = {};
+    [['ink', '--ink'], ['ink70', '--ink-70'], ['ink55', '--ink-55'], ['ink35', '--ink-35'], ['accent', '--accent']].forEach(function (t) {
+      pr.style.color = 'var(' + t[1] + ')'; o[t[0]] = css(parse(getComputedStyle(pr).color));
+    });
+    pr.remove();
+    /* The ground is whatever is actually painted behind the canvas. */
+    for (var el = host; el && el !== root; el = el.parentElement) {
+      var b = parse(getComputedStyle(el).backgroundColor);
+      if (b && b.a > .5) { o.gap = css(b); return o; }
+    }
+    o.gap = css(parse(getComputedStyle(document.body).backgroundColor));
+    return o;
+  }
+
+  function Loom(canvas, kind) {
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0, pitch = 10, lw = 2, n = 0, warps = [], wefts = [], col = {};
+    var P = { intro: reduced ? 1 : 0, comp: 0, amp: 0 };
+    var sNow = 0, hover = null, mx = 0, raf = 0;
+    var seq = kind === 'seq';
+
+    function build() {
+      var r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      if (!r.width || !r.height) return false;
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      pitch = seq ? (W < 700 ? 8 : 11) : 8;
+      lw = seq ? Math.max(2, Math.round(pitch * .26)) : 2;
+      warps = [];
+      for (var x = pitch / 2, j = 0; x < W; x += pitch, j++) warps.push({ x: Math.round(x) + .5, d: BAYER[j % 64] / 63 });
+      n = seq ? (W < 700 ? 18 : 24) : kind === 'strong' ? 18 : kind === 'mixed' ? 15 : 4;
+      var band = H * (seq ? .56 : .7), sp = band / n, cy = H * .5;
+      var spc = seq ? sp * .64 : kind === 'strong' ? sp * .82 : sp;
+      var rand = rng(seq ? 3 : kind.length * 7);
+      wefts = [];
+      for (var i = 0; i < n; i++) {
+        var w = {
+          i: i, dir: i % 2 ? -1 : 1, tier: 1, conflict: false, missing: false,
+          y0: cy + (i - (n - 1) / 2) * sp,
+          y1: cy + (i - (n - 1) / 2) * spc + (seq ? (i >= n / 2 ? spc * .5 : -spc * .5) : 0),
+          ph: rand() * Math.PI * 2, k: 1.4 + rand() * 1.6,
+          e: 0, pl: 0, hl: 0, lx: W * .5, label: '', mark: ''
+        };
+        if (seq) { w.tier = i % 7 === 3 ? 2 : i % 9 === 6 ? 3 : 1; w.conflict = [4, 5, 11, 12, 15, 20].indexOf(i) > -1; }
+        if (kind === 'strong') w.tier = i % 6 === 2 ? 2 : 1;
+        if (kind === 'mixed') { w.tier = i % 5 === 1 ? 3 : i % 4 === 2 ? 2 : 1; w.conflict = i % 3 === 1; w.missing = i === 4 || i === 10; }
+        if (kind === 'untested') w.missing = i !== 1;
+        wefts.push(w);
+      }
+      if (seq) {
+        var a = wefts[Math.floor(n * .3)], b = wefts[Math.floor(n * .72)];
+        a.tier = 1; a.conflict = false; a.named = true; a.mark = 'acc'; a.label = '● 1  de Waal, War in Darfur · held in full';
+        b.tier = 3; b.conflict = false; b.named = true; b.mark = 'web'; b.label = '↗ 3  Displacement figure · web, untraced';
+        wefts.push({ i: n, acc: true, dir: 1, tier: 0, y0: cy, y1: cy, ph: 0, k: 1, e: 0, pl: 0, hl: 0, lx: 0 });
+      }
+      wefts.forEach(function (w, k) {
+        if (!w.label && !w.acc) w.label = 'Finding ' + (k < 9 ? '0' : '') + (k + 1) + ' · ' + (w.tier === 1 ? 'held in full' : w.tier === 2 ? 'abstract' : 'web');
+      });
+      return true;
+    }
+
+    function over(w, j) {
+      if (w.acc) return j % 3 === 0;
+      if (kind === 'strong') return (w.i + j) % 2 === 0;
+      if (w.conflict) return (j + w.i * 3) % 6 === 0;
+      return (j + w.i) % 4 < 2;
+    }
+    function lift(w) { return Math.max(w.pl, w.hl); }
+    function liftAt(w, x) { var L = lift(w); if (L < .5) return 0; return L * Math.exp(-Math.pow((x - w.lx) / (W * (seq ? .13 : .2)), 2)); }
+    function baseY(w, x) { var y = lerp(w.y0, w.y1, P.comp); if (w.conflict) y += P.amp * Math.sin(x / W * Math.PI * w.k + w.ph); return y; }
+    function yAt(w, x) { return baseY(w, x) - liftAt(w, x); }
+
+    function capsule(x, y, w, h) {
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(x - w / 2, y - h / 2, w, h, h / 2); else ctx.rect(x - w / 2, y - h / 2, w, h);
+      ctx.fill();
+    }
+
+    function weft(w) {
+      var head = w.dir > 0 ? W * w.e : W * (1 - w.e);
+      var lo = w.dir > 0 ? 0 : head, hi = w.dir > 0 ? head : W, j, x, y;
+      ctx.beginPath(); ctx.moveTo(lo, yAt(w, lo));
+      for (j = 0; j < warps.length; j++) { x = warps[j].x; if (x > lo && x < hi) ctx.lineTo(x, yAt(w, x)); }
+      ctx.lineTo(hi, yAt(w, hi));
+      var up = lift(w) > lw * 2;
+      if (w.acc) { ctx.strokeStyle = col.accent; ctx.lineWidth = lw * 1.2; ctx.stroke(); }
+      else if (w.tier === 3) {
+        ctx.strokeStyle = up ? col.ink : col.ink55; ctx.lineWidth = Math.max(1.5, lw * .75);
+        ctx.setLineDash([pitch * .55, pitch * .4]); ctx.stroke(); ctx.setLineDash([]);
+      } else {
+        ctx.strokeStyle = up ? col.ink : col.ink70; ctx.lineWidth = lw; ctx.stroke();
+        if (w.tier === 2) { ctx.strokeStyle = col.gap; ctx.lineWidth = Math.max(.8, lw * .42); ctx.stroke(); }
+      }
+      /* Warp over weft: cut the weft with the ground, redraw the warp. */
+      /* A warp float is a light block the width of a thread, with a hairline
+         of ground either side: the checker of dark and light that makes a
+         drawdown read as cloth rather than as a dashed line. */
+      var gp = new Path2D(), wp = new Path2D(), h = lw * .5 + 1.5, ww = Math.max(2, lw);
+      for (j = 0; j < warps.length; j++) {
+        x = warps[j].x;
+        if (x <= lo + 1 || x >= hi - 1 || !over(w, j) || liftAt(w, x) > lw * 2) continue;
+        y = yAt(w, x);
+        gp.rect(x - ww / 2 - 1, y - h, ww + 2, h * 2);
+        wp.rect(x - ww / 2, y - h - 1, ww, h * 2 + 2);
+      }
+      ctx.fillStyle = col.gap; ctx.fill(gp);
+      ctx.fillStyle = col.ink35; ctx.fill(wp);
+      /* The shuttle, at the head of a thread still travelling. */
+      if (w.e < .999) { ctx.fillStyle = w.acc ? col.accent : col.ink; capsule(head, yAt(w, head), pitch * 2.6, lw * 2.6); }
+    }
+
+    function label(w) {
+      var L = lift(w); if (!w.label || L < lw * 4) return;
+      ctx.globalAlpha = c01((L - lw * 4) / (lw * 8));
+      ctx.font = '10px "Space Mono", ui-monospace, monospace';
+      if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
+      var t = w.label.toUpperCase(), tw = ctx.measureText(t).width;
+      var x = Math.max(8, Math.min(W - tw - 8, w.lx - tw / 2)), y = yAt(w, w.lx) - lw * 2 - 12;
+      ctx.fillStyle = col.gap; ctx.fillRect(x - 6, y - 12, tw + 12, 18);
+      ctx.fillStyle = col.ink; ctx.fillText(t, x, y);
+      ctx.globalAlpha = 1;
+    }
+
+    function draw() {
+      if (!W) return;
+      ctx.clearRect(0, 0, W, H); ctx.setLineDash([]);
+      ctx.lineWidth = 1; ctx.strokeStyle = col.ink35; ctx.beginPath();
+      warps.forEach(function (wp) {
+        var g = P.intro >= 1 ? 1 : ease((P.intro - wp.d * .45) / .55);
+        if (g > 0) { ctx.moveTo(wp.x, 0); ctx.lineTo(wp.x, H * g); }
+      });
+      ctx.stroke();
+      var order = wefts.filter(function (w) { return w.e > .001 && !w.missing; })
+        .sort(function (a, b) { return lift(a) - lift(b); });
+      order.forEach(weft);
+      order.forEach(label);
+    }
+
+    /* Scroll driver: s runs 0..4 across warp, weft, tension, bind, pull. */
+    function stage(s) {
+      sNow = s;
+      var u = c01(s), ten = eio(s - 1), bind = eio(s - 2), pull = eio(s - 3);
+      wefts.forEach(function (w) {
+        if (w.acc) w.e = ease((bind - .1) / .8);
+        else w.e = ease((u - (w.i / n) * .62) / .38);
+        if (w.named) { w.pl = pull * H * (w.mark === 'acc' ? .27 : .33); w.lx = W * (w.mark === 'acc' ? .3 : .7); }
+      });
+      P.comp = bind;
+      P.amp = pitch * 1.8 * ten * (1 - .5 * bind);
+      if (s < 3.4 && hover) { hover = null; }
+    }
+
+    /* Time driver for the swatches: warp first, then the wefts. */
+    function swatch(t) {
+      P.intro = c01(t * 2.2);
+      var u = c01((t - .25) / .75);
+      wefts.forEach(function (w) {
+        if (w.missing) { w.e = 0; return; }
+        w.e = ease((u - (w.i / n) * .55) / .45);
+        if (kind === 'untested') w.e = Math.min(w.e, .38);
+      });
+      P.comp = kind === 'strong' ? 1 : 0;
+      P.amp = kind === 'mixed' ? pitch * 1.5 * ease(u) : 0;
+    }
+
+    /* Hover: in the pull stage, any thread lifts toward the pointer. */
+    function tick() {
+      var busy = false;
+      wefts.forEach(function (w) {
+        if (w.acc || w.named) return;
+        var t = w === hover ? pitch * 3.4 : 0;
+        w.hl += (t - w.hl) * .2;
+        if (w === hover) w.lx += (mx - w.lx) * .35;
+        if (Math.abs(t - w.hl) > .2) busy = true;
+      });
+      draw();
+      raf = busy ? requestAnimationFrame(tick) : 0;
+    }
+    function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+    if (seq) {
+      canvas.addEventListener('pointermove', function (ev) {
+        if (sNow < 3.5) return;
+        var r = canvas.getBoundingClientRect(), x = ev.clientX - r.left, y = ev.clientY - r.top, best = null, bd = Math.max(6, pitch * .9);
+        wefts.forEach(function (w) {
+          if (w.acc || w.named || w.e < 1) return;
+          var d = Math.abs(baseY(w, x) - y); if (d < bd) { bd = d; best = w; }
+        });
+        if (best !== hover) { if (best) best.lx = x; hover = best; }
+        mx = x; kick();
+      });
+      canvas.addEventListener('pointerleave', function () { hover = null; kick(); });
+    }
+
+    function intro() {
+      if (reduced) { P.intro = 1; draw(); return; }
+      var t0 = 0, D = ms('--mo-in-5', 1600);
+      (function step(now) { if (!t0) t0 = now; P.intro = c01((now - t0) / D); draw(); if (P.intro < 1) requestAnimationFrame(step); })(performance.now());
+    }
+    function recolor() { col = tokens(canvas.parentNode); draw(); }
+    function init() { col = tokens(canvas.parentNode); return build(); }
+    return { init: init, build: build, draw: draw, stage: stage, swatch: swatch, intro: intro, recolor: recolor };
+  }
+
+  var looms = [];
+
+  /* ── G1 · scroll-driven hero loom ──────────────────────────────────────── */
+  var sec = document.querySelector('.g-loom'), stageEl = sec.querySelector('.g-stage');
+  var caps = [].slice.call(sec.querySelectorAll('.g-cap')), steps = [].slice.call(sec.querySelectorAll('.g-prog li'));
+  var fill = sec.querySelector('.g-fill'), N = caps.length, HOLD = .2, last = -1, hraf = 0;
+  var hero = Loom(document.getElementById('g-loom'), 'seq'); looms.push(hero);
+
+  function navH() { return parseFloat(getComputedStyle(root).getPropertyValue('--nav-h')) || 0; }
+  function sOf() {
+    var r = sec.getBoundingClientRect(), travel = sec.offsetHeight - stageEl.offsetHeight;
+    var p = c01((navH() - r.top) / travel), q = p * (N - 1), i = Math.min(N - 2, Math.floor(q)), t = q - i;
+    return i + (t < HOLD ? 0 : t > 1 - HOLD ? 1 : eio((t - HOLD) / (1 - 2 * HOLD)));
+  }
+  function render() {
+    hraf = 0;
+    var s = sOf(); if (Math.abs(s - last) < .0005) return; last = s;
+    hero.stage(s); hero.draw();
+    var a = Math.round(s);
+    caps.forEach(function (c, i) { c.classList.toggle('on', i === a); });
+    steps.forEach(function (l, i) { l.classList.toggle('on', i <= a); });
+    fill.style.transform = 'scaleX(' + (s / (N - 1)).toFixed(4) + ')';
+  }
+
+  /* ── G3 · swatches, woven once on arrival ──────────────────────────────── */
+  var sw = [].slice.call(document.querySelectorAll('[data-swatch]')).map(function (c) {
+    var l = Loom(c, c.getAttribute('data-swatch')); looms.push(l); return { el: c, loom: l, done: false };
+  });
+  function weave(item) {
+    if (item.done) return; item.done = true;
+    var t0 = 0, D = reduced ? 1 : 2600;
+    (function step(now) { if (!t0) t0 = now; var t = c01((now - t0) / D); item.loom.swatch(t); item.loom.draw(); if (t < 1) requestAnimationFrame(step); })(performance.now());
+  }
+
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+    if (!reduced) {
+      sec.classList.add('is-live');
+      sec.style.height = 'calc(' + ((N - 1) * 100) + 'vh + 100svh)';
+      if (hero.init()) { hero.stage(0); hero.intro(); }
+      window.addEventListener('scroll', function () { if (!hraf) hraf = requestAnimationFrame(render); }, { passive: true });
+      render();
+    } else if (hero.init()) { hero.stage(4); hero.draw(); }
+
+    sw.forEach(function (it) { if (it.loom.init()) { it.loom.swatch(0); it.loom.draw(); } });
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { var it = sw.filter(function (x) { return x.el === e.target; })[0]; weave(it); io.unobserve(e.target); } });
+    }, { threshold: .45 });
+    sw.forEach(function (it) { io.observe(it.el); });
+  });
+
+  new MutationObserver(function () { looms.forEach(function (l) { l.recolor(); }); })
+    .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  var rt;
+  window.addEventListener('resize', function () {
+    clearTimeout(rt);
+    rt = setTimeout(function () {
+      if (hero.build()) { last = -1; if (sec.classList.contains('is-live')) render(); else { hero.stage(4); hero.draw(); } }
+      sw.forEach(function (it) { if (it.loom.build()) { it.loom.swatch(it.done ? 1 : 0); it.loom.draw(); } });
+    }, 150);
+  });
+
+  /* ── G2 · the draft: Bayer fill on arrival, a claim lights its sources ── */
+  var draft = document.getElementById('g-draft'), ro = document.getElementById('g-ro');
+  var cells = [].slice.call(draft.querySelectorAll('.g-c')), thr = [].slice.call(draft.querySelectorAll('.g-t'));
+  var rows = [].slice.call(draft.querySelectorAll('.g-row'));
+  new IntersectionObserver(function (es, o) { if (es[0].isIntersecting) { draft.classList.add('is-in'); o.disconnect(); } }, { threshold: .35 }).observe(draft);
+  function pick(r) {
+    rows.forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-r') === String(r)); });
+    var used = [];
+    cells.forEach(function (c) {
+      var hit = r !== null && c.getAttribute('data-r') === String(r) && c.classList.contains('on');
+      c.classList.toggle('hl', hit); if (hit) used.push(+c.getAttribute('data-c'));
+    });
+    thr.forEach(function (t) { t.classList.toggle('hl', used.indexOf(+t.getAttribute('data-c')) > -1); });
+    if (r === null) { ro.textContent = 'Choose a claim to see what it rests on.'; return; }
+    var t1 = used.filter(function (c) { return c < 8; }).length, t2 = used.filter(function (c) { return c >= 8 && c < 10; }).length, t3 = used.length - t1 - t2;
+    var parts = [];
+    if (t1) parts.push(t1 + ' held in full'); if (t2) parts.push(t2 + ' abstract' + (t2 > 1 ? 's' : '')); if (t3) parts.push(t3 + ' from the web');
+    ro.textContent = 'Claim ' + (r < 9 ? '0' : '') + (r + 1) + ' rests on ' + used.length + ' sources: ' + parts.join(', ') + '.';
+  }
+  rows.forEach(function (b) {
+    var r = +b.getAttribute('data-r');
+    b.addEventListener('mouseenter', function () { pick(r); });
+    b.addEventListener('focus', function () { pick(r); });
+    b.addEventListener('click', function () { pick(r); });
+  });
+  cells.forEach(function (c) { c.addEventListener('mouseenter', function () { pick(+c.getAttribute('data-r')); }); });
+  draft.addEventListener('mouseleave', function () { pick(null); });
+})();
+</script>
+</body>
+</html>

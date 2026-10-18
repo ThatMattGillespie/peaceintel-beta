@@ -2,10 +2,43 @@
 
 Read this before writing any CSS or JSX that renders a user-facing surface.
 
-The golden example is `brand-reference.html`. `landing.html` and `home.html` are the worked
-ones: real pages built entirely from this catalog. Open them. If what you are about to build
+The golden example is `brand-guide.html`. `landing.html` and `home.html` are the worked
+ones: real pages built from this system (they also use shapes still in `explorations.css`; see the table below). Open them. If what you are about to build
 would not look like it belongs beside them, stop and reconsider. Imitating them is more reliable
 than following these rules from memory.
+
+---
+
+## Before anything: what to trust, what to ignore, what may ship
+
+**Trust, in this order.** `tokens.css`, `components.css`, `explorations.css` and `system.js`
+are the system. This file is the rules. `CONSOLE.md` is the console's behaviour and content.
+`HANDOFF.md` is the plan for adopting it. `brand-guide.html` and `guide.html` show it.
+`console.html` is the console's look and behaviour. If two disagree, the CSS wins and the
+explanation is the bug.
+
+**Ignore these, even though they look authoritative:**
+
+| File | What it is |
+|---|---|
+| `CHANGELOG.md` | History. Many entries were reversed later; it is never a rule. Read it for why, not what. |
+| `archive.html`, everything in `archive/` | What was cut: retired CSS and scripts, old drafts (`explore-*.html`, the sans and serif tests). Its codes start AR. Never load `archive/` from a page that ships. |
+| `audit/` | A survey of the production site taken in September. Evidence of the old state, not a target. |
+| The repo root above `handoff/`: `app.html`, `app-v2.html` to `app-v6.html`, `index.html`, `rotary-a/b/c.html`, `use-cases*.html` and the other root pages | Earlier mockups, before this system. The `app*` files are **older consoles**: do not take a layout, a class or a value from them. |
+| `DESIGN-TOKENS.md` at the repo root | The July token guide. **Superseded** by `tokens.css`. |
+| In the production repo: `rotary/handoff/` | An older copy of this package. Replace it from here or delete it. |
+| In the production repo: `StyleGuide.jsx` | A static copy of old token values. |
+| `prototypes.js` as code | It is a mock to read for behaviour. Do not port it. |
+
+**What may ship.**
+
+| Status | Means | What has it |
+|---|---|---|
+| **Stable** | Ship it. | Everything in `components.css`. That now includes, since Rev 39: the console entire (shell, chat, library, composer, the answer's sources and foot, projects, context, memory, artifacts, dialogs, the finder, the phone console, what a paper opens to; `CONSOLE.md`), the veil and the still (`.veil`, `.vmap--still`), the margin with its moving image (`.st-*`, Pl. 16 · M1), the floating bar (`.fnav`, Pl. 19 · B) and the numbered steps' opening rule (Pl. 16 · S2). The brand line (Pl. 06), and plates marked Stable |
+| **Used by a worked page, still in `explorations.css`** | Decided, and shipping with that page; do not reuse elsewhere without asking. | The documentary picture (Pl. 18 · A1, `.doc-fig`, `.doc-shot`, `.doc-dark`, `[data-docglitch]`), on Home since Rev 38; Home's ask (`.ask`, `textarea.pt`) |
+| **Exploration** | In the handoff, labelled; do not build without asking. | The ask's new forms (Pl. 17, four options); the report and the deck (`report.html`, `slides.html`, `.viz`, `.forest`) |
+| **Internal** | Not for production at all. | `brand-board.html`; the console's version badge and the staff-only "All users" view are internal features of the product, specified in `CONSOLE.md` |
+| **Archived** | Never. | Anything in `archive.html` or `archive/` (codes start AR) |
 
 ---
 
@@ -25,7 +58,7 @@ rationale, then use it. A value that is not on a scale is a bug, not a preferenc
 
 If a component genuinely sits between two scale steps and snapping either way changes the
 design, add a **named component token** in Layer 4 of `tokens.css` with a comment saying why.
-`--t-btn: 14px` is one: buttons fall between `--t-ui` (13) and `--t-body` (15), and 14 is the
+`--t-btn: 14px` is one: buttons fall between `--t-ui` (13) and `--t-body` (16), and 14 is the
 established value everywhere. Naming it means it shows up in a grep and cannot be mistaken for
 an improvised number. The one exception to "no raw literals" is `#000` inside a `mask-image`
 gradient, where the value is an alpha channel and a colour token would be wrong.
@@ -113,8 +146,8 @@ band is the ground tone. In light mode **the inside of a card is white**; the ed
 callout's rule). `--line` decorates, `--line-2` bounds what you act on and opens a group,
 `--ink-35` is an edge under the pointer. A rule row's verticals only ever fall between two items;
 its outer edges are open and its outer text is flush with the heading. A new grammar for lines
-and lockups is decided: the lines as they stand (Pl. 16). A line opens what follows it and never closes; the one open question is the numbered steps (16 · S2, `.steps-open`): do not
-invent one in a page.
+and lockups is decided: the lines as they stand (Pl. 16). A line opens what follows it and never closes; the numbered steps took that rule too on 16 October (`.step` has its hairline on top, the first of a run at `--line-2`). Do not
+invent a line grammar in a page.
 
 **6. Vary the surface down a page, and spend warm sparingly.**
 A page is a sequence of surfaces, not one tone with cards on it. Put `.surface--ground`,
@@ -190,6 +223,12 @@ with no white ground to lose has no place on a page for now.
 Every hidden start state is gated behind `[data-js]`. Animation is never load-bearing for
 legibility, and all of it is killed by `prefers-reduced-motion`.
 
+**Two named exceptions to "motion is a closed set"** (decided 16 October). The two drawers on a
+phone (chats from the left, library from the right) slide on `--mo-sheet`, the one motion that moves a surface. And the glitch on a
+documentary picture (`[data-docglitch]`, `system.js` `docGlitch`) runs on its own timer, the one
+timed effect: bursts every two to six seconds, only while the picture is on screen, off with
+reduced motion. Neither licenses another; a third is a proposal to Matt.
+
 **10. There is no mount** (retired 2026-10-14). Eight framing devices were built for "the one
 figure a page exists to show" and all are in `archive.html`. Dissolve went with the video map, retired 2026-10-15.
 
@@ -235,20 +274,20 @@ shows the same arrow at its end under the pointer. Never mix linked and static c
 | A tone for a surface | `--ground` (a region), `--ground-2` (the console's sides), `--face` (an object on a ground), `--fill` (a badge, an avatar, the user's message), `--edge` (an object's hairline). Pl. 04 |
 | A line | Pl. 04's inventory: divider `--line`, edge `--edge`, rule row, ledger, 2px ink tab, 2px accent rule, legend. A line opens what follows it, never closes (Pl. 16); `.step` is the exception under review (16 · S2); the logo's brackets are not a page line (retired 2026-10-16) |
 | A number in front of something (01, 02, 1.1) | Only when the order or the number is real: steps done in order (Rotary), sections cited by number (the report, the numbered document), slides. Never as decoration on a set of equal things; a row of three features is unnumbered (2026-10-16) |
-| A top bar that floats | Decided, not yet on a page (Pl. 19 · B): `.fnav[data-fnav]` > `.fnav-in` > `.fnav-mark` + `.fnav-links`; opaque, `--face` and `--edge`, no blur; `system.js` compacts it to the whole logo, centred on the page, on the way down, and a tap on the dove opens it. Not on a page until Matt picks; pages keep `.nav` |
+| A top bar that floats | Decided (Pl. 19 · B), on Home since Rev 38: `header.fnav[data-fnav]` > `.fnav-in` > `.fnav-mark` + `nav.fnav-links`; opaque, `--face` and `--edge`, no blur; `system.js` compacts it to the whole logo, centred on the page, on the way down, and a tap on the logo opens it. It takes no room in the flow, so a `.screen` straight after it is the whole window. Landing and Rotary keep `.nav` |
 | A headline | Two lines at most: about 32 to 40 characters at `--t-display` (64px). A longer thought is a headline and a lede (Pl. 02 `#headline-length`, a note for writers) |
-| A documentary photograph | Decided, not yet on a page (Pl. 18 · A1): dark and monochrome on a dark band, `.vmap.doc-dark[data-docglitch]` in `.on-dark`, with the glitch's bursts; a place, never suffering, textured from edge to edge (a flat sky or water gives the dither nothing), captioned with place, date and credit, one per page as a figure. `.vmap.doc-shot.doc-dark` on a dark band, or `.vmap.doc-shot[data-docscreen]` (colour through the dither) |
+| A documentary photograph | Decided (Pl. 18 · A1), on Home's corpus band since Rev 38 as `figure.doc-fig` > `.vmap.doc-shot.doc-dark[data-vmap][data-docglitch][data-vmode="scene"]` + `figcaption`: dark and monochrome on a dark band, `.vmap.doc-dark[data-docglitch]` in `.on-dark`, with the glitch's bursts; a place, never suffering, textured from edge to edge (a flat sky or water gives the dither nothing), captioned with place, date and credit, one per page as a figure. `.vmap.doc-shot.doc-dark` on a dark band, or `.vmap.doc-shot[data-docscreen]` (colour through the dither) |
 | The console on a phone | Stable (components.css, shown in Pl. 14 `#console-phone`). Under 620px: one-row composer bar with an outlined `.cb-mode` chip and menu; an off-white toolbar holding the crumb, `.src-tick` (a `.cite` counting the chat's sources, opens the library) and `.cb-util` (search this chat, share, export). Under 1080px: `.app-burger` opens the rail as a drawer with the console links at its foot, `.src-tick` raises the library as a sheet to the foot of the top bar on `--mo-sheet`, closed by a drag down, the scrim, Escape or its cross (`data-drawer`, `.app-scrim`, `.is-sheet-off`, `--sheet-y`). Search from a thread defaults to This chat; Share has General access with a public option (`.pop-access`) |
 | What a paper opens to | Stable (components.css, Pl. 14 `#paper`): `[data-act="src"]` on a citation or library row opens `.src-q` in the pane; the full entry `.src-r` widens the pane via `[data-reader]`; cited passages in `.src-hl` take `--hl`. On a phone the console's top bar hides on scroll down (`.is-top-off`) |
 | The identity on one page | `brand-board.html` (Exploration), built from the CSS |
-| The brand line | "Clear evidence for consequential decisions." Stable (Pl. 06 `#brand-line`). Where the brand speaks in a few words: brand board, report cover, deck title, badge, under the logo |
+| The brand line | "Clear evidence for consequential decisions." Stable (Pl. 06 `#brand-line`). Where the brand speaks in a few words: brand board, report cover, deck title, badge, under the logo. On a page, `.brand-sign` > the logo `img` + `p.brand-line` (Home's footer, the dark logo on a dark band) |
 | A still figure | `.vmap--still` (Pl. 07 `#stills`): a subject on a seamless, one per screen, beside copy; a series shares one recurring subject |
 | A card that is a link | `a.card.go[href]`, the pixel arrow in its corner. Pl. 09 |
 | Emphasis tone | `--warm`, through `.callout` and `.violator` only |
 | Grid texture | `.textured` (`--top`, `--band`, `--left`, `--right`, `--side`). Never on two touching sections |
 | Corners | `--r-*` only, never a literal. Every one is 4px; `--r-full` for round |
 | Entry motion | `.mo-deal` on the container |
-| A surface moving | `--mo-sheet`, the phone's library sheet only (Rev 31); nothing else slides |
+| A surface moving | `--mo-sheet`, the phone's two drawers only (Rev 49); nothing else slides |
 | Heading group | `.lockup` + `--hero` / `--section` |
 | App shell | `.app`, `.app-top`, `.app-nav`, `.app-rail`, `.app-main`, `.app-tools`, `.app-pane`, `.composer` |
 | Console parts | `.icon-btn` (`.line`, `aria-pressed`), `.glyph` (a Lucide line), `.avatar`, `.rail-body`, `kbd`, `.tools-rail`, `.pane-meta`, `.pane-tools`, `.pane-search`, `.pane-head .ph-mark`, `.lib-item` (title tracked `--t-ui-ls`), `.act .glyph` (a menu chevron) |
@@ -375,7 +414,7 @@ same three shapes in ink. Do not restyle it away or collapse the tiers.
 Widening the evidence pane collapses the threads rail instead. The pane is `.surface--ground-2`,
 so each entry lifts off it as an object.
 
-**Context goes in, artifacts come out** (exploration, 2026-10-15). A project's **context** is
+**Context goes in, artifacts come out** (2026-10-15; Stable since Rev 39). There is no separate Reports area: a report is a document artifact inside its project (Matt, 16 Oct). A project's **context** is
 what its chats draw on beside the library: uploaded files, notes, papers picked from the
 library. Its **artifacts** are what its chats make: a written document, a spreadsheet, a PDF.
 An upload is always context. On a project's page the right-hand pane is the project's panel
@@ -388,6 +427,13 @@ fold button), then a body that scrolls; the library adds its search and sort bet
 rail and the pane are `.surface--ground-2` (4% ink) and the open chat is the page tone, so the
 conversation is the brightest thing on screen. Their folds are one mirrored pair of glyphs. A new chat from the rail's head starts
 outside any project; **New chat here** under an open project starts one inside it.
+
+**Every answer ends with its sources** (16 Oct). The answer foot (`.ans-foot`), folded to a strip of
+its citation marks, lists what it cited in the order cited, each row led by its mark and ended by the pixel arrow (`--px-arrow-out` for a web source, which leaves the platform); each row opens the paper's
+quick view before anything leaves the platform, and the quick view says where the original source
+link goes. Under it, one quiet line: the tools used (folded), copy with citations, and the two votes.
+
+**Eirene is an answer mode**, beside Quick, Normal and Deep research, not a link in the top bar (16 Oct).
 
 **Shell state lives in data attributes** on the wrapper (`data-view`, `data-rail`,
 `data-pane`), not in class soup.
@@ -407,6 +453,6 @@ outside any project; **New chat here** under an open project starts one inside i
    the landing page, seven in the reference page's own chrome, and white on the accent fill.
 5. Keyboard focus is visible on every interactive element.
 6. Nothing is invisible with JavaScript off.
-7. It still looks like `brand-reference.html`.
+7. It still looks like `brand-guide.html`.
 
 **The archive's codes start AR.** `archive.html` numbers its plates AR 01 to AR 28 in page order, each saying which plate it came from, and the options inside take the plate's number: AR 20 · D6 is option D6 on AR 20. A code without AR is live.

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accent Calls to Action</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="../reference.css?v=569be275">
+<!-- The worked pages with their calls to action in the accent instead of ink,
+     and no gradient button anywhere. Nothing is copied: the real page loads in
+     the frame and this page swaps the button classes inside it, so every
+     scheme is the page as built plus one decision. -->
+</head>
+<body class="cta-shell">
+
+<div class="ctrl">
+  <div class="ctrl-g">
+    <span class="ctrl-l">Page</span>
+    <div class="seg mono" id="sw-page">
+      <button aria-pressed="true" data-v="home.html">Home</button>
+      <button aria-pressed="false" data-v="landing.html">Landing</button>
+      <button aria-pressed="false" data-v="rotary.html">Rotary</button>
+    </div>
+  </div>
+  <div class="ctrl-g">
+    <span class="ctrl-l">Calls to action</span>
+    <div class="seg mono" id="sw-scheme">
+      <button aria-pressed="false" data-v="today">Today</button>
+      <button aria-pressed="true" data-v="brand">Brand</button>
+      <button aria-pressed="false" data-v="brand-tint">Brand + tint</button>
+      <button aria-pressed="false" data-v="tint">Tint</button>
+    </div>
+  </div>
+  <span class="spacer"></span>
+  <div class="ctrl-g ctrl-meta">
+    <span class="ctrl-l">Exploration · Pl. 06</span>
+    <a class="ctrl-link" href="../brand-guide.html#controls">Brand reference</a>
+  </div>
+</div>
+
+<p class="cta-note note"><strong>Superseded 14 October.</strong> Matt chose Tint, and the pages now use <code>.btn.tint</code>, so the schemes below no longer change anything. <strong id="scheme-name"></strong> <span id="scheme-note"></span></p>
+
+<iframe class="cta-frame" id="page" title="Page preview"></iframe>
+
+<script>
+(function () {
+  var NOTES = {
+    'today': ['Today.', 'Ink for the primary action, an outline for the secondary, and the gradient once per page.'],
+    'brand': ['Brand.', 'The accent fill on every primary action and no gradient anywhere; secondary actions keep the outline. Ink is left free to mean chosen.'],
+    'brand-tint': ['Brand + tint.', 'The accent fill for primary actions and the tint for secondary ones, so every action is orange and nothing else on the page is. The tint stops meaning tier one.'],
+    'tint': ['Tint.', 'The tint for primary actions: the accent as a wash and a hairline rather than a slab. Secondary actions keep the outline.']
+  };
+  var frame = document.getElementById('page');
+  var q = new URLSearchParams(location.search);
+  var state = {
+    page: /^(home|landing|rotary)\.html$/.test(q.get('page') || '') ? q.get('page') : 'home.html',
+    scheme: NOTES[q.get('cta')] ? q.get('cta') : 'brand'
+  };
+
+  /* Every .btn keeps its original class list in a data attribute, so a scheme
+     is always applied to the page as built, never on top of another scheme. */
+  function swap() {
+    var doc = frame.contentDocument; if (!doc || !doc.documentElement) return;
+    [].forEach.call(doc.querySelectorAll('.btn'), function (b) {
+      if (!b.dataset.ctaOrig) b.dataset.ctaOrig = b.className;
+      b.className = b.dataset.ctaOrig;
+      if (state.scheme === 'today' || b.disabled) return;
+      var c = b.classList;
+      if (c.contains('primary') || c.contains('grad')) {
+        c.remove('primary', 'grad', 'grad--white');
+        c.add(state.scheme === 'tint' ? 'tint' : 'brand');
+      } else if (c.contains('ghost') && state.scheme === 'brand-tint') {
+        c.remove('ghost'); c.add('tint');
+      }
+    });
+  }
+  function press(id, v) {
+    [].forEach.call(document.querySelectorAll('#' + id + ' button'), function (b) { b.setAttribute('aria-pressed', String(b.dataset.v === v)); });
+  }
+  function render(reload) {
+    press('sw-page', state.page); press('sw-scheme', state.scheme);
+    document.getElementById('scheme-name').textContent = NOTES[state.scheme][0];
+    document.getElementById('scheme-note').textContent = NOTES[state.scheme][1];
+    try { history.replaceState(null, '', '?page=' + state.page + '&cta=' + state.scheme); } catch (_) {}
+    if (reload) frame.src = '../' + state.page; else swap();
+  }
+  frame.addEventListener('load', swap);
+  function on(id, key) {
+    document.getElementById(id).addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      var reload = key === 'page' && state.page !== b.dataset.v;
+      state[key] = b.dataset.v; render(reload);
+    });
+  }
+  on('sw-page', 'page'); on('sw-scheme', 'scheme');
+  render(true);
+})();
+</script>
+</body>
+</html>

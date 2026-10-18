@@ -2,18 +2,45 @@
 
 **For:** Nathanael Miksis and his coding agent
 **From:** Matt Gillespie
-**Updated:** 2026-10-16 (Rev 22). The history of every revision is in `CHANGELOG.md`.
+**Updated:** 2026-10-17 (Rev 47). The history of every revision is in `CHANGELOG.md`; it is history, not instructions.
 
 ---
 
 ## Start here
 
-1. Open `brand-reference.html` and read **Start here** (Pl. 00). It is one screen.
-2. Open `console.html`: the console as a working prototype, the behaviour to match.
-3. Give `AGENTS.md` to your coding agent. It holds the rules; this file holds the plan.
+1. Open `brand-guide.html` and read **Start here** (Pl. 00). It is one screen.
+2. Open `console.html`: the console as a working prototype, the behaviour to match. Read
+   `CONSOLE.md` beside it: what the prototype does, what is mock content, and what production has
+   that the prototype does not (with Matt's verdicts).
+3. Give `AGENTS.md` to your coding agent. Its first section says what to trust, what to ignore
+   and what may ship. It holds the rules; this file holds the plan.
 
-Everything marked **Stable** may ship. Everything in **Open decisions** (Pl. 16, 18 and 19, and all of
-`explorations.css`) may not without asking Matt.
+Everything marked **Stable** may ship, and that is now nearly everything: the whole console, the
+veil, the margin, the floating bar. What is left in `explorations.css` is either shipping with one
+page (Home's documentary picture and its ask) or an Exploration in this handoff on purpose (the
+ask's new forms, Pl. 17; the report and the deck). AGENTS.md's first section has the table.
+
+---
+
+## What changed since you last looked
+
+If you, or your agent, read an earlier copy of this package or the July `DESIGN-TOKENS.md`, these
+no longer hold:
+
+| Was | Is now |
+|---|---|
+| DIN 2014 (or DM Sans) for the sans | **Barlow**, free (SIL OFL), self-hosted; DM Sans is only its fallback. Tracking 0. |
+| Nanum Myeongjo for the serif | **Source Serif 4**, at 400. Nothing serif is bold, and the serif is never set in capitals. |
+| A dark theme, `[data-theme="dark"]` | **One theme.** Dark is a band (`.on-dark`), not a mode. |
+| The brown accent, `#8a5a2b` | **Orange**, split into `--accent`, `--accent-text` and `--accent-fill`. |
+| `--panel`, `--panel-face`, `--panel-border` | `--ground`, `--face`, `--edge` (old names are aliases only). `--ground-2` is the console's sides. |
+| Display 46px, h1 36px, body 15px | Display **64px**, h1 **48px**, body **16px**; on screens up to 900px, 44 / 36. |
+| Shadows on cards, the prompt, the composer | **Nothing casts a shadow at rest**; a shadow means hover or focus. |
+| Corners 2px and 4px | **Every corner 4px**; `--r-full` for round things. |
+| A gradient, gradient buttons, gradient fields | **No gradient.** Every call to action is `.btn.tint`. |
+| `DESIGN-TOKENS.md`, `index.html` and `app-v3.html` as the source of truth | **`handoff/`**. The root pages are earlier mockups. |
+| The source panel and full entry as production has them | Restyled in the system (`CONSOLE.md` section 5). |
+| No phone layout for the console | **The phone console** (`CONSOLE.md` section 3). |
 
 ---
 
@@ -23,24 +50,26 @@ Everything marked **Stable** may ship. Everything in **Open decisions** (Pl. 16,
 |---|---|
 | `tokens.css` | Every value. Replaces the token block at the top of your `.console-root`. |
 | `components.css` | The stable blocks, as plain classes. |
-| `explorations.css` | Shapes waiting on a decision. Do not ship. |
+| `explorations.css` | Shapes waiting on a decision, and three the worked pages use. See AGENTS.md. |
 | `system.js` | The runtime: entry motion, the rendered grid, the veil, page drivers. Vanilla, runs once on load. |
 | `tokens.json` | The tokens for tools (DTCG), generated from `tokens.css`; `guide.html` reports drift. |
-| `brand-reference.html` | The system, plate by plate, built from the shipping CSS. |
+| `brand-guide.html` | The system, plate by plate, built from the shipping CSS. |
 | `console.html` + `prototypes.js` | The console prototype. Mock data; nothing leaves the page. |
-| `landing.html`, `home.html`, `rotary.html` | Worked pages, built only from the system. |
+| `CONSOLE.md` | The console written down: behaviour, breakpoints, keyboard, the source view's data, what is mock, production features and words awaiting Matt's verdict. |
+| `landing.html`, `home.html`, `rotary.html` | Worked pages, built from the system. |
 | `report.html`, `slides.html` | Document templates (Exploration). |
 | `guide.html` | Every variable and style read live from the CSS. |
-| `sans-test.html` | The sans candidates on the real pages; Barlow was chosen from it (Rev 24). |
 | `brand-board.html` | The identity on one page, nine panels, built from the CSS (Exploration). |
-| `archive.html` | What was cut, and why. Nothing that ships loads `archive/`. |
-| `AGENTS.md` | The rules, for people and agents. |
+| `archive.html`, `archive/` | What was cut, and why, with the old drafts (`explore-*.html`, the sans and serif tests). Codes start AR. Nothing that ships loads `archive/`. |
+| `audit/` | The production site as surveyed in September. Evidence, not a target. |
+| `AGENTS.md` | The rules, for people and agents; read its first section first. |
+| `CHANGELOG.md` | Every revision. History: later entries reverse earlier ones. |
 
 ---
 
 ## How it maps to your repo
 
-Read from `nathanael-applied-alchemy/peaceintel` at `main` (last commit 2026-10-01), read only.
+Read from `nathanael-applied-alchemy/peaceintel` at `main` (last commit 2026-10-01), read only. **Check it again before you start:** anything merged since then is not reflected below.
 
 | In the repo | In this package | Fit |
 |---|---|---|
@@ -48,7 +77,7 @@ Read from `nathanael-applied-alchemy/peaceintel` at `main` (last commit 2026-10-
 | `src/pages/useConsoleFonts.js` | the `--serif`, `--sans`, `--mono` stacks | Still loads Nanum Myeongjo and DM Sans. Change it (step 1). |
 | Console class names in `console.css` | `components.css` | 42 class names already match (`.msg`, `.bubble`, `.composer`, `.composer-bar`, `.send`, `.pane-head`, `.lib-item`, `.src-chip`, `.cite`, `.icon-btn`, `.avatar`, `.badge`, `.act`…). Restyling them is mostly values, not markup. |
 | `src/components/ui/` Button, Chip, Badge, Card | `.btn.tint` / `.btn.ghost`, `.cite` / `.src-chip`, `.badge`, `.card` | Keep the React components; give each the system's class. |
-| `src/components/ui/` Modal, Table | `.dlg`, `.sheet-t` | Both are still Explorations (they came with the console's projects). Leave these two until Matt decides. |
+| `src/components/ui/` Modal, Table | `.dlg`, `.sheet-t` | Stable since Rev 39, with the console's projects. Give them the system's classes. |
 | `ConsoleThreadsRail`, `ConsoleEvidencePane`, `ProjectView`, `ConsoleChat` | `console.html`: the rail, the library pane, the project page, the chat | Same structure. The prototype is the spec for look and behaviour, not code to copy. |
 | `tailwind.config.js` (no theme; typography plugin) | nothing | See below. |
 | `rotary/handoff/` | an older copy of this package | Delete it, or replace it from here, or it will drift. |
@@ -86,8 +115,11 @@ Each step ships on its own.
    serif is bold.
 4. **Components.** Import `components.css` once, globally, after `console.css`. It is plain
    CSS; React keeps `className`. Move the `ui/` components onto its classes one at a time.
-5. **The console.** Bring the rail, pane, composer and chat in line with `console.html`. The
-   shell is Stable; projects, context, memory, artifacts and the finder are Open decisions.
+5. **The console.** Bring it in line with `console.html`, using `CONSOLE.md` for what it does.
+   **All of it is Stable** (Matt, 16 Oct), projects, context, memory, artifacts, dialogs and the
+   finder included. **Matt has ruled on every production feature the prototype did not draw**
+   (`CONSOLE.md` section 8) and every word that differed (section 9): what to keep, how, and what
+   goes (the tip line, the Reports tab, the dark-mode toggle, Mute; Eirene becomes an answer mode).
 6. **`system.js`, where a page needs it.** It runs once on load and finds its elements in the
    DOM, which suits static pages. In the SPA, wrap its drivers so a route can start them after
    it renders, and stop them on unmount. This is real integration work; marketing routes need
@@ -97,13 +129,37 @@ Each step ships on its own.
 
 ---
 
+## What Matt's agent found in your repo (16 Oct, read only)
+
+`nathanael-applied-alchemy/peaceintel`, `main` at `a71b045` (1 Oct); a second branch,
+`dev-agent-backend-override`, was pushed on 8 Oct and was not read.
+
+- **`src/pages/StyleGuide.jsx`** (the `/styleguide` route in `AppShell.jsx`) lists the old tokens
+  by hand: `--panel`, the brown accent `#8a5a2b`, Nanum Myeongjo, DM Sans, a light and a dark
+  value for each, and inline styles with raw sizes. Your own privilege audit notes the route is
+  open to any signed-in user. **Recommendation: delete the page and its route.** The system's
+  live references are `guide.html` (every variable, read from the CSS, with a drift check) and
+  `brand-guide.html`; keeping a third copy in the app is how the values drifted before.
+- **`src/pages/admin/adminTokens.js`** maps the admin panel's v4 colour keys onto the console's
+  variables (`var(--panel)`, `var(--ink)`…). It keeps working through the `--panel` aliases.
+  Point it at `--ground` / `--face` / `--edge` when you touch it. Its literal v4 hex
+  pass-throughs (blue, purple, the funder colours) are off the system; leave them until the admin
+  panel is redesigned.
+- **`agent-workspace/design/peaceintel-frontend-design.md`** and **`agent-memory/`** are your
+  agent's own notes. Where they describe styling (console.css, the theme toggle, StyleGuide) they
+  now describe the old state: **tell your agent this package supersedes them on anything visual.**
+- **`rotary/handoff/`** is an older copy of this package: replace it from here or delete it.
+
+---
+
+## Decided since the last copy (16 Oct)
+
+- **The brown accent was old branding.** Disregard it; the accent is orange.
+- **No dark theme.** If one is ever wanted, it is its own sprint.
+- **Explorations and the archive in this handoff**: see the package table. `archive.html` and
+  `archive/` are for the record, and nothing that ships may load them.
+
 ## Open questions for you
 
-- **The brown accent.** `console.css` sets `--accent: #8a5a2b` at the base and four routes
-  override it back to orange. If brown was an accessibility fix, the system solves the same
-  problem with `--accent-text` (#C04019, 4.93:1) for text under 24px, keeping orange for fills
-  and large type.
-- **The dark theme.** The system dropped it on 2026-10-14. Is it used?
-- **`StyleGuide.jsx`** copies token values statically; reading `tokens.json` would keep it current.
 - **Production ahead of `main`.** The deployed build served routes not on `main` in September.
   Worth confirming everything is pushed before this lands.

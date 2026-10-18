@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="B">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction B · Monograph</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="description" content="Landing exploration B. Editorial: a short argument in serif, with numbered figures on the rail mount and one dark claim.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="retired.css?v=12fe2490"><!-- drafted before the 2026-10-09 cuts -->
+<link rel="stylesheet" href="review.css?v=47f3ff70">
+<script src="review.js?v=e67c21ad"></script>
+<style>
+  /* ── Page-level composition only. ──────────────────────────────────────────
+     DIRECTION B · MONOGRAPH. The page is a short publication: an argument set
+     in serif, with its evidence presented as numbered figures. One mount, the
+     rail, used three times because the numbers are real (Fig. 1, 2, 3) and a
+     reader can refer back to them. Marginalia carry the caveats. The gradient
+     is not used at all; the one warm moment is a callout at the close. */
+
+  /* Partner marks under the hero, sized by height so both sit on one line. */
+  .b-orgs { display: flex; align-items: center; gap: var(--sp-8); flex-wrap: wrap }
+  .b-orgs img { height: var(--logo-h-sm); width: auto; display: block }
+  .b-orgs .nm-dark { display: none }
+  :root[data-theme="dark"] .b-orgs .nm-light { display: none }
+  :root[data-theme="dark"] .b-orgs .nm-dark { display: block }
+
+  /* Essay: prose column with a margin for notes, the way a monograph sets it. */
+  .b-essay { display: grid; grid-template-columns: minmax(0, var(--measure-prose)) minmax(0, 1fr); gap: var(--sp-12); align-items: start }
+  .b-essay .marginal { margin-top: var(--sp-2) }
+  .b-essay .prose p + p { margin-top: var(--sp-4) }
+  @media (max-width: 900px) { .b-essay { grid-template-columns: 1fr; gap: var(--sp-8) } }
+
+  /* A figure and its caption: the figure is the wider column. */
+  .b-fig { display: grid; grid-template-columns: 1.3fr .7fr; gap: var(--sp-12); align-items: start }
+  .b-fig + .b-fig { margin-top: var(--sp-18) }
+  .b-fig .msg:last-child { margin-bottom: 0 }
+  .b-essay .prose .lede + p { margin-top: var(--sp-6) }
+  @media (max-width: 900px) { .b-fig { grid-template-columns: 1fr; gap: var(--sp-6) } }
+
+  /* Fig. 2: three tiers as a specimen row inside the rail. */
+  .b-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6) }
+  .b-tiers .cite { margin: 0 0 var(--sp-3) }
+  @media (max-width: 620px) { .b-tiers { grid-template-columns: 1fr } }
+
+  /* Fig. 3: four figure lockups. */
+  .b-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-8) }
+  @media (max-width: 760px) { .b-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+  @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr } }
+  .form-grid .full { grid-column: 1 / -1 }
+  .b-close { display: grid; grid-template-columns: .9fr 1.1fr; gap: var(--sp-16); align-items: start }
+  .b-close .callout { margin-top: var(--sp-8) }
+  @media (max-width: 900px) { .b-close { grid-template-columns: 1fr; gap: var(--sp-10) } }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="../media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="../media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ B1 · HERO ════════════════════════════════════════════════════════════
+     The magnifying glass as a side veil behind a stacked lockup: the reading
+     instrument, where the dove would be the outcome. The one tier-one element;
+     no grid in this viewport so two tiers do not compete. -->
+<header id="top" class="band screen hero-stack" data-land>
+  <span class="crit-tag"><b>B1</b> Hero <i>· veil glass, side</i></span>
+  <div class="veil veil--behind veil--side" aria-hidden="true" data-veil-scroll>
+    <video src="../media/veil-glass.mp4" muted loop playsinline preload="none"></video>
+  </div>
+  <div class="wrap">
+    <div class="lockup lockup--hero">
+      <span class="eyebrow mo-develop" data-at="0">An invitation</span>
+      <h1 class="lk-head mo-resolve" data-at="150">An evidence library, made answerable.</h1>
+      <p class="lk-lede mo-develop" data-at="700">
+        The peacebuilding field has more evidence than ever, and too little of it reaches
+        the decisions that matter. Peace Intel is a research agent built on that evidence
+        base, and it shows its working.
+      </p>
+      <div class="lk-actions mo-deal" data-at="1000">
+        <a class="btn primary lg" href="#access">Request access</a>
+        <a class="btn ghost lg" href="#figures">Read the figures</a>
+      </div>
+    </div>
+    <div class="b-orgs mo-develop" data-at="1300" style="margin-top:var(--sp-16)">
+      <span class="eyebrow eb-3 faint">A project of</span>
+      <img class="nm-light" src="../media/epi-full.png" alt="Effective Peacebuilding Initiative"><img class="nm-dark" src="../media/epi-full-reverse.png" alt="">
+    </div>
+  </div>
+</header>
+
+<!-- ══ B2 · THE GAP ═════════════════════════════════════════════════════════
+     A run of copy, set as copy: a prose column and a margin. Develop is the one
+     primitive safe on a block of text. -->
+<section class="band surface--ground" data-land>
+  <span class="crit-tag"><b>B2</b> The gap <i>· prose + marginal</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule" data-at="0">
+      <span class="eyebrow">I &middot; The gap</span>
+      <h2>Where the evidence stops short.</h2>
+    </div>
+    <div class="b-essay">
+      <div class="prose mo-develop" data-at="300">
+        <p class="lede">Decades of evaluations, field studies and policy analysis describe what has reduced violence and what has not.</p>
+        <p>Most of it is hard to reach at the moment it would help. It lives in long reports and in the archives of the organisations that commissioned it, and the person drafting a programme or weighing a portfolio rarely has the week it would take to read it.</p>
+        <p>Peace Intel holds over 5,000 curated papers, evaluations and policy analyses, fully parsed rather than catalogued by abstract. Its research agent finds, compares and applies what the literature already knows, and it names the passage behind every claim.</p>
+      </div>
+      <p class="marginal mo-develop" data-at="900">
+        A caveat worth stating plainly: a research agent can find and compare what has been
+        written. It cannot tell you what to do. That judgement stays with you, and the
+        citations are there so you can make it.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ B3 · FIGURES ═════════════════════════════════════════════════════════
+     The rail mount, twice here and once more below, because the numbers are
+     real: this is a sequence of figures a reader can refer back to. -->
+<section id="figures" class="band" data-land>
+  <span class="crit-tag"><b>B3</b> Figures <i>· .mount--rail, Fig. 1 + 2</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule" data-at="0">
+      <span class="eyebrow">II &middot; How it reads</span>
+      <h2>A question, and where the answer came from.</h2>
+    </div>
+
+    <div class="b-fig">
+      <figure class="mount mount--rail mo-develop" data-at="300">
+        <span class="mount-n">Fig. 1 &middot; An answer</span>
+        <div class="msg user">
+          <div class="who">Question</div>
+          <div class="bubble">What happened in Darfur between 2003 and 2011? Who intervened, what did they do, and what resulted?</div>
+        </div>
+        <div class="msg agent">
+          <div class="who">Peace Intel</div>
+          <div class="lockup lockup--card">
+          <h3 class="lk-head">Three interventions, three different failures.</h3>
+          <div class="body">
+            <p>The African Union deployed <strong>AMIS</strong> in 2004 with a monitoring mandate it was never resourced to fulfil <span class="cite t1"><span class="cm">&#9679;</span>1</span>. Its successor <strong>UNAMID</strong> was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested <span class="cite t2"><span class="cm">&#9680;</span>2</span>.</p>
+            <p>A frequently cited displacement figure does not trace to a primary source in this corpus <span class="cite t3"><span class="cm">&#8599;</span>3</span>, so treat it with caution.</p>
+          </div>
+          </div>
+        </div>
+      </figure>
+      <div class="mo-develop" data-at="700">
+        <span class="eyebrow eb-3">Reading Fig. 1</span>
+        <p class="note">The answer is written as a document, with a serif heading and no chat bubble. The agent separates three efforts because they failed for different reasons, and flags the one number it could not trace.</p>
+      </div>
+    </div>
+
+    <div class="b-fig">
+      <figure class="mount mount--rail mo-develop" data-at="900">
+        <span class="mount-n">Fig. 2 &middot; Tiers</span>
+        <div class="b-tiers">
+          <div>
+            <span class="cite t1"><span class="cm">&#9679;</span>1</span>
+            <div class="lockup lockup--card"><h3 class="lk-head">Ingested</h3><p class="lk-lede">Full text held. The citation points at the passage.</p></div>
+          </div>
+          <div>
+            <span class="cite t2"><span class="cm">&#9680;</span>2</span>
+            <div class="lockup lockup--card"><h3 class="lk-head">Abstract</h3><p class="lk-lede">Enough to place a finding, not to verify it.</p></div>
+          </div>
+          <div>
+            <span class="cite t3"><span class="cm">&#8599;</span>3</span>
+            <div class="lockup lockup--card"><h3 class="lk-head">Web</h3><p class="lk-lede">Outside the corpus, and it carries no accent.</p></div>
+          </div>
+        </div>
+      </figure>
+      <div class="mo-develop" data-at="1200">
+        <span class="eyebrow eb-3">Reading Fig. 2</span>
+        <p class="note">Solid, hollow, dashed. The gradient of trust is stated in shape, so it survives a greyscale print, a colourblind reader and any future change to the palette.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ B4 · THE CLAIM ═══════════════════════════════════════════════════════
+     The one dark section: a single sentence at display size, and the second
+     and last resolve on the page (a different view from the hero's). -->
+<section class="band band--dark on-dark screen" data-land>
+  <span class="crit-tag"><b>B4</b> Claim <i>· on-dark, one sentence</i></span>
+  <div class="wrap">
+    <div class="lockup lockup--hero centered">
+      <span class="eyebrow mo-develop" data-at="0">III &middot; The commitment</span>
+      <p class="lk-head mo-resolve" data-at="200">Every claim traceable to the passage it came from.</p>
+      <p class="lk-lede mo-develop" data-at="900">No black-box assertions. If a source cannot be found, the answer says so.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ B5 · FIG. 3 · CORPUS ═════════════════════════════════════════════════ -->
+<section class="band surface--ground" data-land>
+  <span class="crit-tag"><b>B5</b> Corpus <i>· Fig. 3, lockup--figure + settle</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule" data-at="0">
+      <span class="eyebrow">IV &middot; The corpus</span>
+      <h2>Decades of evidence, in one place.</h2>
+      <p>Assembled and curated by the Effective Peacebuilding Initiative and the Alliance for Peacebuilding, and growing.</p>
+    </div>
+    <figure class="mount mount--rail">
+      <span class="mount-n">Fig. 3 &middot; Holdings</span>
+      <div class="b-stats">
+        <div class="lockup lockup--figure mo-settle" data-at="300"><span class="lk-head">5,000+</span><span class="lk-lede">Curated sources</span></div>
+        <div class="lockup lockup--figure mo-settle" data-at="450"><span class="lk-head">190</span><span class="lk-lede">Conflicts mapped</span></div>
+        <div class="lockup lockup--figure mo-settle" data-at="600"><span class="lk-head">4.2M</span><span class="lk-lede">Citations indexed</span></div>
+        <div class="lockup lockup--figure mo-settle" data-at="750"><span class="lk-head">1997</span><span class="lk-lede">Earliest record</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<!-- ══ B6 · READERS ═════════════════════════════════════════════════════════
+     Two audiences as columns of a table rather than two cards: .surf--rule,
+     the editorial surface from explorations Pl. 15. -->
+<section class="band" data-land>
+  <span class="crit-tag"><b>B6</b> Readers <i>· .surf--rule columns</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule" data-at="0">
+      <span class="eyebrow">V &middot; Who it is for</span>
+      <h2>Two kinds of decision.</h2>
+    </div>
+    <div class="grid-2 mo-deal" data-at="300">
+      <div class="card surf--rule">
+        <span class="eyebrow eb-3">Funders</span>
+        <h3 style="margin-top:var(--sp-3)">Where the evidence already points.</h3>
+        <p>Strategic briefings, portfolio evidence reviews, proposal due diligence, and the gaps worth funding next.</p>
+      </div>
+      <div class="card surf--rule">
+        <span class="eyebrow eb-3">Implementers</span>
+        <h3 style="margin-top:var(--sp-3)">What has worked in a context like this one.</h3>
+        <p>For senior leadership, programme managers and practitioners: logic chains, context-matched sources, and briefs you can hand to a funder.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ B7 · ACCESS ══════════════════════════════════════════════════════════
+     The page's one warm moment: a callout beside the form, carrying the date. -->
+<section id="access" class="band surface--ground" data-land>
+  <span class="crit-tag"><b>B7</b> Access <i>· callout + form</i></span>
+  <div class="wrap">
+    <div class="b-close">
+      <div>
+        <div class="sec-head mo-rule" data-at="0" style="margin-bottom:0">
+          <span class="eyebrow">VI &middot; Join</span>
+          <h2>Read with us.</h2>
+          <p>Early access includes the full research findings and a say in what gets built.</p>
+        </div>
+        <div class="callout mo-develop" data-at="400">
+          <span class="eyebrow eb-3 accent">The private beta</span>
+          <p class="prose" style="margin-top:var(--sp-2)">Opens in January 2027, with a small group of funders and implementers. We will be in touch to arrange a conversation.</p>
+        </div>
+      </div>
+      <form class="card raised mo-develop" data-at="600" onsubmit="return false">
+        <div class="form-grid">
+          <label class="field"><span>First name</span><input class="input" type="text" name="first" autocomplete="given-name"></label>
+          <label class="field"><span>Last name</span><input class="input" type="text" name="last" autocomplete="family-name"></label>
+          <label class="field full"><span>Work email</span><input class="input" type="email" name="email" autocomplete="email" placeholder="jane@organisation.org"></label>
+          <label class="field full"><span>Organisation <span class="faint">(optional)</span></span><input class="input" type="text" name="org" autocomplete="organization"></label>
+        </div>
+        <div class="row" style="margin-top:var(--sp-4)">
+          <button class="btn primary lg" type="submit">Request access</button>
+          <a class="btn-text" href="#access">Just keep me posted</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ══ B8 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>B8</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="../media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../system.js?v=eb50598a"></script>
+<script src="retired.js?v=cba1a8cf"></script>
+</body>
+</html>

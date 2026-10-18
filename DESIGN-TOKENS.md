@@ -1,5 +1,10 @@
 # Peace Intel — Design Tokens & Reskin Guide
 
+> **SUPERSEDED (16 October 2026). Do not use this file.** It describes the July system: DIN,
+> Nanum Myeongjo, a dark theme, `index.html` and `app-v3.html` as the source of truth. Every value
+> and rule here has been replaced by the brand system in `handoff/`: start at `handoff/HANDOFF.md`,
+> then `handoff/AGENTS.md`. Kept only as a record.
+
 **For:** Nathanael (platform reskin)
 **Maintained by:** Matt Gillespie
 **Last updated:** 2026-07-13

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Design System</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="description" content="The Peace Intel design system as a Figma-style file in HTML: variables by collection and mode, text and effect styles, and components with their variants, all read live from tokens.css and components.css.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=c23b99a4">
+<link rel="stylesheet" href="components.css?v=902c0e14">
+<link rel="stylesheet" href="explorations.css?v=45ac9467">
+<style>
+  /* ═══ DESIGN SYSTEM GUIDE · page chrome only ═══════════════════════════════
+     A Figma file, written as a web page: a pages panel on the left, a canvas in
+     the middle, an inspector on the right. Every value below is a token. The
+     chrome borrows the product's own shell dimensions (--topbar-h, --rail-w,
+     --pane-w), so the guide is laid out on the same frame as the app it
+     documents. Nothing in here is catalog; it is the frame round the catalog.
+
+     The content is not written down. It is READ: tokens.css, components.css
+     and explorations.css are fetched and parsed on load, every value is
+     resolved by the browser inside each mode, and tokens.json is joined on for
+     the rationale. A change to a token shows up here on the next reload. */
+
+  body { background: var(--bg) }
+  .g-main p code { font-family: var(--mono); font-size: var(--t-body); color: var(--ink) }
+
+  /* ── Top bar ───────────────────────────────────────────────────────────── */
+  .g-top {
+    position: sticky; top: 0; z-index: 30; height: var(--topbar-h);
+    display: flex; align-items: center; gap: var(--sp-4); padding: 0 var(--sp-5);
+    background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .g-top .nav-mark img { height: calc(var(--logo-h) * .8) }
+  .g-file { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55); white-space: nowrap }
+  .g-file b { color: var(--ink); font-weight: 700 }
+  .g-top .spacer { margin-left: auto }
+  .g-search { width: calc(var(--sp-22) * 3); height: var(--sp-8) }
+  .g-jump { display: none; width: auto; height: var(--sp-8) }
+
+  /* ── Shell: pages | canvas | inspector ─────────────────────────────────── */
+  .g-shell { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr) }
+  .g-shell.has-insp { grid-template-columns: var(--rail-w) minmax(0, 1fr) var(--pane-w) }
+
+  .g-side {
+    position: sticky; top: var(--topbar-h); height: calc(100vh - var(--topbar-h)); overflow: auto;
+    border-right: 1px solid var(--line); padding: var(--sp-6) var(--sp-3) var(--sp-16);
+  }
+  .g-side .eyebrow { display: block; padding: 0 var(--sp-3); margin: var(--sp-6) 0 var(--sp-2) }
+  .g-side .eyebrow:first-child { margin-top: 0 }
+  .g-side a {
+    display: flex; justify-content: space-between; gap: var(--sp-2);
+    font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink-70);
+    padding: var(--sp-1) var(--sp-3); border-radius: var(--r-sm);
+    transition: background var(--mo-fast), color var(--mo-fast);
+  }
+  .g-side a span { font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+  .g-side a:hover { background: var(--wash-1); color: var(--ink) }
+  .g-side a.on { background: var(--ink); color: var(--bg) }
+  .g-side a.on span { color: var(--bg) }
+
+  .g-main { min-width: 0; padding: var(--sp-10) var(--sp-10) var(--sp-26) }
+  .g-sec { padding-top: var(--sp-16); scroll-margin-top: var(--topbar-h) }
+  .g-sec:first-child { padding-top: 0 }
+  .g-sec > .sec-head { margin-bottom: var(--sp-8) }
+  .g-sub { scroll-margin-top: var(--topbar-h); margin-top: var(--sp-12) }
+  .g-sub-h { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; padding-bottom: var(--sp-3); border-bottom: 1px solid var(--line-2) }
+  .g-sub-h h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+  .g-sub-h .note { margin: 0 }
+
+  /* ── Cover ─────────────────────────────────────────────────────────────── */
+  .g-cover { border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: var(--sp-12) var(--sp-10); position: relative; overflow: hidden }
+  .g-cover .lk-head { max-width: 16ch }
+  .g-stats { margin-top: var(--sp-10) }
+  .g-drift { margin-top: var(--sp-8) }
+  .g-drift summary { cursor: pointer; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-70) }
+  .g-drift ul { list-style: none; display: flex; flex-wrap: wrap; gap: var(--sp-1) var(--sp-2); margin-top: var(--sp-3) }
+
+  /* ── Variables table ───────────────────────────────────────────────────── */
+  .g-tbl { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: var(--sp-2) }
+  .g-tbl th {
+    text-align: left; font-family: var(--mono); font-weight: 400; font-size: var(--eb-4); letter-spacing: var(--eb-4-ls);
+    text-transform: uppercase; color: var(--ink-55); padding: var(--sp-3) var(--sp-3) var(--sp-2);
+  }
+  .g-tbl th.c-name { width: 26% }
+  .g-tbl th.c-desc { width: 28% }
+  .g-tbl td { padding: 0; border-top: 1px solid var(--line); vertical-align: middle }
+  .g-tbl tbody tr { cursor: pointer }
+  .g-tbl tbody tr:hover > td.g-n, .g-tbl tbody tr:hover > td.g-d { background: var(--wash-1) }
+  .g-tbl tbody tr.sel > td.g-n { box-shadow: inset 2px 0 0 var(--accent) }
+  .g-tbl tbody tr.sel > td.g-n, .g-tbl tbody tr.sel > td.g-d { background: var(--wash-2) }
+  .g-tbl tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px }
+  .g-n { padding: var(--sp-3) !important }
+  .g-n code { font-family: var(--mono); font-size: var(--t-ui); color: var(--ink); overflow-wrap: anywhere }
+  .g-ty { display: inline-grid; place-items: center; width: var(--sp-4); height: var(--sp-4); margin-right: var(--sp-2); vertical-align: -2px; font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55); border: 1px solid var(--line-2); border-radius: var(--r-xs) }
+  .g-al { display: block; margin-top: var(--sp-1); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55); padding-left: var(--sp-6) }
+  .g-d { font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-70); padding: var(--sp-3) !important }
+  .g-d .clip { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden }
+  .g-d .none { color: var(--ink-55) }
+  /* With the inspector open the description lives there, so the table gives
+     its column back to the values. */
+  .g-shell.has-insp .g-tbl .c-desc, .g-shell.has-insp .g-tbl .g-d { display: none }
+
+  /* A mode cell renders INSIDE its mode: the wrapper carries the mode's own
+     selector, so the browser resolves every token there, whatever the page
+     theme. That is what lets the modes sit side by side. */
+  .g-m { background: var(--bg); color: var(--ink); padding: var(--sp-3); min-height: 100%; display: flex; align-items: center; gap: var(--sp-2); font-family: var(--mono); font-size: var(--t-sm); line-height: 1.3 }
+  .g-m [data-val], .g-m > span:last-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+  .g-m.on-dark { border: 0 }
+  .g-m .muted { color: var(--ink-55) }
+  .g-sw { flex: none; width: var(--sp-5); height: var(--sp-5); border-radius: var(--r-xs); box-shadow: inset 0 0 0 1px var(--line) }
+  .g-bar { flex: none; height: var(--sp-1); background: var(--ink-35); border-radius: var(--r-xs); max-width: 40% }
+  .g-rad { flex: none; width: var(--sp-6); height: var(--sp-6); border: 1px solid var(--ink); border-bottom: 0; border-right: 0 }
+  .g-tile { flex: none; width: var(--sp-10); height: var(--sp-6); border-radius: var(--r-sm); background: var(--face) }
+  .g-tile.img { background-size: 20px 20px; border: 1px solid var(--line) }
+  .g-tile.msk { background: var(--ink) }
+  .g-ag { flex: none; font-size: var(--t-h4); line-height: 1; color: var(--ink) }
+  .g-dur { flex: none; position: relative; width: var(--sp-16); height: var(--sp-1); background: var(--line-2); border-radius: var(--r-xs) }
+  .g-dur i { position: absolute; left: 0; top: 50%; width: var(--sp-2); height: var(--sp-2); margin-top: calc(var(--sp-1) * -1); border-radius: var(--r-full); background: var(--accent); transition-property: left; transition-timing-function: cubic-bezier(.2,.7,.2,1) }
+  tr:hover .g-dur i, tr.sel .g-dur i { left: calc(100% - var(--sp-2)) }
+  tr.hide { display: none }
+
+  /* ── Inspector ─────────────────────────────────────────────────────────── */
+  .g-insp {
+    position: sticky; top: var(--topbar-h); height: calc(100vh - var(--topbar-h)); overflow: auto;
+    border-left: 1px solid var(--line); background: var(--ground); padding: var(--sp-5) var(--sp-5) var(--sp-16);
+  }
+  .g-insp[hidden] { display: none }
+  .g-insp-h { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3) }
+  .g-insp h2 { font-family: var(--mono); font-weight: 700; font-size: var(--t-h4); line-height: var(--t-h4-lh); margin-top: var(--sp-4); word-break: break-all }
+  .g-insp h2.serif { font-family: var(--serif) }
+  .g-insp .row { margin-top: var(--sp-3) }
+  .g-is { margin-top: var(--sp-6); padding-top: var(--sp-4); border-top: 1px solid var(--line) }
+  .g-is > .eyebrow { display: block; margin-bottom: var(--sp-3) }
+  .g-is p { font-size: var(--t-sm); line-height: 1.6; color: var(--ink-70) }
+  .g-is p + p { margin-top: var(--sp-2) }
+  .g-is p b { color: var(--ink); font-weight: 600 }
+  .g-kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--sp-2) var(--sp-3); align-items: center }
+  .g-kv > span:nth-child(odd) { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+  .g-kv .g-m { padding: var(--sp-2) var(--sp-3); border-radius: var(--r-sm); border: 1px solid var(--line) }
+  .g-chain { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) }
+  .g-chain .sep { color: var(--ink-55); font-family: var(--mono); font-size: var(--t-sm) }
+  .g-tok {
+    display: inline-flex; align-items: center; gap: var(--sp-1);
+    font-family: var(--mono); font-size: var(--eb-3); color: var(--ink-70);
+    border: 1px solid var(--line-2); border-radius: var(--r-xs); padding: 2px var(--sp-2);
+    transition: border-color var(--mo-fast), color var(--mo-fast);
+  }
+  button.g-tok:hover { border-color: var(--ink-35); color: var(--ink) }
+  .g-tok .g-sw { width: var(--sp-2); height: var(--sp-2) }
+  .g-toks { display: flex; flex-wrap: wrap; gap: var(--sp-1) }
+  .g-src { font-family: var(--mono); font-size: var(--eb-3); line-height: 1.6; color: var(--ink-70); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--sp-3); white-space: pre-wrap; word-break: break-all }
+  .g-src + .g-src { margin-top: var(--sp-2) }
+  .g-src b { color: var(--ink); font-weight: 700 }
+  .g-uses { list-style: none; display: grid; gap: var(--sp-1) }
+  .g-uses li { font-family: var(--mono); font-size: var(--eb-3); color: var(--ink-70); word-break: break-all }
+  .g-uses li span { color: var(--ink-55) }
+  .g-ratio { display: grid; grid-template-columns: auto auto auto 1fr; gap: var(--sp-1) var(--sp-3); align-items: center; font-family: var(--mono); font-size: var(--eb-3); color: var(--ink-70) }
+  .g-ratio .head { color: var(--ink-55); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase }
+
+  /* ── Styles ────────────────────────────────────────────────────────────── */
+  .g-styles { display: grid; gap: 0 }
+  .g-style { display: grid; grid-template-columns: minmax(0, 1fr) calc(var(--sp-22) * 3); gap: var(--sp-6); align-items: baseline; padding: var(--sp-5) 0; border-top: 1px solid var(--line) }
+  .g-style .spec { font-family: var(--mono); font-size: var(--eb-3); line-height: 1.6; color: var(--ink-55) }
+  .g-style .spec b { display: block; color: var(--ink); font-weight: 700; letter-spacing: var(--eb-3-ls); text-transform: uppercase; margin-bottom: var(--sp-1) }
+  .g-effects { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--sp-22) * 2), 1fr)); gap: var(--sp-8) var(--sp-6); margin-top: var(--sp-6) }
+  .g-eff .tile { height: calc(var(--sp-22) * 1.1); border-radius: var(--r-lg); background: var(--face) }
+  .g-eff .spec { margin-top: var(--sp-3) }
+
+  /* ── Frames (components and modes) ─────────────────────────────────────── */
+  .g-frame { margin-top: var(--sp-6) }
+  .g-frame-h { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); flex-wrap: wrap; margin-bottom: var(--sp-2) }
+  .g-frame-h .eyebrow { margin: 0 }
+  .g-canvas {
+    background-color: var(--bg); color: var(--ink);
+    border: 1px solid var(--line-2); border-radius: var(--r-lg);
+    padding: var(--sp-8); overflow-x: auto;
+  }
+  .g-matrix { display: grid; gap: var(--sp-5) var(--sp-8); align-items: center; justify-items: start; width: max-content; max-width: 100% }
+  .g-matrix .lab { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); white-space: nowrap }
+  .g-flow { display: flex; flex-wrap: wrap; gap: var(--sp-6); align-items: flex-start }
+  .g-flow > * { flex: 0 1 calc(var(--sp-22) * 3) }
+  .g-props { width: 100%; border-collapse: collapse; margin-top: var(--sp-4) }
+  .g-props td { padding: var(--sp-2) var(--sp-3) var(--sp-2) 0; border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-70); vertical-align: top }
+  .g-props td:first-child { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55); width: 18%; white-space: nowrap }
+  .g-props code { font-family: var(--mono); font-size: var(--eb-2); color: var(--ink) }
+  .g-comp { margin-top: var(--sp-14) }
+  .g-comp .g-toks { margin-top: var(--sp-3) }
+
+  .g-modes { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(var(--sp-22) * 2.6), 1fr)); gap: var(--sp-5); margin-top: var(--sp-6) }
+  .g-mode-card { background: var(--bg); color: var(--ink); border: 1px solid var(--line-2); border-radius: var(--r-lg); padding: var(--sp-6) }
+  .g-mode-card h4 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh); margin-top: var(--sp-2) }
+  .g-mode-card p { font-size: var(--t-sm); color: var(--ink-70); margin-top: var(--sp-2) }
+  .g-mode-card .row { margin-top: var(--sp-4) }
+  .g-mode-card code { display: block; margin-top: var(--sp-4); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+
+  .g-toast {
+    position: fixed; left: 50%; bottom: var(--sp-6); z-index: 60; transform: translate(-50%, var(--sp-4)); opacity: 0;
+    background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls);
+    padding: var(--sp-2) var(--sp-4); border-radius: var(--r-md); pointer-events: none;
+    transition: opacity var(--mo-base), transform var(--mo-base);
+  }
+  .g-toast.on { opacity: 1; transform: translate(-50%, 0) }
+  .g-load { color: var(--ink-55); font-size: var(--t-sm) }
+
+  /* ── Narrow ────────────────────────────────────────────────────────────── */
+  @media (max-width: 1180px) {
+    .g-shell.has-insp { grid-template-columns: var(--rail-w) minmax(0, 1fr) }
+    .g-insp { position: fixed; top: auto; left: 0; right: 0; bottom: 0; height: 72vh; z-index: 50; border-left: 0; border-top: 1px solid var(--line-2); box-shadow: var(--elev-3) }
+  }
+  @media (max-width: 980px) {
+    .g-shell, .g-shell.has-insp { grid-template-columns: minmax(0, 1fr) }
+    .g-side { display: none }
+    .g-jump { display: block }
+    .g-search { width: calc(var(--sp-22) * 1.6) }
+    .g-main { padding: var(--sp-8) var(--sp-5) var(--sp-26) }
+  }
+  @media (max-width: 700px) {
+    .g-file, .g-top .nav-mark, .g-search { display: none }
+    .g-jump { flex: 1; min-width: 0 }
+    .g-tbl th.c-desc, .g-tbl td.g-d { display: none }
+    .g-tbl th.c-name { width: 40% }
+    .g-style { grid-template-columns: 1fr; gap: var(--sp-2) }
+    .g-cover { padding: var(--sp-8) var(--sp-5) }
+    .g-canvas { padding: var(--sp-5) }
+  }
+</style>
+</head>
+<body>
+
+<header class="g-top">
+  <a class="nav-mark" href="#cover" aria-label="Peace Intel"><img class="nm-light" src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+  <span class="g-file"><b>Design System</b> &middot; <span id="g-ver">tokens.css</span></span>
+  <span class="spacer"></span>
+  <select class="input g-jump" id="g-jump" aria-label="Jump to section"></select>
+  <input class="input g-search" id="g-search" type="search" placeholder="Search variables" aria-label="Search variables" autocomplete="off">
+</header>
+
+<div class="g-shell" id="g-shell">
+  <nav class="g-side" id="g-side" aria-label="Pages"></nav>
+
+  <main class="g-main" id="g-main">
+    <section class="g-sec" id="cover">
+      <div class="g-cover textured textured--top">
+        <div class="lockup lockup--hero">
+          <span class="eyebrow">Peace Intel &middot; Design System</span>
+          <h1 class="lk-head">The system, as a file you can inspect.</h1>
+          <p class="lk-lede">Variables by collection and mode, text and effect styles, and every component with its variants. Nothing here is copied: it is read from <code>tokens.css</code> and <code>components.css</code> when the page loads, and resolved by the browser in each mode, so it cannot drift from the code.</p>
+        </div>
+        <div class="rule-row g-stats" id="g-stats"></div>
+        <details class="g-drift" id="g-drift"><summary>Loading&hellip;</summary></details>
+      </div>
+      <div class="g-load" id="g-load" style="margin-top:var(--sp-6)">Reading tokens.css&hellip;</div>
+    </section>
+
+    <section class="g-sec" id="modes">
+      <div class="sec-head">
+        <span class="eyebrow">Modes</span>
+        <h2>One set of names, four surfaces.</h2>
+        <p>A mode is a selector that remaps the semantic variables, so no component has a dark variant. Light is the one page theme (dark mode was removed on 14 October); On-dark, Raised and Invert are surface contexts any band can carry.</p>
+      </div>
+      <div class="g-modes" id="g-modes"></div>
+    </section>
+
+    <section class="g-sec" id="variables">
+      <div class="sec-head">
+        <span class="eyebrow">Variables</span>
+        <h2>Every variable, in every mode.</h2>
+        <p>Choose a row to inspect it: its alias chain, values by mode, contrast, rationale and the rules that consume it. Collections with mode-specific values show a column per mode; the rest show one value.</p>
+      </div>
+      <div id="g-vars"></div>
+    </section>
+
+    <section class="g-sec" id="styles">
+      <div class="sec-head">
+        <span class="eyebrow">Styles</span>
+        <h2>Text and effect styles.</h2>
+        <p>The type scale composed into named styles, with each spec measured off the rendered specimen.</p>
+      </div>
+      <div class="g-sub" id="text-styles"><div class="g-sub-h"><h3>Text</h3></div><div class="g-styles" id="g-text"></div></div>
+      <div class="g-sub" id="effect-styles"><div class="g-sub-h"><h3>Effects</h3></div><div class="g-effects" id="g-effects"></div></div>
+    </section>
+
+    <section class="g-sec" id="components">
+      <div class="sec-head">
+        <span class="eyebrow">Components</span>
+        <h2>The catalog, as component sets.</h2>
+        <p>Live markup from <code>components.css</code>. Each frame switches between modes, lists its properties, and links every variable it consumes back to the inspector.</p>
+      </div>
+      <div id="g-comps"></div>
+    </section>
+  </main>
+
+  <aside class="g-insp" id="g-insp" hidden aria-label="Inspector"></aside>
+</div>
+
+<div class="g-toast" id="g-toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var $ = function (s, el) { return (el || document).querySelector(s); };
+  var $$ = function (s, el) { return [].slice.call((el || document).querySelectorAll(s)); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+
+  /* ── Colour maths ───────────────────────────────────────────────────────── */
+  function parseColor(c) {
+    c = String(c).trim();
+    var m = c.match(/^rgba?\(([^)]+)\)$/);
+    if (m) { var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return { r: p[0], g: p[1], b: p[2], a: p.length > 3 ? p[3] : 1 }; }
+    m = c.match(/^color\(\s*srgb\s+([^)]+)\)$/);
+    if (m) { var parts = m[1].split('/'), q = parts[0].trim().split(/\s+/).map(parseFloat); var a = parts[1] ? parseFloat(parts[1]) : 1; if (parts[1] && parts[1].indexOf('%') > -1) a /= 100; return { r: q[0] * 255, g: q[1] * 255, b: q[2] * 255, a: a }; }
+    return null;
+  }
+  function hex(c) { function h(v) { v = Math.round(Math.max(0, Math.min(255, v))).toString(16).toUpperCase(); return v.length < 2 ? '0' + v : v; } return '#' + h(c.r) + h(c.g) + h(c.b); }
+  function fmt(c) { if (!c) return '—'; return c.a >= .999 ? hex(c) : hex(c) + ' · ' + Math.round(c.a * 100) + '%'; }
+  function over(f, b) { return { r: f.r * f.a + b.r * (1 - f.a), g: f.g * f.a + b.g * (1 - f.a), b: f.b * f.a + b.b * (1 - f.a), a: 1 }; }
+  function lum(c) { function f(v) { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); } return .2126 * f(c.r) + .7152 * f(c.g) + .0722 * f(c.b); }
+  function ratio(a, b) { var x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); }
+  function grade(r) { return r >= 7 ? 'AAA' : r >= 4.5 ? 'AA' : r >= 3 ? 'AA large · UI' : 'Below 3:1'; }
+
+  /* ── Modes ──────────────────────────────────────────────────────────────── */
+  var MODES = [
+    { id: 'light', label: 'Light', attrs: 'class="g-m console-root" data-theme="light"' },
+    { id: 'ondark', label: 'On-dark', attrs: 'class="g-m on-dark"' }
+  ];
+
+  /* ── Collections: assigned by name, in this order ───────────────────────── */
+  var COLLS = [
+    ['primitives', 'Primitives', 'The raw palette. Nothing in a component should reach these directly; they exist to be aliased.', /^--pi-/],
+    ['color', 'Color', 'The semantic layer every component consumes. These are the names that change by mode.', /^--(bg|ground|ground-2|face|fill|panel|panel-face|ink|ink-\d+|line|line-2|wash-\d|accent|accent-text|accent-fill|accent-on-ink|on-accent|hl|grad|kicker|link-h|warm|on-dark.*)$/],
+    ['effects', 'Effects', 'Shadows, borders and the raised treatment, composed rather than hardcoded.', /^--(elev-\d|edge|panel-border|warm-border|mount-recess|sh)$/],
+    ['type', 'Typography', 'Three families and closed scales. A size that is not here is a bug, not a preference.', /^--(serif|sans|mono|t-.*|eb-.*)$/],
+    ['space', 'Space', 'The 4px grid.', /^--sp-\d+$/],
+    ['radius', 'Radius', 'Two and four. The six names survive so adoption is a values swap.', /^--r-/],
+    ['layout', 'Layout', 'Measures, columns, band rhythm and the app shell.', /^--(band-y.*|measure-.*|col-.*|rail-.*|pane-.*|topbar-h|nav-h|logo-h.*)$/],
+    ['motion', 'Motion', 'Two scales: interaction under .3s, entry 700 to 1600ms.', /^--mo-/],
+    ['instrument', 'Instruments', 'Registration and corners, the two scroll-linked marks.', /^--(reg-|cnr-)/],
+    ['texture', 'Texture and dither', 'The dashed grid, its masks, and the one dither cell.', /^--(grid.*|gridinv|dither-cell)$/]
+  ];
+  function collOf(n) { for (var i = 0; i < COLLS.length; i++) if (COLLS[i][3].test(n)) return COLLS[i][0]; return 'other'; }
+
+  /* ── tokens.json → CSS names ────────────────────────────────────────────── */
+  var LAYOUT = { colMax: '--col-max', colText: '--col-text', measureProse: '--measure-prose', measureLead: '--measure-lead', measureHead: '--measure-head', bandY: '--band-y', railW: '--rail-w', paneW: '--pane-w', topbarH: '--topbar-h' };
+  var ONDARK = { surface: '--on-dark-surface', base: '--on-dark', 'base-70': '--on-dark-70', 'base-55': '--on-dark-55', 'base-35': '--on-dark-35', line: '--on-dark-line', 'line-2': '--on-dark-line-2', accent: '--on-dark-accent', 'accent-fill': '--accent-fill', 'on-accent': '--on-accent' };
+  function jsonName(path) {
+    var p = path.split('.'), g = p[0], k = p.slice(1).join('.');
+    switch (g) {
+      case 'color': if (p[1] === 'dark') return { n: '--' + p[2], mode: 'dark' }; if (p[1] === 'onDark') return { n: ONDARK[p[2]], mode: 'ondark' }; return { n: '--' + k };
+      case 'font': return { n: '--' + k };
+      case 'typeScale': return { n: '--t-' + k };
+      case 'eyebrow': return { n: '--eb-' + k };
+      case 'space': return { n: '--sp-' + k };
+      case 'radius': return { n: '--r-' + k };
+      case 'elevation': return { n: '--elev-' + k };
+      case 'motion': return { n: '--mo-' + k };
+      case 'registration': return { n: '--reg-' + k };
+      case 'layout': return { n: LAYOUT[k] };
+      case 'surface': return { n: '--' + k };
+      case 'texture': return { n: k === 'dither-cell' ? '--dither-cell' : '--grid-' + k };
+      default: return { n: null };
+    }
+  }
+  function walkJson(o, p, out) {
+    if (!o || typeof o !== 'object') return;
+    if ('$value' in o) { out.push({ path: p, t: o }); return; }
+    Object.keys(o).forEach(function (k) { if (k.charAt(0) !== '$') walkJson(o[k], p ? p + '.' + k : k, out); });
+  }
+
+  /* ── tokens.css parser: declarations with their selector, mode, layer and
+        trailing comment. Comments are blanked, not removed, so every index
+        still points at the original text. ───────────────────────────────── */
+  function blankComments(css) { return css.replace(/\/\*[\s\S]*?\*\//g, function (m) { return m.replace(/[^\n]/g, ' '); }); }
+  function modeOf(sel, media) {
+    if (media && /reduced-motion/.test(media)) return null;
+    var s = sel.replace(/\s+/g, ' ');
+    if (/data-theme="dark"\] \.on-dark/.test(s)) return 'ondark-dark';
+    if (/data-theme="dark"\] \.surface--invert/.test(s)) return 'invert-dark';
+    if (/data-theme="dark"\] \.surface--ground/.test(s)) return 'raised-dark';
+    if (/\.on-dark/.test(s)) return 'ondark';
+    if (/\.surface--ground/.test(s)) return 'raised';
+    if (/data-theme="dark"\]/.test(s)) return 'dark';
+    if (/:root|\.console-root/.test(s)) return 'base';
+    return 'other';
+  }
+  var MODE_LABEL = { base: 'Light (base)', dark: 'Dark', ondark: 'On-dark', onDark: 'On-dark', 'ondark-dark': 'On-dark in Dark', raised: 'On a ground', 'raised-dark': 'Raised in Dark', 'invert-dark': 'Invert in Dark', other: 'Other' };
+  function parseTokens(css) {
+    var blank = blankComments(css), events = [], stack = [], last = 0, i;
+    for (i = 0; i < blank.length; i++) {
+      var ch = blank[i];
+      if (ch === '{') { stack.push(blank.slice(last, i).trim()); last = i + 1; events.push({ i: i, s: stack.slice() }); }
+      else if (ch === '}') { stack.pop(); last = i + 1; events.push({ i: i, s: stack.slice() }); }
+      else if (ch === ';') last = i + 1;
+    }
+    var heads = []; css.replace(/\/\*\s*──\s*([^─\n]+?)\s*─/g, function (m, t, idx) { heads.push({ i: idx, t: t.trim() }); return m; });
+    var re = /(--[a-zA-Z0-9-]+)\s*:\s*([^;{}]*);/g, m, decls = [], ei = 0, hi = 0, ctx = [], layer = '';
+    while ((m = re.exec(blank))) {
+      while (ei < events.length && events[ei].i < m.index) { ctx = events[ei].s; ei++; }
+      while (hi < heads.length && heads[hi].i < m.index) { layer = heads[hi].t; hi++; }
+      if (!ctx.length) continue;
+      var sel = ctx[ctx.length - 1], media = ctx.filter(function (s) { return s.charAt(0) === '@'; })[0] || '';
+      var mode = modeOf(sel, media); if (!mode) continue;
+      var tail = css.slice(m.index + m[0].length).match(/^[ \t]*\/\*([\s\S]*?)\*\//);
+      decls.push({ name: m[1], raw: m[2].replace(/\s+/g, ' ').trim(), sel: sel.replace(/\s+/g, ' '), mode: mode, layer: layer, note: tail ? tail[1].replace(/\s+/g, ' ').trim() : '' });
+    }
+    return decls;
+  }
+  function parseRules(css, file) {
+    var blank = blankComments(css), re = /([^{}]+)\{([^{}]*)\}/g, m, out = [];
+    while ((m = re.exec(blank))) {
+      var sel = m[1].replace(/\s+/g, ' ').trim(); if (!sel || sel.charAt(0) === '@') continue;
+      var refs = []; m[2].replace(/var\(\s*(--[a-zA-Z0-9-]+)/g, function (x, n) { if (refs.indexOf(n) < 0) refs.push(n); return x; });
+      out.push({ sel: sel, refs: refs, file: file });
+    }
+    return out;
+  }
+  function refsIn(raw) { var r = []; String(raw).replace(/var\(\s*(--[a-zA-Z0-9-]+)/g, function (x, n) { if (r.indexOf(n) < 0) r.push(n); return x; }); return r; }
+
+  /* ── Types and previews ─────────────────────────────────────────────────── */
+  function typeOf(name, v) {
+    v = String(v || '').trim();
+    if (/^--(serif|sans|mono)$/.test(name)) return 'font';
+    if (name === '--sh') return 'string';
+    if (/^--(elev-\d|mount-recess)$/.test(name)) return 'shadow';
+    if (/^--(edge|panel-border|warm-border)$/.test(name)) return 'border';
+    if (/mask/.test(name)) return 'mask';
+    if (/^url\(/.test(v)) return 'image';
+    if (/gradient\(/.test(v)) return 'gradient';
+    if (/^-?[\d.]+m?s$/.test(v)) return 'duration';
+    if (v && window.CSS && CSS.supports('color', v)) return 'color';
+    if (/^-?[\d.]+(px|ch|vh|svh|rem|em|%)$/.test(v)) return 'dimension';
+    if (/^-?[\d.]+$/.test(v)) return 'number';
+    return 'string';
+  }
+  var GLYPH = { color: '●', dimension: '↔', number: '#', duration: '◷', font: 'Aa', shadow: '▢', border: '▭', gradient: '◐', image: '▦', mask: '◑', string: 'T' };
+  function short(v, type) {
+    v = String(v || '').trim();
+    if (type === 'shadow') { if (v === 'none') return 'none'; var layers = v.split(/,(?![^(]*\))/).length; return layers + (layers > 1 ? ' layers' : ' layer'); }
+    if (/^url\(/.test(v)) return 'url(svg tile)';
+    if (/^(linear|radial)-gradient\(/.test(v)) return v.split('(')[0] + '(…)';
+    if (v.length > 64) return v.slice(0, 60) + '…';
+    return v;
+  }
+  function preview(type, name, coll) {
+    var V = 'var(' + name + ')';
+    switch (type) {
+      case 'color': return '<i class="g-sw" style="background:' + V + '"></i>';
+      case 'dimension':
+        if (coll === 'radius') return '<i class="g-rad" style="border-top-left-radius:' + V + '"></i>';
+        return /--(sp|reg|cnr)-/.test(name) || /--r-/.test(name) ? '<i class="g-bar" style="width:min(' + V + ', 40%)"></i>' : '';
+      case 'duration': return '<span class="g-dur"><i style="transition-duration:' + V + '"></i></span>';
+      case 'font': return '<span class="g-ag" style="font-family:' + V + '">Ag</span>';
+      case 'shadow': return '<i class="g-tile" style="box-shadow:' + V + '"></i>';
+      case 'border': return '<i class="g-tile" style="border:' + V + '"></i>';
+      case 'gradient': return '<i class="g-tile" style="background:' + V + '"></i>';
+      case 'image': return '<i class="g-tile img" style="background-image:' + V + '"></i>';
+      case 'mask': return '<i class="g-tile msk" style="-webkit-mask-image:' + V + ';mask-image:' + V + '"></i>';
+      default: return '';
+    }
+  }
+
+  /* ── State ──────────────────────────────────────────────────────────────── */
+  var VARS = {}, ORDER = [], RULES = [], JSON_BY = {}, JSON_ALL = [], META = {}, current = null;
+
+  Promise.all([
+    fetch('tokens.css', { cache: 'no-cache' }).then(function (r) { return r.text(); }),
+    fetch('components.css', { cache: 'no-cache' }).then(function (r) { return r.text(); }),
+    fetch('explorations.css', { cache: 'no-cache' }).then(function (r) { return r.text(); }),
+    fetch('tokens.json', { cache: 'no-cache' }).then(function (r) { return r.json(); }).catch(function () { return {}; })
+  ]).then(function (res) {
+    build(res[0], res[1], res[2], res[3]);
+  }).catch(function (e) {
+    $('#g-load').textContent = 'Could not read the token files. Open this page through the local server (python3 -m http.server 8788), not from the file system.';
+  });
+
+  function build(tokCss, compCss, explCss, json) {
+    parseTokens(tokCss).forEach(function (d) {
+      var v = VARS[d.name];
+      if (!v) { v = VARS[d.name] = { name: d.name, defs: [], coll: collOf(d.name) }; ORDER.push(d.name); }
+      v.defs.push(d);
+    });
+    ORDER.forEach(function (n) {
+      var v = VARS[n], base = v.defs.filter(function (d) { return d.mode === 'base'; })[0] || v.defs[0];
+      v.raw = base.raw; v.layer = base.layer; v.note = (v.defs.filter(function (d) { return d.note; })[0] || {}).note || '';
+      v.refs = refsIn(v.raw);
+    });
+    RULES = parseRules(compCss, 'components.css').concat(parseRules(explCss, 'explorations.css'));
+    META = json.$meta || {};
+    walkJson(json, '', JSON_ALL);
+    /* Since tokens.json 6.0.0 every token names its CSS variable in pi.css, so
+       the join is exact. The path-based guess stays as a fallback for older
+       files. A pi.kind of "rule" is documentation with no variable behind it. */
+    JSON_ALL.forEach(function (j) {
+      var x = j.t.$extensions || {}, map = jsonName(j.path);
+      j.css = 'pi.css' in x ? x['pi.css'] : map.n;
+      j.mode = x['pi.mode'] ? (x['pi.mode'] === 'onDark' ? 'ondark' : x['pi.mode']) : (map.mode || 'base');
+      j.rule = x['pi.kind'] === 'rule';
+      if (j.css && VARS[j.css]) { (JSON_BY[j.css] = JSON_BY[j.css] || []).push(j); }
+    });
+    if (META.version) $('#g-ver').textContent = 'tokens ' + META.version;
+
+    renderVars();
+    renderModes();
+    renderStyles();
+    renderComps();
+    renderCover();
+    renderNav();
+    $('#g-load').remove();
+    fromHash();
+    window.addEventListener('hashchange', fromHash);
+  }
+  /* #var--accent-fill opens that variable, on load or when the hash changes,
+     so a link into the guide lands on the inspector. */
+  function fromHash() {
+    if (location.hash.indexOf('#var') !== 0) return;
+    var n = decodeURIComponent(location.hash.slice(4));
+    if (!VARS[n] || n === current) return;
+    openVar(n);
+    var tr = $('tr[data-var="' + n + '"]'); if (tr) tr.scrollIntoView({ block: 'center' });
+  }
+
+  /* ── Variables ──────────────────────────────────────────────────────────── */
+  function descOf(n) {
+    var j = (JSON_BY[n] || []).filter(function (x) { return x.mode === 'base'; })[0] || (JSON_BY[n] || [])[0];
+    return (j && j.t.$description) || VARS[n].note || '';
+  }
+  function renderVars() {
+    var host = $('#g-vars'), html = '';
+    var colls = COLLS.concat([['other', 'Other', 'Variables the collection rules do not place.', null]]);
+    colls.forEach(function (c) {
+      var names = ORDER.filter(function (n) { return VARS[n].coll === c[0]; });
+      if (!names.length) return;
+      c.count = names.length;
+      html += '<div class="g-sub" id="coll-' + c[0] + '" data-coll="' + c[0] + '"><div class="g-sub-h"><h3>' + esc(c[1]) + '</h3><span class="eyebrow eb-4 faint">' + names.length + ' variables</span><p class="note">' + esc(c[2]) + '</p></div>';
+      html += '<table class="g-tbl"><thead><tr><th class="c-name">Name</th>' + MODES.map(function (m) { return '<th data-mode-col>' + m.label + '</th>'; }).join('') + '<th class="c-desc">Description</th></tr></thead><tbody>';
+      names.forEach(function (n) {
+        var v = VARS[n], alias = v.refs.length === 1 && /^var\(--[\w-]+\)$/.test(v.raw) ? '→ ' + v.refs[0] : v.refs.length ? 'mix · ' + v.refs.join(', ') : '';
+        html += '<tr tabindex="0" data-var="' + n + '"><td class="g-n"><span class="g-ty" data-glyph></span><code>' + n + '</code>' + (alias ? '<span class="g-al">' + esc(alias) + '</span>' : '') + '</td>';
+        MODES.forEach(function (m) { html += '<td data-mode-col><div ' + m.attrs + ' data-cell="' + m.id + '"></div></td>'; });
+        var d = descOf(n);
+        html += '<td class="g-d"><span class="clip' + (d ? '' : ' none') + '">' + esc(d || 'No description yet.') + '</span></td></tr>';
+      });
+      html += '</tbody></table></div>';
+    });
+    host.innerHTML = html;
+
+    /* Resolve inside each mode, then decide per collection whether the modes
+       actually differ; if they never do, one column is the honest view. */
+    $$('.g-sub[data-coll]', host).forEach(function (sub) {
+      var anyDiff = false;
+      $$('tbody tr', sub).forEach(function (tr) {
+        var n = tr.getAttribute('data-var'), v = VARS[n], vals = {};
+        MODES.forEach(function (m) {
+          var cell = $('[data-cell="' + m.id + '"]', tr);
+          vals[m.id] = getComputedStyle(cell).getPropertyValue(n).trim();
+        });
+        var base = vals.light || vals.dark || vals.ondark;
+        v.type = typeOf(n, base); v.vals = vals;
+        $('[data-glyph]', tr).textContent = GLYPH[v.type] || 'T'; $('[data-glyph]', tr).title = v.type;
+        MODES.forEach(function (m) {
+          var cell = $('[data-cell="' + m.id + '"]', tr), raw = vals[m.id];
+          if (!raw) { cell.innerHTML = '<span class="muted">—</span>'; return; }
+          cell.innerHTML = preview(v.type, n, v.coll) + '<span data-val></span>';
+          var out = $('[data-val]', cell);
+          if (v.type === 'color') { var c = parseColor(getComputedStyle($('.g-sw', cell)).backgroundColor); v['c_' + m.id] = c; out.textContent = fmt(c); }
+          else out.textContent = short(raw, v.type);
+        });
+        if (vals.light !== vals.dark || vals.light !== vals.ondark) anyDiff = true;
+      });
+      if (!anyDiff) {
+        $$('[data-mode-col]', sub).forEach(function (el, i) { if (el.tagName === 'TH') { if (el.cellIndex > 1) el.remove(); else el.textContent = 'Value'; } else if (el.cellIndex > 1) el.remove(); });
+      }
+    });
+    host.addEventListener('click', function (e) { var tr = e.target.closest('tr[data-var]'); if (tr) openVar(tr.getAttribute('data-var')); });
+    host.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var tr = e.target.closest('tr[data-var]'); if (tr) openVar(tr.getAttribute('data-var')); } });
+  }
+
+  /* ── Inspector ──────────────────────────────────────────────────────────── */
+  function chain(n) {
+    var out = [n], seen = {}, cur = n;
+    while (VARS[cur] && VARS[cur].refs.length === 1 && /^var\(--[\w-]+\)$/.test(VARS[cur].raw) && !seen[cur]) { seen[cur] = 1; cur = VARS[cur].refs[0]; out.push(cur); }
+    return out;
+  }
+  function tok(n) {
+    var v = VARS[n], sw = v && v.type === 'color' ? '<i class="g-sw" style="background:var(' + n + ')"></i>' : '';
+    return v ? '<button type="button" class="g-tok" data-open="' + n + '">' + sw + n + '</button>' : '<span class="g-tok">' + esc(n) + '</span>';
+  }
+  function openVar(n, keepScroll) {
+    var v = VARS[n]; if (!v) return;
+    current = n;
+    $$('tr.sel').forEach(function (t) { t.classList.remove('sel'); });
+    var tr = $('tr[data-var="' + n + '"]'); if (tr) tr.classList.add('sel');
+    var insp = $('#g-insp'), shell = $('#g-shell');
+    var js = JSON_BY[n] || [], jb = js.filter(function (x) { return x.mode === 'base'; })[0] || js[0];
+    var h = '<div class="g-insp-h"><span class="eyebrow eb-4">Variable</span><button type="button" class="act sm" data-close>Close</button></div>';
+    h += '<h2>' + n + '</h2>';
+    h += '<div class="row tight"><span class="badge">' + esc((COLLS.filter(function (c) { return c[0] === v.coll; })[0] || [0, 'Other'])[1]) + '</span><span class="badge">Type · ' + esc(v.type) + '</span>' + (v.layer ? '<span class="badge">' + esc(v.layer) + '</span>' : '') + (js.length ? '' : '<span class="badge accent">Not in tokens.json</span>') + '</div>';
+    h += '<div class="row tight"><button type="button" class="act sm" data-copy="var(' + n + ')">Copy var()</button><button type="button" class="act sm" data-copy="' + esc(n + ': ' + v.raw + ';') + '">Copy declaration</button>' + (jb ? '<button type="button" class="act sm" data-copy="' + esc(jb.path) + '">Copy JSON path</button>' : '') + '</div>';
+
+    h += '<div class="g-is"><span class="eyebrow eb-4">Values by mode</span><div class="g-kv">';
+    MODES.forEach(function (m) {
+      var raw = v.vals ? v.vals[m.id] : '';
+      h += '<span>' + m.label + '</span><div ' + m.attrs + '>' + (raw ? preview(v.type, n, v.coll) + '<span>' + esc(v.type === 'color' ? fmt(v['c_' + m.id]) : short(raw, v.type)) + '</span>' : '<span class="muted">Not defined in this mode</span>') + '</div>';
+    });
+    h += '</div></div>';
+
+    var ch = chain(n);
+    if (ch.length > 1 || v.refs.length) {
+      h += '<div class="g-is"><span class="eyebrow eb-4">Alias</span><div class="g-chain">';
+      if (ch.length > 1) h += ch.map(function (x, i) { return (i ? '<span class="sep">→</span>' : '') + tok(x); }).join('') + '<span class="sep">→</span><span class="g-tok">' + esc(short(VARS[ch[ch.length - 1]].raw)) + '</span>';
+      else h += '<span class="g-tok">' + esc(short(v.raw)) + '</span></div><div class="g-toks" style="margin-top:var(--sp-2)">' + v.refs.map(tok).join('');
+      h += '</div></div>';
+    }
+
+    if (v.type === 'color') {
+      h += '<div class="g-is"><span class="eyebrow eb-4">Contrast, as rendered</span><div class="g-ratio"><span class="head">Mode</span><span class="head">On page</span><span class="head">On panel</span><span class="head"></span>';
+      var probeBg = {}, probePanel = {};
+      MODES.forEach(function (m) {
+        var c = v['c_' + m.id]; if (!c) return;
+        var wrap = document.createElement('div'); wrap.innerHTML = '<div ' + m.attrs + ' style="position:absolute;visibility:hidden"><i style="background:var(--bg)"></i><i style="background:var(--ground)"></i></div>';
+        document.body.appendChild(wrap);
+        var is = wrap.querySelectorAll('i'), bg = parseColor(getComputedStyle(is[0]).backgroundColor), pn = parseColor(getComputedStyle(is[1]).backgroundColor);
+        wrap.remove(); if (!bg || !pn) return;
+        pn = over(pn, bg);
+        var r1 = ratio(over(c, bg), bg), r2 = ratio(over(c, pn), pn);
+        h += '<span>' + m.label + '</span><span>' + r1.toFixed(2) + ':1</span><span>' + r2.toFixed(2) + ':1</span><span class="muted">' + grade(Math.min(r1, r2)) + '</span>';
+      });
+      h += '</div>';
+      var jx = jb && jb.t.$extensions || {};
+      if (jx['pi.contrastMin']) h += '<p style="margin-top:var(--sp-3)">tokens.json sets a minimum of <b>' + jx['pi.contrastMin'] + ':1</b> on ' + esc(jx['pi.contrastOn'] || 'its surface') + '.</p>';
+      if (jx['pi.measured'] && typeof jx['pi.measured'] === 'object') h += '<p>Measured on <b>' + esc(jx['pi.contrastOn'] || 'its surface') + '</b>: ' + Object.keys(jx['pi.measured']).map(function (k) { return esc(k.replace(/([A-Z])/g, ' $1').toLowerCase()) + ' ' + Number(jx['pi.measured'][k]).toFixed(2) + ':1'; }).join(' · ') + '. That is the surface this colour is for; the page and panel figures above do not apply to it.</p>';
+      h += '<p style="margin-top:var(--sp-2)">Text needs 4.5:1, or 3:1 at 24px and above. Lines and washes are not text and are not meant to pass.</p></div>';
+    }
+
+    var words = [];
+    if (jb) {
+      var x = jb.t.$extensions || {};
+      if (jb.t.$description) words.push(['Description', jb.t.$description]);
+      ['pi.warning', 'pi.decided', 'pi.rationale', 'pi.constraint', 'pi.use', 'pi.drift', 'pi.note', 'pi.openQuestion'].forEach(function (k) { if (x[k]) words.push([k.replace('pi.', '').replace(/^./, function (c) { return c.toUpperCase(); }), typeof x[k] === 'string' ? x[k] : JSON.stringify(x[k])]); });
+    }
+    if (v.note) words.push(['Note in tokens.css', v.note]);
+    js.filter(function (j) { return j !== jb && j.t.$description; }).forEach(function (j) { words.push([MODE_LABEL[j.mode] || j.mode, j.t.$description]); });
+    h += '<div class="g-is"><span class="eyebrow eb-4">Why it is this value</span>' + (words.length ? words.map(function (w) { return '<p><b>' + esc(w[0]) + '.</b> ' + esc(w[1]) + '</p>'; }).join('') : '<p>Not yet documented. tokens.json has no entry for this variable; the comment above its declaration in tokens.css is the only record.</p>') + '</div>';
+
+    var by = ORDER.filter(function (o) { return o !== n && VARS[o].defs.some(function (d) { return refsIn(d.raw).indexOf(n) > -1; }); });
+    if (by.length) h += '<div class="g-is"><span class="eyebrow eb-4">Referenced by ' + by.length + ' variable' + (by.length > 1 ? 's' : '') + '</span><div class="g-toks">' + by.map(tok).join('') + '</div></div>';
+
+    var uses = RULES.filter(function (r) { return r.refs.indexOf(n) > -1; });
+    h += '<div class="g-is"><span class="eyebrow eb-4">Used in ' + uses.length + ' rule' + (uses.length === 1 ? '' : 's') + '</span>' + (uses.length ? '<ul class="g-uses">' + uses.slice(0, 24).map(function (r) { return '<li>' + esc(r.sel.length > 80 ? r.sel.slice(0, 78) + '…' : r.sel) + ' <span>' + r.file.replace('.css', '') + '</span></li>'; }).join('') + (uses.length > 24 ? '<li><span>and ' + (uses.length - 24) + ' more</span></li>' : '') + '</ul>' : '<p>No component rule consumes it directly. It is reached through an alias, or it is a primitive.</p>') + '</div>';
+
+    h += '<div class="g-is"><span class="eyebrow eb-4">Source · tokens.css</span>' + v.defs.map(function (d) { return '<div class="g-src">' + esc(d.sel) + '\n  <b>' + esc(d.name) + '</b>: ' + esc(d.raw) + ';</div>'; }).join('') + '</div>';
+
+    insp.innerHTML = h; insp.hidden = false; shell.classList.add('has-insp');
+    if (!keepScroll) insp.scrollTop = 0;
+    if (history.replaceState) history.replaceState(null, '', '#var' + encodeURIComponent(n));
+  }
+  function closeInsp() {
+    current = null; $('#g-insp').hidden = true; $('#g-shell').classList.remove('has-insp');
+    $$('tr.sel').forEach(function (t) { t.classList.remove('sel'); });
+    if (history.replaceState) history.replaceState(null, '', location.pathname);
+  }
+  document.addEventListener('click', function (e) {
+    var o = e.target.closest('[data-open]'); if (o) { e.preventDefault(); openVar(o.getAttribute('data-open')); var tr = $('tr[data-var="' + o.getAttribute('data-open') + '"]'); if (tr && !e.target.closest('.g-insp')) tr.scrollIntoView({ block: 'center', behavior: 'smooth' }); return; }
+    if (e.target.closest('[data-close]')) { closeInsp(); return; }
+    var cp = e.target.closest('[data-copy]'); if (cp) { copy(cp.getAttribute('data-copy')); }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && current) closeInsp(); });
+  var toastT;
+  function copy(text) {
+    var done = function () { var t = $('#g-toast'); t.textContent = 'Copied ' + (text.length > 48 ? text.slice(0, 46) + '…' : text); t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove('on'); }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, done); else done();
+  }
+
+  /* ── Search ─────────────────────────────────────────────────────────────── */
+  $('#g-search').addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    $$('#g-vars tr[data-var]').forEach(function (tr) {
+      var n = tr.getAttribute('data-var'), hay = (n + ' ' + descOf(n) + ' ' + (VARS[n].type || '')).toLowerCase();
+      tr.classList.toggle('hide', !!q && hay.indexOf(q) < 0);
+    });
+    $$('#g-vars .g-sub').forEach(function (s) { s.hidden = !!q && !$('tr[data-var]:not(.hide)', s); });
+    if (q) { var first = $('#g-vars .g-sub:not([hidden])'); if (first) first.scrollIntoView({ block: 'start' }); }
+  });
+
+  /* ── Modes ──────────────────────────────────────────────────────────────── */
+  function renderModes() {
+    var cards = [
+      ['Light', 'Page theme', 'class="g-mode-card console-root" data-theme="light"', ':root'],
+      ['On-dark', 'Surface context', 'class="g-mode-card on-dark"', '.on-dark'],
+      ['Raised', 'Surface context', 'class="g-mode-card surface--ground"', '.surface--ground'],
+      ['Invert', 'Surface context', 'class="g-mode-card surface--invert"', '.surface--invert']
+    ];
+    $('#g-modes').innerHTML = cards.map(function (c) {
+      return '<div ' + c[2] + '><span class="eyebrow eb-3">' + c[1] + '</span><h4>' + c[0] + '</h4><p>Body copy in <span style="color:var(--ink)">ink</span>, with a <span style="color:var(--accent-text)">accent link</span> and a citation <span class="cite t1"><span class="cm">&#9679;</span>1</span>.</p><div class="row tight"><span class="btn tint sm">Tint</span><span class="btn ghost sm">Ghost</span></div><code>' + esc(c[3]) + '</code></div>';
+    }).join('');
+  }
+
+  /* ── Styles ─────────────────────────────────────────────────────────────── */
+  var TEXT = [
+    ['Display', 'var(--serif)', 700, '--t-display', '--t-display-lh', '-.005em', 'The decision, said once.'],
+    ['Heading 1', 'var(--serif)', 700, '--t-h1', '--t-h1-lh', '0', 'An evidence library, made answerable.'],
+    ['Heading 2', 'var(--serif)', 700, '--t-h2', '--t-h2-lh', '0', 'A gradient of trust, stated visually.'],
+    ['Heading 3', 'var(--serif)', 700, '--t-h3', '--t-h3-lh', '0', 'Three interventions, three failures.'],
+    ['Heading 4', 'var(--serif)', 700, '--t-h4', '--t-h4-lh', '0', 'Connect your approach to real evidence'],
+    ['Lead', 'var(--sans)', 400, '--t-lead', '--t-lead-lh', '0', 'A research agent that finds, compares and applies what the literature already knows.'],
+    ['Body', 'var(--sans)', 400, '--t-body', '--t-body-lh', '0', 'Every claim links to the study behind it and every citation points to the exact passage.'],
+    ['UI', 'var(--sans)', 400, '--t-ui', '--t-ui-lh', '0', 'Darfur 2003 to 2011: who intervened and what resulted'],
+    ['Small', 'var(--sans)', 400, '--t-sm', '--t-sm-lh', '0', 'We do not share your information with third parties.'],
+    ['Button', 'var(--sans)', 600, '--t-btn', null, '0', 'Request access'],
+    ['Prompt', 'var(--sans)', 400, '--t-prompt', null, '0', 'What has worked in a context like this one?'],
+    ['Stat', 'var(--serif)', 800, '--t-stat', null, '-.01em', '5,000+'],
+    ['Eyebrow 1', 'var(--mono)', 400, '--eb-1', null, 'var(--eb-1-ls)', 'SECTION KICKER', 1],
+    ['Eyebrow 2', 'var(--mono)', 400, '--eb-2', null, 'var(--eb-2-ls)', 'PANE TITLE · STAT LABEL', 1],
+    ['Eyebrow 3', 'var(--mono)', 400, '--eb-3', null, 'var(--eb-3-ls)', 'BADGE · TIMESTAMP · ACTION', 1],
+    ['Eyebrow 4', 'var(--mono)', 400, '--eb-4', null, 'var(--eb-4-ls)', 'MICRO LABEL · SOURCE SUFFIX', 1]
+  ];
+  function renderStyles() {
+    var host = $('#g-text');
+    host.innerHTML = TEXT.map(function (t, i) {
+      var st = 'font-family:' + t[1] + ';font-weight:' + t[2] + ';font-size:var(' + t[3] + ');' + (t[4] ? 'line-height:var(' + t[4] + ');' : 'line-height:1.3;') + 'letter-spacing:' + t[5] + ';' + (t[7] ? 'text-transform:uppercase;color:var(--ink-55);' : '');
+      return '<div class="g-style"><div style="' + st + '" data-spec="' + i + '">' + esc(t[6]) + '</div><div class="spec" data-specout="' + i + '"></div></div>';
+    }).join('');
+    TEXT.forEach(function (t, i) {
+      var el = $('[data-spec="' + i + '"]'), cs = getComputedStyle(el), fam = cs.fontFamily.split(',')[0].replace(/["']/g, '');
+      var lh = cs.lineHeight === 'normal' ? 'normal' : (parseFloat(cs.lineHeight) / parseFloat(cs.fontSize)).toFixed(2);
+      var ls = cs.letterSpacing === 'normal' ? '0' : (parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize)).toFixed(3).replace(/0+$/, '').replace(/\.$/, '') + 'em';
+      $('[data-specout="' + i + '"]').innerHTML = '<b>' + esc(t[0]) + '</b>' + esc(fam) + ' · ' + cs.fontWeight + '<br>' + parseFloat(cs.fontSize) + 'px / ' + lh + (ls !== '0' && ls !== '0em' ? ' · ' + ls : '') + '<br>' + tok(t[3]) + (t[4] ? ' ' + tok(t[4]) : '');
+    });
+    var FX = [['Elevation 1', 'box-shadow:var(--elev-1)', '--elev-1', 'A chosen tray tile, a hovered call to action.'], ['Elevation 2', 'box-shadow:var(--elev-2)', '--elev-2', 'The prompt and the console at rest.'], ['Elevation 3', 'box-shadow:var(--elev-3)', '--elev-3', 'Focus within the prompt; the top of the stack.'], ['Raised', 'border:var(--edge)', '--panel-border', 'The one raised treatment: an edge, and the face is the page.'], ['Focus ring', 'outline:2px solid var(--accent);outline-offset:2px', '--accent', 'Every interactive element, keyboard only.']];
+    $('#g-effects').innerHTML = FX.map(function (f) { return '<div class="g-eff"><div class="tile" style="' + f[1] + '"></div><div class="g-style" style="border:0;padding:0;grid-template-columns:1fr"><div class="spec"><b>' + f[0] + '</b>' + esc(f[3]) + '<br>' + tok(f[2]) + '</div></div></div>'; }).join('');
+  }
+
+  /* ── Components ─────────────────────────────────────────────────────────── */
+  function matrix(cols, rows, cell) {
+    var h = '<div class="g-matrix" style="grid-template-columns:auto repeat(' + cols.length + ', auto)"><span></span>' + cols.map(function (c) { return '<span class="lab">' + c + '</span>'; }).join('');
+    rows.forEach(function (r) { h += '<span class="lab">' + r + '</span>' + cols.map(function (c) { return '<div>' + cell(r, c) + '</div>'; }).join(''); });
+    return h + '</div>';
+  }
+  var CITE = { t1: '<span class="cm">&#9679;</span>1', t2: '<span class="cm">&#9680;</span>2', t3: '<span class="cm">&#8599;</span>3' };
+  var COMPS = [
+    { id: 'button', name: 'Button', base: ['.btn'], desc: 'The one action shape. Tint is the call to action: the accent as a 9% wash with a solid --accent-text edge and an arrow (final 2026-10-15), and twice the wash on a dark band. Ghost is the second action beside it, and never has an arrow.',
+      props: [['Variant', '<code>.tint</code> <code>.ghost</code>'], ['Size', '<code>.sm</code> default <code>.lg</code>'], ['State', 'default, hover, <code>:disabled</code>']],
+      html: function () { return matrix(['sm', 'default', 'lg'], ['tint', 'ghost', 'disabled'], function (r, c) { var cls = r === 'disabled' ? 'tint' : r; return '<button type="button" class="btn ' + cls + (c === 'default' ? '' : ' ' + c) + '"' + (r === 'disabled' ? ' disabled' : '') + '>Request access</button>'; }); } },
+    { id: 'text-actions', name: 'Text action and send', base: ['.btn-text', '.send'], desc: 'The quiet action, an underlined text button, and the composer send, which wears the tint and the same pixel arrow as the call to action, drawn by the class, so the button is empty with an aria-label (2026-10-15). The arrow is the one pixel mark a control carries.',
+      props: [['Variant', '<code>.btn-text</code> <code>.send</code>']],
+      html: function () { return '<div class="row"><a class="btn-text" href="#components">Keep me posted &rarr;</a><button type="button" class="send" aria-label="Send"></button></div>'; } },
+    { id: 'pill', name: 'Pill, chip, badge, act', base: ['.pill', '.chip', '.badge', '.act'], desc: 'Four small atoms. A pill or act toggled on its own fills with ink; inside a tray the chosen pill is a tile instead.',
+      props: [['Pill', '<code>.pill</code> <code>.active</code>'], ['Chip', '<code>.chip</code>'], ['Badge', '<code>.badge</code>'], ['Act', '<code>.act</code> <code>.on</code> <code>.sm</code>']],
+      html: function () { return matrix(['default', 'active', 'small'], ['pill', 'chip', 'badge', 'act'], function (r, c) {
+        if (r === 'pill') return c === 'small' ? '' : '<button type="button" class="pill' + (c === 'default' ? '' : ' active') + '">Mediation</button>';
+        if (r === 'chip') return c === 'default' ? '<span class="chip">Beta</span>' : '';
+        if (r === 'badge') return c === 'default' ? '<span class="badge">Beta</span>' : '';
+        return '<button type="button" class="act' + (c === 'active' ? ' on' : c === 'small' ? ' sm' : '') + '">Filter</button>'; }); } },
+    { id: 'tray', name: 'Tray', base: ['.tray', '.seg'], desc: 'How a choice looks (decided 2026-10-14): the options sit in a recess of the surface, --tray, and the chosen one rises out of it as a tile of --face. On paper the recess is the panel tone (2026-10-15). .seg is a tray; .pills.tray makes a row of pills one.',
+      props: [['Group', '<code>.pills.tray</code> · <code>.seg</code>, <code>.seg.mono</code>'], ['State', '<code>.active</code> or <code>aria-pressed</code>']],
+      html: function () { return '<div class="row col"><div class="pills tray"><button type="button" class="pill" aria-pressed="false">Draft a proposal</button><button type="button" class="pill active" aria-pressed="true">Choose an intervention</button></div><div class="seg"><button type="button" aria-pressed="true">Evidence</button><button type="button" aria-pressed="false">Case facts</button></div><div class="seg mono"><button type="button" aria-pressed="false">Funder</button><button type="button" aria-pressed="true">Practitioner</button></div></div>'; } },
+    { id: 'cite', name: 'Citation', base: ['.cite', '.evi-badge'], desc: 'Product-critical. Solid, hollow, dashed: the tier is carried by shape, so it survives greyscale and a colourblind reader. A citation can be clicked, so it takes the accent and tier 3 has none; an evidence badge only labels, so it is the same three shapes in ink (2026-10-15).',
+      props: [['Tier', '<code>.t1</code> held in full · <code>.t2</code> abstract · <code>.t3</code> web'], ['Size', 'default, <code>.sm</code>'], ['State', '<code>.active</code>'], ['Badge', '<code>.evi-badge</code> with the same tiers']],
+      html: function () { return matrix(['t1', 't2', 't3', 'active'], ['cite', 'cite.sm', 'evi-badge'], function (r, c) {
+        var t = c === 'active' ? 't1' : c;
+        if (r === 'evi-badge') return c === 'active' ? '' : '<span class="evi-badge ' + t + '">' + CITE[t].replace(/[123]$/, '') + ' Tier ' + c.slice(1) + ' <span class="es">' + ({ t1: 'ingested', t2: 'abstract', t3: 'web' })[t] + '</span></span>';
+        return '<span class="cite ' + t + (r === 'cite.sm' ? ' sm' : '') + (c === 'active' ? ' active' : '') + '">' + CITE[t] + '</span>'; }); } },
+    { id: 'src-chip', name: 'Source chip', base: ['.src-chip'], desc: 'A source in the evidence pane. Web sources take a dashed edge; the active one inverts.',
+      props: [['Variant', 'default, <code>.t3</code>'], ['State', '<code>.active</code>'], ['Size', 'default, <code>.sm</code>']],
+      html: function () { return '<div class="row col" style="width:calc(var(--sp-22) * 3.2)"><button type="button" class="src-chip active"><span class="n">1</span><span class="tt">de Waal, <em>War in Darfur</em></span><span class="sx">Ingested</span></button><button type="button" class="src-chip"><span class="n">2</span><span class="tt">Lynch, <em>Peacekeeping in Darfur</em></span><span class="sx">Abstract</span></button><button type="button" class="src-chip t3"><span class="n">3</span><span class="tt">Displacement figure</span><span class="sx">Web</span></button></div>'; } },
+    { id: 'card', name: 'Card', base: ['.card'], desc: 'A card is raised by its edge and only by its edge. Raised is the one raised treatment. A card never takes a shadow on hover; a clickable card is a static card with a button in its foot, and a card that is wholly a link is an open exploration (Pl. 01).',
+      props: [['Surface', 'default, <code>.raised</code>']],
+      html: function () { return '<div class="g-flow">' + [['card', 'Default'], ['card raised', 'Raised']].map(function (c) { return '<div class="' + c[0] + '"><span class="eyebrow eb-3">.' + c[0].replace(/ /g, '.') + '</span><h3 style="margin-top:var(--sp-2)">' + c[1] + '</h3><p>Every claim links to the study behind it.</p></div>'; }).join('') + '</div>'; } },
+    { id: 'callout', name: 'Callout and violator', base: ['.callout', '.violator'], desc: 'Two of the three uses warm is allowed. One per view; if two warm things are visible at once, something is over-emphasised.',
+      props: [['Callout', '<code>.callout</code>'], ['Violator', '<code>.violator</code> inside <code>.has-violator</code>']],
+      html: function () { return '<div class="g-flow"><div class="callout"><span class="eyebrow eb-3">The tell</span><p style="margin-top:var(--sp-2)">Solid, hollow, dashed. The shape carries the meaning.</p></div><div class="card raised has-violator" style="margin-top:var(--sp-3)"><span class="violator">Now in pilot</span><span class="eyebrow eb-3">Funders</span><h3 style="margin-top:var(--sp-2)">Where the evidence points.</h3></div></div>'; } },
+    { id: 'eyebrow', name: 'Eyebrow', base: ['.eyebrow'], desc: 'Four ladder steps and nothing else. Micro labels take --ink-55, never --ink-35.',
+      props: [['Step', 'default, <code>.eb-2</code>, <code>.eb-3</code>, <code>.eb-4</code>'], ['Tone', 'default, <code>.faint</code>, <code>.accent</code> (a state)']],
+      html: function () { return matrix(['default', 'faint', 'accent'], ['eb-1', 'eb-2', 'eb-3', 'eb-4'], function (r, c) { return '<span class="eyebrow' + (r === 'eb-1' ? '' : ' ' + r) + (c === 'default' ? '' : ' ' + c) + '">The corpus</span>'; }); } },
+    { id: 'form', name: 'Form', base: ['.field', '.input', '.blank'], desc: 'The plainest place in the system: no fills, no gradients and no fields behind a form.',
+      props: [['Field', '<code>label.field</code> with <code>.input</code>'], ['Inline', '<code>select.blank</code>, the audience gate']],
+      html: function () { return '<div style="width:min(100%, calc(var(--sp-22) * 4.4))"><label class="field"><span>Work email</span><input class="input" type="email" placeholder="name@organisation.org"></label><p style="font-family:var(--serif);font-weight:var(--serif-w);font-size:var(--t-h4)">I need to brief <select class="blank" aria-label="Reader"><option>my board</option><option>the minister</option></select> on Sudan.</p></div>'; } },
+    { id: 'lockup', name: 'Lockups', base: ['.lockup'], desc: 'A fixed relationship between eyebrow, headline, lede and action. Only the type steps change between them.',
+      props: [['Size', '<code>--hero</code> <code>--section</code>'], ['Align', 'default, <code>.centered</code>']],
+      html: function () { return '<div class="g-flow" style="align-items:flex-end"><div class="lockup lockup--section"><span class="eyebrow">Section</span><h4 class="lk-head">Decades of evidence.</h4><p class="lk-lede">Assembled and curated, and growing.</p></div></div>'; } },
+    { id: 'step', name: 'Step and checks', base: ['.step', '.checks'], desc: 'A numbered row, and a short list of proof points between a promise and its action. Three checks, rarely four.',
+      props: [['Step', '<code>.step</code> with <code>.sn</code>'], ['Checks', '<code>ul.checks</code>, the mark is a mask in --accent']],
+      html: function () { return '<div class="g-flow"><div><div class="step"><span class="sn">01</span><div><h4>Pick your intervention area</h4><p>Tell us the country and what your club cares about.</p></div></div></div><ul class="checks"><li><span><strong>Every claim</strong> cited to the passage</span></li><li><span><strong>Every source</strong> marked by tier</span></li><li><span><strong>Every gap</strong> named in the answer</span></li></ul></div>'; } },
+    { id: 'ledger', name: 'Ledger', base: ['.ledger'], desc: 'The rule-row turned on its side: a vertical run of entries, a hairline on top of each and the first one heavier. Split pairs a label with the statement it heads; figures lines every number up in one column.',
+      props: [['Variant', 'default, <code>--split</code>, <code>--figures</code>'], ['Rows', '<code>--split</code>: an <code>.eyebrow</code> heading and a <code>p</code> · <code>--figures</code>: <code>.stat</code> with <code>.n</code> and <code>.l</code>']],
+      html: function () { return '<div class="g-flow" style="align-items:flex-start"><div class="ledger ledger--split" style="width:min(100%, calc(var(--sp-22) * 5))"><div><h3 class="eyebrow">For leadership</h3><p>Appraise portfolios with an evidence-based decision aid.</p></div><div><h3 class="eyebrow">For practitioners</h3><p>Refine your theory of change.</p></div></div><div class="ledger ledger--figures"><p class="stat"><span class="n">258,621</span><span class="l">Papers</span></p><p class="stat"><span class="n">42</span><span class="l">Structured datasets</span></p></div></div>'; } },
+    { id: 'prompt', name: 'Prompt', base: ['.prompt'], desc: 'The largest interactive element: the question surface at the top of a page.',
+      props: [['Parts', '<code>.pt</code> with <code>b</code> for the operative words']],
+      html: function () { return '<div class="prompt" style="max-width:calc(var(--sp-22) * 6)"><p class="pt">What happened in <b>Darfur between 2003 and 2011</b>? Who intervened, and <b>what resulted</b>?</p></div>'; } },
+    { id: 'px-icon', name: 'Pixel icon and points', base: ['.px-icon', '.points'], desc: 'Adopted 2026-10-15. A Lucide icon on a 25-cell grid at 2px, each cell a centred three-quarter square through --px-screen. Ink, for page content only; a control takes a line icon.',
+      props: [['Icon', '<code>svg.px-icon</code>, a path from <code>media/mkicons.cjs</code>'], ['Row', '<code>.points</code> of up to five <code>.point</code>']],
+      html: function () { return '<div class="g-flow"><svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M7 1h11v1h-11zM4 2h17v1h-17zM3 3h6v1h-6zM16 3h6v1h-6zM2 4h3v1h-3zM20 4h3v1h-3zM2 5h3v1h-3zM20 5h3v1h-3zM2 6h4v1h-4zM19 6h4v1h-4zM2 7h21v1h-21zM2 8h2v1h-2zM5 8h15v1h-15zM21 8h2v1h-2zM2 9h2v1h-2zM21 9h2v1h-2zM2 10h2v1h-2zM21 10h2v1h-2zM2 11h2v1h-2zM21 11h2v1h-2zM2 12h2v1h-2zM21 12h2v1h-2zM2 13h4v1h-4zM19 13h4v1h-4zM2 14h8v1h-8zM15 14h8v1h-8zM2 15h21v1h-21zM2 16h2v1h-2zM8 16h9v1h-9zM21 16h2v1h-2zM2 17h2v1h-2zM21 17h2v1h-2zM2 18h2v1h-2zM21 18h2v1h-2zM2 19h2v1h-2zM21 19h2v1h-2zM2 20h3v1h-3zM20 20h3v1h-3zM3 21h5v1h-5zM17 21h5v1h-5zM4 22h17v1h-17zM7 23h11v1h-11z"/></svg></div>'; } },
+    { id: 'aside', name: 'Note', base: ['.note'], desc: 'The small caption under a figure, stat or form. (The marginal note left the catalog on 2026-10-15; no page used it.)',
+      props: [['Variant', '<code>.note</code>']],
+      html: function () { return '<div class="g-flow"><p class="note">Illustrative values. Not a finding.</p></div>'; } },
+    { id: 'console', name: 'Console parts', base: ['.icon-btn', '.avatar', '.lib-item', '.obj', '.app-nav', '.glyph'], desc: 'What the live console needed when it was skinned in the brand (2026-10-15, Pl. 08). Interface icons are Lucide lines at 18px and a 1.5 stroke; pixel icons are for page content, except the arrow on the send and the library pane\'s shelf of books (.ph-mark). A standalone icon toggle fills with ink when on; a library entry lifts off the pane\'s --panel list because the whole entry is the link, and its title is tracked --t-ui-ls. Everything you open and keep is an .obj, what it is set into its top edge from data-kind: a paper\'s type (Empirical study, Case study, Dissertation) or an artifact\'s kind (adopted 2026-10-15), so the meta line does not repeat it. Every control in the composer\'s bar is 32px, and the microphone, outlined, sits against the square send at the right (.cb-send). data-rail and data-pane on .app fold the rail and the pane; the grid goes on .app-main, which does not scroll, so it holds still.',
+      props: [['Icon button', '<code>.icon-btn</code> <code>.line</code> <code>[aria-pressed]</code>'], ['Library entry', '<code>.lib-item</code> with <code>.li-t</code>, <code>.li-m</code>, <code>.tm</code>; <code>.t3</code>'], ['Object mark', '<code>.obj</code> <code>[data-kind]</code> <code>--obj-ground</code>'], ['Other', '<code>.avatar</code> <code>.app-nav</code> <code>.pane-meta</code>']],
+      html: function () { return '<div class="g-flow"><div class="row"><button type="button" class="icon-btn" aria-label="Settings"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg></button><button type="button" class="icon-btn line" aria-label="Filters"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20"/><path d="M6 12h12"/><path d="M9 19h6"/></svg></button><button type="button" class="icon-btn" aria-pressed="true" aria-label="Spoken replies"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.364 18.364a9 9 0 0 0 0-12.728"/></svg></button><span class="avatar">MA</span></div><button type="button" class="lib-item obj" data-kind="Policy report" style="max-width:calc(var(--sp-22) * 4)"><span class="li-t">Guiding Standards for Peacebuilding Design, Monitoring and Evaluation</span><span class="li-m"><span class="tm">&#9680;</span><span>Hume, Sample · 2025</span></span></button></div>'; } }
+  ];
+  function consumed(bases) {
+    var out = [];
+    RULES.forEach(function (r) {
+      if (!bases.some(function (b) { return new RegExp(b.replace('.', '\\.') + '(?![\\w-])').test(r.sel); })) return;
+      r.refs.forEach(function (n) { if (out.indexOf(n) < 0) out.push(n); });
+    });
+    var ord = function (n) { var c = VARS[n] ? COLLS.map(function (x) { return x[0]; }).indexOf(VARS[n].coll) : 99; return c * 1000 + ORDER.indexOf(n); };
+    return out.sort(function (a, b) { return ord(a) - ord(b); });
+  }
+  function renderComps() {
+    var host = $('#g-comps');
+    host.innerHTML = COMPS.map(function (c) {
+      var used = consumed(c.base);
+      return '<div class="g-comp g-sub" id="comp-' + c.id + '"><div class="g-sub-h"><h3>' + esc(c.name) + '</h3><span class="eyebrow eb-4 faint">' + c.base.join(' ') + '</span></div>' +
+        '<p class="note" style="max-width:var(--measure-prose)">' + esc(c.desc) + '</p>' +
+        '<div class="g-frame"><div class="g-frame-h"><span class="eyebrow eb-4 faint">Frame · ' + esc(c.name) + '</span><div class="seg mono" role="group" aria-label="Frame mode">' + MODES.map(function (m, i) { return '<button type="button" data-frame-mode="' + m.id + '" aria-pressed="' + (i === 0) + '">' + m.label + '</button>'; }).join('') + '</div></div>' +
+        '<div class="g-canvas console-root" data-theme="light" data-frame>' + c.html() + '</div></div>' +
+        '<table class="g-props"><tbody>' + c.props.map(function (p) { return '<tr><td>' + p[0] + '</td><td>' + p[1] + '</td></tr>'; }).join('') + '</tbody></table>' +
+        '<div class="g-is" style="border:0;margin-top:var(--sp-4);padding:0"><span class="eyebrow eb-4">Consumes ' + used.length + ' variables</span><div class="g-toks">' + used.map(tok).join('') + '</div></div></div>';
+    }).join('');
+    host.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-frame-mode]'); if (!b) return;
+      var frame = b.closest('.g-frame'), cv = $('[data-frame]', frame), m = b.getAttribute('data-frame-mode');
+      $$('[data-frame-mode]', frame).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+      cv.className = m === 'ondark' ? 'g-canvas on-dark' : 'g-canvas console-root';
+      if (m === 'ondark') cv.removeAttribute('data-theme'); else cv.setAttribute('data-theme', m);
+    });
+  }
+
+  /* ── Cover and nav ──────────────────────────────────────────────────────── */
+  function renderCover() {
+    var undocumented = ORDER.filter(function (n) { return !JSON_BY[n]; });
+    var retired = JSON_ALL.filter(function (j) { return !j.rule && (!j.css || !VARS[j.css]); });
+    var rules = JSON_ALL.filter(function (j) { return j.rule; });
+    var colls = COLLS.filter(function (c) { return c.count; }).length;
+    $('#g-stats').style.setProperty('--cols', 4);
+    $('#g-stats').innerHTML = [[ORDER.length, 'Variables'], [colls, 'Collections'], [MODES.length + 2, 'Modes and contexts'], [COMPS.length, 'Component sets']].map(function (s) { return '<div class="stat"><span class="n">' + s[0] + '</span><span class="l">' + s[1] + '</span></div>'; }).join('');
+    var d = $('#g-drift');
+    var clean = !undocumented.length && !retired.length;
+    d.innerHTML = '<summary>tokens.json ' + esc(META.version || '') + ' documents ' + (ORDER.length - undocumented.length) + ' of ' + ORDER.length + ' variables · ' + (clean ? 'in step with tokens.css' : retired.length + ' entries no longer in the CSS') + '</summary>' +
+      (clean ? '<p class="note">Every variable in tokens.css has an entry, and every entry names a variable that exists. ' + rules.length + ' entries are documented rules with no variable behind them: ' + rules.map(function (j) { return '<span class="g-tok">' + esc(j.path) + '</span>'; }).join(' ') + '.</p>' : '') +
+      (clean ? '' : '<p class="note">tokens.css is the source of truth and this page reads it directly. tokens.json carries the rationale, and it has fallen behind: the variables below have no entry, and the entries below name variables the CSS no longer declares. Neither breaks anything here; both are worth closing before the JSON is handed on.</p>') +
+      (undocumented.length ? '<p class="note"><strong>Not yet in tokens.json</strong></p><ul>' + undocumented.map(function (n) { return '<li>' + tok(n) + '</li>'; }).join('') + '</ul>' : '') +
+      (retired.length ? '<p class="note"><strong>In tokens.json, not in tokens.css</strong></p><ul>' + retired.map(function (j) { return '<li><span class="g-tok">' + esc(j.path) + '</span></li>'; }).join('') + '</ul>' : '');
+  }
+  function renderNav() {
+    var groups = [
+      ['File', [['cover', 'Cover'], ['modes', 'Modes', MODES.length + 2]]],
+      ['Variables', COLLS.filter(function (c) { return c.count; }).map(function (c) { return ['coll-' + c[0], c[1], c.count]; })],
+      ['Styles', [['text-styles', 'Text', TEXT.length], ['effect-styles', 'Effects', 6]]],
+      ['Components', COMPS.map(function (c) { return ['comp-' + c.id, c.name]; })]
+    ];
+    $('#g-side').innerHTML = groups.map(function (g) { return '<span class="eyebrow eb-4 faint">' + g[0] + '</span>' + g[1].map(function (l) { return '<a href="#' + l[0] + '" data-nav="' + l[0] + '">' + esc(l[1]) + (l[2] != null ? '<span>' + l[2] + '</span>' : '') + '</a>'; }).join(''); }).join('');
+    $('#g-jump').innerHTML = groups.map(function (g) { return '<optgroup label="' + g[0] + '">' + g[1].map(function (l) { return '<option value="' + l[0] + '">' + esc(l[1]) + '</option>'; }).join('') + '</optgroup>'; }).join('');
+    $('#g-jump').addEventListener('change', function () { var t = document.getElementById(this.value); if (t) t.scrollIntoView({ block: 'start' }); });
+    var links = $$('#g-side a'), targets = links.map(function (a) { return document.getElementById(a.getAttribute('data-nav')); });
+    /* Scrollspy off the scroll position itself: an observer only fires when
+       a boundary is crossed, so inside a long section it fell behind. */
+    var spyRaf = 0, lastBest = -1;
+    function spy() {
+      spyRaf = 0; var best = 0, line = window.innerHeight * .3;
+      targets.forEach(function (t, i) { if (t && t.getBoundingClientRect().top < line) best = i; });
+      if (best === lastBest) return; lastBest = best;
+      links.forEach(function (a, i) { a.classList.toggle('on', i === best); });
+      var a = links[best], side = $('#g-side');
+      if (a.offsetTop < side.scrollTop + 40 || a.offsetTop > side.scrollTop + side.clientHeight - 60) side.scrollTop = a.offsetTop - side.clientHeight / 3;
+    }
+    window.addEventListener('scroll', function () { if (!spyRaf) spyRaf = requestAnimationFrame(spy); }, { passive: true });
+    spy();
+  }
+})();
+</script>
+</body>
+</html>

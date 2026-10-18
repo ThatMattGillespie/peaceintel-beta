@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="E">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction E · Corpus</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="description" content="Landing exploration E. The corpus made visible: five thousand points, one per source, and a question run through them until three remain.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="retired.css?v=12fe2490"><!-- drafted before the 2026-10-09 cuts -->
+<link rel="stylesheet" href="review.css?v=47f3ff70">
+<script src="review.js?v=e67c21ad"></script>
+<style>
+  /* ═══ DIRECTION E · CORPUS ═════════════════════════════════════════════════
+     POSITIONING. The research tool whose entire knowledge you can see. Every
+     buyer in this market (a foundation board, a ministry, a development bank's
+     review panel) asks one question of an AI tool: what did it read? The
+     category answers with a black box and a glow. This page answers with the
+     library: five thousand points, one per source, bounded, with the web
+     outside the edge and marked.
+
+     AESTHETIC. The dither has been the brand's texture; here it is the
+     information. Each point is a source drawn on the brand grid, so the image
+     language and the claim are the same object. Lineage: astronomical plate
+     catalogues, Ikeda-style data minimalism, Swiss information design. Cold and
+     exact on purpose, because precision is the promise. Type steps DOWN so the
+     field is the display.
+
+     BREAKS, with Matt's permission (2026-09-30), each named in its tag:
+       1  a new media type    a live data canvas, not a veil, map or field
+       2  invented motion     points dim, gather, sort and resolve on scroll
+       3  demoted hero type   the hero lockup is section-sized */
+
+  /* ── E1 · the sequence: steps left, one pinned field right ─────────────── */
+  .e-seq { padding: 0 }
+  .e-grid { display: grid; grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); gap: var(--sp-12) }
+  /* Stretch, not start: the pin needs the full row height to travel through. */
+  .e-media { position: relative }
+  .e-pin { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)) }
+  .e-pin canvas { display: block; width: 100%; height: 100% }
+  .e-readout {
+    position: absolute; left: 0; right: 0; bottom: var(--sp-8);
+    display: flex; justify-content: space-between; gap: var(--sp-4);
+    border-top: 1px solid var(--line); padding-top: var(--sp-3);
+  }
+  .e-step { min-height: calc(100svh - var(--nav-h)); display: flex; flex-direction: column; justify-content: center; padding: var(--sp-16) 0 }
+  .e-step .lockup, .e-step .prompt, .e-step .msg { max-width: var(--measure-lead) }
+  .e-step .prompt { margin-top: var(--sp-6) }
+  .e-step .sn { font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55); transition: color var(--mo-base) }
+  .e-step.is-active .sn { color: var(--accent-text) }
+  .e-step .tiers { display: grid; gap: var(--sp-3); margin-top: var(--sp-6) }
+  .e-step .tiers div { display: grid; grid-template-columns: var(--sp-12) 1fr; gap: var(--sp-3); align-items: baseline }
+  .e-step .msg .body p + p { margin-top: var(--sp-3) }
+  @media (max-width: 900px) {
+    /* One column: the field becomes a sticky strip at the top and the steps
+       scroll up beneath it. */
+    .e-grid { display: block }
+    .e-media { position: sticky; top: var(--nav-h); height: 44svh; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--line) }
+    .e-pin { position: static; height: 100% }
+    .e-readout { bottom: var(--sp-2) }
+    .e-step { min-height: 64svh; padding: var(--sp-10) 0 }
+  }
+
+  /* ── E2 · the boundary ─────────────────────────────────────────────────── */
+  .e-edge { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-14); align-items: center }
+  .e-edge canvas { display: block; width: 100%; aspect-ratio: 1 / 1 }
+  .e-edge .rule-row { margin-top: var(--sp-10) }
+  .e-edge .rule-row > * { padding: var(--sp-6) var(--sp-5) var(--sp-2) 0 }
+  .e-edge .rule-row .cite { margin: 0 0 var(--sp-3) }
+  @media (max-width: 900px) { .e-edge { grid-template-columns: 1fr; gap: var(--sp-8) } }
+
+  /* ── E4 · access, one line ─────────────────────────────────────────────── */
+  .e-sign { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) auto; gap: var(--sp-3); max-width: var(--col-text); margin: var(--sp-10) auto 0 }
+  .e-sign .input { height: 100%; min-height: var(--sp-12) }
+  @media (max-width: 760px) { .e-sign { grid-template-columns: 1fr } }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="../media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="../media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ E1 · THE FIELD, AND ONE QUESTION THROUGH IT ═══════════════════════════
+     The hero is step 0 of a six-step sequence. One canvas, pinned; each step
+     moves the same five thousand points to a new arrangement. -->
+<section id="top" class="band e-seq">
+  <span class="crit-tag"><b>E1</b> Field <i>· dithered video object, settles into 5,000 points; six steps</i><em class="brk">breaks: new media type, new motion, hero type demoted</em></span>
+  <div class="wrap e-grid">
+
+    <div class="e-media">
+      <div class="e-pin">
+        <canvas id="e-field" aria-label="A slowly moving, dithered form representing the whole library, which settles into five thousand points, one for each source" role="img"></canvas>
+        <div class="e-readout">
+          <span class="eyebrow eb-4 strong" id="e-ro">Sources &middot; 5,000+</span>
+          <span class="eyebrow eb-4 faint">One point per source &middot; illustrative</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="e-steps">
+      <div class="e-step" data-state="0">
+        <div class="lockup lockup--section mo-develop">
+          <span class="eyebrow accent">Peace Intel</span>
+          <h1 class="lk-head">Everything it reads, on one screen.</h1>
+          <p class="lk-lede">Every source in the library, held in one field: over 5,000 curated papers, evaluations and policy analyses on peacebuilding. Anything it cites from beyond the field is marked as such.</p>
+          <div class="lk-actions">
+            <a class="btn primary lg" href="#access">Request access</a>
+            <a class="btn ghost lg" href="#ask">Run a question through it</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="1" id="ask">
+        <span class="sn">01 &middot; A question</span>
+        <div class="prompt">
+          <p class="pt">What happened in <b>Darfur between 2003 and 2011</b>? Who intervened, what did they do, and <b>what resulted</b>?</p>
+        </div>
+        <p class="note">The field settles into its sources, one point each. Nothing has been retrieved yet.</p>
+      </div>
+
+      <div class="e-step" data-state="2">
+        <span class="sn">02 &middot; It reads</span>
+        <div class="lockup lockup--card" style="margin-top:var(--sp-3)">
+          <h2 class="lk-head">The passages that bear on it come forward.</h2>
+          <p class="lk-lede">Every source is fully parsed, so retrieval works on what a study says rather than on its title. Related work sits close together, which is why the answer arrives in clusters.</p>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="3">
+        <span class="sn">03 &middot; It compares</span>
+        <div class="lockup lockup--card" style="margin-top:var(--sp-3)">
+          <h2 class="lk-head">Gathered, ranked and set side by side.</h2>
+          <p class="lk-lede">It follows citation chains between them, and separates what agrees from what conflicts.</p>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="4">
+        <span class="sn">04 &middot; Three carry it</span>
+        <div class="lockup lockup--card" style="margin-top:var(--sp-3)">
+          <h2 class="lk-head">Solid, hollow, dashed.</h2>
+          <p class="lk-lede">Each citation wears its tier. One came from outside the field, and it arrives marked.</p>
+        </div>
+        <div class="tiers">
+          <div><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="note" style="margin:0">Held in full. Cited to the passage.</span></div>
+          <div><span class="cite t2"><span class="cm">&#9680;</span>2</span><span class="note" style="margin:0">Held as an abstract. Enough to place, not to verify.</span></div>
+          <div><span class="cite t3"><span class="cm">&#8599;</span>3</span><span class="note" style="margin:0">From the web, beyond the edge. No accent.</span></div>
+        </div>
+      </div>
+
+      <div class="e-step" data-state="5">
+        <span class="sn">05 &middot; The answer</span>
+        <div class="msg agent" style="margin:var(--sp-3) 0 0">
+          <div class="lockup lockup--card">
+            <h2 class="lk-head">Three interventions, three different failures.</h2>
+            <div class="body">
+              <p>The African Union deployed <strong>AMIS</strong> in 2004 with a monitoring mandate it was never resourced to fulfil <span class="cite t1"><span class="cm">&#9679;</span>1</span>. Its successor <strong>UNAMID</strong> was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested <span class="cite t2"><span class="cm">&#9680;</span>2</span>.</p>
+              <p>A frequently cited displacement figure does not trace to a primary source in this corpus <span class="cite t3"><span class="cm">&#8599;</span>3</span>, so treat it with caution.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ E2 · THE BOUNDARY ════════════════════════════════════════════════════
+     The tiers as geography: inside, on the edge, outside. A way of picturing
+     the rule, stated as one. -->
+<section class="band surface--ground">
+  <span class="crit-tag"><b>E2</b> Boundary <i>· static field, tiers as geography</i><em class="brk">breaks: new media type</em></span>
+  <div class="wrap e-edge">
+    <canvas id="e-edge" class="mo-focus" role="img" aria-label="The corpus as a bounded field: filled points inside, hollow points on the rim, dashed points outside the edge"></canvas>
+    <div>
+      <div class="sec-head mo-rule" style="margin-bottom:0">
+        <span class="eyebrow">The boundary</span>
+        <h2>You can say what it read.</h2>
+        <p>A decision you have to defend needs sources you can name. Peace Intel answers from a library assembled by the Effective Peacebuilding Initiative and the Alliance for Peacebuilding. When it reaches past that edge, the citation says so.</p>
+      </div>
+      <div class="rule-row mo-deal" style="--cols:3">
+        <div><span class="cite t1"><span class="cm">&#9679;</span>Inside</span><p class="note" style="margin:0">Held in full, fully parsed, cited to the passage.</p></div>
+        <div><span class="cite t2"><span class="cm">&#9680;</span>Edge</span><p class="note" style="margin:0">Held as abstracts, and marked as such.</p></div>
+        <div><span class="cite t3"><span class="cm">&#8599;</span>Outside</span><p class="note" style="margin:0">The web, reached only when needed, and marked on its face.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ E3 · READERS ═════════════════════════════════════════════════════════ -->
+<section class="band">
+  <span class="crit-tag"><b>E3</b> Readers <i>· rule-row, provenance framing</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule">
+      <span class="eyebrow">Who it is for</span>
+      <h2>For institutions that have to say what they read.</h2>
+    </div>
+    <div class="rule-row mo-deal" style="--cols:3">
+      <div><span class="eyebrow eb-3 strong">Philanthropy</span><p class="note">A board will ask what the recommendation rests on. You can hand them the list.</p></div>
+      <div><span class="eyebrow eb-3 strong">Foreign service</span><p class="note">A submission has to survive the question &ldquo;says who?&rdquo; Every line carries its source and its tier.</p></div>
+      <div><span class="eyebrow eb-3 strong">Development banks</span><p class="note">Review panels check provenance. The library is named, and anything from outside it is marked.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ E4 · ACCESS ══════════════════════════════════════════════════════════
+     The plainest possible close: one line, three fields. -->
+<section id="access" class="band band--dark on-dark">
+  <span class="crit-tag"><b>E4</b> Access <i>· one-line form</i></span>
+  <div class="wrap">
+    <div class="lockup lockup--section centered" style="max-width:var(--col-text);margin:0 auto">
+      <span class="eyebrow mo-develop">Private beta &middot; January 2027</span>
+      <h2 class="lk-head mo-develop">See the library for yourself.</h2>
+      <p class="lk-lede mo-develop">Early access includes the full research findings and a say in what gets built.</p>
+    </div>
+    <form class="e-sign mo-deal" onsubmit="return false">
+      <input class="input" type="email" name="email" autocomplete="email" placeholder="name@institution.org" aria-label="Work email">
+      <select class="input" name="inst" aria-label="Institution">
+        <option value="">Institution type</option>
+        <option>Philanthropy</option>
+        <option>Foreign service</option>
+        <option>Development bank</option>
+        <option>Other</option>
+      </select>
+      <button class="btn primary lg" type="submit">Request access</button>
+    </form>
+    <p class="note" style="text-align:center;margin:var(--sp-4) auto 0">We do not share your information with third parties or use it for marketing.</p>
+  </div>
+</section>
+
+<!-- ══ E5 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>E5</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="../media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../system.js?v=eb50598a"></script>
+<script src="retired.js?v=cba1a8cf"></script>
+<script>
+/* ═══ THE CORPUS FIELD ═══════════════════════════════════════════════════════
+   BREAK 1 + 2. At rest the field is a VIDEO OBJECT, made the way the brand's
+   dove and glass clips are: a continuous-tone subject (an organic form, its
+   inside flowing like ink in water, lit from the upper left, its edge
+   dissolving) run through the 8x8 Bayer matrix at the brand cell, across
+   alternate stops of the video ramp, stepped at ten frames a second. Its colours are the video ramp
+   (--v-0 … --v-6, subject mode), so it is monochrome in light and thermal in
+   dark, exactly like a mapped clip.
+
+   When the question arrives the video freezes and thins into the sources:
+   5,000 points sampled from its own densest pixels, weighted by density, so
+   the point field is the frozen frame with the noise taken out. From there it
+   is the same sequence as before, staggered in Bayer order, with durations
+   from --mo-in-3. With motion reduced the video holds a single frame and the
+   states snap. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var BAYER = [0,32,8,40,2,34,10,42,48,16,56,24,50,18,58,26,12,44,4,36,14,46,6,38,60,28,52,20,62,30,54,22,
+               3,35,11,43,1,33,9,41,51,19,59,27,49,17,57,25,15,47,7,39,13,45,5,37,63,31,55,23,61,29,53,21];
+  var N = 5000;
+
+  function ms(name, fb) {
+    var v = getComputedStyle(root).getPropertyValue(name).trim();
+    if (!v) return fb;
+    return v.indexOf('ms') > -1 ? parseFloat(v) : parseFloat(v) * 1000;
+  }
+  var DUR = ms('--mo-in-3', 1100);
+
+  function rng(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; var t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+  function rad(th, R) { return R * (1 + .07 * Math.sin(3 * th + 1.3) + .05 * Math.sin(5 * th + .4) + .025 * Math.sin(8 * th + 2.1)); }
+  function ease(t) { return t <= 0 ? 0 : t >= 1 ? 1 : 1 - Math.pow(1 - t, 3); }
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function c01(t) { return t < 0 ? 0 : t > 1 ? 1 : t; }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+
+  /* Value noise and fbm for the video object. Seeded, so the form is the same
+     on every load and only time changes it. */
+  var PERM = (function () { var r = rng(29), a = []; for (var i = 0; i < 256; i++) a[i] = i; for (i = 255; i > 0; i--) { var j = Math.floor(r() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; } return a.concat(a); })();
+  function hsh(i, j) { return PERM[(PERM[i & 255] + j) & 255] / 255; }
+  function vnoise(x, y) {
+    var xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+    var u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+    var a = hsh(xi, yi), b = hsh(xi + 1, yi), c = hsh(xi, yi + 1), d = hsh(xi + 1, yi + 1);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  }
+  function fbm2(x, y) { return (vnoise(x, y) * .667 + vnoise(x * 2.03 + 17.1, y * 2.03 + 3.7) * .333); }
+  function fbm3(x, y) { return (vnoise(x, y) * .571 + vnoise(x * 2.03 + 17.1, y * 2.03 + 3.7) * .286 + vnoise(x * 4.07 + 5.3, y * 4.07 + 29.9) * .143); }
+
+  /* The form's outline: the old boundary at t = 0, breathing slowly with time. */
+  function bnd(th, t) {
+    return 1 + .07 * Math.sin(3 * th + 1.3 + .25 * Math.sin(t * .21)) + .05 * Math.sin(5 * th + .4 - t * .13)
+             + .025 * Math.sin(8 * th + 2.1 + t * .3) + .02 * Math.sin(t * .5)
+             + .38 * (fbm2(Math.cos(th) * 1.5 + 7 + t * .035, Math.sin(th) * 1.5 + t * .025) - .5);
+  }
+  /* Density of the object at a point: soft dissolving edge, domain-warped
+     noise inside so it reads as something flowing, and a little light from
+     the upper left so it reads as a volume rather than a stain. */
+  function density(nx, ny, r, th, t) {
+    var e = r / bnd(th, t); if (e > 1.12) return 0;
+    var m = 1 - smooth(c01((e - .5) / .62));
+    var qx = fbm2(nx * 1.5 + t * .05, ny * 1.5), qy = fbm2(nx * 1.5 + 5.2, ny * 1.5 - t * .04 + 1.3);
+    var n = fbm3(nx * 2.1 + 1.9 * qx + t * .03, ny * 2.1 + 1.9 * qy - t * .02);
+    n = smooth(c01((n - .26) / .48));
+    var shade = .82 + .34 * (nx * .45 + ny * .55);
+    return c01(m * (.16 + .95 * n) * shade + .18 * m * (1 - Math.min(r, 1)));
+  }
+
+  /* Custom properties never resolve through getPropertyValue, and color-mix
+     comes back as color(srgb …), so read each token through a probe's color. */
+  function parse(c) {
+    var m = c.match(/rgba?\(([^)]+)\)/);
+    if (m) { var p = m[1].split(/[\s,\/]+/).filter(Boolean).map(parseFloat); return [p[0], p[1], p[2]]; }
+    m = c.match(/color\(\s*srgb\s+([^)]+)\)/);
+    if (m) { var q = m[1].split('/')[0].trim().split(/\s+/).map(parseFloat); return [q[0] * 255, q[1] * 255, q[2] * 255]; }
+    return [128, 128, 128];
+  }
+  function palette(host) {
+    var pr = document.createElement('span'); pr.style.display = 'none'; host.appendChild(pr);
+    var o = {};
+    ['--ink', '--ink-55', '--ink-35', '--accent'].forEach(function (n) {
+      pr.style.color = 'var(' + n + ')';
+      o[n] = 'rgb(' + parse(getComputedStyle(pr).color).map(Math.round).join(',') + ')';
+    });
+    pr.remove(); return o;
+  }
+
+  function Field(canvas, mode) {
+    var ctx = canvas.getContext('2d');
+    var W, H, S, base, cx, cy, R, pts = [], col, state = 0, t0 = 0, raf = 0, ov = mode === 'edge' ? 1 : 0, ovFrom = 0;
+    var onScreen = true, rand;
+    /* The video object: an offscreen canvas one pixel per brand cell, drawn
+       up with no smoothing, so every pixel lands as a crisp C-sized square. */
+    var C = 3, vc = null, vx = null, vimg = null, gw = 0, gh = 0, cells = null, ramp = [];
+    var vT = 0, videoA = mode === 'seq' ? 1 : 0, vFrom = videoA, loopId = 0;
+
+    function glyph(k) { var gap = Math.min(W * .28, 170); return { x: cx + (k - 1) * gap, y: cy - S * 2 }; }
+    function slot(i) { var cols = 12, g = S * 2.4, rows = Math.ceil(relCount / cols); return { x: cx + ((i % cols) - (cols - 1) / 2) * g, y: cy + (Math.floor(i / cols) - (rows - 1) / 2) * g }; }
+    var relCount = 0;
+
+    function build() {
+      var r = canvas.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height; if (!W || !H) return false;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cx = W * .5; cy = H * (mode === 'seq' ? .46 : .5);
+      R = Math.min(W * .43, H * (mode === 'seq' ? .38 : .43));
+      S = Math.max(3, Math.round(Math.sqrt(Math.PI * R * R / 7600)));
+      base = Math.max(2, Math.round(S * .55));
+      rand = rng(11);
+      var cand = [], gx, gy, x, y, dx, dy, i, j, t;
+      if (mode === 'seq') {
+        /* Every cell the object can reach, precomputed once per size. The
+           sources are drawn from the same cells, weighted by density at t = 0
+           (key = rand ^ 1/w), so the point field is the frozen video. */
+        C = Math.max(2, Math.round(parseFloat(getComputedStyle(root).getPropertyValue('--dither-cell')) || 3));
+        /* A source is a pixel smaller than its cell, so neighbours never
+           touch: a dense region reads as a screen of points, not a smudge. */
+        base = Math.max(2, C - 1);
+        gw = Math.ceil(W / C); gh = Math.ceil(H / C);
+        vc = document.createElement('canvas'); vc.width = gw; vc.height = gh;
+        vx = vc.getContext('2d'); vimg = vx.createImageData(gw, gh);
+        var lim = R * 1.32, ix = [], ax = [], ay = [], ar = [], at = [], ab = [];
+        for (gy = 0; gy < gh; gy++) for (gx = 0; gx < gw; gx++) {
+          x = gx * C + C / 2; y = gy * C + C / 2; dx = x - cx; dy = y - cy;
+          var dist = Math.sqrt(dx * dx + dy * dy); if (dist > lim) continue;
+          var nx = dx / R, ny = dy / R, r = dist / R, th0 = Math.atan2(dy, dx), b0 = BAYER[(gy % 8) * 8 + gx % 8];
+          ix.push((gy * gw + gx) * 4); ax.push(nx); ay.push(ny); ar.push(r); at.push(th0); ab.push((b0 + .5) / 64);
+          var e0 = r / bnd(th0, 0);
+          if (e0 < 1) { var v0 = density(nx, ny, r, th0, 0); if (v0 > .05) cand.push({ hx: x, hy: y, d: e0, v: v0, b: b0, key: Math.pow(rand(), 1 / (v0 * v0 * v0 + .001)) }); }
+        }
+        cells = { idx: Int32Array.from(ix), nx: Float32Array.from(ax), ny: Float32Array.from(ay), r: Float32Array.from(ar), th: Float32Array.from(at), thr: Float32Array.from(ab) };
+        cand.sort(function (a, b) { return b.key - a.key; });
+        pts = cand.slice(0, N);
+        videoFrame();
+      } else {
+        for (gy = 0; gy * S < H; gy++) for (gx = 0; gx * S < W; gx++) {
+          x = gx * S + S / 2; y = gy * S + S / 2; dx = x - cx; dy = y - cy;
+          var d = Math.sqrt(dx * dx + dy * dy) / rad(Math.atan2(dy, dx), R);
+          if (d < 1 && rand() < .96 - .45 * d * d) cand.push({ hx: x, hy: y, d: d, b: BAYER[(gy % 8) * 8 + gx % 8] });
+        }
+        for (i = cand.length - 1; i > 0; i--) { j = Math.floor(rand() * (i + 1)); t = cand[i]; cand[i] = cand[j]; cand[j] = t; }
+        pts = cand.slice(0, N);
+      }
+
+      /* The web: a few points beyond the edge. */
+      var outs = mode === 'seq' ? 7 : 16;
+      for (var k = 0; k < outs; k++) {
+        var th = rand() * Math.PI * 2, rr = mode === 'seq' ? R * bnd(th, 0) * (1.22 + rand() * .22) : rad(th, R) * (1.1 + rand() * .3);
+        pts.push({ hx: cx + Math.cos(th) * rr, hy: cy + Math.sin(th) * rr, d: 2, b: BAYER[(k * 9) % 64], out: true });
+      }
+
+      /* Relevance: three neighbourhoods, forty nearest in each. The top of the
+         first two become citations 1 and 2; the first outside point is 3. */
+      relCount = 0;
+      if (mode === 'seq') {
+        var inner = pts.filter(function (p) { return !p.out && p.d < .62; });
+        for (var s = 0; s < 3; s++) {
+          var seed = inner[Math.floor(rand() * inner.length)];
+          var near = pts.filter(function (p) { return !p.out && !p.rel; })
+            .map(function (p) { return { p: p, q: (p.hx - seed.hx) * (p.hx - seed.hx) + (p.hy - seed.hy) * (p.hy - seed.hy) }; })
+            .sort(function (a, b) { return a.q - b.q; }).slice(0, 40);
+          near.forEach(function (n, idx) { n.p.rel = true; n.p.slot = relCount++; if (idx === 0 && s < 2) n.p.special = s + 1; });
+        }
+        pts.filter(function (p) { return p.out; })[0].special = 3;
+      }
+      pts.forEach(function (p) { var t = target(p, state); p.x = t.x; p.y = t.y; p.a = t.a; p.s = t.s; p.j = 0; });
+      return true;
+    }
+
+    function target(p, s) {
+      var o = { x: p.hx, y: p.hy, a: 0, s: base };
+      var dens = mode === 'seq' ? .16 + .6 * (p.v || 0) : .2 + .42 * (1 - Math.min(p.d, 1));
+      if (mode === 'edge') { o.a = p.out ? .8 : p.d > .86 ? .7 : dens * .8; return o; }
+      if (p.out) {
+        o.a = .6;
+        if (p.special && s >= 4) { var g3 = glyph(2); o.x = g3.x; o.y = g3.y; o.s = S * 4; o.a = 1; }
+        return o;
+      }
+      if (s === 0) o.a = 0;               /* at rest the video is the field */
+      else if (s === 1) o.a = dens * .55;
+      else if (s === 2) o.a = p.rel ? .95 : dens * .2;
+      else if (s === 3) { if (p.rel) { var c = slot(p.slot); o.x = c.x; o.y = c.y; o.a = .95; } else o.a = dens * .14; }
+      else {
+        o.a = p.rel ? .16 : dens * .14;
+        if (p.special) { var g = glyph(p.special - 1); o.x = g.x; o.y = g.y; o.s = S * 4; o.a = 1; }
+      }
+      return o;
+    }
+
+    /* One frame of the object: density, then an ordered dither, then the ramp.
+       The dither runs across alternate stops of the video ramp (paper, 20%,
+       55%, ink) rather than all seven: in light the bottom stops sit so close
+       to the paper that a dither between them reads as a smooth grey, and the
+       point of this object is that you can see the pattern. Level 0 is left
+       transparent so the page is the ground. */
+    var STOPS = [0, 2, 4, 6];
+    function videoFrame() {
+      if (!vimg || !cells || !ramp.length) return;
+      var d = vimg.data, n = cells.idx.length, top = STOPS.length - 1, k, v, L, o, c;
+      for (k = 0; k < n; k++) {
+        o = cells.idx[k];
+        v = density(cells.nx[k], cells.ny[k], cells.r[k], cells.th[k], vT);
+        L = Math.floor(v * top + cells.thr[k]); if (L > top) L = top;
+        if (L <= 0) { d[o + 3] = 0; continue; }
+        c = ramp[STOPS[L]]; d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = 255;
+      }
+      vx.putImageData(vimg, 0, 0);
+    }
+    /* The video ramp, read off a .vmap in subject mode so it is the brand's
+       own clip treatment in either theme. */
+    function readRamp() {
+      var host = document.createElement('div');
+      host.className = 'vmap'; host.setAttribute('data-vmode', 'subject');
+      host.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;visibility:hidden';
+      canvas.parentNode.appendChild(host);
+      var pr = document.createElement('span'); host.appendChild(pr);
+      ramp = [];
+      for (var k = 0; k <= 6; k++) { pr.style.color = 'var(--v-' + k + ')'; ramp.push(parse(getComputedStyle(pr).color).map(Math.round)); }
+      host.remove();
+    }
+
+    function square(x, y, s) { ctx.rect(Math.round(x - s / 2) + .5, Math.round(y - s / 2) + .5, Math.round(s) - 1, Math.round(s) - 1); }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.setLineDash([]);
+      if (mode === 'seq' && vc && videoA > .004) {
+        ctx.globalAlpha = videoA; ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(vc, 0, 0, gw * C, gh * C);
+        ctx.globalAlpha = 1;
+      }
+      ctx.fillStyle = col['--ink'];
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i];
+        if (p.out || (p.special && p.s > base * 1.6) || (mode === 'edge' && p.d > .86)) continue;
+        var a = p.a * (1 + p.j); if (a <= .01) continue;
+        ctx.globalAlpha = Math.min(1, a);
+        ctx.fillRect(Math.round(p.x - p.s / 2), Math.round(p.y - p.s / 2), p.s, p.s);
+      }
+      /* The rim, in the edge plate: hollow, like an abstract. */
+      if (mode === 'edge') {
+        ctx.strokeStyle = col['--ink']; ctx.lineWidth = 1; ctx.beginPath();
+        pts.forEach(function (p) { if (!p.out && p.d > .86) { ctx.globalAlpha = .3; square(p.x, p.y, Math.max(base, 3)); } });
+        ctx.stroke();
+      }
+      /* The web: dashed, neutral, no accent. */
+      pts.forEach(function (p) {
+        if (!p.out) return;
+        var big = p.special && p.s > base * 1.6, s = big ? p.s : Math.max(base * 2, 6);
+        ctx.globalAlpha = p.a; ctx.strokeStyle = col['--ink-55']; ctx.lineWidth = big ? 2 : 1;
+        ctx.setLineDash(big ? [4, 3] : [2, 2]); ctx.beginPath(); square(p.x, p.y, s); ctx.stroke();
+      });
+      ctx.setLineDash([]);
+      /* Citations 1 and 2: solid accent, hollow accent. */
+      pts.forEach(function (p) {
+        if (!p.special || p.out || p.s <= base * 1.6) return;
+        ctx.globalAlpha = 1;
+        if (p.special === 1) { ctx.fillStyle = col['--accent']; ctx.fillRect(Math.round(p.x - p.s / 2), Math.round(p.y - p.s / 2), Math.round(p.s), Math.round(p.s)); }
+        else { ctx.strokeStyle = col['--accent']; ctx.lineWidth = 2; ctx.beginPath(); square(p.x, p.y, p.s); ctx.stroke(); }
+      });
+      /* The edge itself, and the labels, fade in with the resolution. */
+      if (ov > .01) {
+        ctx.globalAlpha = ov * .9; ctx.strokeStyle = col['--ink-35']; ctx.lineWidth = 1; ctx.setLineDash([3, 5]);
+        ctx.beginPath();
+        for (var th = 0; th <= Math.PI * 2 + .02; th += .02) { var rr = mode === 'seq' ? R * 1.06 * bnd(th, 0) : rad(th, R * 1.04); var X = cx + Math.cos(th) * rr, Y = cy + Math.sin(th) * rr; th ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); }
+        ctx.stroke(); ctx.setLineDash([]);
+        if (mode === 'seq') {
+          ctx.globalAlpha = ov; ctx.fillStyle = col['--ink-55']; ctx.textAlign = 'center';
+          ctx.font = '10px "Space Mono", ui-monospace, monospace';
+          if ('letterSpacing' in ctx) ctx.letterSpacing = '1px';
+          ['FULL TEXT', 'ABSTRACT', 'WEB'].forEach(function (t, k) { var g = glyph(k); ctx.fillText(t, g.x, g.y + S * 4 + 18); });
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function frame(now) {
+      var done = true;
+      for (var i = 0; i < pts.length; i++) {
+        var p = pts[i], t = reduced ? 1 : ease((now - t0 - p.delay) / DUR);
+        if (t < 1) done = false;
+        p.x = lerp(p.fx, p.tx, t); p.y = lerp(p.fy, p.ty, t); p.a = lerp(p.fa, p.ta, t); p.s = lerp(p.fs, p.ts, t);
+      }
+      var ot = reduced ? 1 : ease((now - t0 - DUR * .6) / DUR);
+      ov = lerp(ovFrom, state >= 4 ? 1 : 0, ot); if (ot < 1) done = false;
+      var vt = reduced ? 1 : ease((now - t0) / DUR);
+      videoA = lerp(vFrom, state === 0 && mode === 'seq' ? 1 : 0, vt); if (vt < 1) done = false;
+      draw();
+      raf = done ? 0 : requestAnimationFrame(frame);
+    }
+
+    function set(s) {
+      if (s === state || !pts.length) { state = s; return; }
+      state = s; t0 = performance.now(); ovFrom = ov; vFrom = videoA;
+      pts.forEach(function (p) {
+        var t = target(p, s);
+        p.fx = p.x; p.fy = p.y; p.fa = p.a * (1 + p.j); p.fs = p.s; p.j = 0;
+        p.tx = t.x; p.ty = t.y; p.ta = t.a; p.ts = t.s;
+        p.delay = reduced ? 0 : p.b * 12 + (p.special ? 300 : 0);
+      });
+      if (!raf) raf = requestAnimationFrame(frame);
+    }
+
+    /* At rest the object plays at ten frames a second, the stepped rate of
+       every dithered asset, and only while it is on screen and on step 0.
+       It freezes, rather than stops, when the question arrives. */
+    function loop() {
+      if (reduced || mode !== 'seq') return;
+      clearInterval(loopId);
+      loopId = setInterval(function () {
+        if (state !== 0 || raf || !onScreen || document.hidden) return;
+        vT += .05; videoFrame(); draw();
+      }, 100);
+    }
+
+    function init() { col = palette(canvas.parentNode); if (mode === 'seq') readRamp(); if (build()) draw(); loop(); }
+    new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }).observe(canvas);
+    new MutationObserver(function () { col = palette(canvas.parentNode); if (mode === 'seq') { readRamp(); videoFrame(); } draw(); }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+    var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { if (build()) { ov = state >= 4 || mode === 'edge' ? 1 : 0; draw(); } }, 150); });
+    return { init: init, set: set };
+  }
+
+  var seq = Field(document.getElementById('e-field'), 'seq');
+  var edge = Field(document.getElementById('e-edge'), 'edge');
+  var ro = document.getElementById('e-ro');
+  var RO = ['Sources · 5,000+', 'Question received', 'Passages read · 120', 'Compared · 120', 'Cited · 3', 'Cited · 3'];
+
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(function () {
+    seq.init(); edge.init();
+    var steps = [].slice.call(document.querySelectorAll('.e-step'));
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var s = +e.target.getAttribute('data-state');
+        seq.set(s); ro.textContent = RO[s];
+        steps.forEach(function (x) { x.classList.toggle('is-active', x === e.target); });
+      });
+    }, { rootMargin: '-52% 0px -44% 0px' });
+    steps.forEach(function (st) { io.observe(st); });
+  });
+})();
+</script>
+</body>
+</html>

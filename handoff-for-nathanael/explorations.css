@@ -1,0 +1,306 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PEACE INTEL · EXPLORATIONS
+   Not adopted. Kept out of components.css on purpose.
+
+   AGENTS.md tells Nathanael's agent to build pages from the catalog in
+   components.css. Nothing in this file is in that catalog yet, so nothing here
+   should appear in production until Matt picks from it. When something is
+   chosen it moves into components.css with its rationale and this file shrinks.
+
+   What is left here (Rev 39, 2026-10-16; AGENTS.md has the status table):
+     THE ASK             .ask, textarea.pt: Home only, ships with home.html;
+                         new forms are on Pl. 17
+     DOCUMENTARY IMAGES  .doc-fig, .doc-shot, .doc-dark, [data-docglitch]:
+                         decided (Pl. 18 · A1), on Home's corpus band since
+                         Rev 38; ships with home.html
+     DOCUMENTS           the report and the deck (report.html, slides.html)
+                         with the forest plot (.viz, .forest): Exploration,
+                         in the handoff and labelled so
+   Everything else moved to components.css on 16 October: the veil and the
+   still, the console's projects, context, memory, artifacts, dialogs and
+   finder, the margin, the floating bar, the phone console, the library
+   sheet and what a paper opens to. The numbered steps took the ledger's
+   rule in components.css (Pl. 16 · S2).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ============================================================================
+   HELD FROM HOME. Built 2026-10-08, held 2026-10-09
+   ----------------------------------------------------------------------------
+   home.html needed these and uses them, and they are not adopted. They live
+   here for the same reason everything else in this file does: a shape in
+   components.css reaches production by default. Shown in Pl. 19 of
+   brand-guide.html. Two decisions are open, and each is all-or-nothing:
+
+   THE ICONS were adopted on 2026-10-15 and moved to components.css.
+
+   THE ASK. .ask, the editable prompt and .blank-wrap are closer to product
+   behaviour than to brand. They come with two drivers in system.js, SWITCH and
+   PROMPTS, which are marked as held there.
+
+   Moved from components.css unchanged; nothing below was edited.
+   ============================================================================ */
+
+/* ASK. The prompt as a section's subject, with the suggestion pills that fill
+   it. Pills first, because they are the offer and the prompt is where the
+   offer lands. */
+.ask { max-width: var(--col-text); margin: 0 auto }
+.ask .pills { justify-content: center }
+/* In a tray (2026-10-14) the row fills the column, so the recess is one band
+   under the prompt rather than a box the width of whichever pills fit. */
+.ask .pills.tray { display: flex }
+.ask .pills + .prompt { margin-top: var(--sp-8) }
+/* Pl. 17: the ask, four forms (16 October). A is the rules above.
+   B, the console's composer with the workflows as rows under it. */
+.ask--b .composer { max-width: none }
+.ask-rows { display: grid; margin-top: var(--sp-5) }
+.ask-row { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-2); border-top: 1px solid var(--line); font-size: var(--t-ui); color: var(--ink-70); text-align: left; transition: background var(--mo-base), color var(--mo-base) }
+.ask-row:first-child { border-top-color: var(--line-2) }
+.ask-row span { flex: 1 }
+.ask-row .glyph { width: var(--sp-4); height: var(--sp-4); color: var(--ink-55); transition: transform var(--mo-base) }
+.ask-row:hover, .ask-row[aria-pressed="true"] { background: var(--wash-1); color: var(--ink) }
+.ask-row:hover .glyph { transform: translateX(2px) }
+/* C, a sentence with a blank that writes the question. */
+.ask-sent { margin-bottom: var(--sp-5); font-family: var(--serif); font-size: var(--t-h3); line-height: var(--t-h3-lh); color: var(--ink) }
+/* D, the workflows as small chips along the prompt's foot. */
+.ask-chips { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1) var(--sp-2); min-width: 0; flex: 1 }
+.ask-chips .eyebrow { margin-right: var(--sp-1) }
+.ask--d .composer-bar { align-items: flex-end; flex-wrap: nowrap }
+.ask--d .ask-chips { height: auto }
+/* On a phone five pills centred in a wrap came out 1 / 2 / 1 / 1. As one
+   column they read as the list of workflows they are. */
+@media (max-width: 620px) {
+  .ask .pills { display: grid; grid-template-columns: minmax(0, 1fr) }
+  .ask .pill { justify-content: center }
+}
+.prompt .composer-bar { margin-top: var(--sp-5) }
+.prompt:focus-within { border-color: var(--ink-35) }
+
+/* A PROMPT THAT TAKES INPUT. .pt was drawn as a picture of a question, muted
+   with its key terms in bold ink. When it is the real field the words are the
+   reader's own and take full ink. The field draws no box of its own: the
+   prompt is the box, and its focus state is the prompt's. Three lines tall at
+   rest, growing with the text where field-sizing is supported. */
+.prompt textarea.pt {
+  display: block; width: 100%; padding: 0;
+  border: 0; border-radius: 0; background: none; box-shadow: none;
+  resize: none; outline: none;
+  font-size: var(--t-prompt); line-height: 1.4; color: var(--ink);
+  field-sizing: content; min-height: calc(var(--t-prompt) * 1.4 * 3);
+}
+
+/* ============================================================================
+   EXPLORATIONS FROM 9 OCT · each one waiting on a pick
+   ----------------------------------------------------------------------------
+   Built in answer to the 9 October review of the reference. Every block here is
+   a set of options shown side by side in the plate named in its header. The
+   picked option moves to components.css with its rationale; the rest go to
+   archive/retired.css. Nothing here is for pages.
+   ============================================================================ */
+
+
+/* ── WHAT LEAVES THE CONSOLE: THE REPORT AND THE DECK (report.html,
+   slides.html, exploration, 15 October) ──────────────────────────────────────
+   What someone pays for is the document they forward. Until now the console's
+   PDF was Times and Helvetica. Two templates, built from the system's parts:
+
+     THE REPORT   A4. A cover (the lockup, the title, who it is for, the key
+                  to the tier marks), then the numbered document from Pl. 20
+                  with its numerals in the margin, citations as the citation
+                  chips, figures from Pl. 22 and a list of sources each with
+                  its tier mark. On screen it is a stack of sheets on the panel;
+                  printed, each sheet is a page, the cover bleeds and the rest
+                  carry a running head and folio from @page.
+     THE DECK     16:9 at 1280 by 720, scaled to the window on screen and
+                  printed one slide to a page, so a PDF of it is the deck. Six
+                  layouts: title, section (the icon margin), statement,
+                  evidence, chart, close. The title and close are dark and
+                  print dark ([data-print-as-is]). */
+.rp { --rp-w: 210mm; --rp-h: 297mm; padding: var(--sp-10) var(--sp-4); background: var(--ground); min-height: 100vh }
+.rp-sheet { width: min(var(--rp-w), 100%); margin: 0 auto var(--sp-8); padding: 18mm 16mm 20mm; background: var(--bg); border: 1px solid var(--line-2) }
+.rp-cover { min-height: var(--rp-h); display: flex; flex-direction: column; padding: 16mm }
+.rp-cover .rp-logo { height: var(--sp-8); width: auto; align-self: flex-start }
+.rp-cover .rp-kind { margin-top: auto; font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; color: var(--ink-55) }
+.rp-cover h1 { margin-top: var(--sp-4); font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-display); line-height: var(--t-display-lh); text-wrap: balance; max-width: 16ch }
+.rp-cover .lede { margin-top: var(--sp-5); max-width: 46ch }
+.rp-meta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4); margin-top: var(--sp-12); padding-top: var(--sp-4); border-top: 2px solid var(--ink) }
+.rp-meta dt { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.rp-meta dd { margin: var(--sp-1) 0 0; font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink) }
+.rp-key { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-6); margin-top: var(--sp-8); font-size: var(--t-sm); color: var(--ink-70) }
+.rp-key span { display: inline-flex; align-items: center; gap: var(--sp-2) }
+.rp-key .t1, .rp-key .t2 { color: var(--accent-text) }
+.rp-run { display: flex; justify-content: space-between; margin-bottom: var(--sp-10); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--line-2); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.rp-body { container-type: inline-size; --st-top: 0px }
+.rp-body .st-num { position: static }
+.rp-body .st-sec + .st-sec { margin-top: var(--sp-10) }
+.rp-body .st-body h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.rp-body .st-body p { font-size: var(--t-body); line-height: 1.7; color: var(--ink-70) }
+.rp-body .st-body p + p, .rp-body .st-body h3 + p { margin-top: var(--sp-4) }
+.rp-body .st-body > .viz, .rp-body .st-body > .sheet-v, .rp-body .st-body > .rp-finding { margin-top: var(--sp-6) }
+/* A figure or a table takes the full width of the text block, margin column
+   and all, the way a printed report breaks a figure out of the measure. */
+.rp-body .st-body > .viz, .rp-body .st-body > .sheet-v { margin-left: calc((var(--sp-26) + var(--sp-8) + var(--sp-8)) * -1) }
+.rp-finding { padding: var(--sp-5) var(--sp-6); border-left: 2px solid var(--accent); background: var(--fill) }
+.rp-finding b { display: block; font-family: var(--mono); font-weight: 400; font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--accent-text) }
+.rp-finding p { margin-top: var(--sp-2); font-family: var(--serif); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink) }
+.rp-body .sheet-t thead th { position: static }
+.rp-refs { display: grid; gap: var(--sp-3); counter-reset: ref }
+.rp-refs li { display: grid; grid-template-columns: var(--sp-8) minmax(0, 1fr); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-70) }
+.rp-refs .n { font-family: var(--mono); color: var(--ink) }
+.rp-refs .n i { font-style: normal; color: var(--accent-text) }
+.rp-refs .t3 .n i { color: var(--ink-55) }
+.rp-refs em { color: var(--ink) }
+@media print {
+  @page cover { margin: 0 }
+  .rp { padding: 0; background: none; min-height: 0 }
+  .rp-sheet { width: auto; margin: 0; padding: 0; border: 0; background: none; break-after: page }
+  .rp-body .sheet-v { overflow: visible; border-radius: 0 }
+  .rp-sheet:last-child { break-after: auto }
+  .rp-cover { page: cover; height: var(--rp-h); min-height: 0; padding: 16mm }
+  .rp-run { display: none }
+}
+
+/* overflow-x: clip keeps an unscaled slide from widening a phone's layout
+   viewport before the script has measured it. */
+.deck { --sl-w: 1280px; --sl-h: 720px; padding: var(--sp-8) var(--sp-4); background: var(--ground); display: grid; justify-items: center; gap: var(--sp-6); overflow-x: clip }
+.slide { width: var(--sl-w); height: var(--sl-h); zoom: var(--sl-k, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; padding: var(--sp-16) var(--sp-18); background: var(--bg); border: 1px solid var(--line-2); scroll-snap-align: center }
+.slide .sl-foot { position: absolute; left: var(--sp-18); right: var(--sp-18); bottom: var(--sp-8); display: flex; justify-content: space-between; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55) }
+.slide .sl-kick { font-family: var(--mono); font-size: var(--eb-1); letter-spacing: var(--eb-1-ls); text-transform: uppercase; color: var(--ink-55) }
+.slide h2 { margin-top: var(--sp-5); font-family: var(--serif); font-weight: var(--serif-w-display); font-size: calc(var(--t-display) * 1.3); line-height: 1.12; text-wrap: balance; max-width: 20ch }
+.slide .sl-sub { margin-top: var(--sp-6); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink-70); max-width: 52ch }
+.sl-title { justify-content: flex-end }
+.sl-title .sl-logo { position: absolute; top: var(--sp-16); left: var(--sp-18); height: var(--sp-10); width: auto }
+.sl-title h2 { font-size: calc(var(--t-display) * 1.6); max-width: 18ch }
+.sl-section { flex-direction: row; align-items: center; gap: var(--sp-16) }
+.sl-section .px-icon { width: calc(var(--icon-px) * 2); height: calc(var(--icon-px) * 2) }
+.sl-section h2 { margin-top: var(--sp-2) }
+.sl-statement { justify-content: center }
+.sl-statement blockquote { margin: 0; font-family: var(--serif); font-weight: var(--serif-w-display); font-size: calc(var(--t-display) * 1.15); line-height: 1.25; color: var(--ink); max-width: 26ch; text-wrap: balance }
+.sl-statement .sl-src { margin-top: var(--sp-8); font-size: var(--t-ui); color: var(--ink-55) }
+.sl-evidence .rule-row { margin-top: auto; margin-bottom: var(--sp-10) }
+.sl-evidence .rule-row h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.sl-evidence .rule-row p { margin-top: var(--sp-3); font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+.sl-chart h2 { font-size: var(--t-h1); line-height: var(--t-h1-lh); max-width: 30ch }
+.sl-chart .viz { margin-top: auto; margin-bottom: var(--sp-8); border: 0; padding: 0 }
+.sl-close { justify-content: center }
+.sl-close .row { margin-top: var(--sp-10) }
+@media print {
+  @page deck { size: 1280px 720px; margin: 0 }
+  .deck { padding: 0; gap: 0; background: none; display: block }
+  .slide { page: deck; zoom: 1; border: 0; break-after: page }
+  .slide:last-child { break-after: auto }
+}
+
+/* ── DATA (exploration, 15 October) ─────────────────────────────────────────
+   Pl. 22 was removed the same day (Matt); its bars, texture series and map
+   are in archive/retired.css. What is left is what report.html and
+   slides.html use: the chart frame and the forest plot. The language below
+   is kept, because it still governs any chart drawn from these parts.
+
+   Development banks and evaluators think in effect sizes, intervals, rankings
+   and maps, and the system had no way to draw any of them. The language,
+   from the brand's own parts:
+
+     ONE ACCENT PER CHART   the finding: the pooled estimate, the bar the
+                            sentence above is about, the country in focus.
+                            Everything else is ink.
+     SERIES BY TEXTURE      not by hue: solid ink, a hatch, the dither screen,
+                            an outline. One accent and one ink cannot carry
+                            five series in colour, and texture survives a
+                            black-and-white printer and every kind of colour
+                            blindness, which a palette of hues does not.
+     A RAMP OF DENSITIES    a map's sequence is the dither screen at four
+                            pitches, so a choropleth is drawn in the same
+                            screen as the icons, the video and the elevation
+                            the brand tried.
+     THE POINT IS THE MARK  in a forest plot each study's estimate is drawn
+                            with its tier mark (● ◐), so the strength of the
+                            evidence is on the chart, not in a footnote.
+     NUMBERS IN MONO        tabular, labelled directly at the end of the
+                            mark; a legend only where a map needs one.
+     EVERY CHART SAYS WHERE a source line in the note style, and
+                            "Illustrative values" until the data is real. */
+:root {
+  --viz-focus: var(--accent);
+  --viz-axis: var(--line-2);
+  --viz-grid: var(--line);
+  --viz-fill-1: var(--ink);
+}
+.viz { container-type: inline-size; margin: 0; padding: var(--sp-6); background: var(--bg); border: 1px solid var(--line-2); border-radius: var(--r-md) }
+.viz-h { display: grid; gap: var(--sp-1); margin-bottom: var(--sp-6) }
+.viz-h b { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh); color: var(--ink) }
+.viz-h span { font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.viz-src { margin-top: var(--sp-5); padding-top: var(--sp-3); border-top: 1px solid var(--line); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55) }
+.viz-flag { font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+
+/* The forest plot: a label, a track and the value, per row. The track's
+   positions are percentages of the axis, set on the row as --lo, --est, --hi;
+   --zero places the line of no effect, and the pooled row's diamond takes
+   --peak, where the estimate falls inside its own interval. */
+.forest { display: grid; grid-template-columns: minmax(0, calc(var(--sp-26) * 1.7)) minmax(0, 1fr) minmax(0, calc(var(--sp-26) + var(--sp-8))); column-gap: var(--sp-4); font-variant-numeric: tabular-nums }
+.fp-row { display: contents }
+.fp-l { align-self: center; padding: var(--sp-2) 0; font-size: var(--t-ui); color: var(--ink) }
+.fp-l small { display: block; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.fp-t { position: relative; min-height: calc(var(--sp-8) + var(--sp-2)); background: linear-gradient(var(--viz-axis), var(--viz-axis)) var(--zero) 0 / 1px 100% no-repeat }
+.fp-ci { position: absolute; top: 50%; left: var(--lo); width: calc(var(--hi) - var(--lo)); height: 2px; transform: translateY(-50%); background: var(--viz-fill-1) }
+.fp-pt { position: absolute; top: 50%; left: var(--est); transform: translate(-50%, -50%); font-family: var(--mono); font-style: normal; font-size: var(--t-h4); line-height: 1; color: var(--ink); background: var(--bg); border-radius: var(--r-full) }
+.fp-v { align-self: center; justify-self: end; font-family: var(--mono); font-size: var(--eb-3); color: var(--ink) }
+.fp-pool .fp-l { font-weight: 600 }
+.fp-pool .fp-t { border-top: 1px solid var(--line-2) }
+.fp-pool .fp-ci { display: none }
+.fp-pool .fp-pt { left: var(--lo); width: calc(var(--hi) - var(--lo)); height: var(--sp-4); transform: translateY(-50%); background: var(--viz-focus); border-radius: 0; clip-path: polygon(0 50%, var(--peak, 50%) 0, 100% 50%, var(--peak, 50%) 100%) }
+.fp-pool .fp-v { color: var(--accent-text); font-weight: 700 }
+.fp-axis { position: relative; height: var(--sp-6); border-top: 1px solid var(--viz-axis) }
+.fp-axis span { position: absolute; top: var(--sp-1); transform: translateX(-50%); font-family: var(--mono); font-size: var(--eb-4); color: var(--ink-55) }
+.fp-dir { display: flex; gap: var(--sp-4); justify-content: space-between; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+/* In a narrow figure the labels and values give up room to the track. */
+@container (max-width: 560px) {
+  .forest { grid-template-columns: minmax(0, var(--sp-26)) minmax(0, 1fr) minmax(0, calc(var(--sp-26) - var(--sp-4))) }
+  .fp-l small { display: none }
+  .fp-v { font-size: var(--eb-4) }
+}
+
+/* ═══ DOCUMENTARY IMAGES (Pl. 18, 16 October) ════════════════════════════
+   Matt asked what a war zone would look like as a dark, monochrome, dithered
+   image, and whether the brand should carry documentary photographs that are
+   not only rasterised: "black and white documentary images that have a
+   rasterized screen over them that lets the colours show through". Two
+   treatments of the same photograph of Mosul's Old City (Levi Clancy, 2019,
+   CC0), both built on .vmap's ramp:
+
+     .doc-dark    a scene on a dark band, mapped by the .vmap driver with the
+                  ramp compressed so the sky never reaches the paper tone
+     .doc-screen  the photograph in the dither, its colour showing through
+                  in patches that drift with the scroll ([data-docscreen])
+
+   A documentary picture is a figure, tier three: square, framed by its own
+   edge, always captioned with the place and the date, and credited. */
+.doc-shot { aspect-ratio: 3 / 2; background: var(--bg) }
+.doc-shot img, .doc-shot canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated }
+[data-js] .doc-shot[data-docscreen] img { visibility: hidden }
+/* The figure and its caption: place, date, then the credit. Moved here from
+   reference.css on 16 Oct, when home.html became the first page to carry one. */
+/* :where() so the reset clears the browser's figure margins and nothing else:
+   a layout block (.stack's gap) still spaces it. */
+:where(.doc-fig) { margin: 0 }
+.doc-fig { min-width: 0 }
+.doc-fig figcaption { margin-top: var(--sp-3); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-55); max-width: 64ch }
+/* On a light page (18 · A2, 18 · A3) the picture is a dark object: near-ink
+   to about half ink. On a dark band (18 · A1) it is compressed toward the band. */
+.doc-dark {
+  --v-0: color-mix(in srgb, var(--ink) 94%, var(--bg));
+  --v-1: color-mix(in srgb, var(--ink) 88%, var(--bg));
+  --v-2: color-mix(in srgb, var(--ink) 80%, var(--bg));
+  --v-3: color-mix(in srgb, var(--ink) 71%, var(--bg));
+  --v-4: color-mix(in srgb, var(--ink) 62%, var(--bg));
+  --v-5: color-mix(in srgb, var(--ink) 53%, var(--bg));
+  --v-6: color-mix(in srgb, var(--ink) 44%, var(--bg));
+}
+.on-dark .doc-dark { --v-0: var(--bg);
+  --v-1: color-mix(in srgb, var(--ink) 4%, var(--bg));
+  --v-2: color-mix(in srgb, var(--ink) 10%, var(--bg));
+  --v-3: color-mix(in srgb, var(--ink) 18%, var(--bg));
+  --v-4: color-mix(in srgb, var(--ink) 28%, var(--bg));
+  --v-5: color-mix(in srgb, var(--ink) 40%, var(--bg));
+  --v-6: color-mix(in srgb, var(--ink) 56%, var(--bg));
+}
+

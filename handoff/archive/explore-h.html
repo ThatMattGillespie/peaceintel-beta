@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-direction="H">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Peace Intel · Direction H · Proof</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="description" content="Landing exploration H. The same answer at two standards, fluent and accountable, compared by a single line you can scroll or drag. With the Alliance for Peacebuilding partnership, a plain comparison with ChatGPT, and a request form.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=256d5f62">
+<link rel="stylesheet" href="../components.css?v=c9cad351">
+<link rel="stylesheet" href="../explorations.css?v=e77b8469">
+<link rel="stylesheet" href="retired.css?v=12fe2490"><!-- drafted before the 2026-10-09 cuts -->
+<link rel="stylesheet" href="review.css?v=47f3ff70">
+<script src="review.js?v=e67c21ad"></script>
+<style>
+  /* ═══ DIRECTION H · PROOF ══════════════════════════════════════════════════
+     POSITIONING. An answer you can put your name to. These readers sign the
+     briefs they write, so the difference that matters between Peace Intel and
+     a general assistant is a standard, not an IQ: one writes to sound right,
+     the other writes to be checked. "Proof" in both senses: evidence, and the
+     printer's proof you mark up before anything goes out.
+
+     AESTHETIC. The diptych, kept as simple as F. F was centred and deep; H is
+     left-aligned and lateral. One gesture carries the page: a vertical line
+     wipes across a single paragraph, and on one side of it the same words are
+     held to a standard. Everything else is catalog motion and on-scale type,
+     so this direction breaks exactly one rule:
+       1  invented motion     the scroll-linked, draggable wipe in H2 */
+
+  /* ── H1 · hero ─────────────────────────────────────────────────────────── */
+  .h-partners { display: flex; align-items: center; gap: var(--sp-8); flex-wrap: wrap; margin-top: var(--sp-16); padding-top: var(--sp-6); border-top: 1px solid var(--line) }
+  .h-partners img { height: var(--logo-h); width: auto; display: block }
+  /* Two partner files, two strategies, both from landing.html: EPI ships a
+     reversed file; AfP is monochrome and inverts. */
+  .h-partners .nm-dark, .h-pship .nm-dark { display: none }
+  :root[data-theme="dark"] .h-partners .nm-light, :root[data-theme="dark"] .h-pship .nm-light { display: none }
+  :root[data-theme="dark"] .h-partners .nm-dark, :root[data-theme="dark"] .h-pship .nm-dark { display: block }
+  :root[data-theme="dark"] .afp-mark { filter: invert(1) }
+
+  /* ── H2 · the proof ────────────────────────────────────────────────────── */
+  .h-proof { padding: 0; overflow-x: clip; border-top: 1px solid var(--line) }
+  .h-stage { padding: var(--band-y) 0 }
+  .h-proof.is-live .h-stage { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)); display: flex; align-items: center; padding: 0 }
+  .h-stage > .wrap { width: 100% }
+  .h-head { display: flex; justify-content: space-between; align-items: end; gap: var(--sp-6); flex-wrap: wrap }
+  .h-head .sec-head { margin-bottom: 0 }
+
+  /* Two copies of one paragraph in one grid cell. The line between them is
+     --x: left of it the accountable copy shows, right of it the fluent one. */
+  .h-spec {
+    --x: 100%; position: relative; display: grid; margin: var(--sp-14) 0 var(--sp-10);
+    /* The measure lives on the box, so the clip on each copy and the line
+       share one width: 50% of the paragraph is 50% of the box. */
+    font-size: var(--t-h1); max-width: 46ch;
+    touch-action: pan-y; user-select: none; -webkit-user-select: none; cursor: ew-resize;
+  }
+  .h-txt { grid-area: 1 / 1; font-family: var(--serif); font-weight: 400; font-size: inherit; line-height: 1.62; letter-spacing: -.004em }
+  .h-fluent { color: var(--ink-55); clip-path: inset(-1em -1em -1em var(--x)) }
+  .h-acct { color: var(--ink); clip-path: inset(-1em calc(100% - var(--x)) -1em -1em) }
+  /* The marks hold their place in the fluent copy, invisible, so both copies
+     break their lines at exactly the same words. */
+  .h-fluent .mk, .h-fluent .mk-flag { visibility: hidden }
+  /* A mark takes no width: the chip hangs above the end of its sentence like
+     a footnote marker, so both copies set exactly as plain prose would. */
+  .h-txt .mk { display: inline-block; width: 0; position: relative }
+  .h-txt .mk .cite { position: absolute; left: 2px; bottom: .72em; margin: 0; font-size: var(--t-ui); vertical-align: 0; white-space: nowrap }
+  .h-acct .cl { text-decoration-line: underline; text-decoration-thickness: 2px; text-underline-offset: .22em }
+  .h-acct .c1 { text-decoration-color: var(--accent) }
+  .h-acct .c2 { text-decoration-color: color-mix(in srgb, var(--accent) 45%, transparent) }
+  .h-acct .c3 { text-decoration-color: var(--ink-55); text-decoration-style: dashed }
+  /* The flag sits on its own line under the paragraph, in both copies, so it
+     never meets the hanging marker and both copies stay the same height. */
+  .h-txt .mk-flag { display: block; line-height: 1; margin-top: var(--sp-4) }
+  .h-flag {
+    display: inline-block; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase;
+    color: var(--ink-70); border: 1px dashed var(--ink-35); border-radius: var(--r-xs);
+    padding: var(--sp-1) var(--sp-2); white-space: nowrap;
+  }
+
+  .h-rule { position: absolute; top: calc(var(--sp-8) * -1); bottom: calc(var(--sp-8) * -1); left: var(--x); width: 0; border-left: 1px solid var(--ink); pointer-events: none; z-index: 2 }
+  .h-knob {
+    position: absolute; top: 50%; left: 0; transform: translate(-50%, -50%);
+    width: var(--sp-8); height: var(--sp-8); border-radius: var(--r-full);
+    background: var(--bg); border: 1px solid var(--ink); color: var(--ink);
+    display: grid; place-items: center; pointer-events: auto; cursor: ew-resize;
+    font-family: var(--mono); font-size: var(--t-ui); line-height: 1;
+    transition: box-shadow var(--mo-fast);
+  }
+  .h-knob:hover { box-shadow: var(--elev-1) }
+  .h-lab { position: absolute; top: 0; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; white-space: nowrap; transition: opacity var(--mo-base) }
+  .h-lab.l { right: var(--sp-3); color: var(--accent-text) }
+  .h-lab.r { left: var(--sp-3); color: var(--ink-55) }
+  .h-spec.lo .h-lab.l, .h-spec.hi .h-lab.r { opacity: 0 }
+  /* At either end one copy is the whole picture; unclip it so a marker
+     hanging past the last letter of a line is not shaved off. */
+  .h-spec.end .h-acct, .h-spec.start .h-fluent { clip-path: none }
+
+  .h-foot { display: grid }
+  .h-cap { grid-area: 1 / 1; max-width: var(--measure-lead); opacity: 0; transition: opacity var(--mo-fast) ease }
+  .h-cap.on { opacity: 1; transition: opacity var(--mo-in-1) ease var(--mo-base) }
+  html:not([data-js]) .h-cap:last-child { opacity: 1 }
+
+  @media (max-width: 760px) {
+    .h-spec { font-size: var(--t-h4); margin: var(--sp-10) 0 var(--sp-8) }
+  }
+
+  /* Short phones: the pinned stage has to hold the whole comparison. */
+  @media (max-width: 760px) and (max-height: 720px) {
+    .h-head > .eyebrow { display: none }
+    .h-spec { margin: var(--sp-6) 0 }
+  }
+
+  /* ── H3 · versus ───────────────────────────────────────────────────────── */
+  .h-vs { width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: var(--sp-4) }
+  .h-vs th, .h-vs td { text-align: left; vertical-align: top; padding: var(--sp-5) var(--sp-6) var(--sp-5) 0; border-top: 1px solid var(--line) }
+  .h-vs thead th, .h-vs thead td { border-top: 0; padding-bottom: var(--sp-3) }
+  .h-vs tbody th { width: 22% }
+  .h-vs td { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+  .h-vs td.pi { color: var(--ink); font-weight: 600 }
+  .h-vs thead .pi span { display: inline-flex; align-items: center; gap: var(--sp-2) }
+  .h-vs thead .pi span::before { content: ""; width: var(--sp-2); height: var(--sp-2); border-radius: var(--r-full); background: var(--accent) }
+  @media (max-width: 700px) {
+    .h-vs thead { display: none }
+    .h-vs, .h-vs tbody, .h-vs tr, .h-vs th, .h-vs td { display: block; width: auto }
+    .h-vs tr { border-top: 1px solid var(--line-2); padding: var(--sp-4) 0 }
+    .h-vs tbody th, .h-vs td { border: 0; padding: var(--sp-1) 0 }
+    .h-vs td::before { content: attr(data-h); display: block; font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55); font-weight: 400; margin-top: var(--sp-2) }
+  }
+
+  /* ── H4 · partnership ──────────────────────────────────────────────────── */
+  .h-pship { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--sp-16); align-items: center }
+  .h-marks { display: flex; align-items: center; justify-content: center; gap: var(--sp-8); flex-wrap: wrap }
+  .h-marks img { height: calc(var(--logo-h) * 1.6); width: auto; display: block }
+  .h-marks .h-x { font-family: var(--serif); font-size: var(--t-h2); color: var(--ink-55) }
+  .h-pship .callout { margin-top: var(--sp-8) }
+  @media (max-width: 900px) { .h-pship { grid-template-columns: 1fr; gap: var(--sp-10) } }
+
+  /* ── H5 · form ─────────────────────────────────────────────────────────── */
+  .h-close { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: var(--sp-16); align-items: start }
+  @media (max-width: 900px) { .h-close { grid-template-columns: 1fr; gap: var(--sp-10) } }
+  .h-close .checks { margin-top: var(--sp-8) }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+  @media (max-width: 620px) { .form-grid { grid-template-columns: 1fr } }
+  .form-grid .full { grid-column: 1 / -1 }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-mark" href="#top" aria-label="Peace Intel"><img class="nm-light" src="../media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"><img class="nm-dark" src="../media/peaceintel-logo-dark.png?v=v6" alt=""></a>
+    <div class="nav-links">
+      <a class="btn ghost sm" href="#access">Sign in</a>
+      <a class="btn primary sm" href="#access">Request access</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ H1 · HERO ════════════════════════════════════════════════════════════
+     Type and the partner marks, nothing else. The proof below is the image. -->
+<header id="top" class="band" data-land>
+  <span class="crit-tag"><b>H1</b> Hero <i>· lockup + partner marks</i></span>
+  <div class="wrap">
+    <div class="lockup lockup--hero">
+      <span class="eyebrow accent mo-develop" data-at="0">Peace Intel</span>
+      <h1 class="lk-head mo-resolve" data-at="150">An answer you can put your name to.</h1>
+      <p class="lk-lede mo-develop" data-at="600">
+        A research agent built on the peacebuilding evidence base. It writes the way a careful
+        researcher does: every claim tied to its source, every gap named, and nothing smoothed
+        over to sound right.
+      </p>
+      <div class="lk-actions mo-deal" data-at="900">
+        <a class="btn primary lg" href="#access">Request access</a>
+        <a class="btn ghost lg" href="#proof">See the difference</a>
+      </div>
+    </div>
+    <div class="h-partners mo-develop" data-at="1200">
+      <span class="eyebrow eb-3 faint">A project of</span>
+      <img class="nm-light" src="../media/epi-full.png" alt="Effective Peacebuilding Initiative"><img class="nm-dark" src="../media/epi-full-reverse.png" alt="">
+      <img class="afp-mark" src="../media/afp.png" alt="Alliance for Peacebuilding">
+    </div>
+  </div>
+</header>
+
+<!-- ══ H2 · THE PROOF ═══════════════════════════════════════════════════════
+     One paragraph, two copies, one line. Scroll moves the line across; it can
+     also be dragged, or moved with the arrow keys. With motion reduced or
+     script off, the accountable copy shows in full. -->
+<section id="proof" class="band h-proof" aria-labelledby="proof-h">
+  <span class="crit-tag"><b>H2</b> Proof <i>· one paragraph at two standards; scroll or drag the line</i><em class="brk">breaks: new motion (wipe)</em></span>
+  <div class="h-stage">
+    <div class="wrap">
+      <div class="h-head">
+        <div class="sec-head">
+          <span class="eyebrow">The difference</span>
+          <h2 id="proof-h">The same answer, at two standards.</h2>
+        </div>
+        <span class="eyebrow eb-3 faint">Scroll, or drag the line</span>
+      </div>
+
+      <div class="h-spec" id="h-spec">
+        <p class="h-txt h-fluent" aria-hidden="true"><span class="cl c1">The African Union deployed AMIS in 2004 with a monitoring mandate it was never resourced to fulfil.</span><span class="mk"><span class="cite t1"><span class="cm">&#9679;</span>1</span></span> <span class="cl c2">Its successor, UNAMID, was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested.</span><span class="mk"><span class="cite t2"><span class="cm">&#9680;</span>2</span></span> <span class="cl c3">Millions of people were displaced.</span><span class="mk"><span class="cite t3"><span class="cm">&#8599;</span>3</span></span><span class="mk-flag"> <span class="h-flag">Untraced &middot; check before quoting</span></span></p>
+        <p class="h-txt h-acct"><span class="cl c1">The African Union deployed AMIS in 2004 with a monitoring mandate it was never resourced to fulfil.</span><span class="mk"><span class="cite t1"><span class="cm">&#9679;</span>1</span></span> <span class="cl c2">Its successor, UNAMID, was the largest peacekeeping operation in the world at its peak, yet its civilian protection record remains contested.</span><span class="mk"><span class="cite t2"><span class="cm">&#9680;</span>2</span></span> <span class="cl c3">Millions of people were displaced.</span><span class="mk"><span class="cite t3"><span class="cm">&#8599;</span>3</span></span><span class="mk-flag"> <span class="h-flag">Untraced &middot; check before quoting</span></span></p>
+        <div class="h-rule" aria-hidden="false">
+          <span class="h-lab l">Accountable</span>
+          <button class="h-knob" type="button" role="slider" aria-label="Compare the fluent and accountable versions" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">&#8596;</button>
+          <span class="h-lab r">Fluent</span>
+        </div>
+      </div>
+
+      <div class="h-foot">
+        <p class="lede h-cap" data-cap="fluent">A fluent answer. It reads well, and nothing in it tells you which parts would survive a question from your board.</p>
+        <p class="lede h-cap on" data-cap="acct">The same words, held to a standard. Each claim names its source and how much of it is held, and the figure that cannot be traced says so before you repeat it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ H3 · VERSUS ══════════════════════════════════════════════════════════
+     The question every first meeting asks. Stated fairly: general assistants
+     are good at a great deal, and the comparison is about this one job. -->
+<section class="band surface--ground" data-land>
+  <span class="crit-tag"><b>H3</b> Versus <i>· plain comparison table</i></span>
+  <div class="wrap">
+    <div class="sec-head mo-rule" data-at="0">
+      <span class="eyebrow">A fair question</span>
+      <h2>How is this different from ChatGPT?</h2>
+      <p>General assistants are remarkable at a great many things. Peace Intel is built for one of them: answering peacebuilding questions from evidence you can check.</p>
+    </div>
+    <table class="h-vs mo-deal" data-at="300">
+      <thead>
+        <tr>
+          <td></td>
+          <th scope="col"><span class="eyebrow eb-3">A general AI assistant</span></th>
+          <th scope="col" class="pi"><span class="eyebrow eb-3 strong">Peace Intel</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row"><span class="eyebrow eb-4 faint">What it reads</span></th>
+          <td data-h="A general AI assistant">A broad mix of training data, and the open web when it searches.</td>
+          <td class="pi" data-h="Peace Intel">A curated library of over 5,000 peacebuilding papers, evaluations and policy analyses, read in full.</td></tr>
+        <tr><th scope="row"><span class="eyebrow eb-4 faint">Who chose the sources</span></th>
+          <td data-h="A general AI assistant">Nobody chose them for this field.</td>
+          <td class="pi" data-h="Peace Intel">The Effective Peacebuilding Initiative and the Alliance for Peacebuilding.</td></tr>
+        <tr><th scope="row"><span class="eyebrow eb-4 faint">How it cites</span></th>
+          <td data-h="A general AI assistant">Sometimes links to web pages.</td>
+          <td class="pi" data-h="Peace Intel">Every claim to the passage it came from, with the source&rsquo;s tier on its face.</td></tr>
+        <tr><th scope="row"><span class="eyebrow eb-4 faint">When the evidence is thin</span></th>
+          <td data-h="A general AI assistant">Usually answers fluently anyway.</td>
+          <td class="pi" data-h="Peace Intel">Says the evidence is mixed or untested, and names the gap.</td></tr>
+        <tr><th scope="row"><span class="eyebrow eb-4 faint">A number it cannot trace</span></th>
+          <td data-h="A general AI assistant">States it like any other fact.</td>
+          <td class="pi" data-h="Peace Intel">Flags it before you repeat it.</td></tr>
+        <tr><th scope="row"><span class="eyebrow eb-4 faint">Built for</span></th>
+          <td data-h="A general AI assistant">Everyone, and everything.</td>
+          <td class="pi" data-h="Peace Intel">Peacebuilding decisions: funders, implementers and policy teams.</td></tr>
+      </tbody>
+    </table>
+    <p class="note" style="margin-top:var(--sp-6)">Describes general-purpose assistants as they are commonly used. Features vary by product and version.</p>
+  </div>
+</section>
+
+<!-- ══ H4 · PARTNERSHIP ═════════════════════════════════════════════════════
+     The page's one mount, on the partner marks: who built the library is the
+     answer to "who chose the sources", so it follows directly. -->
+<section class="band" data-land>
+  <span class="crit-tag"><b>H4</b> Partnership <i>· .mount--rules on the marks + callout</i></span>
+  <div class="wrap h-pship">
+    <div class="h-marks mount mount--rules mo-develop" data-at="200">
+      <img class="nm-light" src="../media/epi-full.png" alt="Effective Peacebuilding Initiative"><img class="nm-dark" src="../media/epi-full-reverse.png" alt="">
+      <span class="h-x" aria-hidden="true">&times;</span>
+      <img class="afp-mark" src="../media/afp.png" alt="Alliance for Peacebuilding">
+    </div>
+    <div>
+      <div class="sec-head mo-rule" data-at="0" style="margin-bottom:0">
+        <span class="eyebrow">The partnership</span>
+        <h2>Built with the field it serves.</h2>
+        <p>Peace Intel is a project of the Effective Peacebuilding Initiative and the Alliance for Peacebuilding, the network that connects organisations working for peace around the world. Its library is assembled and curated by both, from the field&rsquo;s own evaluations, studies and policy analysis.</p>
+      </div>
+      <div class="callout mo-develop" data-at="500">
+        <span class="eyebrow eb-3 accent">Why it matters</span>
+        <p class="prose" style="margin-top:var(--sp-2)">A research tool is only as good as the library behind it, and this one was chosen by people who do the work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ H5 · FORM ════════════════════════════════════════════════════════════ -->
+<section id="access" class="band surface--ground" data-land>
+  <span class="crit-tag"><b>H5</b> Form <i>· request access</i></span>
+  <div class="wrap h-close">
+    <div>
+      <div class="lockup lockup--section">
+        <span class="eyebrow mo-develop" data-at="0">Private beta &middot; January 2027</span>
+        <h2 class="lk-head mo-develop" data-at="150">Try it on a question from your own work.</h2>
+        <p class="lk-lede mo-develop" data-at="400">Early access includes the full research findings and a say in what gets built.</p>
+      </div>
+      <ul class="checks mo-deal" data-at="600">
+        <li><span><strong>Every claim</strong> cited to the passage it came from</span></li>
+        <li><span><strong>Every source</strong> marked: full text, abstract or web</span></li>
+        <li><span><strong>Every gap</strong> named in the answer</span></li>
+      </ul>
+    </div>
+    <form class="card raised mo-develop" data-at="300" onsubmit="return false">
+      <div class="form-grid">
+        <label class="field"><span>First name</span><input class="input" type="text" name="first" autocomplete="given-name"></label>
+        <label class="field"><span>Last name</span><input class="input" type="text" name="last" autocomplete="family-name"></label>
+        <label class="field full"><span>Work email</span><input class="input" type="email" name="email" autocomplete="email" placeholder="name@organisation.org"></label>
+        <label class="field"><span>Organisation</span><input class="input" type="text" name="org" autocomplete="organization"></label>
+        <label class="field"><span>I work in</span><select class="input" name="sector"><option value="">Choose one</option><option>Philanthropy</option><option>Implementation</option><option>Foreign service</option><option>Development finance</option><option>Research</option><option>Other</option></select></label>
+        <label class="field full"><span>What would you ask it first? <span class="faint">(optional)</span></span><textarea class="input" name="q" rows="3" placeholder="What has worked in a context like the one I am working in?"></textarea></label>
+      </div>
+      <div class="row" style="margin-top:var(--sp-4)">
+        <button class="btn primary lg" type="submit">Request access</button>
+        <span class="note" style="margin:0">We do not share your information with third parties or use it for marketing.</span>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ══ H6 · FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="band band--dark on-dark">
+  <span class="crit-tag"><b>H6</b> Footer</span>
+  <div class="wrap">
+    <div class="foot-cols">
+      <div>
+        <img class="foot-logo" src="../media/epi-full-reverse.png" alt="Effective Peacebuilding Initiative">
+        <p class="note"><strong>Effective Peacebuilding Initiative</strong><br>effectivepeace.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">With</span>
+        <p class="note"><strong>Alliance for Peacebuilding</strong><br>allianceforpeacebuilding.org</p>
+      </div>
+      <div>
+        <span class="eyebrow eb-3">Privacy</span>
+        <p class="note">We do not share your information with third parties or use it for marketing.</p>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span class="eyebrow eb-4 faint">&copy; 2026 Peace Intel</span>
+      <span class="spacer"></span>
+      <span class="eyebrow eb-4 faint">A project of EPI &amp; AfP</span>
+    </div>
+  </div>
+</footer>
+
+<script src="../system.js?v=eb50598a"></script>
+<script src="retired.js?v=cba1a8cf"></script>
+<script>
+/* ═══ THE PROOF ══════════════════════════════════════════════════════════════
+   BREAK 1. Scroll moves the line from the fluent copy to the accountable one,
+   with a hold at each end so both states can be read. The line can also be
+   dragged (horizontal drags only, so a phone still scrolls) or moved with the
+   arrow keys on the knob. With motion reduced it does not pin, and starts at
+   the accountable copy. */
+(function () {
+  'use strict';
+  var root = document.documentElement;
+  var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sec = document.getElementById('proof'), stage = sec.querySelector('.h-stage');
+  var spec = document.getElementById('h-spec'), knob = spec.querySelector('.h-knob');
+  var caps = [].slice.call(sec.querySelectorAll('.h-cap'));
+  var HOLD = .14, x = 1, raf = 0, drag = false;
+
+  function c01(t) { return t < 0 ? 0 : t > 1 ? 1 : t; }
+  function smooth(t) { return t * t * (3 - 2 * t); }
+  function navH() { return parseFloat(getComputedStyle(root).getPropertyValue('--nav-h')) || 0; }
+
+  function set(v) {
+    x = c01(v);
+    spec.style.setProperty('--x', (x * 100).toFixed(2) + '%');
+    knob.setAttribute('aria-valuenow', Math.round(x * 100));
+    knob.setAttribute('aria-valuetext', x < .5 ? 'Mostly fluent' : 'Mostly accountable');
+    spec.classList.toggle('lo', x < .1); spec.classList.toggle('hi', x > .9);
+    spec.classList.toggle('start', x <= .001); spec.classList.toggle('end', x >= .999);
+    caps.forEach(function (c) { c.classList.toggle('on', (c.getAttribute('data-cap') === 'acct') === (x >= .5)); });
+  }
+  function fromScroll() {
+    raf = 0; if (drag) return;
+    var r = sec.getBoundingClientRect(), travel = sec.offsetHeight - stage.offsetHeight;
+    var p = c01((navH() - r.top) / travel);
+    set(smooth(c01((p - HOLD) / (1 - 2 * HOLD))));
+  }
+  function fromPointer(e) { var r = spec.getBoundingClientRect(); set((e.clientX - r.left) / r.width); }
+
+  spec.addEventListener('pointerdown', function (e) { drag = true; spec.setPointerCapture(e.pointerId); fromPointer(e); });
+  spec.addEventListener('pointermove', function (e) { if (drag) fromPointer(e); });
+  ['pointerup', 'pointercancel'].forEach(function (t) { spec.addEventListener(t, function () { drag = false; }); });
+  knob.addEventListener('keydown', function (e) {
+    var k = e.key, step = e.shiftKey ? .25 : .05;
+    if (k === 'ArrowLeft' || k === 'ArrowDown') set(x - step);
+    else if (k === 'ArrowRight' || k === 'ArrowUp') set(x + step);
+    else if (k === 'Home') set(0); else if (k === 'End') set(1);
+    else return;
+    e.preventDefault();
+  });
+
+  if (!reduced) {
+    sec.classList.add('is-live');
+    sec.style.height = 'calc(170vh + 100svh)';
+    window.addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(fromScroll); }, { passive: true });
+    window.addEventListener('resize', fromScroll);
+    fromScroll();
+  } else set(1);
+})();
+</script>
+</body>
+</html>

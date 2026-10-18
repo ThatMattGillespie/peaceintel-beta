@@ -8,14 +8,14 @@ is the only place they are written down. This file points at them and deliberate
 values, because a copy of a rule goes stale the day the rule changes (this file once said the
 gradient button had an ink label for a week after it went white).
 
-`handoff/brand-reference.html` is the golden example (every token and block exercised on every
+`handoff/brand-guide.html` is the golden example (every token and block exercised on every
 surface) and `handoff/landing.html`, `home.html` and `rotary.html` are worked pages. If what you
 are about to build would not look like it belongs beside them, stop and reconsider. Imitating
 those files is more reliable than following any rule from memory.
 
 **What is authoritative, in order:** `tokens.css`, `components.css`, `explorations.css` and
 `system.js` are the system. `AGENTS.md` is the rules. `tokens.json` is generated from
-`tokens.css`. `brand-reference.html`, `guide.html` and `HANDOFF.md` explain it to people. If any
+`tokens.css`. `brand-guide.html`, `guide.html` and `HANDOFF.md` explain it to people. If any
 two disagree, the CSS wins and the explanation is the bug.
 
 ## How a new page starts
@@ -38,7 +38,9 @@ something has gone wrong: that value already exists as a token, or it is off the
 
 The older self-contained pages in the repo root (`rotary-a.html`, `use-cases.html`, `postcard.html`
 and friends) predate the system. **Do not copy their structure.** They are the drift the handoff
-package exists to end.
+package exists to end. `app.html` and `app-v2.html` to `app-v6.html` are **earlier consoles**: the
+console is `handoff/console.html`, written down in `handoff/CONSOLE.md`. `DESIGN-TOKENS.md` is the
+July token guide and is superseded. `handoff/AGENTS.md` opens with the full list of what to ignore.
 
 ## The rules that get broken most
 
@@ -67,7 +69,7 @@ Read them in `handoff/AGENTS.md`; these are only the ones agents trip on, by num
 - Never point the prototype at live or protected credentials.
 - **A page is not done until what it added to the system is documented.** Any block, token or
   driver a page adds to `components.css`, `tokens.css` or `system.js` gets, in the same session, an
-  entry in `brand-reference.html`, the quick reference in `AGENTS.md` and the changelog in
+  entry in `brand-guide.html`, the quick reference in `AGENTS.md` and the changelog in
   `CHANGELOG.md` (and `HANDOFF.md` if it changes how production adopts the system). The Rotary and Home pages skipped this and left about twenty blocks undocumented.
   A shape that is not yet agreed goes in `explorations.css` instead, which is the holding file.
 - **Impeccable** is installed and welcome for critique, audit, polish, clarify and live mode.
