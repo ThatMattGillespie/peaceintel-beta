@@ -136,6 +136,11 @@
      accent on it has to move the opposite way to everything else. */
   --accent-on-ink: var(--pi-orange-warm);
   --hl: color-mix(in srgb, var(--accent) 14%, transparent);
+  /* The search highlight (Rev 61): the words a search in this chat found,
+     marked in the thread. Neutral, because --hl already means "the passage a
+     citation points to". 12% of ink: --wash-2 (6%) was tried and could not be
+     found at a glance once the underline was dropped. */
+  --hl-find: color-mix(in srgb, var(--ink) 12%, transparent);
 
   --kicker: var(--ink-55);
   --link-h: var(--ink);
@@ -378,6 +383,7 @@
      paper-weight. Restating them makes each compose from this context. The
      rule underneath: a dark band is the dark ramp, scoped to a band. */
   --hl: color-mix(in srgb, var(--accent) 14%, transparent);
+  --hl-find: color-mix(in srgb, var(--ink) 12%, transparent);
   --link-h: var(--ink);
   --warm: var(--ground);   /* a callout on a dark band lifts toward the light */
   --tray: rgba(var(--sh), .34);
@@ -554,7 +560,8 @@
   --mo-struct: .22s ease;
   --mo-atmos: 1.2s ease;
   /* THE DRAWERS (Rev 31, as the library sheet; Rev 49, Matt 17 Oct): the
-     phone's chats slide in from the left and its library from the right.
+     phone's chats slide in from the left and its library from the right, and
+     its top bar slides up out of the frame and back (Rev 53).
      Longer than a control because it moves most of a screen,
      decelerating so it lands rather than stops. Dragging it follows the finger
      with no easing at all. The one motion here that moves a surface. */
@@ -615,6 +622,10 @@
      value across every prototype and production file; snapping it either way
      visibly changes every button on the site. */
   --t-btn: 14px;
+  /* A checkbox's corner (Rev 63, Matt): 2px, the one corner that is not 4. At
+     12px across a 4px corner makes the box read as a circle, the radio's
+     shape, and the two must stay apart at a glance. Only .cq-opt's checkbox. */
+  --r-check: 2px;
 
   /* The hero prompt is a signature surface and reads as oversized body copy,
      between --t-h4 (19) and --t-h3 (24). */

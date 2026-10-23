@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Broll</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="explorations.css">
+<!--
+  B-roll layer for social video: the live console in the top of a 360 x 640 frame, the page
+  tone below it for the captions (video-overlay.html) to sit on. Driven frame by frame by a
+  headless browser (scratch script broll.mjs) and captured at 3x. Exploration, not adopted.
+-->
+<style>
+  /* page-specific layout only */
+  html, body { margin: 0; background: var(--bg) }
+  .frame { width: 360px; height: 640px; overflow: hidden; background: var(--bg) }
+  .frame iframe { display: block; width: 360px; height: 440px; border: 0; border-bottom: var(--edge) }
+</style>
+</head>
+<body>
+<div class="frame"><iframe id="app" src="console.html" title="Peace Intel console"></iframe></div>
+</body>
+</html>

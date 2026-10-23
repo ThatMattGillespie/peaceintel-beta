@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Video Overlay</title>
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="components.css">
+<link rel="stylesheet" href="explorations.css">
+<!--
+  Graphics layer for social video, rendered to transparent PNGs by a headless browser
+  (scratch script render.mjs) and laid over the footage with ffmpeg.
+  Designed at 360 x 640 and captured at 3x, so 1080 x 1920 video. Tokens keep their phone size.
+  State comes from the URL hash: #state=<json>. Exploration, not adopted.
+-->
+<style>
+  /* page-specific layout only: the frame and where the stack sits */
+  html, body { background: transparent; margin: 0 }
+  .frame { position: relative; width: 360px; height: 640px; overflow: hidden }
+  .stack { position: absolute; left: var(--sp-6); right: var(--sp-6); bottom: var(--sp-26);
+           display: flex; flex-direction: column; align-items: center; gap: var(--sp-3) }
+  .vid-name { align-self: flex-start; background: var(--face); border: var(--edge);
+              border-radius: var(--r-lg); padding: var(--sp-2) var(--sp-3) }
+  .vid-name b { display: block; font: 600 var(--t-h4)/var(--t-h4-lh) var(--sans); color: var(--ink) }
+  .vid-cap { background: var(--face); border: var(--edge); border-radius: var(--r-lg);
+             padding: var(--sp-2) var(--sp-4); text-align: center; text-wrap: balance;
+             font: 600 var(--t-h3)/var(--t-h3-lh) var(--sans); color: var(--ink) }
+  .vid-cap .now { color: var(--accent) }
+  .vid-end { position: absolute; inset: 0; background: var(--bg); display: flex;
+             flex-direction: column; align-items: center; justify-content: center; gap: var(--sp-6) }
+  .vid-end img { width: 240px; height: auto }
+  [hidden] { display: none !important }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="stack">
+    <div class="vid-name" id="name" hidden>
+      <b>Matt Gillespie</b>
+      <span class="eyebrow">Co-founder, Peace Intel</span>
+    </div>
+    <div class="vid-cap" id="cap" hidden></div>
+  </div>
+  <div class="vid-end" id="end" hidden>
+    <img src="media/pi-lockup-light.png" alt="Peace Intel">
+    <span class="eyebrow">peaceintel.org</span>
+  </div>
+</div>
+<script>
+  // state: { name: bool, words: [..], now: index, end: bool }
+  window.setState = s => {
+    document.getElementById('name').hidden = !s.name;
+    document.getElementById('end').hidden = !s.end;
+    const cap = document.getElementById('cap');
+    cap.hidden = !(s.words && s.words.length);
+    cap.innerHTML = (s.words || []).map((w, i) =>
+      i === s.now ? `<span class="now">${w}</span>` : w).join(' ');
+  };
+  const h = decodeURIComponent(location.hash.replace(/^#state=/, ''));
+  if (h) setState(JSON.parse(h));
+</script>
+</body>
+</html>

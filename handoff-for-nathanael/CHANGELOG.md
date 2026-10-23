@@ -1449,6 +1449,141 @@ AGENTS.md's status table and HANDOFF.md, and built:
   HANDOFF.md and a new README.md say what was left out. **`handoff/` stays the working copy;
   rebuild the clean copy from it after changes.**
 
+## Rev 63 · no orange on a question's options (2026-10-23)
+
+Matt, after seeing the keyboard focus ring on the questions card in the console: the orange ring
+is too heavy and distracting on a choice. A question option (`.cq-opt`) no longer takes the ring;
+under keyboard focus its own edge goes to the middle grey (`--ink-35`, 3.3:1 on the tray), on the tray or on
+the chosen tile, the edge a field takes while you type; ink was tried first and was heavier than
+needed. A checkbox's corner is a new named token, `--r-check`, 2px: at 12px across a 4px corner read
+as round, the radio's shape (tokens.json 18.3.0). Every other control keeps the accent ring for now.
+
+## Rev 62 · one toolbar height, the spreadsheet editor, the project toolbar (2026-10-23)
+
+From Nathanael's second reply and Matt's verdicts on the review page (F, S).
+
+- **One height in the toolbar.** Measured in the prototype: outlined icons 32px, the mono actions
+  36, a small button 39. Every control in `.app-tools` is now `--sp-8`, as in the composer's bar,
+  so Export, Download and Share come down 4px everywhere.
+- **The spreadsheet editor** (production built it; the prototype never drew one). *Edit table*
+  replaces dev's unlabelled grid icon; the pencil stays Rename and renames in place at the title's
+  size. Editing keeps the reading layout, and the cell being edited is a field in place,
+  `.sheet-t .sheet-edit` (an ink edge and a lift, `field-sizing: content`). Cancel and Save are
+  `.sm`.
+- **The project page's toolbar** takes the column's ground (`--ground-2`) with its fade, where
+  production pins it inside the scroll area: Nathanael's local rule, taken into the base.
+- **The full-window console has no frame** in `components.css` (`body > .app`); it was only in
+  `console.html`'s page style.
+- **Search results** show the matching line under the title, up to two lines (Nathanael's layout).
+- **Orange is for actions and citations.** The numerals of a paper's key assertions and the
+  reflection's "Before you go" label go to ink. The keyboard focus ring stays the accent, on every
+  control and on the questions' options (Matt, 23 Oct): it shows only with the keyboard.
+
+## Rev 61 · a search match is its words, not a box (2026-10-22)
+
+From Matt's review of Nathanael's adoption on dev (C2). Search in a chat scrolled to the message
+and drew an outline round it, `outline-offset: var(--sp-2)` with `--r-sm`; an outline's corners grow
+by its offset, so it rendered at about 12px, against rule 0. Dev had dropped the mark altogether.
+Matt's call: mark the words. Every occurrence in the message takes **`--hl-find`**, a new token beside
+`--hl`: ink at 12%, neutral because `--hl` (the accent) means the passage a citation points to. It was
+tried with an ink underline and with `--wash-2` (6%); the underline went, and 6% alone could not be
+found at a glance. Drawn with the CSS Custom Highlight API (`::highlight(find)`), so the answer's
+markup is untouched; `mark.find-hl` is the same mark without the API. `.msg.is-hit` is gone. The
+prototype does it (`markFind` in `prototypes.js`). tokens.json 18.2.0. CONSOLE.md H1.22.
+
+## Rev 60 · clarifying questions and research updates; the field's active state (2026-10-21)
+
+Two production features the console prototype never drew, from Matt's screenshots of production:
+the accent was on nine things across two views, corners were rounded past 4px, and every line was
+in the serif. Both are now in `components.css`, shown with every state on a new page,
+`console-parts.html`, written down in CONSOLE.md (H1.19 to H1.21) and AGENTS.md's quick reference.
+
+- **H1.19, the clarifying questions (`.clarify`, `.cq-*`).** Built as the reflection is: face, edge,
+  4px. A neutral mono count, the 2px ink line for where you are, one serif line (the question), the
+  options in a tray with the chosen one rising as a face tile with an ink dot (a radio is round, a
+  checkbox 4px). Next is the tint; Skip is a ghost and Back an `.act` in the head. *Write my own
+  answer* opens a field under the tray; production's duplicate "Something else (please specify)"
+  is dropped. Answered, the card leaves and the answers go in as the reader's message; skipped, one
+  line in ink (`.cq-done`).
+- **H1.20, the research updates (`.ru`).** No warm boxes, no orange rules, no orange edge on the
+  toggle. They are the working state (Pl. 13): the newest is the pending answer's text, the earlier
+  ones fold above it under one faint mono line (`details.ru`), and when the answer lands every
+  update folds into that line at the answer's head. Open, they are rows on hairlines.
+- **H1.21, the input field's active state.** Production's does not match the handoff; noted in
+  CONSOLE.md and on the page. No CSS changed: the composer lifts on focus, other fields darken
+  their edge and take `--elev-1`, and neither takes an accent ring.
+- **Fixed at the base:** `.reflect` and `.cb-file` wrote `border: 1px solid var(--edge)`, but
+  `--edge` is a whole border (`1px solid …`), so the declaration was invalid and both drew no edge.
+  They now write `border: var(--edge)`.
+
+## Rev 58 · Home's close, confirmed; Home joins the handoff (2026-10-19)
+
+Matt confirmed both claims in the close: the platform compares uploaded documents with the evidence,
+and a document can be sent as a link anyone can read as well as exported. *Drafts ready to send*
+now says so. Home is curated and goes in the handoff package; landing, the report and the deck
+still follow once refined.
+
+## Rev 57 · Home: icons on the close, workflow chips (2026-10-19)
+
+- **The close carries pixel icons**: it is now a `.points` row with the new `.points--4` modifier
+  (components.css; four columns, collapsing as `.points` does). Three new page icons from
+  `media/mkicons.cjs`, same pass and grid as the rest: `folder-open` (project workspaces),
+  `file-up` (your own documents) and `send` (drafts ready to send); `users` was already built.
+- **The workflows are loose chips**, not a tray: Home's `.pills` drops `.tray`, so each workflow is
+  its own outlined `.pill` and the chosen one fills with ink. On a phone loose chips wrap as chips;
+  the one-column rule in explorations.css now applies to a tray only.
+
+## Rev 56 · Home curated: the blank shows it can change, a new close, the book and the earth (2026-10-19)
+
+- **The blank wears its active state at rest** (`.blank`, components.css): the tint's wash and the
+  `--accent-text` rule and chevron, so "philanthropy" reads as a choice before anyone touches it.
+  Brand guide (Pl. 04 underline row) and AGENTS.md updated.
+- **Home's sections 6 and 7 are cut** (What else is inside: Eirene, free for nonprofits, submit
+  your data; Behind the platform, with its open [supporters] and [founder] blanks). Kept, as they
+  stood, in `archive/home-cut-2026-10-19.html`, which renders on its own.
+- **A new close, section 6**: *All the features you expect from an LLM.* over four columns
+  (`.rule-row`, `--cols:4`): project workspaces, your own documents, shared with your team, drafts
+  ready to send, then Try it now. Copy written from what the console does; to confirm with Matt.
+- **The corpus band's picture** is now the book in front of the earth: two of the brand's stills
+  (`step-02-evidence`, `step-01-globe`) composed into one master, `media/corpus-book-globe.png`,
+  on the still treatment (`.vmap--still`, subject mode). The Mosul figure is in the same archive file.
+
+## Rev 55 · an open drawer marks where it closes (2026-10-19)
+
+Matt: when a drawer is open it should be plain where to tap to close it. An open drawer covers the
+button that opened it, so the fold button in its own head (and the cross in a paper's quick view)
+now wears an active state while the drawer is open: the `--ink-35` outline, `--wash-2` and ink,
+with `aria-expanded="true"`. Desktop is unchanged.
+
+## Rev 54 · the library drawer reaches further (2026-10-19)
+
+Matt: the library should push out further, leaving only a little of what is under it. Its drawer is
+now the frame's width less `--sp-8` (capped at 640px on a tablet), so a sliver of the chat shows at
+its left; the chats drawer keeps its width. The library is what a reader reads in, so it gets the room.
+
+## Rev 53 · the phone's top bar slides, and returns on any scroll up (2026-10-19)
+
+Matt: the top bar snapped away, and only came back at the top of the chat. It now slides up out of
+the frame on `--mo-sheet` (a `margin-top` of minus `--topbar-h`, so the toolbar rises with it) while
+the thread scrolls down past 64px, and slides back on any scroll up. Scroll events are ignored for
+the length of the slide, because the thread's height changes under the finger while it moves.
+`--mo-sheet` now moves three surfaces: the two drawers and this bar. Reduced motion: instant.
+
+## Rev 52 · the thread fades under the toolbar too (2026-10-17)
+
+The chat's toolbar is now the scroll area's first child (`.app-scroll > .app-tools`), sticky at its
+head on `--bg`, with a `--sp-8` fade hanging below it (`::after`), so the thread dissolves under
+the toolbar as it does above the composer. On a phone the toolbar keeps its off-white strip and
+hairline, with no fade. The scroll area drops its top padding when the toolbar is inside it.
+
+## Rev 51 · the thread runs behind the composer (2026-10-17)
+
+Matt: on desktop the chat stopped above the composer, so scrolled text never passed behind it. In a
+chat the composer is now the scroll area's last child (`.app-scroll > .composer-wrap`), pinned to
+its foot with `position: sticky`, and the wrap's ground fades in over its top `--sp-8`, so the
+thread runs to the bottom of the window and dissolves behind the field. Short threads and the empty
+state still put the composer at the foot. No new motion; the fade is static. Phone and desktop alike.
+
 ## Rev 50 · the phone's top bar stays at the top; the shelf button is outlined (2026-10-17)
 
 The phone's top bar (logo, account, menu) now shows only at the top of a thread; it no longer

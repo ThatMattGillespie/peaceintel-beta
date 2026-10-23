@@ -67,10 +67,11 @@
 .ask--d .composer-bar { align-items: flex-end; flex-wrap: nowrap }
 .ask--d .ask-chips { height: auto }
 /* On a phone five pills centred in a wrap came out 1 / 2 / 1 / 1. As one
-   column they read as the list of workflows they are. */
+   column they read as the list of workflows they are. That holds for the
+   tray; loose chips (Home, Rev 57) wrap as chips. */
 @media (max-width: 620px) {
-  .ask .pills { display: grid; grid-template-columns: minmax(0, 1fr) }
-  .ask .pill { justify-content: center }
+  .ask .pills.tray { display: grid; grid-template-columns: minmax(0, 1fr) }
+  .ask .pills.tray .pill { justify-content: center }
 }
 .prompt .composer-bar { margin-top: var(--sp-5) }
 .prompt:focus-within { border-color: var(--ink-35) }

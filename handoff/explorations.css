@@ -67,10 +67,11 @@
 .ask--d .composer-bar { align-items: flex-end; flex-wrap: nowrap }
 .ask--d .ask-chips { height: auto }
 /* On a phone five pills centred in a wrap came out 1 / 2 / 1 / 1. As one
-   column they read as the list of workflows they are. */
+   column they read as the list of workflows they are. That holds for the
+   tray; loose chips (Home, Rev 57) wrap as chips. */
 @media (max-width: 620px) {
-  .ask .pills { display: grid; grid-template-columns: minmax(0, 1fr) }
-  .ask .pill { justify-content: center }
+  .ask .pills.tray { display: grid; grid-template-columns: minmax(0, 1fr) }
+  .ask .pills.tray .pill { justify-content: center }
 }
 .prompt .composer-bar { margin-top: var(--sp-5) }
 .prompt:focus-within { border-color: var(--ink-35) }
@@ -304,3 +305,245 @@
   --v-6: color-mix(in srgb, var(--ink) 56%, var(--bg));
 }
 
+
+/* ============================================================================
+   LANDING SECTIONS · EXPLORATION, 19 October 2026 (sections.html)
+   ----------------------------------------------------------------------------
+   Matt: how does the brand express itself in the sections landing pages are
+   built from (sliders, logo fields and the rest)? Every common pattern is on
+   sections.html, light and dark, coded L01 to L26. These are the shapes that
+   did not exist; the patterns the catalog already covers are linked from the
+   index, not rebuilt. Nothing here is adopted. The rules held throughout:
+     · tokens only; a dark band is .band--dark.on-dark and every rule below
+       reads its colours from tokens, so it flips without a second rule
+     · no new motion: a slider moves by native scroll and scroll-snap, an
+       accordion is a <details> that opens without a tween, a marquee is
+       shown still (moving it would be a new primitive, proposed, not built)
+     · one loud thing per section: the tint goes on the one action
+   ============================================================================ */
+
+.lp-code { display: block; margin-bottom: var(--sp-6) }
+.lp-media { background: var(--fill); border: 1px solid var(--line); border-radius: var(--r-lg); display: grid; place-items: center; overflow: hidden; aspect-ratio: 4 / 3 }
+.lp-media img { width: 62%; height: auto; display: block }
+.on-dark .lp-media img { filter: invert(1); mix-blend-mode: screen }
+.lp-media--wide { aspect-ratio: 16 / 9 }
+
+/* L02 · LOGO FIELD: dummy marks in a ruled grid, ink at rest. */
+.lp-logos { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid var(--line-2) }
+.lp-logos > * { display: flex; align-items: center; justify-content: center; gap: var(--sp-2); padding: var(--sp-8) var(--sp-4); border-left: 1px solid var(--line); color: var(--ink-55); font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase }
+.lp-logos > *:first-child { border-left: 0 }
+.lp-logo svg { width: var(--sp-6); height: var(--sp-6); fill: currentColor; flex: none }
+/* L03 · THE MARQUEE, shown still: one row that bleeds off both edges. */
+.lp-marquee { display: flex; gap: var(--sp-14); overflow: hidden; padding: var(--sp-6) 0; border-block: 1px solid var(--line); -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent) }
+.lp-marquee > * { flex: none; color: var(--ink-55); font-family: var(--mono); font-size: var(--eb-2); letter-spacing: var(--eb-2-ls); text-transform: uppercase; display: flex; align-items: center; gap: var(--sp-2) }
+
+/* L05 · FEATURE TABS: a tray of choices over the panel they switch. */
+.lp-tabs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-12); align-items: center; margin-top: var(--sp-8) }
+.lp-tabs h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh) }
+.lp-tabs .prose { margin-top: var(--sp-3) }
+.lp-tabs .checks { margin-top: var(--sp-5) }
+
+/* L06 · ALTERNATING ROWS: picture and words, the picture changing sides. */
+.lp-alt { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-12); align-items: center }
+.lp-alt + .lp-alt { margin-top: var(--sp-14) }
+.lp-alt:nth-of-type(even) > .lp-media { order: 2 }
+.lp-alt h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h3); line-height: var(--t-h3-lh); margin-top: var(--sp-3) }
+.lp-alt .prose { margin-top: var(--sp-3) }
+
+/* L07 · SLIDER: native horizontal scroll that snaps card to card. The two
+   buttons scroll it a card at a time; nothing tweens that scroll does not. */
+.lp-slider-h { display: flex; align-items: end; gap: var(--sp-4); margin-bottom: var(--sp-8) }
+.lp-slider-h .sec-head { margin-bottom: 0 }
+.lp-slider-h .lp-nav { margin-left: auto; display: flex; gap: var(--sp-2) }
+.lp-track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - var(--sp-6) * 2) / 3); gap: var(--sp-6); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: var(--sp-1) }
+.lp-track::-webkit-scrollbar { display: none }
+.lp-track > * { scroll-snap-align: start }
+.lp-track .lp-media { aspect-ratio: 3 / 2 }
+.lp-track .card h3 { margin-top: var(--sp-5) }
+.lp-dots { display: flex; gap: var(--sp-2); margin-top: var(--sp-6) }
+.lp-dots span { width: var(--sp-6); height: 2px; background: var(--line-2) }
+.lp-dots span.on { background: var(--ink) }
+
+/* L08 · TESTIMONIALS: one quote set large in the serif, then a row. */
+.lp-quote { max-width: var(--col-text) }
+.lp-quote blockquote { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h2); line-height: var(--t-h2-lh); text-wrap: balance }
+.lp-quote figcaption, .lp-quotes figcaption { display: flex; align-items: center; gap: var(--sp-3); margin-top: var(--sp-6) }
+.lp-who b { display: block; font-weight: 600; font-size: var(--t-ui) }
+.lp-who span { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55) }
+.lp-quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-6); margin-top: var(--sp-14) }
+.lp-quotes blockquote { font-size: var(--t-body); line-height: var(--t-body-lh); color: var(--ink-70) }
+.lp-av { width: var(--sp-10); height: var(--sp-10); border-radius: var(--r-full); background: var(--tray); display: grid; place-items: center; font-family: var(--mono); font-size: var(--eb-3); color: var(--ink-70); flex: none }
+
+/* L10 · HOW IT WORKS, across: the numbered steps laid side by side. */
+.lp-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-8) }
+.lp-steps .step { grid-template-columns: minmax(0, 1fr); gap: var(--sp-3) }
+
+/* L11 · BEFORE AND AFTER: two pictures on one frame, a range input moving the
+   seam. The seam is a hairline in ink with a tray-coloured handle. */
+.lp-ba { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--line); background: var(--fill); --pos: 50% }
+.lp-ba > div { position: absolute; inset: 0; display: grid; place-items: center }
+.lp-ba > div img { width: 40%; height: auto }
+.lp-ba .lp-after { clip-path: inset(0 0 0 var(--pos)); background: var(--tray) }
+.lp-ba .lp-seam { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 1px; background: var(--ink); pointer-events: none }
+.lp-ba .lp-seam::after { content: ""; position: absolute; top: 50%; left: 50%; width: var(--sp-8); height: var(--sp-8); transform: translate(-50%, -50%); border-radius: var(--r-full); background: var(--face); border: 1px solid var(--ink) }
+.lp-ba input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0 }
+.lp-ba .lp-tag { position: absolute; top: var(--sp-4); }
+.lp-ba .lp-tag.l { left: var(--sp-4) } .lp-ba .lp-tag.r { right: var(--sp-4) }
+
+/* L12 · COMPARISON TABLE: rows of the ledger's rule; our column is the one
+   carrying the wash. */
+.lp-table { width: 100%; border-collapse: collapse; font-size: var(--t-ui) }
+.lp-table th, .lp-table td { padding: var(--sp-4) var(--sp-5); border-top: 1px solid var(--line); text-align: left }
+.lp-table thead th { border-top: 0; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55); font-weight: 400 }
+.lp-table tbody tr:first-child > * { border-top-color: var(--line-2) }
+.lp-table .us { background: var(--wash-1); color: var(--ink) }
+.lp-table thead .us { color: var(--ink) }
+.lp-table td { color: var(--ink-70) }
+.lp-yes, .lp-no { font-family: var(--mono); font-size: var(--eb-2) }
+.lp-yes { color: var(--ink) } .lp-no { color: var(--ink-35) }
+
+/* L13 · PRICING: three cards on one row, the recommended one raised by the
+   violator, the period chosen in a tray. */
+.lp-price-h { display: flex; justify-content: center; margin-bottom: var(--sp-10) }
+.lp-price .card { gap: 0 }
+.lp-price .lp-amt { font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-stat); line-height: 1; margin-top: var(--sp-5) }
+.lp-price .lp-per { font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55); margin-top: var(--sp-2) }
+.lp-price .checks { margin-top: var(--sp-6); flex: 1 }
+.lp-price .card-foot .btn { width: 100%; justify-content: center }
+
+/* L14 · FAQ: <details> on the ledger's rule, a pixel chevron that turns. */
+.lp-faq { max-width: var(--col-text); margin-inline: auto }
+.lp-faq details { border-top: 1px solid var(--line) }
+.lp-faq details:first-child { border-top-color: var(--line-2) }
+.lp-faq summary { display: flex; align-items: center; gap: var(--sp-4); padding: var(--sp-5) 0; cursor: pointer; list-style: none; font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh) }
+.lp-faq summary::-webkit-details-marker { display: none }
+.lp-faq summary::after { content: ""; margin-left: auto; flex: none; width: calc(var(--dither-cell) * 4px); height: calc(var(--dither-cell) * 5px); background: var(--ink-55); -webkit-mask: var(--px-arrow) center / contain no-repeat; mask: var(--px-arrow) center / contain no-repeat; transform: rotate(90deg) }
+.lp-faq details[open] summary::after { transform: rotate(-90deg) }
+.lp-faq details p { padding-bottom: var(--sp-6); color: var(--ink-70); max-width: var(--measure-prose) }
+
+/* L16 · EMAIL CAPTURE: the field and the one action on a line. */
+.lp-signup { display: flex; gap: var(--sp-2); max-width: var(--col-chat); margin: var(--sp-8) auto 0 }
+.lp-signup .input { flex: 1; height: auto }
+.lp-fine { text-align: center; margin-top: var(--sp-3); font-size: var(--t-sm); color: var(--ink-55) }
+
+/* L18 · PEOPLE: portrait, name, role. */
+.lp-people { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-6) }
+.lp-people .lp-media { aspect-ratio: 1 }
+.lp-people .lp-who { margin-top: var(--sp-4) }
+
+/* L19 · VIDEO: a poster with the send's pixel arrow as the play mark. */
+.lp-video { position: relative }
+.lp-play { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: var(--sp-18); height: var(--sp-18); border-radius: var(--r-full); background: var(--face); border: var(--edge); display: grid; place-items: center; transition: box-shadow var(--mo-base) }
+.lp-play::before { content: ""; width: calc(var(--dither-cell) * 4px * 2); height: calc(var(--dither-cell) * 5px * 2); background: var(--accent-text); -webkit-mask: var(--px-arrow) center / contain no-repeat; mask: var(--px-arrow) center / contain no-repeat; margin-left: var(--sp-1) }
+.lp-play:hover { box-shadow: var(--elev-2) }
+
+/* L20 · TIMELINE: dates in mono on a rule that runs across. */
+.lp-time { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line-2) }
+.lp-time > * { position: relative; padding: var(--sp-6) var(--sp-6) 0 0 }
+.lp-time > *::before { content: ""; position: absolute; top: calc(var(--sp-1) * -1 - 1px); left: 0; width: var(--sp-2); height: var(--sp-2); background: var(--ink) }
+.lp-time > .now::before { background: var(--accent) }
+.lp-time h3 { font-family: var(--serif); font-weight: var(--serif-w); font-size: var(--t-h4); line-height: var(--t-h4-lh); margin-top: var(--sp-2) }
+.lp-time p { font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink-70); margin-top: var(--sp-2) }
+
+/* L21 · BENTO: tiles of two sizes on one grid. */
+.lp-bento { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(calc(var(--sp-18) * 3), auto); gap: var(--sp-5) }
+.lp-bento > .card { justify-content: flex-end }
+.lp-bento > .big { grid-column: span 2; grid-row: span 2 }
+.lp-bento > .wide { grid-column: span 2 }
+.lp-bento .px-icon { margin-bottom: auto }
+.lp-bento .card h3 { margin-top: var(--sp-5) }
+.lp-bento .lp-num { font-family: var(--serif); font-weight: var(--serif-w-display); font-size: var(--t-stat); line-height: 1 }
+
+/* L23 · ANNOUNCEMENT BAR: a strip over the nav, one line and one link. */
+.lp-bar { display: flex; justify-content: center; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); background: var(--ink); color: var(--bg); font-size: var(--t-sm); border-radius: var(--r-md) }
+.lp-bar .badge { background: transparent; border-color: currentColor; color: inherit }
+.lp-bar a { color: inherit; border-bottom: 1px solid currentColor }
+.on-dark .lp-bar { background: var(--face); color: var(--ink); border: var(--edge) }
+
+/* L24 · CONTACT: words on one side, the form on the other. */
+.lp-contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-14); align-items: start }
+.lp-contact .card { padding: var(--sp-8) }
+.lp-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4) }
+
+/* L26 · INDEX, the inventory at the top of sections.html. */
+.lp-index { width: 100%; border-collapse: collapse; font-size: var(--t-ui) }
+.lp-index th, .lp-index td { padding: var(--sp-3) var(--sp-4) var(--sp-3) 0; border-top: 1px solid var(--line); text-align: left; vertical-align: top }
+.lp-index thead th { border-top: 0; font-family: var(--mono); font-size: var(--eb-3); letter-spacing: var(--eb-3-ls); text-transform: uppercase; color: var(--ink-55); font-weight: 400 }
+.lp-index td:first-child { font-family: var(--mono); font-size: var(--eb-2); white-space: nowrap }
+.lp-index td:last-child { color: var(--ink-70) }
+.lp-index a { border-bottom: 1px solid var(--line-2) }
+
+@media (max-width: 1080px) {
+  .lp-logos { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  .lp-logos > *:nth-child(3n + 1) { border-left: 0 }
+  .lp-logos > *:nth-child(n + 4) { border-top: 1px solid var(--line) }
+  .lp-track { grid-auto-columns: calc((100% - var(--sp-6)) / 2) }
+  .lp-people, .lp-time, .lp-bento { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+}
+@media (max-width: 620px) {
+  .lp-tabs, .lp-alt, .lp-contact, .lp-steps, .lp-quotes, .lp-time { grid-template-columns: minmax(0, 1fr) }
+  .lp-alt:nth-of-type(even) > .lp-media { order: 0 }
+  .lp-logos { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .lp-logos > * { border-left: 0; border-top: 1px solid var(--line) }
+  .lp-logos > *:nth-child(even) { border-left: 1px solid var(--line) }
+  .lp-logos > *:nth-child(-n + 2) { border-top: 0 }
+  .lp-track { grid-auto-columns: 86% }
+  .lp-bento > .big, .lp-bento > .wide { grid-column: span 2 }
+  .lp-bento > .big { grid-row: span 1 }
+  .lp-signup { flex-direction: column }
+  .lp-table { font-size: var(--t-sm) }
+  .lp-table th, .lp-table td { padding: var(--sp-3) }
+  .lp-row2 { grid-template-columns: minmax(0, 1fr) }
+  .lp-index td:last-child, .lp-index th:last-child { display: none }
+}
+
+/* ── FULL WIDTH (Matt, mid-build: "the system doesn't explore full width
+   design enough"). The page column is .wrap; these break out of it to the
+   window's edges. .lp-bleed is the one mechanism; every full-width pattern
+   below is a normal block inside .wrap that bleeds, so a page keeps one
+   column and opts out per section. */
+.lp-bleed { margin-inline: calc(50% - 50vw) }
+/* FW1 · THE BLEEDING SLIDER: it starts on the column and runs off the right. */
+.lp-track--bleed { margin-right: calc(50% - 50vw); padding-right: calc(50vw - 50%); scroll-padding-left: 0; grid-auto-columns: calc((var(--col-max) - var(--sp-6) * 2) / 3) }
+/* FW2 · THE EDGE MARQUEE: the logo row across the whole window. */
+.lp-marquee.lp-bleed { padding-inline: var(--sp-8) }
+/* FW3 · THE PICTURE BAND: a full-bleed picture, words over its lower left. */
+.lp-band-pic { position: relative; min-height: calc(var(--sp-18) * 8); display: flex; align-items: flex-end; background: var(--fill); overflow: hidden }
+.lp-band-pic > img { position: absolute; right: 4%; top: 50%; transform: translateY(-50%); height: 78%; width: auto }
+.on-dark .lp-band-pic > img { filter: invert(1); mix-blend-mode: screen }
+.lp-band-pic .wrap { position: relative; width: 100%; padding-block: var(--sp-16) }
+.lp-band-pic .lockup { max-width: calc(var(--col-max) / 2 - var(--sp-16)) }
+.lp-index code { font-family: var(--mono); font-size: var(--eb-2); color: var(--ink) }
+/* FW4 · THE EDGE SPLIT: half picture, half words, the picture meeting the
+   window's edge and the words keeping to the column. */
+.lp-split { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(var(--sp-18) * 8) }
+.lp-split > .lp-split-pic { background: var(--fill); display: grid; place-items: center; overflow: hidden }
+.lp-split > .lp-split-pic img { width: 56%; height: auto }
+.on-dark .lp-split > .lp-split-pic img { filter: invert(1); mix-blend-mode: screen }
+.lp-split > .lp-split-txt { padding: var(--sp-16) max(var(--sp-8), calc(50vw - var(--col-max) / 2)) var(--sp-16) var(--sp-14); display: flex; flex-direction: column; justify-content: center }
+.lp-split--flip > .lp-split-pic { order: 2 }
+.lp-split--flip > .lp-split-txt { padding: var(--sp-16) var(--sp-14) var(--sp-16) max(var(--sp-8), calc(50vw - var(--col-max) / 2)) }
+/* FW5 · THE STATS STRIP: ruled cells that span the window. */
+.lp-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--line-2) }
+.lp-strip > * { padding: var(--sp-10) var(--sp-8); border-left: 1px solid var(--line) }
+.lp-strip > *:first-child { border-left: 0 }
+@media (max-width: 1080px) {
+  .lp-track--bleed { grid-auto-columns: calc((100vw - var(--sp-8) * 2) / 2) }
+  .lp-strip { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+  .lp-strip > *:nth-child(3) { border-left: 0 }
+  .lp-strip > *:nth-child(n + 3) { border-top: 1px solid var(--line) }
+}
+@media (max-width: 620px) {
+  .lp-track--bleed { grid-auto-columns: 82vw }
+  .lp-split, .lp-split--flip { grid-template-columns: minmax(0, 1fr) }
+  .lp-split > .lp-split-pic { order: 0; min-height: calc(var(--sp-18) * 4) }
+  .lp-split > .lp-split-txt, .lp-split--flip > .lp-split-txt { padding: var(--sp-10) var(--sp-4) }
+  .lp-band-pic > img { right: -20%; opacity: .25 }
+  .lp-strip > * { padding: var(--sp-6) var(--sp-4) }
+}
+/* The index sits under the page title. */
+.lockup + .lp-index { margin-top: var(--sp-12) }
+/* The full-width bands carry their own padding. */
+.band.lp-split, .band.lp-band-pic { padding: 0 }
+/* A bleed must not widen the page by the scrollbar's width. */
+.band:has(.lp-bleed, .lp-track--bleed), .lp-band-pic, .lp-split { overflow-x: clip }

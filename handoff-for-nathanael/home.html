@@ -12,9 +12,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=c23b99a4">
-<link rel="stylesheet" href="components.css?v=902c0e14">
-<link rel="stylesheet" href="explorations.css?v=45ac9467">
+<link rel="stylesheet" href="tokens.css?v=046452b9">
+<link rel="stylesheet" href="components.css?v=421d083a">
+<link rel="stylesheet" href="explorations.css?v=5262f407">
 <!-- No page style block. Every shape here is a named block in components.css
      or explorations.css, and the one entry primitive is .mo-deal. The ?v= on
      each file is its content hash, so an edited stylesheet is never served
@@ -80,10 +80,10 @@
 <!-- ══ 2 · THE CORPUS ═══════════════════════════════════════════════════════
      The first of two dark bands (the footer is the other; a light band always
      sits between). The picture is the documentary treatment decided on
-     16 October (Pl. 18 · A1): a place the evidence is about, mapped through
-     the compressed dark ramp so its brightest pixel stays darker than the
-     type, with the glitch's short bursts. A figure, so it is captioned with
-     the place, the date and the credit. The heading sits over the picture
+     19 October (Matt): the book in front of the earth, two of the brand's
+     stills (step-02 and step-01) composed into one master, on the still
+     treatment. The Mosul picture it replaced is in
+     archive/home-cut-2026-10-19.html. The heading sits over the picture
      and the figures run beside both, since at --t-stat (72px) the ledger is
      the taller column. -->
 <section id="corpus" class="band band--dark on-dark" data-land>
@@ -93,13 +93,10 @@
         <div class="sec-head mo-deal" data-at="0">
           <h2>The world&rsquo;s largest corpus of peacebuilding evidence, in one place.</h2>
         </div>
-        <figure class="doc-fig mo-deal" data-at="300">
-          <div class="vmap doc-shot doc-dark" data-vmap data-docglitch data-vmode="scene">
-            <img src="media/doc-mosul-rubble-mono.png?v=2b6b3c05" alt="Rubble and broken buildings on a street in the Old City of Mosul">
-            <canvas aria-hidden="true"></canvas>
-          </div>
-          <figcaption>A street in the Old City of Mosul, summer 2019, after the war with the Islamic State. Photograph: Levi Clancy, CC0, <a class="btn-text" href="https://commons.wikimedia.org/wiki/File:Views_around_the_old_city_of_Mosul_in_2019_during_the_summer,_following_war_with_the_Islamic_State_23.jpg">Wikimedia Commons</a>.</figcaption>
-        </figure>
+        <div class="vmap vmap--still mo-deal" data-vmap data-vmode="subject" data-at="300">
+          <img src="media/corpus-book-globe.png" alt="An open book with an olive branch, in front of a globe">
+          <canvas aria-hidden="true"></canvas>
+        </div>
       </div>
 
       <div>
@@ -211,7 +208,7 @@
     </div>
 
     <div class="ask mo-deal" data-at="300">
-      <div class="pills tray" data-prompts="ask">
+      <div class="pills" data-prompts="ask">
         <button class="pill" type="button" aria-pressed="false" aria-controls="ask" data-prompt="Prepare a one-page brief on the drivers of farmer–herder conflict in the Sahel. Which are realistically addressable through our programming? Include key caveats and sources.">Generate a conflict brief</button>
         <button class="pill" type="button" aria-pressed="false" aria-controls="ask" data-prompt="What evidence-based approaches to preventing election violence could we include in a proposal for Kenya? Help us connect each proposed activity to the evidence.">Draft a proposal</button>
         <button class="pill" type="button" aria-pressed="false" aria-controls="ask" data-prompt="We’re considering dialogue programs, livelihood support, or a combination to address communal violence. What evidence would help us choose between them?">Choose an intervention</button>
@@ -230,67 +227,42 @@
   </div>
 </section>
 
-<!-- ══ 6 · WHAT ELSE IS INSIDE ══════════════════════════════════════════════
-     What a reader expects of an LLM, then the three things they can do next.
-     The violator is the page's one warm element. -->
+<!-- ══ 6 · ALL THE FEATURES YOU EXPECT (Rev 56) ══════════════════════════════
+     The close: the everyday tools a reader expects of an LLM, as the console
+     has them. Sections 6 and 7 as they were are in
+     archive/home-cut-2026-10-19.html. -->
 <section class="band surface--ground" data-land>
   <div class="wrap">
     <div class="sec-head mo-deal" data-at="0">
       <h2>All the features you expect from an LLM.</h2>
-      <p>Work inside project folders and generate branded documents.</p>
+      <p>And a workspace built around the evidence.</p>
     </div>
 
-    <div class="stack">
-      <div class="rule-row mo-deal" style="--cols:2" data-at="300">
-        <div>
-          <h3>Existing datasets, made accessible</h3>
-          <p class="prose">Explore the raw data in a built-in Python sandbox: NYU&rsquo;s Peace Education and Research Program, Everyday Peace Indicators, DPD and CIC.</p>
-        </div>
-        <div>
-          <h3>Archetype intelligence</h3>
-          <p class="prose">From implementing organizations to development banks, Peace Intel is structured and curated by experts to use the language and resources that matter to your field and your stakeholders.</p>
-        </div>
+    <div class="points points--4 mo-deal" data-at="300">
+      <div class="point">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M3 2h7v1h-7zM1 3h10v1h-10zM1 4h3v1h-3zM9 4h3v1h-3zM1 5h2v1h-2zM10 5h10v1h-10zM1 6h2v1h-2zM11 6h10v1h-10zM1 7h2v1h-2zM19 7h3v1h-3zM1 8h2v1h-2zM20 8h2v1h-2zM1 9h2v1h-2zM19 9h3v1h-3zM1 10h2v1h-2zM7 10h16v1h-16zM1 11h2v1h-2zM7 11h17v1h-17zM1 12h2v1h-2zM6 12h3v1h-3zM22 12h2v1h-2zM1 13h2v1h-2zM6 13h2v1h-2zM22 13h2v1h-2zM1 14h2v1h-2zM5 14h3v1h-3zM21 14h3v1h-3zM1 15h2v1h-2zM6 15h1v1h-1zM21 15h2v1h-2zM1 16h2v1h-2zM21 16h2v1h-2zM1 17h2v1h-2zM21 17h2v1h-2zM1 18h2v1h-2zM20 18h3v1h-3zM1 19h3v1h-3zM20 19h2v1h-2zM1 20h21v1h-21zM2 21h19v1h-19z"/></svg>
+        <h3>Project workspaces</h3>
+        <p>Give each portfolio, proposal or country its own project. Its chats, documents and instructions stay together, so you never have to explain the work twice.</p>
       </div>
-
-      <!-- No entry motion: deal masks each child, and a mask clips the violator
-           where it overhangs the card's top edge. -->
-      <div class="grid-3">
-        <div class="card raised has-violator">
-          <span class="violator">Exclusive</span>
-          <h3>The EIRENE database</h3>
-          <p>10,664 field-tested M&amp;E indicators, from the Alliance for Peacebuilding.</p>
-          <div class="card-foot"><a class="btn ghost" href="#try">Explore EIRENE</a></div>
-        </div>
-        <div class="card raised">
-          <h3>Free for nonprofits</h3>
-          <p>Nonprofit organizations can apply to receive a free license.</p>
-          <div class="card-foot"><a class="btn ghost" href="#try">Apply for a free license</a></div>
-        </div>
-        <div class="card raised">
-          <h3>Submit your data</h3>
-          <p>Advance the field by adding your organization&rsquo;s data to Peace Intel.</p>
-          <div class="card-foot"><a class="btn ghost" href="#try">Submit your data</a></div>
-        </div>
+      <div class="point">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M5 1h11v1h-11zM3 2h15v1h-15zM3 3h3v1h-3zM13 3h6v1h-6zM3 4h2v1h-2zM13 4h3v1h-3zM17 4h3v1h-3zM3 5h2v1h-2zM13 5h3v1h-3zM18 5h3v1h-3zM3 6h2v1h-2zM13 6h3v1h-3zM19 6h2v1h-2zM3 7h2v1h-2zM14 7h8v1h-8zM3 8h2v1h-2zM14 8h8v1h-8zM3 9h2v1h-2zM16 9h6v1h-6zM3 10h2v1h-2zM20 10h2v1h-2zM3 11h2v1h-2zM12 11h1v1h-1zM20 11h2v1h-2zM3 12h2v1h-2zM11 12h3v1h-3zM20 12h2v1h-2zM3 13h2v1h-2zM10 13h5v1h-5zM20 13h2v1h-2zM3 14h2v1h-2zM9 14h7v1h-7zM20 14h2v1h-2zM3 15h2v1h-2zM8 15h9v1h-9zM20 15h2v1h-2zM3 16h2v1h-2zM9 16h1v1h-1zM11 16h3v1h-3zM15 16h1v1h-1zM20 16h2v1h-2zM3 17h2v1h-2zM11 17h3v1h-3zM20 17h2v1h-2zM3 18h2v1h-2zM11 18h3v1h-3zM20 18h2v1h-2zM3 19h2v1h-2zM12 19h1v1h-1zM20 19h2v1h-2zM3 20h2v1h-2zM20 20h2v1h-2zM3 21h3v1h-3zM19 21h3v1h-3zM3 22h19v1h-19zM4 23h17v1h-17z"/></svg>
+        <h3>Your own documents</h3>
+        <p>Upload proposals, evaluations and reports. Peace Intel reads them alongside the library and tells you where they agree with the evidence and where they don&rsquo;t.</p>
+      </div>
+      <div class="point">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M8 2h3v1h-3zM16 2h1v1h-1zM6 3h7v1h-7zM16 3h3v1h-3zM5 4h3v1h-3zM11 4h3v1h-3zM17 4h3v1h-3zM5 5h2v1h-2zM12 5h2v1h-2zM18 5h3v1h-3zM4 6h2v1h-2zM12 6h2v1h-2zM18 6h3v1h-3zM4 7h2v1h-2zM12 7h3v1h-3zM19 7h2v1h-2zM4 8h2v1h-2zM12 8h2v1h-2zM18 8h3v1h-3zM5 9h2v1h-2zM12 9h2v1h-2zM18 9h2v1h-2zM5 10h8v1h-8zM16 10h4v1h-4zM6 11h6v1h-6zM16 11h3v1h-3zM9 12h1v1h-1zM4 15h11v1h-11zM19 15h3v1h-3zM2 16h14v1h-14zM19 16h4v1h-4zM2 17h2v1h-2zM15 17h2v1h-2zM21 17h3v1h-3zM1 18h2v1h-2zM15 18h3v1h-3zM21 18h3v1h-3zM1 19h2v1h-2zM15 19h3v1h-3zM22 19h2v1h-2zM1 20h2v1h-2zM15 20h3v1h-3zM22 20h2v1h-2zM1 21h2v1h-2zM15 21h3v1h-3zM22 21h2v1h-2zM1 22h2v1h-2zM16 22h1v1h-1zM22 22h2v1h-2z"/></svg>
+        <h3>Shared with your team</h3>
+        <p>Invite colleagues to a project as editors or viewers, or share a single chat by link. Everyone works from the same evidence.</p>
+      </div>
+      <div class="point">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M21 1h3v1h-3zM18 2h6v1h-6zM15 3h9v1h-9zM12 4h6v1h-6zM19 4h4v1h-4zM9 5h7v1h-7zM18 5h5v1h-5zM6 6h7v1h-7zM17 6h3v1h-3zM21 6h2v1h-2zM3 7h7v1h-7zM16 7h3v1h-3zM20 7h2v1h-2zM1 8h6v1h-6zM15 8h3v1h-3zM20 8h2v1h-2zM1 9h4v1h-4zM14 9h3v1h-3zM19 9h3v1h-3zM2 10h5v1h-5zM13 10h3v1h-3zM19 10h2v1h-2zM4 11h5v1h-5zM12 11h3v1h-3zM19 11h2v1h-2zM6 12h8v1h-8zM18 12h3v1h-3zM9 13h4v1h-4zM18 13h2v1h-2zM11 14h2v1h-2zM18 14h2v1h-2zM11 15h2v1h-2zM17 15h3v1h-3zM12 16h2v1h-2zM17 16h2v1h-2zM12 17h2v1h-2zM17 17h2v1h-2zM12 18h3v1h-3zM16 18h3v1h-3zM13 19h2v1h-2zM16 19h2v1h-2zM13 20h5v1h-5zM14 21h4v1h-4zM14 22h3v1h-3zM15 23h2v1h-2z"/></svg>
+        <h3>Drafts ready to send</h3>
+        <p>Turn an answer into a brief, a report or a deck, with every citation intact. Send it as a link anyone can read, or export it to Word or PDF.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ══ 7 · BEHIND THE PLATFORM ══════════════════════════════════════════════
-     The close. The bracketed names are open in the doc and are left visible
-     rather than guessed. -->
-<section class="band" data-land>
-  <div class="wrap">
-    <div class="lockup lockup--section centered mo-deal" data-at="0">
-      <h2 class="lk-head">Behind the platform.</h2>
-      <p class="lk-lede">
-        Peace Intel is a production of the Effective Peacebuilding Initiative and the
-        Alliance for Peacebuilding, with support from [supporters to confirm].
-        Founded by [founder to confirm].
-      </p>
-      <div class="lk-actions mo-deal" data-at="600">
-        <a class="btn tint lg" href="#try">Try it now</a>
-      </div>
+    <div class="lockup centered mo-deal" data-at="600">
+      <div class="lk-actions"><a class="btn tint lg" href="#try">Try it now</a></div>
     </div>
   </div>
 </section>

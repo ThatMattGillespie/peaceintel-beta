@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home: cut sections</title>
+<link rel="icon" href="../media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="../media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="../media/apple-touch-icon.png?v=21">
+<meta name="description" content="Build programs and strategies informed by the world's largest corpus of peacebuilding evidence. Created in collaboration with the Alliance for Peacebuilding and the Effective Peacebuilding Initiative.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css?v=3efe172f">
+<link rel="stylesheet" href="../components.css?v=559bc165">
+<link rel="stylesheet" href="../explorations.css?v=45ac9467">
+<!-- No page style block. Every shape here is a named block in components.css
+     or explorations.css, and the one entry primitive is .mo-deal. The ?v= on
+     each file is its content hash, so an edited stylesheet is never served
+     from cache against newer markup.
+
+     Rev 37 (16 Oct): rebuilt on the guide as it stands after Rev 36. The
+     floating bar (Pl. 19 · B, decided) replaces .nav; the corpus band carries
+     the documentary picture (Pl. 18 · A1, decided) where the Rotary book was;
+     the footer opens with the logo and the brand line (Pl. 06). -->
+</head>
+<body>
+<!-- Cut from home.html on 19 October 2026 (Rev 56) at Matt's request, kept so the
+     work can continue: 6 · What else is inside (Eirene, free for nonprofits, submit
+     your data) and 7 · Behind the platform (the production credit, with its open
+     [supporters] and [founder] blanks). Markup exactly as it stood. -->
+<!-- Cut the same day: the corpus band's documentary picture (Pl. 18 · A1),
+     replaced on Home by the book in front of the earth. -->
+<section class="band band--dark on-dark"><div class="wrap"><div class="fig-split fig-split--even"><div class="stack">
+        <figure class="doc-fig">
+          <div class="vmap doc-shot doc-dark" data-vmap data-docglitch data-vmode="scene">
+            <img src="../media/doc-mosul-rubble-mono.png?v=2b6b3c05" alt="Rubble and broken buildings on a street in the Old City of Mosul">
+            <canvas aria-hidden="true"></canvas>
+          </div>
+          <figcaption>A street in the Old City of Mosul, summer 2019, after the war with the Islamic State. Photograph: Levi Clancy, CC0, <a class="btn-text" href="https://commons.wikimedia.org/wiki/File:Views_around_the_old_city_of_Mosul_in_2019_during_the_summer,_following_war_with_the_Islamic_State_23.jpg">Wikimedia Commons</a>.</figcaption>
+        </figure>
+</div></div></div></section>
+<!-- ══ 6 · WHAT ELSE IS INSIDE ══════════════════════════════════════════════
+     What a reader expects of an LLM, then the three things they can do next.
+     The violator is the page's one warm element. -->
+<section class="band surface--ground" data-land>
+  <div class="wrap">
+    <div class="sec-head mo-deal" data-at="0">
+      <h2>All the features you expect from an LLM.</h2>
+      <p>Work inside project folders and generate branded documents.</p>
+    </div>
+
+    <div class="stack">
+      <div class="rule-row mo-deal" style="--cols:2" data-at="300">
+        <div>
+          <h3>Existing datasets, made accessible</h3>
+          <p class="prose">Explore the raw data in a built-in Python sandbox: NYU&rsquo;s Peace Education and Research Program, Everyday Peace Indicators, DPD and CIC.</p>
+        </div>
+        <div>
+          <h3>Archetype intelligence</h3>
+          <p class="prose">From implementing organizations to development banks, Peace Intel is structured and curated by experts to use the language and resources that matter to your field and your stakeholders.</p>
+        </div>
+      </div>
+
+      <!-- No entry motion: deal masks each child, and a mask clips the violator
+           where it overhangs the card's top edge. -->
+      <div class="grid-3">
+        <div class="card raised has-violator">
+          <span class="violator">Exclusive</span>
+          <h3>The EIRENE database</h3>
+          <p>10,664 field-tested M&amp;E indicators, from the Alliance for Peacebuilding.</p>
+          <div class="card-foot"><a class="btn ghost" href="#try">Explore EIRENE</a></div>
+        </div>
+        <div class="card raised">
+          <h3>Free for nonprofits</h3>
+          <p>Nonprofit organizations can apply to receive a free license.</p>
+          <div class="card-foot"><a class="btn ghost" href="#try">Apply for a free license</a></div>
+        </div>
+        <div class="card raised">
+          <h3>Submit your data</h3>
+          <p>Advance the field by adding your organization&rsquo;s data to Peace Intel.</p>
+          <div class="card-foot"><a class="btn ghost" href="#try">Submit your data</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 7 · BEHIND THE PLATFORM ══════════════════════════════════════════════
+     The close. The bracketed names are open in the doc and are left visible
+     rather than guessed. -->
+<section class="band" data-land>
+  <div class="wrap">
+    <div class="lockup lockup--section centered mo-deal" data-at="0">
+      <h2 class="lk-head">Behind the platform.</h2>
+      <p class="lk-lede">
+        Peace Intel is a production of the Effective Peacebuilding Initiative and the
+        Alliance for Peacebuilding, with support from [supporters to confirm].
+        Founded by [founder to confirm].
+      </p>
+      <div class="lk-actions mo-deal" data-at="600">
+        <a class="btn tint lg" href="#try">Try it now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="../system.js?v=eb50598a"></script>
+</body>
+</html>

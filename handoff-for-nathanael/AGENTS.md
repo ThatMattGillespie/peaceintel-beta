@@ -44,7 +44,7 @@ explanation is the bug.
 
 ## The rules
 
-**0. Never hardcode a radius. Every corner is 4px.**
+**0. Never hardcode a radius. Every corner is 4px.** One named exception: `--r-check`, 2px, the questions card's 12px checkbox, which at 4px reads as round (Rev 63).
 Decided 2026-10-15 (it was 2px for small things and 4px for the rest from 2026-09-25). Buttons,
 inputs, cards, pills, chips, badges and the focus ring all take 4px; `--r-full` is for things
 that are actually round (avatars, status dots). The six names survive, so a component keeps the
@@ -142,7 +142,7 @@ On near-black, set back and lifted are both lighter, so one tone does both and a
 band is the ground tone. In light mode **the inside of a card is white**; the edge does the work.
 
 **5c. Lines: weight is state, colour is role** (Pl. 04, 2026-10-16). A 1px line is structure; a
-2px line marks where you are (ink: a tab, the blank's underline) or what is evidence (accent: a
+2px line marks where you are (ink: a tab; the blank's underline is the exception, in `--accent-text` with the tint's wash at rest, since 19 Oct, so a choice in a sentence reads as one) or what is evidence (accent: a
 callout's rule). `--line` decorates, `--line-2` bounds what you act on and opens a group,
 `--ink-35` is an edge under the pointer. A rule row's verticals only ever fall between two items;
 its outer edges are open and its outer text is flush with the heading. A new grammar for lines
@@ -224,7 +224,7 @@ Every hidden start state is gated behind `[data-js]`. Animation is never load-be
 legibility, and all of it is killed by `prefers-reduced-motion`.
 
 **Two named exceptions to "motion is a closed set"** (decided 16 October). The two drawers on a
-phone (chats from the left, library from the right) slide on `--mo-sheet`, the one motion that moves a surface. And the glitch on a
+phone (chats from the left, library from the right) and the phone's top bar slide on `--mo-sheet`, the one motion that moves a surface. And the glitch on a
 documentary picture (`[data-docglitch]`, `system.js` `docGlitch`) runs on its own timer, the one
 timed effect: bursts every two to six seconds, only while the picture is on screen, off with
 reduced motion. Neither licenses another; a third is a proposal to Matt.
@@ -285,13 +285,18 @@ shows the same arrow at its end under the pointer. Never mix linked and static c
 | A card that is a link | `a.card.go[href]`, the pixel arrow in its corner. Pl. 09 |
 | Emphasis tone | `--warm`, through `.callout` and `.violator` only |
 | Grid texture | `.textured` (`--top`, `--band`, `--left`, `--right`, `--side`). Never on two touching sections |
-| Corners | `--r-*` only, never a literal. Every one is 4px; `--r-full` for round |
+| Corners | `--r-*` only, never a literal. Every one is 4px; `--r-full` for round; `--r-check` (2px) for a checkbox |
 | Entry motion | `.mo-deal` on the container |
-| A surface moving | `--mo-sheet`, the phone's two drawers only (Rev 49); nothing else slides |
+| A surface moving | `--mo-sheet`, the phone's two drawers and its top bar only (Rev 49, 53); nothing else slides |
 | Heading group | `.lockup` + `--hero` / `--section` |
 | App shell | `.app`, `.app-top`, `.app-nav`, `.app-rail`, `.app-main`, `.app-tools`, `.app-pane`, `.composer` |
 | Console parts | `.icon-btn` (`.line`, `aria-pressed`), `.glyph` (a Lucide line), `.avatar`, `.rail-body`, `kbd`, `.tools-rail`, `.pane-meta`, `.pane-tools`, `.pane-search`, `.pane-head .ph-mark`, `.lib-item` (title tracked `--t-ui-ls`), `.act .glyph` (a menu chevron) |
 | The composer's bar | `.composer-bar`: every control `--sp-8` tall; only the tray and `.send` have a face. What shapes the answer sits at the left; the microphone (outlined) and `.send`, both 32px squares, sit together at the right in `.cb-send` |
+| Questions before the research | `form.clarify` (H1.19, `console-parts.html`): `.cq-h` (a neutral `.eyebrow` count, Back as `.act.sm`), `.cq-steps` (`i.done` is the 2px ink line), `.cq-b` (`.cq-q`, the one serif line; `.cq-help`), `fieldset.cq-opts` of `label.cq-opt` (radio or checkbox; the chosen one rises as a face tile; keyboard focus is the option's edge in the middle grey, `--ink-35`, never the accent ring; a checkbox's corner is `--r-check`), `.cq-own` for *Write my own answer*, `.cq-f` (`.btn.ghost` Skip, `.btn.tint` Next). Answered, the answers become the reader's message; skipped, `.cq-done` |
+| Research updates | `details.ru` > `summary` (faint mono count + chevron) + `ol.ru-list` (each `li`: `.eyebrow.eb-4` "Update N", then `p`). While working the newest update is the pending answer's text; done, all fold above the answer. Never warm, never an accent rule (H1.20) |
+| A search match in a chat | The matched words, every occurrence, in `--hl-find` through `::highlight(find)` (`mark.find-hl` without the API); never a box round the message, never `--hl`, which is a cited passage (Rev 61) |
+| A toolbar's controls | Every `.act`, `.icon-btn` and `.btn` in `.app-tools` is `--sp-8` tall, as in the composer's bar (Rev 62) |
+| Editing a spreadsheet | *Edit table* (`.act`) beside Rename's pencil; Cancel `.btn.ghost.sm`, Save `.btn.tint.sm`; the table keeps its reading layout and the cell being edited is `textarea.sheet-edit`, a field in place. Rename is in place too, at the title's size (`.pj-rename`) |
 | Grid in the console | `.textured` on `.app-main`, the column, which does not scroll, so the grid holds still under the chat. Never on `.app-scroll` |
 | Something you open, keep and send | `.obj` with what it is in `data-kind`: a paper's type (Empirical study, Case study, Dissertation, Policy report, Dataset) or an artifact's kind (Document, Spreadsheet, PDF), set into its top edge. The meta line under the title then leaves the type out. Set `--obj-ground` to the surface under it if that is not the page |
 | A modal dialog's backdrop | `--scrim` |
@@ -308,7 +313,7 @@ shows the same arrow at its end under the pointer. Never mix linked and static c
 | The rail or the pane | Built alike: `.pane-head` (mark, `.ph-t`, its tools as `.icon-btn`s, fold), then the scrolling body: the column on `.surface--ground-2` with the open chat on `--face`, or the library's `.pane-tools` and `.pane-body` |
 | The chat's grid | `.textured.textured--bottom` on `.app-main`: held at the foot, fading upward |
 | Finding a chat | The finder (exploration): the rail head's search icon, `.tools-rail` or Cmd K opens `dialog.dlg[data-view="search"]` (`.find-*`): a type tray, recents and actions, quoted matches, arrow keys and Enter. Papers stay in the library's own search |
-| Icon in content | `svg.px-icon`, from `media/mkicons.cjs`; a row of claims is `.points` |
+| Icon in content | `svg.px-icon`, from `media/mkicons.cjs`; a row of claims is `.points` (five columns; `.points--4` for four) |
 | App shell as a screenshot | `.app[data-figure]` — shows all its content, never scrolls |
 | Small caption or aside | `.note` |
 | Horizontal group with a gap | `.row` (`.col`, `.tight`) |

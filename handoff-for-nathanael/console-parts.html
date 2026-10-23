@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Console Parts</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<link rel="apple-touch-icon" href="media/apple-touch-icon.png?v=21">
+<meta name="description" content="Peace Intel console: the clarifying questions and the research updates, restyled on the brand system, with every state.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=046452b9">
+<link rel="stylesheet" href="components.css?v=421d083aCP_HASH">
+<link rel="stylesheet" href="explorations.css?v=5262f407">
+<link rel="stylesheet" href="reference.css?v=72b99065">
+<!-- CONSOLE PARTS (Rev 60, 21 Oct 2026). Two production features the console
+     prototype never drew, restyled on the system: the clarifying questions
+     (H1.19, .clarify) and the research updates (H1.20, .ru). Every specimen
+     below is the markup to build: read this file's source. The CSS is in
+     components.css under "H1.19" and "H1.20". No page style block. -->
+</head>
+<body>
+
+<section class="ref" id="top">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">H1.19 to H1.25</span><span>Console parts</span><span class="pl-r">Stable · Rev 62 · 23 Oct 2026</span></div>
+    <div class="ref-t">Console parts, on the system.</div>
+    <p class="ref-d">
+      For Nathanael and his coding agent. Production asks clarifying questions before deep research
+      and streams research updates while it works; the console prototype drew neither. Both are now in
+      <code>components.css</code>. Each specimen below is the markup to build, so read this page&rsquo;s
+      source. The rules are in <code>AGENTS.md</code>, the console&rsquo;s behaviour in
+      <code>CONSOLE.md</code> (section 8, H1.19 to H1.21), and the CSS wins over both.
+    </p>
+    <div class="rule-row" style="--cols:3">
+      <div><h3>What was wrong</h3><p class="note">The accent was on nine things in two views, where a view gets three or four, and only on things you act on. Corners were rounded past 4px. The serif was set on every line, where a card gets one serif line.</p></div>
+      <div><h3>What changed</h3><p class="note">Face and edge for the card, 4px corners from <code>--r-*</code>. One serif line, the question. The options sit in a tray. The updates are written in ink, folded under one mono line. The only accent left is the tint button that moves you on.</p></div>
+      <div><h3>What it costs</h3><p class="note">CSS and markup only: the data and the behaviour production already has. One wording change: the duplicate &ldquo;Something else (please specify)&rdquo; option is dropped, since &ldquo;Write my own answer&rdquo; does the same job.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="ref" id="clarify">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">H1.19</span><span>Clarifying questions</span><span class="pl-r">Stable · <code>.clarify</code></span></div>
+    <div class="ref-t">Ask before the research, quietly.</div>
+    <p class="ref-d">
+      Built the way the session reflection is built: a raised object in the thread (face, edge, 4px).
+      The count is a neutral mono eyebrow, because it names a place, not a state. Where you are is the
+      2px ink line and the steps to come are hairlines. The question is the one serif line. The options
+      are a choice among options, so they sit in a tray, and the chosen one rises out of it as a face tile
+      with an ink dot. With the keyboard, the option in focus shows it by its own edge in the middle grey: no
+      orange ring on a choice. Next is the tint; Skip and Back are quiet.
+    </p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">Try it</span><span class="badge">Live</span><span class="sh-d">choose, Next, Write my own answer, Start research. The research updates follow.</span></div>
+      <div class="ls-stage"><div class="chat" id="demo">
+        <div class="msg user"><div class="who">You &middot; 10:48 AM</div><div class="bubble">How should we think about reintegration for women accused of witchcraft in the camps of northern Ghana?</div></div>
+        <div class="msg agent"><div class="who">Peace Intel &middot; 10:48 AM</div><div class="body"><p>The library has eleven papers on accusation violence and two on Ghana&rsquo;s camps directly, and none of EIRENE&rsquo;s indicators are tagged to this construct yet. Two questions will point the research.</p></div></div>
+        <form class="clarify" id="cq" onsubmit="return false" aria-labelledby="cq-q"></form>
+      </div></div>
+    </div>
+
+    <div class="ls-grid">
+      <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+        <form class="clarify" onsubmit="return false" aria-labelledby="s1-q">
+          <div class="cq-h"><span class="eyebrow eb-4">Question 1 of 2</span></div>
+          <div class="cq-steps" aria-hidden="true"><i class="done"></i><i></i></div>
+          <div class="cq-b">
+            <p class="cq-q" id="s1-q">What is the main lens for this?</p>
+            <p class="cq-help">Answer what you like, or skip and Peace Intel will make reasonable assumptions.</p>
+            <fieldset class="cq-opts" aria-labelledby="s1-q">
+              <label class="cq-opt"><input type="radio" name="s1"><span><b>Evidence base.</b> Comparable cases of accusation violence and reintegration elsewhere (Melanesia, Tanzania) and what is known to reduce it</span></label>
+              <label class="cq-opt"><input type="radio" name="s1" checked><span><b>Policy and advocacy.</b> Ghana&rsquo;s stalled bill against witchcraft accusations, and protection through institutions</span></label>
+              <label class="cq-opt"><input type="radio" name="s1"><span><b>Measurement.</b> Indicators for this construct, given the gap in EIRENE</span></label>
+              <label class="cq-opt"><input type="radio" name="s1"><span><b>Programme design.</b> A reintegration or prevention intervention for the camps</span></label>
+              <label class="cq-opt"><input type="radio" name="s1"><span>Write my own answer</span></label>
+            </fieldset>
+          </div>
+          <div class="cq-f"><button class="btn ghost sm" type="button">Skip questions</button><button class="btn tint sm" type="button">Next</button></div>
+        </form>
+      </div></div><figcaption><b>One question, an option chosen</b>The chosen option is a face tile on the tray&rsquo;s recess. A lead term in bold, then its gloss, where production wrote &ldquo;Lead term &mdash; gloss&rdquo;. Next carries the pixel arrow; the class draws it.</figcaption></figure>
+
+      <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+        <form class="clarify" onsubmit="return false" aria-labelledby="s2-q">
+          <div class="cq-h"><span class="eyebrow eb-4">Question 2 of 2</span><button class="act sm" type="button"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>Back</button></div>
+          <div class="cq-steps" aria-hidden="true"><i class="done"></i><i class="done"></i></div>
+          <div class="cq-b">
+            <p class="cq-q" id="s2-q">Who is this for?</p>
+            <p class="cq-help">Choose any.</p>
+            <fieldset class="cq-opts" aria-labelledby="s2-q">
+              <label class="cq-opt"><input type="checkbox" name="s2" checked><span>A funder deciding whether to back a programme</span></label>
+              <label class="cq-opt"><input type="checkbox" name="s2"><span>A team designing one</span></label>
+              <label class="cq-opt"><input type="checkbox" name="s2"><span>A briefing for government partners</span></label>
+              <label class="cq-opt"><input type="checkbox" name="s2" checked><span>Write my own answer</span></label>
+            </fieldset>
+            <div class="cq-own"><textarea class="input" rows="2" aria-label="Your own answer">Our board, before the March review</textarea></div>
+          </div>
+          <div class="cq-f"><button class="btn ghost sm" type="button">Skip questions</button><button class="btn tint sm" type="button">Start research</button></div>
+        </form>
+      </div></div><figcaption><b>The last question, choose any, written in</b>Several answers are checkboxes, with 2px corners (<code>--r-check</code>) where a radio is round. Write my own answer opens a field under the tray. Back is a quiet <code>.act</code> in the head. On the last question Next reads Start research.</figcaption></figure>
+
+      <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+        <div class="msg user"><div class="who">You &middot; 10:49 AM</div><div class="bubble">Lens: Policy and advocacy<br>For: A funder deciding whether to back a programme; our board, before the March review</div></div>
+      </div></div><figcaption><b>Answered</b>The card leaves the thread and the answers go in as your own message, one line per question. Nothing new to style: it is <code>.msg.user</code>.</figcaption></figure>
+
+      <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+        <p class="cq-done"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Questions skipped. Peace Intel will make reasonable assumptions and say what they were.</p>
+      </div></div><figcaption><b>Skipped</b>One line in ink where the card was, as the reflection&rsquo;s thanks is. The answer then states its assumptions in its first paragraph.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="ref" id="updates">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">H1.20</span><span>Research updates</span><span class="pl-r">Stable · <code>.ru</code></span></div>
+    <div class="ref-t">Say what it is doing, where the answer will land.</div>
+    <p class="ref-d">
+      Production boxed each update in the warm tone with an orange rule, under a toggle with an orange
+      edge: four accents and three warm surfaces in one answer, where warm has three uses and this is
+      none of them. The updates are the console&rsquo;s working state (Pl. 13), so they are written in ink.
+      While the research runs, the newest update is the pending answer&rsquo;s own text and the earlier
+      ones fold above it under one faint mono line, the twin of <em>25 tools used</em>. When the answer
+      lands, all of them fold into that line at the head of the answer.
+    </p>
+    <div class="ls-grid">
+      <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+        <div class="msg agent"><div class="who">Peace Intel &middot; 10:51 AM</div>
+          <details class="ru"><summary>2 earlier updates<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <ol class="ru-list">
+              <li><span class="eyebrow eb-4">Update 1</span><p>Searching the library and recent peacebuilding studies for validated survey items on support for political violence, particularly ones tested across partisan groups.</p></li>
+              <li><span class="eyebrow eb-4">Update 2</span><p>Working through several academic papers to pull out the survey questions and wording that have shown movement in evaluations.</p></li>
+            </ol>
+          </details>
+          <div class="body"><p>Pulling together the question wording from recent studies on support for political violence across partisan groups&hellip;</p></div>
+        </div>
+      </div></div><figcaption><b>Working</b>The newest update is the answer&rsquo;s text until the answer replaces it, with an ellipsis. The line above counts the earlier ones and folds them. No box, no warm, no rule, no spinner.</figcaption></figure>
+
+      <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+        <div class="msg agent"><div class="who">Peace Intel &middot; 10:53 AM</div>
+          <details class="ru" open><summary>3 research updates<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+            <ol class="ru-list">
+              <li><span class="eyebrow eb-4">Update 1</span><p>Searching the library and recent peacebuilding studies for validated survey items on support for political violence, particularly ones tested across partisan groups.</p></li>
+              <li><span class="eyebrow eb-4">Update 2</span><p>Working through several academic papers to pull out the survey questions and wording that have shown movement in evaluations.</p></li>
+              <li><span class="eyebrow eb-4">Update 3</span><p>Pulling together the question wording from recent studies on support for political violence across partisan groups.</p></li>
+            </ol>
+          </details>
+          <div class="body"><h4>Three validated items to start from</h4><p>The most tested measures ask about support for violence in the abstract and then about specific acts&hellip;</p></div>
+        </div>
+      </div></div><figcaption><b>Done, opened</b>When the answer lands, every update folds into the line at its head (closed by default; opened here). Open, the updates are rows on hairlines, like the sources: a mono count, then the sentence at <code>--t-sm</code>.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="ref" id="sheet">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">H1.23 · H1.24 · H1.25</span><span>An artifact&rsquo;s toolbar, and editing a spreadsheet</span><span class="pl-r">Stable · Rev 62 · 23 Oct 2026</span></div>
+    <div class="ref-t">Edit in the shape you read.</div>
+    <p class="ref-d">Every control in a toolbar is 32px (<code>--sp-8</code>), icons, mono actions and buttons alike. The pencil renames in place, at the title&rsquo;s size. <em>Edit table</em> starts editing; the table keeps its reading layout and the cell being edited becomes a field in place, with a field&rsquo;s focus: an ink edge and a lift. Cancel and Save are the small ghost and tint.</p>
+    <div class="ls-grid">
+      <figure class="ls-fig"><div class="ls-stage"><div class="app-tools"><button class="icon-btn line" type="button" aria-label="Rename"><svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg></button><button class="act" type="button">Edit table</button><button class="act" type="button" aria-haspopup="menu" aria-expanded="false">Download<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><button class="act" type="button">Share</button></div></div>
+        <figcaption><b>Reading: the toolbar</b>Rename (the pencil), Edit table, Download, Share: one height. Never an unlabelled icon for editing.</figcaption></figure>
+      <figure class="ls-fig"><div class="ls-stage"><div class="app-tools"><button class="btn ghost sm" type="button">Cancel</button><button class="btn tint sm" type="button">Save</button><button class="act" type="button" aria-haspopup="menu" aria-expanded="false">Download<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><button class="act" type="button">Share</button></div></div>
+        <figcaption><b>Editing: the toolbar</b>Cancel and Save take the place of Rename and Edit table, at the same height.</figcaption></figure>
+      <figure class="ls-fig"><div class="ls-stage"><h2 class="dp-title"><input class="pj-rename" value="Backfire Mechanisms" aria-label="Artifact name"></h2></div>
+        <figcaption><b>Renaming</b>The title stays where it is, in its face and size (<code>.pj-rename</code>, an input with no type attribute so it keeps the heading&rsquo;s font). Enter keeps, Escape restores. A title of two lines should wrap while it is edited (a textarea with the same class).</figcaption></figure>
+      <figure class="ls-fig"><div class="ls-stage"><div class="sheet-v"><table class="sheet-t"><thead><tr><th scope="col">Case</th><th scope="col">Mechanism</th><th scope="col">What happened</th></tr></thead><tbody>
+        <tr><th scope="row">Ghana, 2008 voter registration</th><td>Spatial displacement</td><td><textarea class="sheet-edit" rows="5" aria-label="What happened">Domestic observers deployed at some registration centers; irregularities moved to nearby unmonitored centers</textarea></td></tr>
+        <tr><th scope="row">Cross-national panel data</th><td>Temporal displacement</td><td>Violence shifts into the pre-election period, before monitors arrive</td></tr>
+      </tbody></table></div><div class="row tight"><button class="act sm" type="button">+ Add a row</button></div></div>
+        <figcaption><b>Editing: a cell</b>The same heads and wrapping rows as reading. The cell being edited is <code>textarea.sheet-edit</code>, the size of its text, growing with it. Add a row sits under the table.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="ref" id="field">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">H1.21</span><span>The input field&rsquo;s active state</span><span class="pl-r">Production does not match</span></div>
+    <div class="ref-t">The field you type in lifts. It does not light up.</div>
+    <p class="ref-d">
+      The active state of production&rsquo;s input field does not match the design that was handed off.
+      Build it from the CSS, not from what production draws now.
+    </p>
+    <div class="rule-row" style="--cols:2">
+      <div><h3>The composer</h3><p class="note">No shadow at rest. While you type in it, its edge darkens to <code>--ink-35</code> and it lifts to <code>--elev-3</code> (<code>.composer:focus-within</code>). The textarea inside draws nothing of its own: no ring, no border, no padding, no shadow. The composer is the box.</p></div>
+      <div><h3>Every other field</h3><p class="note">Focused, a text field&rsquo;s edge darkens to <code>--ink-35</code> and it takes <code>--elev-1</code>, with no outline (<code>.input:focus</code>). That covers the &ldquo;Write my own answer&rdquo; field above, the reflection&rsquo;s field and the dialogs.</p></div>
+      <div><h3>Never</h3><p class="note">An accent ring or an accent edge on a field. The accent&rsquo;s focus ring (<code>:focus-visible</code>) is for buttons and other controls reached by keyboard, not for a field you are typing in.</p></div>
+      <div><h3>To check against</h3><p class="note">Click into the composer in <a class="btn-text" href="console.html">console.html</a>, and compare with <code>media/snapshots/console/desk-chat.jpg</code>.</p></div>
+    </div>
+  </div>
+</section>
+
+<script src="system.js"></script>
+<script>
+/* The live demo above, and nothing else: it walks the two questions and then
+   plays the research updates. A mock, as prototypes.js is; read it for
+   behaviour, do not port it. */
+(function () {
+  var Q = [
+    { q: 'What is the main lens for this?', help: 'Answer what you like, or skip and Peace Intel will make reasonable assumptions.', type: 'radio', short: 'Lens',
+      o: [['Evidence base.', 'Comparable cases of accusation violence and reintegration elsewhere (Melanesia, Tanzania) and what is known to reduce it'], ['Policy and advocacy.', 'Ghana’s stalled bill against witchcraft accusations, and protection through institutions'], ['Measurement.', 'Indicators for this construct, given the gap in EIRENE'], ['Programme design.', 'A reintegration or prevention intervention for the camps']] },
+    { q: 'Who is this for?', help: 'Choose any.', type: 'checkbox', short: 'For',
+      o: [['', 'A funder deciding whether to back a programme'], ['', 'A team designing one'], ['', 'A briefing for government partners']] }
+  ];
+  var UPD = ['Searching the library for studies of accusation violence and of reintegration after it, and for Ghana’s camps in particular…',
+    'Reading the eleven papers on accusation violence for what changed outcomes, and the two on the camps for what has been tried there…',
+    'Matching what worked elsewhere to Ghana’s stalled bill and the institutions that would carry it…'];
+  var CHEV = '<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  var BACK = '<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>';
+  var CHECK = '<svg class="glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+  var form = document.getElementById('cq'), demo = document.getElementById('demo'), step = 0, ans = [{}, {}];
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function now() { return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
+  function draw() {
+    var d = Q[step], a = ans[step], last = step === Q.length - 1;
+    form.innerHTML = '<div class="cq-h"><span class="eyebrow eb-4">Question ' + (step + 1) + ' of ' + Q.length + '</span>' + (step ? '<button class="act sm" type="button" data-cq="back">' + BACK + 'Back</button>' : '') + '</div>' +
+      '<div class="cq-steps" aria-hidden="true">' + Q.map(function (x, i) { return '<i' + (i <= step ? ' class="done"' : '') + '></i>'; }).join('') + '</div>' +
+      '<div class="cq-b"><p class="cq-q" id="cq-q">' + esc(d.q) + '</p><p class="cq-help">' + esc(d.help) + '</p>' +
+      '<fieldset class="cq-opts" aria-labelledby="cq-q">' +
+      d.o.concat([['', 'Write my own answer']]).map(function (o, i) { return '<label class="cq-opt"><input type="' + d.type + '" name="cq" value="' + i + '"' + (a[i] ? ' checked' : '') + '><span>' + (o[0] ? '<b>' + esc(o[0]) + '</b> ' : '') + esc(o[1]) + '</span></label>'; }).join('') +
+      '</fieldset><div class="cq-own"' + (a[d.o.length] ? '' : ' hidden') + '><textarea class="input" rows="2" aria-label="Your own answer" placeholder="A sentence is plenty">' + esc(a.own || '') + '</textarea></div></div>' +
+      '<div class="cq-f"><button class="btn ghost sm" type="button" data-cq="skip">Skip questions</button><button class="btn tint sm" type="button" data-cq="next">' + (last ? 'Start research' : 'Next') + '</button></div>';
+  }
+  function read() {
+    var a = {}; form.querySelectorAll('.cq-opts input').forEach(function (el, i) { a[i] = el.checked; });
+    var t = form.querySelector('.cq-own textarea'); a.own = t ? t.value : ''; ans[step] = a;
+  }
+  form.addEventListener('change', function () { read(); var own = form.querySelector('.cq-own'); own.hidden = !ans[step][Q[step].o.length]; if (!own.hidden) own.querySelector('textarea').focus(); });
+  form.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-cq]'); if (!b) return; read();
+    var act = b.getAttribute('data-cq');
+    if (act === 'back') { step--; draw(); form.querySelector('[data-cq="next"]').focus(); }
+    else if (act === 'next' && step < Q.length - 1) { step++; draw(); form.querySelector('input').focus(); }
+    else if (act === 'next') { finish(true); }
+    else if (act === 'skip') { finish(false); }
+  });
+  function finish(answered) {
+    var lines = Q.map(function (d, i) {
+      var picks = d.o.filter(function (o, j) { return ans[i][j]; }).map(function (o) { return o[0] ? o[0].replace(/\.$/, '') : o[1]; });
+      if (ans[i][d.o.length] && ans[i].own) picks.push(ans[i].own);
+      return picks.length ? esc(d.short) + ': ' + esc(picks.join('; ')) : '';
+    }).filter(Boolean);
+    var note = answered && lines.length ? '<div class="msg user"><div class="who">You &middot; ' + now() + '</div><div class="bubble">' + lines.join('<br>') + '</div></div>'
+      : '<p class="cq-done">' + CHECK + 'Questions skipped. Peace Intel will make reasonable assumptions and say what they were.</p>';
+    var agent = document.createElement('div'); agent.className = 'msg agent';
+    form.insertAdjacentHTML('beforebegin', note); form.remove(); demo.appendChild(agent);
+    var n = 0, at = now();
+    function tick() {
+      var done = n >= UPD.length, prior = UPD.slice(0, done ? UPD.length : n);
+      agent.innerHTML = '<div class="who">Peace Intel &middot; ' + at + '</div>' +
+        (prior.length ? '<details class="ru"><summary>' + (done ? prior.length + ' research updates' : prior.length + ' earlier update' + (prior.length > 1 ? 's' : '')) + CHEV + '</summary><ol class="ru-list">' +
+          prior.map(function (u, i) { return '<li><span class="eyebrow eb-4">Update ' + (i + 1) + '</span><p>' + esc(u.replace(/…$/, '.')) + '</p></li>'; }).join('') + '</ol></details>' : '') +
+        '<div class="body">' + (done ? '<p>This is the demo, so the answer ends here. In the product the answer follows, every claim cited where it is made.</p>' : '<p>' + esc(UPD[n]) + '</p>') + '</div>';
+      if (!done) { n++; setTimeout(tick, 2200); }
+    }
+    tick();
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

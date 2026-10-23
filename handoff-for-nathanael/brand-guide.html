@@ -11,9 +11,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=c23b99a4">
-<link rel="stylesheet" href="components.css?v=902c0e14">
-<link rel="stylesheet" href="explorations.css?v=45ac9467">
+<link rel="stylesheet" href="tokens.css?v=046452b9">
+<link rel="stylesheet" href="components.css?v=421d083a">
+<link rel="stylesheet" href="explorations.css?v=5262f407">
 <link rel="stylesheet" href="reference.css?v=72b99065">
 </head>
 <body>
@@ -350,7 +350,9 @@
       focus ring. It was two steps, 2px for small things and 4px for anything with an interior,
       until 15 October. One answer is one fewer place for two components to disagree, and a
       chip and the button beside it now read as the same family of object. Round things, a
-      status dot or an avatar, take <code>--r-full</code>, because a dot is not a corner.
+      status dot or an avatar, take <code>--r-full</code>, because a dot is not a corner. One
+      exception, since 23 October: the questions card&rsquo;s 12px checkbox takes <code>--r-check</code>,
+      2px, because at 4px a box that small reads as round, which is the radio&rsquo;s shape.
       The token names all stay, so a component keeps the name that says what it is; never
       write a literal in place of one.
     </p>
@@ -358,6 +360,7 @@
     <div class="radii-row" style="margin-bottom:var(--sp-8)">
       <figure class="radii-f"><div class="radii-c" style="border-radius:var(--r-md)"></div><figcaption><code>--r-md</code> 4 &middot; every corner</figcaption></figure>
       <figure class="radii-f"><div class="radii-c" style="border-radius:var(--r-full)"></div><figcaption><code>--r-full</code> &middot; dots only</figcaption></figure>
+      <figure class="radii-f"><div class="radii-c" style="border-radius:var(--r-check)"></div><figcaption><code>--r-check</code> 2 &middot; a checkbox</figcaption></figure>
     </div>
 
     <div class="spec-h"><span class="sh-n">Every atom</span></div>
@@ -576,7 +579,7 @@
       <div><i class="ln ln-row"></i><span><b>Rule row</b><code>.rule-row</code> &middot; <code>.points</code></span><p>One rule on top, verticals only between two items, the outer edges open and the outer text flush with the heading. Fixed on 16 October: a wrapped row left a line at its right edge.</p></div>
       <div><i class="ln ln-ledger"></i><span><b>Ledger</b><code>.ledger</code></span><p>The rule row on its side: a hairline over each entry, the first at <code>--line-2</code> because it opens the group.</p></div>
       <div><i class="ln ln-tab"></i><span><b>Tab</b><code>2px ink</code></span><p>Where you are: the margin&rsquo;s tab on a section&rsquo;s hairline, the strip&rsquo;s current section, the chosen answer mode.</p></div>
-      <div><span class="ln ln-under">a blank</span><span><b>Underline</b><code>2px ink</code> &middot; <code>1px --ink-35</code></span><p>A choice inside a sentence takes the 2px rule (<code>.blank</code>); a text link takes 1px that darkens to ink under the pointer.</p></div>
+      <div><span class="ln ln-under">a blank</span><span><b>Underline</b><code>2px --accent-text</code> &middot; <code>1px --ink-35</code></span><p>A choice inside a sentence takes the 2px rule in the tint, with its wash, even at rest, so it reads as changeable (<code>.blank</code>, 19 October); a text link takes 1px that darkens to ink under the pointer.</p></div>
       <div><i class="ln ln-accent"></i><span><b>Accent rule</b><code>2px --accent</code></span><p>Evidence pulled out of the flow: a callout, a report&rsquo;s finding. The only coloured line.</p></div>
       <div><i class="ln ln-legend"></i><span><b>Legend</b><code>.obj</code></span><p>A label set into an object&rsquo;s top edge, breaking it, to say what kind of thing it is (Pl. 11).</p></div>
       <div><i class="ln ln-bk"></i><span><b>Brackets</b><code>the logo</code></span><p>The focus corners of the logo and the favicon. They stay in the mark: tried as a page line on 16 October, they read as too literal.</p></div>
@@ -1487,7 +1490,7 @@
       All of it is Stable as of 16 October, projects and search included; <code>CONSOLE.md</code> writes it down.
     </p>
     <div class="snap-grid">
-      <a href="console.html"><img src="media/snapshots/console-chat.jpg?v=37" alt="The console: a chat with its citations, the chats rail and the library" loading="lazy"><span class="note">A chat, citing the library</span></a>
+      <a href="console.html"><img src="media/snapshots/console-chat.jpg?v=55" alt="The console: a chat with its citations, the chats rail and the library" loading="lazy"><span class="note">A chat, citing the library</span></a>
       <a href="console.html"><img src="media/snapshots/console-project.jpg?v=37" alt="The console: a project's page with its chats, instructions, context and memory" loading="lazy"><span class="note">A project&rsquo;s page</span></a>
     </div>
     <p class="proto-try"><span><b>Try, in console.html</b> a project in the rail</span><span>Search chats, or press &#8984;K inside the console</span><span>New chat here, under an open project</span><span>Instructions, Context and Memory, in the panel at its right</span><span>Add: upload files, add a note, or pick from the library</span><span>dropping a file on the console</span><span>Chats and Artifacts, under its composer</span><span>Export &rsaquo; Save as an artifact, on any chat</span><span>the microphone, beside the send</span><span>Share</span></p>
@@ -1519,7 +1522,7 @@
           <div><b>The drawers</b><p>Under 1080px the rail and the library come back as drawers over the chat: the chats from the left, the library from the right. Tap outside, press Escape or use the fold button to close. They appear without a slide; a slide would be a new motion primitive.</p></div>
           <div><b>The sources count and the utility button</b><p>The toolbar on a phone is off-white, so it reads as its own strip. It holds the project, a citation chip counting the sources the chat cites, in the accent, which opens the library, and one utility button holding Search this chat, Share and Export.</p></div>
           <div><b>The two drawers</b><p>17 October. On a phone both sides are drawers of one pattern: the shelf button opens the chats from the left, the sources count opens the library from the right, each full height with one hairline on its inner edge, on <code>--mo-sheet</code>, the one motion that moves a surface. Swipe it back toward its edge, tap outside, press Escape or use its fold button to close it. A paper opened from the library opens inside its drawer. This replaces the library sheet chosen on 16 October (21 · H3).</p></div>
-          <div><b>Search in this chat</b><p>Search from a thread&rsquo;s toolbar looks in that thread first, message by message. A match scrolls to the message and outlines it. The tray widens it to everything.</p></div>
+          <div><b>Search in this chat</b><p>Search from a thread&rsquo;s toolbar looks in that thread first, message by message. A match scrolls to the message and highlights the words it found, in a neutral grey (<code>--hl-find</code>), since orange already marks a cited passage. The tray widens it to everything.</p></div>
           <div><b>General access</b><p>Share now says who the link opens for: the people listed, your organisation, or anyone with the link. Anyone means public, view only and no sign-in, and the panel says so in ink.</p></div>
           <div><b>The mode chip</b><p>Outlined, like the microphone beside it, so on a phone it reads as a button without a hover (G2, chosen 16 Oct; the bare chip, G1, is retired).</p></div>
         </div>
@@ -1541,6 +1544,16 @@
           <div><b>What it costs</b><p>The text is a paraphrase written for three papers. Production already has the data for both screens.</p></div>
         </div>
       </div>
+    </div>
+    </div>
+    <div class="ref-cont" id="console-parts">
+    <div class="ref-t">Asking first, and saying what it is doing.</div>
+    <p class="ref-d">Added 21 October (Rev 60). Production asks clarifying questions before deep research and streams research updates while it works; both were drawn with the accent on everything, rounded corners and the serif on every line. They are restyled on the system, with every state, on a page of their own: <a class="btn-text" href="console-parts.html">console-parts.html</a>.</p>
+    <div class="rule-row app-notes" style="--cols:4">
+      <div><h3>Clarifying questions</h3><p class="note"><code>.clarify</code>, built as the reflection is: face, edge, 4px. A neutral mono count over the 2px ink line, the question as the one serif line, the options in a tray with the chosen one rising as a face tile; with the keyboard, the option in focus takes a middle-grey edge, never the orange ring; a checkbox has 2px corners. Next is the tint. Answered, the answers become your own message.</p></div>
+      <div><h3>Research updates</h3><p class="note"><code>details.ru</code>. The working state, written in ink: the newest update is the pending answer&rsquo;s text, the earlier ones fold above it under one faint mono line, and when the answer lands they all fold into that line. No warm, no accent rule.</p></div>
+      <div><h3>The field&rsquo;s active state</h3><p class="note">Production&rsquo;s input field does not match the handoff when it is active. The composer lifts and its edge darkens; other fields darken their edge and take the lowest shadow. No field takes an accent ring.</p></div>
+      <div><h3>Editing a spreadsheet</h3><p class="note">Added 23 October (Rev 62). <em>Edit table</em> beside the pencil; the table keeps its reading layout and the cell being edited becomes a field in place, <code>.sheet-edit</code>, with an ink edge and a lift. Cancel and Save are the small ghost and tint, the same 32px as every control in the toolbar.</p></div>
     </div>
     </div>
   </div>
@@ -1786,7 +1799,7 @@
 
 
 <script src="system.js?v=eb50598a"></script>
-<script src="prototypes.js?v=2d2b7551"></script>
+<script src="prototypes.js?v=b699c1b7"></script>
 <script>
 (function () {
   'use strict';
@@ -1934,7 +1947,8 @@
     ['--ground', 'Set back · a band, the tray', 'surface'], ['--ground-2', 'Further back · the console\u2019s sides', 'surface'],
     ['--face', 'An object\u2019s face, on a ground', 'surface'], ['--fill', 'A small set-back object', 'surface'],
     ['--line', 'Hairline border', 'border'], ['--line-2', 'Stronger border', 'border'],
-    ['--wash-1', 'Hover wash', 'tint'], ['--wash-2', 'Stronger wash', 'tint']
+    ['--wash-1', 'Hover wash', 'tint'], ['--wash-2', 'Stronger wash', 'tint'],
+    ['--hl-find', 'Search highlight, the words found in a chat', 'tint']
   ];
   var ACCENT = [
     ['--accent', 'Graphics, large type, fills'],

@@ -2,7 +2,7 @@
 
 **For:** Nathanael Miksis and his coding agent
 **From:** Matt Gillespie
-**Updated:** 2026-10-17 (Rev 47). The history of every revision is in `CHANGELOG.md`; it is history, not instructions.
+**Updated:** 2026-10-19 (Rev 55). The history of every revision is in `CHANGELOG.md`; it is history, not instructions.
 
 ---
 

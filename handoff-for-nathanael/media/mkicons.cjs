@@ -65,6 +65,9 @@ const SET = {
   'book-open':            [25, 2],   // Pl. 20, the icon margin: what it is
   'users':                [25, 2],   // Pl. 20, the icon margin: who it is for
   'door-open':            [25, 2],   // Pl. 20, the icon margin: early access
+  'folder-open':          [25, 2],   // Home, the close: project workspaces
+  'file-up':              [25, 2],   // Home, the close: your own documents
+  'send':                 [25, 2],   // Home, the close: drafts ready to send
   'chevron-down':         [13, 2]    // the inline blank's affordance
 };
 

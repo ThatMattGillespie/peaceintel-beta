@@ -2,7 +2,7 @@
 
 **For:** Nathanael Miksis and his coding agent
 **From:** Matt Gillespie
-**Updated:** 2026-10-16 (Rev 39: Matt's verdicts on every production feature and word)
+**Updated:** 2026-10-21 (Rev 60: clarifying questions, research updates, the field's active state). Rev 39 (16 Oct) took Matt's verdicts on every production feature and word
 
 `console.html` with `prototypes.js` is the console as a working prototype. It is the spec for
 **how the console looks and behaves**, not code to copy: `prototypes.js` is a mock written to be
@@ -28,6 +28,7 @@ this file is the bug. If this file and the prototype disagree on behaviour, ask 
 | Projects: the project page, instructions, context, memory, artifacts, New chat here | `components.css` |
 | Dialogs (`.dlg`), the finder (`.find-*`), Share with General access (`.pop-access`) | `components.css` |
 | What a paper opens to: the quick view and the full entry (section 5) | `components.css` |
+| The clarifying questions and the research updates (section 2; every state on `console-parts.html`) | `components.css` |
 | The console on a phone: one-row composer, the two drawers (section 3) | `components.css` |
 
 ---
@@ -85,6 +86,34 @@ differ; the form is what changes.
 
 Below, the composer.
 
+**Before deep research, the clarifying questions** (`.clarify`, H1.19). Production asks one to a
+few questions before it starts; keep its questions and its logic, restyle the card. It sits in the
+thread after Peace Intel's line saying why it is asking: a raised object (face, edge, 4px), headed
+*Question 1 of 2* in neutral mono with the 2px ink line under the steps done, the question in the
+serif (the card's only serif line), one help line, then the options in a tray. One answer is a
+radio; several, a checkbox. With the keyboard, the option in focus shows it by its own edge in the middle grey (`--ink-35`), on the tray or on the chosen tile: no orange ring on a choice. A checkbox has 2px corners (`--r-check`) so it never reads as a radio (Rev 63). Production writes an option as "Lead term — gloss": set the lead term
+in bold and drop the dash. The last option is always *Write my own answer*, which opens a field
+under the tray; drop production's second "Something else (please specify)". The foot holds *Skip
+questions* (ghost) and *Next* (the tint; *Start research* on the last question); from the second
+question on, *Back* sits in the head. Answered, the card leaves the thread and the answers go in as
+the reader's own message, one line per question (*Lens: Policy and advocacy*). Skipped, one line in
+ink where the card was (`.cq-done`), and the answer says what it assumed in its first paragraph.
+
+**While it researches, the research updates** (`details.ru`, H1.20). They are the working state:
+the newest update is the pending answer's own text, ending in an ellipsis; the earlier ones fold
+above it under one faint mono line, *2 earlier updates*, the twin of *25 tools used*. When the
+answer lands, every update folds into that line (*3 research updates*, closed) at the head of the
+answer. Open, each is a row on a hairline: *Update 1* in mono, then the sentence at `--t-sm`. No
+warm, no accent rule, no edge on the toggle, no spinner.
+
+**The field's active state** (H1.21). **Production's input field does not match the handoff when
+it is active.** Build it from the CSS: the composer has no shadow at rest, and while you type in it
+its edge darkens to `--ink-35` and it lifts to `--elev-3` (`.composer:focus-within`); the textarea
+inside draws nothing of its own (no ring, border, padding or shadow). Every other text field, when
+focused, darkens its edge to `--ink-35` and takes `--elev-1`, with no outline (`.input:focus`).
+No field takes an accent ring or an accent edge; the accent focus ring (`:focus-visible`) is for
+buttons and other controls reached by keyboard.
+
 **The composer** (`.composer`). The field, then one bar with two ends: at the left what shapes the
 answer (the mode tray **Quick / Normal / Deep research / Eirene**, the paperclip, spoken replies,
 settings, and the version badge, bare mono, internal);
@@ -111,7 +140,7 @@ rest. **The library never takes the full screen**: widening it folds the rail in
 | Width | What changes |
 |---|---|
 | **Under 1080px** | The rail and the pane are put away. The chat's toolbar leads with the **chats shelf** button (`.rail-open`, outlined like the ⋯ button, the panel-left-open glyph a folded rail uses on desktop), mirroring the sources count at the right; it opens the **chats drawer** from the left, with projects, chats, new chat and search in its head and the console's links at its foot. The hamburger in the top bar (far right, after the avatar) opens the same drawer. The sources count (below) opens the **library sheet**. Expand is hidden. |
-| **Under 620px** | The phone layout: the top bar's links go (they are in the drawer); the toolbar is one off-white row (`--ground`); the composer is one row (below); the top bar shows only at the top of the thread. |
+| **Under 620px** | The phone layout: the top bar's links go (they are in the drawer); the toolbar is one off-white row (`--ground`); the composer is one row (below); the top bar slides away while the thread scrolls down and back on any scroll up. |
 
 **The chat's toolbar on a phone** reads, left to right: the project's name (truncated), then the
 **utility button** (⋯: Search this chat, Share, Export, each opening from it as it would from its
@@ -119,19 +148,29 @@ own button), then at the far right the **sources count**: a citation chip in the
 count in two digits, with the pane's open glyph after it. It is the toolbar's buttons' height
 (`--sp-8`). It appears only when the chat cites something.
 
+**The toolbar and the composer sit over the thread** (Rev 51, 52): in a chat the toolbar is the
+scroll area's first child, sticky at its head with a fade below it (on a phone, its off-white strip
+instead), and the composer is its last child,
+sticky at its foot, and its ground fades in over the top `--sp-8`, so the thread scrolls to the
+bottom of the window and dissolves behind the field instead of stopping above it.
+
 **The two drawers** (`data-drawer="rail"` and `"pane"`, Rev 49). One pattern on both sides: the
-chats slide in from the left, the library from the right, full height, each with one hairline
+chats slide in from the left, the library from the right (wider: the frame less `--sp-8`, at most
+640px, so a sliver of the chat shows at its left), full height, each with one hairline
 (`--edge`) on its inner edge, on `--mo-sheet`, the one motion in the system that moves a surface.
 A swipe toward the drawer's own edge follows the finger with no easing; let go past a quarter of
 its width, or flicked, it closes, otherwise it springs back. The scrim, Escape and the head's fold
-button close it too, the same way. With reduced motion they appear and go instantly. A paper opened
+button close it too, the same way. While a drawer is open that fold button (or a paper's cross)
+wears an active state, outlined with a wash, since the drawer covers the button that opened it. With reduced motion they appear and go instantly. A paper opened
 from the library opens inside its drawer; the arrow steps back to the library.
 
 **The chats drawer** (`data-drawer="rail"`). The rail, over the chat from the left, with a scrim.
 It appears without a slide. Tapping a chat opens it and closes the drawer.
 
-**The top bar on a phone** (logo, account, menu) shows only at the top of a thread: past the
-first 64px it goes, and it comes back only when the thread is scrolled back to the top (Rev 50). It simply goes; it does not slide.
+**The top bar on a phone** (logo, account, menu) slides up out of the frame while the thread
+scrolls down past the first 64px, and slides back on any scroll up (Rev 53), on `--mo-sheet`; the
+toolbar rises and falls with it. While it moves, scroll events are ignored so the change in the
+thread's height cannot bounce it. Reduced motion makes it instant. It simply goes; it does not slide.
 
 **The composer on a phone.** The field starts at one line and grows with the text to six. One row
 under it: the **mode chip** at the left (outlined, naming the mode, with a chevron; it opens a menu
@@ -147,24 +186,39 @@ send's edge sit on the field's own edges: the composer's padding is `--sp-2` on 
 **The finder** (Exploration). The rail's search icon or Cmd K (Ctrl K) opens one field over every
 chat, project and artifact you have made, with a tray to narrow it (All, Chats, Projects,
 Artifacts). Before anything is typed it shows recent chats and two actions (New chat, New
-project); typed, it groups results and offers "Ask Peace Intel … in a new chat". A match inside a
-chat shows a quoted line around the words. Arrow keys move, Enter opens, Escape closes. Papers are
+project); typed, it groups results and offers "Ask Peace Intel … in a new chat". A result that matched inside a
+chat shows the matching line under its title, up to two lines, the words in bold (Rev 62, Nathanael's layout). Arrow keys move, Enter opens, Escape closes. Papers are
 not in it: the library has its own search.
 
 **Search from a chat's toolbar** opens the finder on **This chat** first: matches in this
-conversation, message by message. Choosing one scrolls to the message and outlines it. The tray
+conversation, message by message. Choosing one scrolls the thread to the message and highlights every place the words occur in it, the first in the middle of the screen, in a neutral grey wash (`--hl-find`, `::highlight(find)`; Rev 61). Grey, because the orange highlighter (`--hl`) means the passage a citation points to. No box round the message. The highlight stays until the next search. Match across inline formatting (bold, links, citations). The tray
 widens the search to everything.
 
 **Share.** A chat outside a project: a line saying how to work on it together (start it in a
 shared project), General access, and Copy link. A project: invite by email with a role (Can edit,
 Can view), the people with access with their roles (and Remove), General access, Copy link.
 **General access** is one select: *Only people with access* (projects only), *Your
-organisation*, or *Anyone with the link*. Anyone means **public**: view only, no sign-in, no
+organisation*, or *Anyone with the link*. *Your organisation* means a signed-in person with a
+confirmed email at the owner's domain, and its label names the domain (*Anyone at
+effectivepeace.org*); it is not offered to an owner on free email, and a short list of large
+shared domains (the UN family, governments) is excluded (production, 23 Oct). Anyone means **public**: view only, no sign-in, no
 editing or replying, and the panel says so in ink with a globe.
 
 **Export.** Save the chat as an artifact (into its project, or a chosen project if it has none),
 or download the chat. An artifact downloads by kind: a document as PDF, Word or Markdown; a
-spreadsheet as Excel or CSV; a PDF as PDF.
+spreadsheet as Excel or CSV; a PDF as PDF. A project's page has no Export: Export saves or
+downloads a chat, so it is on every chat's toolbar, inside a project or not.
+
+**An artifact's toolbar** (Rev 62). The pencil (Rename) renames in place: the title stays at its
+size and in its face, its edge darkens and it lifts (`.pj-rename`); a title that runs to two lines
+wraps while it is edited. Then Download and Share. Every control in a toolbar is `--sp-8` tall.
+
+**Editing a spreadsheet** (Rev 62; production built it, the prototype does not draw it). *Edit
+table*, an `.act` beside the pencil, starts it; the toolbar then holds *Cancel* (`.btn.ghost.sm`)
+and *Save* (`.btn.tint.sm`). The table keeps its reading layout (the same mono heads, the same
+wrapping rows); the cell being edited becomes a field in place, the size of its text, with a
+field's focus: an ink edge and a lift (`.sheet-t .sheet-edit`). *Add a row* is an `.act` under
+the table. Every state is drawn on `console-parts.html` (H1.23 to H1.25).
 
 ---
 
@@ -264,6 +318,13 @@ Map them, do not rename production's.
 | H1.16 | Moon icon, the dark theme | **Remove.** A dark theme, if ever, is its own sprint |
 | H1.17 | Download PDF, View original source, View full entry | **The prototype's order and behaviour**; words from H8 |
 | H1.18 | "37 sections" stat and collapse triangles | **The prototype's version** |
+| H1.19 | Clarifying questions, "Question 1 of 2" (orange edge, bar and Next; all serif) | **Keep, restyled** (21 Oct): `.clarify` (section 2, `console-parts.html`) |
+| H1.20 | "3 research updates", each in a warm box with an orange rule | **Keep, restyled** (21 Oct): `.ru`, written in ink, folded (section 2) |
+| H1.22 | A match found by search in this chat: an outline round the message (in the prototype; production marked nothing) | **The matched words, highlighted** (22 Oct): `--hl-find`, section 4 |
+| H1.23 | Rename on an artifact: the title replaced by a small text box | **In place, same face and size** (23 Oct), section 4 |
+| H1.24 | Spreadsheet editing: an unlabelled grid icon, cells cut to one line, a different head, a faint grey cell | **"Edit table", the reading layout kept, the cell a field in place** (23 Oct): `.sheet-edit`, section 4 |
+| H1.25 | Toolbar controls of three heights (32, 36, 39) | **One height, `--sp-8`** (23 Oct), in `components.css` |
+| H1.21 | The input field's active state | **Does not match the handoff** (21 Oct). Build it from the CSS (section 2) |
 
 ---
 
@@ -283,7 +344,7 @@ Map them, do not rename production's.
 
 ## 10. Reference screenshots
 
-The target, as of Rev 37, in `media/snapshots/console/`, taken from `console.html`. Compare your
+The target, as of Rev 55 (retaken 19 October), in `media/snapshots/console/`, taken from `console.html`. Compare your
 build against these; where a screenshot and the CSS disagree, the CSS wins.
 
 | File | State |
@@ -297,7 +358,7 @@ build against these; where a screenshot and the CSS disagree, the CSS wins.
 | `phone-mode-menu.jpg` | The mode chip's menu |
 | `phone-utility-menu.jpg` | The utility menu: Search this chat, Share, Export |
 | `phone-chats-drawer.jpg` | The chats drawer, with the console's links at its foot |
-| `phone-library-sheet.jpg` | The library sheet as it was before Rev 49 (now a drawer from the right) |
-| `phone-source.jpg` | A paper's quick view inside the sheet |
-| `phone-full-entry.jpg` | The full entry inside the sheet |
+| `phone-library-drawer.jpg` | The library drawer, from the right |
+| `phone-source.jpg` | A paper's quick view inside the library drawer |
+| `phone-full-entry.jpg` | The full entry inside the library drawer |
 

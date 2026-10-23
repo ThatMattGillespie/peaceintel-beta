@@ -665,7 +665,10 @@
         (c.msgs[last] && c.msgs[last].a && c.msgs.length > 1 ? reflectCard(S.reflect[S.chat]) : '') +
         '</div></div>';
     }
-    return tools + body + '<div class="composer-wrap">' + composer(p, p ? 'Ask about ' + p.name : 'Ask Peace Intel about peacebuilding evidence…') + '</div>';
+    /* Rev 51-52: the toolbar and the composer sit inside the scroll area,
+       pinned to its head and foot, so the thread runs the window's full
+       height and fades out behind both. */
+    return body.replace(/<\/div>$/, '').replace('<div class="app-scroll">', '<div class="app-scroll">' + tools) + '<div class="composer-wrap">' + composer(p, p ? 'Ask about ' + p.name : 'Ask Peace Intel about peacebuilding evidence…') + '</div></div>';
   }
 
   function docCard(r) {
@@ -789,7 +792,7 @@
   function paneHead(mark, title, fold, readout, side) {
     var rail = side === 'rail';
     return '<div class="pane-head">' + mark + '<span class="ph-t">' + title + '</span><span class="spacer"></span>' + (readout || '') +
-      (!rail && S.view === 'project' ? '' : '<button class="icon-btn" type="button" data-act="' + (rail ? 'rail-off' : 'pane-off') + '" aria-label="' + fold + '">' + g(rail ? 'panel-left-close' : 'panel-right-close') + '</button>') + '</div>';
+      (!rail && S.view === 'project' ? '' : '<button class="icon-btn" type="button" data-act="' + (rail ? 'rail-off' : 'pane-off') + '" aria-label="' + fold + '"' + (S.drawer === (rail ? 'rail' : 'pane') ? ' aria-expanded="true"' : '') + '>' + g(rail ? 'panel-left-close' : 'panel-right-close') + '</button>') + '</div>';
   }
   function drawPane() {
     if (S.view !== 'project') S.browse = false;
@@ -902,7 +905,7 @@
   app.querySelector('.app-body').appendChild(scrim);
   var narrow = matchMedia('(max-width: 1080px)'), phone = matchMedia('(max-width: 620px)');
   /* On a phone the top bar goes while the thread scrolls down (Pl. 21). */
-  var lastY = 0;
+  var lastY = 0, topLock = 0;
   /* THE DRAWERS (Rev 49). Under 1080px the chats slide in from the left and
      the library from the right, on --mo-sheet, and back the same way; swiped
      toward its edge a drawer follows the finger, and let go past a quarter of
@@ -945,11 +948,14 @@
   }
   main.addEventListener('scroll', function (e) {
     if (!phone.matches || !e.target.classList || !e.target.classList.contains('app-scroll')) return;
-    /* Rev 50: the top bar (logo, account, menu) shows only at the top of the
-       thread; once the reader scrolls past it, it stays away until they return. */
-    var y = e.target.scrollTop;
-    app.classList.toggle('is-top-off', y > 64);
-    lastY = y;
+    /* Rev 53: the top bar (logo, account, menu) slides away while the reader
+       scrolls down past the first 64px and slides back on any scroll up. While
+       it moves the thread's height changes under the finger, so the events
+       that causes are ignored until the slide has landed. */
+    var y = e.target.scrollTop, d = y - lastY; lastY = y;
+    if (Date.now() < topLock || Math.abs(d) < 2) return;
+    var off = d > 0 ? y > 64 : false;
+    if (off !== app.classList.contains('is-top-off')) { app.classList.toggle('is-top-off', off); topLock = Date.now() + 360; }
   }, true);
   narrow.addEventListener('change', function () { if (S.drawer) { S.drawer = null; draw(); } });
   function say(t) { live.textContent = ''; setTimeout(function () { live.textContent = t; }, 50); }
@@ -1300,13 +1306,33 @@
     var inp = dlgIn.querySelector('.find-q'); inp.setAttribute('aria-activedescendant', 'fo-' + D.i);
     var on = l.querySelector('[aria-selected="true"]'); if (on) on.scrollIntoView({ block: 'nearest' });
   }
+  /* C2 · D (Rev 61): a match in this chat is marked by its words, not by a
+     box round the message. Every occurrence in the message joins one
+     highlight, 'find', which the CSS paints in --hl-find; the first is
+     scrolled to the middle of the thread. A browser without the highlight
+     API gets the same mark as mark.find-hl. Production should also match
+     across inline formatting, which this mock does not. */
+  function markFind(el, q) {
+    var api = window.CSS && CSS.highlights && window.Highlight;
+    if (api) CSS.highlights.delete('find');
+    [].forEach.call(main.querySelectorAll('mark.find-hl'), function (m) { var p = m.parentNode; p.replaceChild(document.createTextNode(m.textContent), m); p.normalize(); });
+    if (!el) return;
+    var box = el.querySelector('.body, .bubble') || el, ql = q.toLowerCase(), ranges = [], w = document.createTreeWalker(box, NodeFilter.SHOW_TEXT), n;
+    while (ql && (n = w.nextNode())) {
+      var t = n.nodeValue.toLowerCase(), i = 0;
+      while ((i = t.indexOf(ql, i)) > -1) { var r = document.createRange(); r.setStart(n, i); r.setEnd(n, i + ql.length); ranges.push(r); i += ql.length; }
+    }
+    if (!ranges.length) { el.scrollIntoView({ block: 'start' }); return; }
+    var first = ranges[0].startContainer.parentElement;
+    if (api) { var h = new Highlight(); ranges.forEach(function (r) { h.add(r); }); CSS.highlights.set('find', h); }
+    else ranges.slice().reverse().forEach(function (r) { var m = document.createElement('mark'); m.className = 'find-hl'; r.surroundContents(m); });
+    first.scrollIntoView({ block: 'center' });
+  }
   function findGo(k, id) {
     var q = D.q.trim();
     dlg.close();
     if (k === 'msg') {
-      var el = main.querySelectorAll('.chat .msg')[+id];
-      [].forEach.call(main.querySelectorAll('.msg.is-hit'), function (x) { x.classList.remove('is-hit'); });
-      if (el) { el.classList.add('is-hit'); el.scrollIntoView({ block: 'start' }); }
+      markFind(main.querySelectorAll('.chat .msg')[+id], q);
     }
     else if (k === 'chat') go('chat', id);
     else if (k === 'project') go('project', id);
