@@ -371,6 +371,13 @@ a { color: inherit; text-decoration: none }
 .send:hover { background: color-mix(in srgb, var(--accent) 14%, var(--bg)) }
 :is(.on-dark, .surface--invert) .send { background: color-mix(in srgb, var(--accent) 20%, var(--bg)) }
 :is(.on-dark, .surface--invert) .send:hover { background: color-mix(in srgb, var(--accent) 26%, var(--bg)) }
+/* Stop (Rev 64, Matt 23 Oct): while an answer is being written the send
+   button becomes its stop, in the same place and the same dress, with the
+   arrow's X (--px-stop). It is five cells square where the arrow is four by
+   five, and it holds still under the pointer, because it goes nowhere. */
+.send.is-stop::after { width: calc(var(--dither-cell) * 5px);
+  -webkit-mask-image: var(--px-stop); mask-image: var(--px-stop) }
+.send.is-stop:hover::after { transform: none }
 
 /* ── PILLS, CHIPS, BADGES ──────────────────────────────────────────────────── */
 /* The inverted active state — ink fill, bg text — is the strongest non-accent
@@ -816,6 +823,9 @@ label.field > span:first-child {
   .sec-head { margin-bottom: var(--sp-10) }
 }
 @media (max-width: 620px) {
+  /* The phone's own step (Rev 66): 44px put a hero headline at twice a phone's
+     comfortable line. --t-h1 follows it down so a section head stays under the hero. */
+  :root, .console-root { --t-display: 36px; --t-h1: 30px }
   .wrap { padding: 0 var(--sp-4) }
   .grid-2, .grid-3 { grid-template-columns: minmax(0, 1fr) }
   .rule-row { grid-template-columns: minmax(0, 1fr); margin-inline: 0; background-size: 100% 1px }
@@ -2684,15 +2694,13 @@ button.cite { cursor: pointer }
 
 /* ═══ THE FLOATING BAR (Pl. 19, 16 October) ═══════════════════════════════
    Matt: "a hovering top bar on the website that has a margin from the
-   viewport on the sides and top, that compacts to just the logo when
-   scrolling down." An object, so an edge round the page tone, and opaque. Compacting keeps the logo where it is
-   and pulls the bar's right end in to it, so nothing the eye is on moves.
-   system.js sets .is-compact; scrolling up, tapping the dove, or tabbing
-   into the bar opens it. Compacted it is the whole logo, dove and wordmark
-   (Matt, 16 Oct: it was the dove alone until Rev 34). --fnav-logo is the V6 logo's width at --logo-h (848 by 240). */
+   viewport on the sides and top." An object, so an edge round the page tone,
+   and opaque. It is sticky and stays whole: compacting to the logo on the way
+   down was retired on 2026-11-02 (Rev 66), because a bar that changes shape
+   under a reader who is scrolling draws the eye to the bar. --fnav-logo is
+   the V6 logo's width at --logo-h (848 by 240). */
 .fnav {
   --fnav-logo: calc(var(--logo-h) * 3.534);
-  --fnav-mark: var(--fnav-logo);
   --fnav-pad: var(--sp-3);
   --fnav-h: calc(var(--logo-h) + var(--fnav-pad) * 2 + 2px);
   /* The bar's edges sit on the body's inside edges (Matt, 16 Oct): the
@@ -2711,24 +2719,14 @@ button.cite { cursor: pointer }
      glass of every generated page. The face and the edge make it our object. */
   background: var(--face);
   border: var(--edge); border-radius: var(--r-lg); overflow: clip;
-  transition: max-width var(--mo-struct), padding var(--mo-struct);
 }
 @media (max-width: 900px) { .fnav { --fnav-gut: var(--sp-6) } }
 @media (max-width: 620px) { .fnav { --fnav-gut: var(--sp-4) } }
-.fnav-mark { flex: none; display: block; width: var(--fnav-mark); overflow: clip; transition: width var(--mo-struct) }
+.fnav-mark { flex: none; display: block; width: var(--fnav-logo) }
 .fnav-mark img { height: var(--logo-h); width: auto; max-width: none; display: block }
-.fnav-links { display: flex; align-items: center; gap: var(--sp-5); flex: none; font-size: var(--t-ui); color: var(--ink-70); transition: opacity var(--mo-fast), visibility var(--mo-fast) }
+.fnav-links { display: flex; align-items: center; gap: var(--sp-5); flex: none; font-size: var(--t-ui); color: var(--ink-70) }
 .fnav-links > a:not(.btn) { padding: var(--sp-1) var(--sp-2); border-radius: var(--r-sm); transition: background var(--mo-base), color var(--mo-base) }
 .fnav-links > a:not(.btn):hover { background: var(--wash-1); color: var(--ink) }
-
-.fnav.is-compact:not(:focus-within) .fnav-in { max-width: calc(var(--fnav-mark) + var(--sp-4) * 2 + 2px); padding-right: var(--sp-4) }
-.fnav.is-compact:not(:focus-within) .fnav-links { opacity: 0; visibility: hidden }
-/* CENTRED, 19 · B (decided 16 Oct): compacted, the logo moves to the middle
-   of the body instead of staying at its left edge. The move rides the same
-   timing as the bar pulling in. */
-.fnav-in { transition: max-width var(--mo-struct), padding var(--mo-struct), margin-left var(--mo-struct) }
-.fnav.is-compact:not(:focus-within) .fnav-in { margin-left: calc(50% - (var(--fnav-mark) + var(--sp-4) * 2 + 2px) / 2) }
-/* Compacted, it is the dove alone (Matt, 16 Oct), and the dove opens it. */
 
 /* A narrow page drops the text links and keeps the two actions. */
 @container (max-width: 620px) { .fnav-links > a:not(.btn) { display: none } }
@@ -2736,7 +2734,6 @@ button.cite { cursor: pointer }
 /* A phone keeps the logo and the one action; Sign in moves into the page. */
 @container (max-width: 440px) { .fnav-links > .btn.ghost { display: none } }
 @media (max-width: 440px) { .fnav-links > .btn.ghost { display: none } }
-@media (prefers-reduced-motion: reduce) { .fnav-in, .fnav-mark, .fnav-links { transition: none } }
 /* On a page (home.html, 16 Oct) the bar takes no room in the flow, so a full
    screen under it is the whole window, not the window less .nav's height. */
 .fnav + .screen { min-height: 100svh }

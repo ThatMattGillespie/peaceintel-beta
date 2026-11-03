@@ -612,6 +612,13 @@
   /* Eirene is a mode of answering (H1.9, Matt 16 Oct): it left the top bar. */
   var MODES = [['quick', 'Quick'], ['normal', 'Normal'], ['deep', 'Deep research'], ['eirene', 'Eirene']];
   function modeName() { return MODES.filter(function (m) { return m[0] === S.mode; })[0][1]; }
+  /* While an answer is being written the send is its stop (Rev 64). */
+  var busy = null;
+  function sendBtn() {
+    return busy ? '<button class="send is-stop" type="button" data-act="stop" aria-label="Stop the answer"></button>'
+      : '<button class="send" type="button" data-act="send" aria-label="Send"></button>';
+  }
+  function syncSend() { app.querySelectorAll('.cb-send .send').forEach(function (b) { b.outerHTML = sendBtn(); }); }
   function composer(p, placeholder) {
     var modes = MODES;
     return '<div class="composer">' +
@@ -625,7 +632,7 @@
         '<button class="icon-btn" type="button" aria-label="Settings">' + g('settings') + '</button>' +
         '<span class="spacer"></span><span class="badge cb-ver" title="Internal: the version answering">v1</span>' +
         '<span class="cb-send"><button class="icon-btn" type="button" data-act="dictate" aria-pressed="' + S.dictate + '" aria-label="Dictate">' + g('mic') + '</button>' +
-        '<button class="send" type="button" data-act="send" aria-label="Send"></button></span>' +
+        sendBtn() + '</span>' +
       '</div></div>';
   }
 
@@ -974,7 +981,7 @@
   function now() { return new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
 
   function send(ta) {
-    var text = ta.value.trim(); if (!text) return;
+    var text = ta.value.trim(); if (!text || busy) return;
     if (S.view === 'project' || !S.chat) {
       var id = 'c' + (++seq), pid = S.view === 'project' ? S.project : null;
       CHATS[id] = { t: text.length > 72 ? text.slice(0, 70).replace(/\s+\S*$/, '') + '…' : text, d: 'Today', p: pid, by: 'MA', msgs: [] };
@@ -984,17 +991,28 @@
     var wait = { at: now(), pending: p ? 'Reading the context of ' + p.name + ', and the library…' : 'Reading the library…' };
     c.msgs.push({ u: text + (S.attach.length ? ' [' + plural(S.attach.length, 'file') + ' attached]' : ''), at: now() }, wait);
     S.attach = [];
+    /* Long enough to reach the stop. */
+    busy = { c: c, wait: wait };
     draw(); bottom();
     say('Question sent');
-    setTimeout(function () {
+    busy.t = setTimeout(function () {
       var first = p && papersOf(p)[0];
+      busy = null; syncSend();
       wait.pending = null;
       wait.a = { intro: [p
         ? 'This is the prototype, so every new question gets this reply. In the product the answer draws on the library and on the ' + plural(p.ctx.length, 'item') + ' in the context of ' + p.name + (first ? ', each claim cited where it is made {' + first + '}' : '') + ', and follows the project’s instructions' + (p.instr ? ': “' + p.instr + '”' : '.')
         : 'This is the prototype, so every new question gets this reply. In the product Peace Intel reads the library and answers with every claim cited where it is made {fortna}, the strongest evidence first.'] };
       if (S.view === 'chat' && CHATS[S.chat] === c) { drawMain(); bottom(); }
       say('Answer ready');
-    }, 700);
+    }, 2400);
+  }
+  function stop() {
+    if (!busy) return;
+    var c = busy.c;
+    clearTimeout(busy.t); busy.wait.pending = 'Stopped before an answer was written.'; busy = null;
+    if (S.view === 'chat' && CHATS[S.chat] === c) { drawMain(); bottom(); } else syncSend();
+    refocus('.composer .ci');
+    say('Answer stopped');
   }
 
   /* ── popovers: one menu and one panel, filled for whichever button opened
@@ -1784,6 +1802,7 @@
     }
     else if (act === 'share') open(panel, b, sharePanel(current()));
     else if (act === 'send') send(b.closest('.composer').querySelector('.ci'));
+    else if (act === 'stop') stop();
     else if (act === 'spoken') { S.spoken = !S.spoken; b.setAttribute('aria-pressed', String(S.spoken)); }
     else if (act === 'dictate') {
       /* Drawn, not wired to speech: the button says it is listening and the

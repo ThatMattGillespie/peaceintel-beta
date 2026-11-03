@@ -36,7 +36,7 @@ explanation is the bug.
 |---|---|---|
 | **Stable** | Ship it. | Everything in `components.css`. That now includes, since Rev 39: the console entire (shell, chat, library, composer, the answer's sources and foot, projects, context, memory, artifacts, dialogs, the finder, the phone console, what a paper opens to; `CONSOLE.md`), the veil and the still (`.veil`, `.vmap--still`), the margin with its moving image (`.st-*`, Pl. 16 · M1), the floating bar (`.fnav`, Pl. 19 · B) and the numbered steps' opening rule (Pl. 16 · S2). The brand line (Pl. 06), and plates marked Stable |
 | **Used by a worked page, still in `explorations.css`** | Decided, and shipping with that page; do not reuse elsewhere without asking. | The documentary picture (Pl. 18 · A1, `.doc-fig`, `.doc-shot`, `.doc-dark`, `[data-docglitch]`), on Home since Rev 38; Home's ask (`.ask`, `textarea.pt`) |
-| **Exploration** | In the handoff, labelled; do not build without asking. | The landing sections on `sections.html` (`.lp-*`, Rev 59); the ask's new forms (Pl. 17, four options); the report and the deck (`report.html`, `slides.html`, `.viz`, `.forest`) |
+| **Exploration** | In the handoff, labelled; do not build without asking. | The landing sections on `sections.html` (`.lp-*`, Rev 59; L05, L21, L26 and L27 are also on Home, Revs 66 and 67, by Matt's request); the ask's new forms (Pl. 17, four options); the report and the deck (`report.html`, `slides.html`, `.viz`, `.forest`) |
 | **Internal** | Not for production at all. | `brand-board.html`; the console's version badge and the staff-only "All users" view are internal features of the product, specified in `CONSOLE.md` |
 | **Archived** | Never. | Anything in `archive.html` or `archive/` (codes start AR) |
 
@@ -214,8 +214,9 @@ as far as the copy is concerned the veil is behind the page. The dove and the ma
 are veils and always were. Its edges always fade; the mask is part of the class.
 
 `.vmap--still` is the veil's still form: a photograph of a subject on a seamless, mapped through
-the same monochrome ramp so its white ground becomes the page. Home and Rotary use it for
-figures. Ship one **continuous-tone greyscale** master and let the runtime map and dither it, so
+the same monochrome ramp so its white ground becomes the page. Rotary uses it for figures.
+Home dropped it in Rev 67 (Matt): its pictures are plain greyscale `.lp-pic` cut-outs, and the
+dove video is its one mapped image. Ship one **continuous-tone greyscale** master and let the runtime map and dither it, so
 it follows the tokens. **The video map**, footage that fills its frame shown full-bleed
 (`.vmap--bleed`, `.vmap--dissolve`), **was retired on 2026-10-15** and is in the archive. A clip
 with no white ground to lose has no place on a page for now.
@@ -227,7 +228,11 @@ legibility, and all of it is killed by `prefers-reduced-motion`.
 phone (chats from the left, library from the right) and the phone's top bar slide on `--mo-sheet`, the one motion that moves a surface. And the glitch on a
 documentary picture (`[data-docglitch]`, `system.js` `docGlitch`) runs on its own timer, the one
 timed effect: bursts every two to six seconds, only while the picture is on screen, off with
-reduced motion. Neither licenses another; a third is a proposal to Matt.
+reduced motion. **A third, by Matt's request (Rev 68):** a tray that advances on its own clock
+(`[data-switch][data-switch-auto]`, `system.js` switch), on Home's side by side only. It
+runs while on screen, pauses under a pointer or focus, stops for good once the tray is pressed,
+never starts with reduced motion, and moves nothing itself: the case arrives on `.mo-deal`. None
+of the three licenses another; a fourth is a proposal to Matt.
 
 **10. There is no mount** (retired 2026-10-14). Eight framing devices were built for "the one
 figure a page exists to show" and all are in `archive.html`. Dissolve went with the video map, retired 2026-10-15.
@@ -274,7 +279,7 @@ shows the same arrow at its end under the pointer. Never mix linked and static c
 | A tone for a surface | `--ground` (a region), `--ground-2` (the console's sides), `--face` (an object on a ground), `--fill` (a badge, an avatar, the user's message), `--edge` (an object's hairline). Pl. 04 |
 | A line | Pl. 04's inventory: divider `--line`, edge `--edge`, rule row, ledger, 2px ink tab, 2px accent rule, legend. A line opens what follows it, never closes (Pl. 16); `.step` is the exception under review (16 · S2); the logo's brackets are not a page line (retired 2026-10-16) |
 | A number in front of something (01, 02, 1.1) | Only when the order or the number is real: steps done in order (Rotary), sections cited by number (the report, the numbered document), slides. Never as decoration on a set of equal things; a row of three features is unnumbered (2026-10-16) |
-| A top bar that floats | Decided (Pl. 19 · B), on Home since Rev 38: `header.fnav[data-fnav]` > `.fnav-in` > `.fnav-mark` + `nav.fnav-links`; opaque, `--face` and `--edge`, no blur; `system.js` compacts it to the whole logo, centred on the page, on the way down, and a tap on the logo opens it. It takes no room in the flow, so a `.screen` straight after it is the whole window. Landing and Rotary keep `.nav` |
+| A top bar that floats | Decided (Pl. 19 · B), on Home since Rev 38: `header.fnav` > `.fnav-in` > `.fnav-mark` + `nav.fnav-links`; opaque, `--face` and `--edge`, no blur; sticky and always whole: compacting to the logo was retired on 2026-11-02 (Rev 66). The logo has no hover change. It takes no room in the flow, so a `.screen` straight after it is the whole window. Home and Landing carry it; Rotary keeps `.nav` |
 | A headline | Two lines at most: about 32 to 40 characters at `--t-display` (64px). A longer thought is a headline and a lede (Pl. 02 `#headline-length`, a note for writers) |
 | A documentary photograph | Decided (Pl. 18 · A1), on Home's corpus band since Rev 38 as `figure.doc-fig` > `.vmap.doc-shot.doc-dark[data-vmap][data-docglitch][data-vmode="scene"]` + `figcaption`: dark and monochrome on a dark band, `.vmap.doc-dark[data-docglitch]` in `.on-dark`, with the glitch's bursts; a place, never suffering, textured from edge to edge (a flat sky or water gives the dither nothing), captioned with place, date and credit, one per page as a figure. `.vmap.doc-shot.doc-dark` on a dark band, or `.vmap.doc-shot[data-docscreen]` (colour through the dither) |
 | The console on a phone | Stable (components.css, shown in Pl. 14 `#console-phone`). Under 620px: one-row composer bar with an outlined `.cb-mode` chip and menu; an off-white toolbar holding the crumb, `.src-tick` (a `.cite` counting the chat's sources, opens the library) and `.cb-util` (search this chat, share, export). Under 1080px: `.app-burger` opens the rail as a drawer with the console links at its foot, `.src-tick` raises the library as a sheet to the foot of the top bar on `--mo-sheet`, closed by a drag down, the scrim, Escape or its cross (`data-drawer`, `.app-scrim`, `.is-sheet-off`, `--sheet-y`). Search from a thread defaults to This chat; Share has General access with a public option (`.pop-access`) |
@@ -286,12 +291,17 @@ shows the same arrow at its end under the pointer. Never mix linked and static c
 | Emphasis tone | `--warm`, through `.callout` and `.violator` only |
 | Grid texture | `.textured` (`--top`, `--band`, `--left`, `--right`, `--side`). Never on two touching sections |
 | Corners | `--r-*` only, never a literal. Every one is 4px; `--r-full` for round; `--r-check` (2px) for a checkbox |
-| Entry motion | `.mo-deal` on the container |
+| Entry motion | `.mo-deal` on the container. Inside a `[data-land]` section, `data-at` times it. Without `html[data-snap]` each section starts by itself as its top comes a fifth of the way up the window, even mid-scroll; only a snapping page waits for rest (Rev 66). Keep a section's `data-at` steps short (120ms) so a reader scrolling fast is not left waiting; the long choreography is for the hero |
+| Tabs that rewrite a panel | Exploration, on Home's section 6 (L05): `.seg[data-switch="id"]` with `data-v` on each button, and `#id` holding `[data-case]` panels, every one but the first `hidden`. Same driver as the blank (`system.js`, switch) |
+| A plain picture | Exploration, on Home (Rev 67): `img.lp-pic`, a greyscale cut-out at full size from `media/mkpics.py`. Never a 200px raster master shown plain: it blurs |
+| Named claims beside a picture | Exploration, on Home's sections 2 and 3 (L26): `.fig-split--even` with `.ledger.lp-claims`; `.lp-flip` puts the picture on the left above 900px, and it stays under the copy on a phone |
+| One question, two answers | Exploration, on Home's section 5 (L27 · 2, Rev 70): `[data-switch="vs"][data-switch-auto]` wraps `#vs.lp-vs`, two `[data-case]` (`data-hold` in ms), each an `.lp-verdict` (ChatGPT's on `.surface--invert`) of `.lp-verdict-say` (`.lp-who`, `.lp-verdict-h`, `.lp-vs-tags`, the action buttons with `data-v`) and an `.lp-phone`. ChatGPT's phone is `.gpt-app`, the one block with literal values, because it depicts another product: never reuse them. Nested `.mo-deal` needs its own `data-at`. Label demo text as demo; credit the trademark. Other treatments are on `compare-lab.html` (Rev 69) |
+| Tiles of two sizes | Exploration, on Home's section 3 (L21): `.lp-bento` > `.card` (`.big`, `.wide`); the big tile may carry an `.lp-pic` or a `.vmap--still` where the others carry a `.px-icon`. One column on a phone |
 | A surface moving | `--mo-sheet`, the phone's two drawers and its top bar only (Rev 49, 53); nothing else slides |
 | Heading group | `.lockup` + `--hero` / `--section` |
 | App shell | `.app`, `.app-top`, `.app-nav`, `.app-rail`, `.app-main`, `.app-tools`, `.app-pane`, `.composer` |
 | Console parts | `.icon-btn` (`.line`, `aria-pressed`), `.glyph` (a Lucide line), `.avatar`, `.rail-body`, `kbd`, `.tools-rail`, `.pane-meta`, `.pane-tools`, `.pane-search`, `.pane-head .ph-mark`, `.lib-item` (title tracked `--t-ui-ls`), `.act .glyph` (a menu chevron) |
-| The composer's bar | `.composer-bar`: every control `--sp-8` tall; only the tray and `.send` have a face. What shapes the answer sits at the left; the microphone (outlined) and `.send`, both 32px squares, sit together at the right in `.cb-send` |
+| The composer's bar | `.composer-bar`: every control `--sp-8` tall; only the tray and `.send` have a face. What shapes the answer sits at the left; the microphone (outlined) and `.send`, both 32px squares, sit together at the right in `.cb-send`. While an answer is being written `.send` becomes its stop, `.send.is-stop` (the pixel X, `--px-stop`, labelled "Stop the answer"), and turns back when the answer lands or is stopped |
 | Questions before the research | `form.clarify` (H1.19, `console-parts.html`): `.cq-h` (a neutral `.eyebrow` count, Back as `.act.sm`), `.cq-steps` (`i.done` is the 2px ink line), `.cq-b` (`.cq-q`, the one serif line; `.cq-help`), `fieldset.cq-opts` of `label.cq-opt` (radio or checkbox; the chosen one rises as a face tile; keyboard focus is the option's edge in the middle grey, `--ink-35`, never the accent ring; a checkbox's corner is `--r-check`), `.cq-own` for *Write my own answer*, `.cq-f` (`.btn.ghost` Skip, `.btn.tint` Next). Answered, the answers become the reader's message; skipped, `.cq-done` |
 | Research updates | `details.ru` > `summary` (faint mono count + chevron) + `ol.ru-list` (each `li`: `.eyebrow.eb-4` "Update N", then `p`). While working the newest update is the pending answer's text; done, all fold above the answer. Never warm, never an accent rule (H1.20) |
 | A search match in a chat | The matched words, every occurrence, in `--hl-find` through `::highlight(find)` (`mark.find-hl` without the API); never a box round the message, never `--hl`, which is a cited passage (Rev 61) |
@@ -338,7 +348,7 @@ shows the same arrow at its end under the pointer. Never mix linked and static c
 
 **`explorations.css` is not the catalog.** It holds what is shown in Open decisions (Pl. 16, 18 and 19)
 because it has not been chosen yet: line work (`.lw[data-lw]`, and the raster lines `[data-lr]`,
-drawn by `system.js`), the floating top bar (`.fnav[data-fnav]`), the margin (`.st-*`, and
+drawn by `system.js`), the floating top bar (`.fnav`), the margin (`.st-*`, and
 `.st-m`, the moving image in it), the console's projects with their
 context, memory, artifacts, sharing, dialogs and the finder, the report and deck templates, the
 veil, and the ask from the home page (`.ask`, `textarea.pt`, and the PROMPTS driver). Do not use

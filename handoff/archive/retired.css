@@ -2775,3 +2775,14 @@ input[type="radio"]:focus-visible + .radio-pill { outline: 2px solid var(--accen
 }
 
 
+
+/* Retired 2026-11-02 (Rev 66): the floating bar compacting to the logo. */
+.fnav.is-compact:not(:focus-within) .fnav-in { max-width: calc(var(--fnav-mark) + var(--sp-4) * 2 + 2px); padding-right: var(--sp-4) }
+.fnav.is-compact:not(:focus-within) .fnav-links { opacity: 0; visibility: hidden }
+/* CENTRED, 19 · B (decided 16 Oct): compacted, the logo moves to the middle
+   of the body instead of staying at its left edge. The move rides the same
+   timing as the bar pulling in. */
+.fnav-in { transition: max-width var(--mo-struct), padding var(--mo-struct), margin-left var(--mo-struct) }
+.fnav.is-compact:not(:focus-within) .fnav-in { margin-left: calc(50% - (var(--fnav-mark) + var(--sp-4) * 2 + 2px) / 2) }
+/* Compacted, it is the dove alone (Matt, 16 Oct), and the dove opens it. */
+

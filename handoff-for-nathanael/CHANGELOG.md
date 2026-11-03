@@ -1449,6 +1449,138 @@ AGENTS.md's status table and HANDOFF.md, and built:
   HANDOFF.md and a new README.md say what was left out. **`handoff/` stays the working copy;
   rebuild the clean copy from it after changes.**
 
+## Rev 64 · the stop button (2026-10-23)
+
+Matt: the composer needs a way to stop the agent, and it should match the send arrow. While an
+answer is being written the send button becomes its stop, in the same place and the same tint,
+with the arrow's one-cell stroke drawn as a 5 x 5 X (`--px-stop`, tokens.json 18.4.0). The class
+is `.send.is-stop`, the label "Stop the answer"; the X holds still under the pointer, where the
+arrow moves a cell, because it goes nowhere. In the console prototype an answer now takes 2.4
+seconds (was 0.7) so the stop can be reached; stopping leaves "Stopped before an answer was
+written." in the chat and returns focus to the field.
+
+## Rev 72 · the side by side runs full width (2026-11-02)
+
+- Both verdict panels run to the window's edges (`.lp-verdict.lp-bleed`), content kept on the
+  page's column.
+- ChatGPT's labels are now "Agrees too easily", "Poor citations", "Fails to ask for clarity".
+- The demo note moved from under the section into each panel, at the foot of the verdict column.
+- The two phone mock-ups take the system's 4px corner (`--r-xl`), not a device's rounded one.
+
+## Rev 71 · side by side: model and date, sharper labels, a shorter composer (2026-11-02)
+
+- Under each headline, the model and the date accessed (`.lp-meta`, `data-placeholder`).
+- ChatGPT's labels are now "Too easily agrees", "Poor quality citations", "Forgets to clarify";
+  Peace Intel's "Cites its sources" is now "Cites quality sources".
+- The Peace Intel phone's composer is one row, so more of the answer shows.
+- HANDOFF.md has a new section, "Placeholder responses on Home": Nathanael is expected to replace
+  both answers, their model and date, and the citations with real responses.
+
+## Rev 70 · the verdict goes on Home, with ChatGPT as its phone app (2026-11-02)
+
+Matt picked 27 · 2 and asked for three changes, all made on Home's section 5:
+
+- **No tray.** The call to action sits at the foot of the verdict: "Ask Peace Intel instead" on
+  ChatGPT's panel; "Try it now" and "See ChatGPT's answer" on Peace Intel's. `system.js` switch now
+  takes any `button[data-v]` inside the `[data-switch]` element, so the wrapper round the box can be
+  the switch. Only buttons with `aria-pressed` get marked. The clock still runs (ChatGPT 8 seconds,
+  Peace Intel 14) until something is pressed.
+- **The ChatGPT mark** (`media/chatgpt-mark.svg`, from Wikimedia Commons, green tile removed) labels
+  its panel. Peace Intel's label is its logo. The note under the panel credits the trademark.
+- **Both answers on phones** (`.lp-phone`). ChatGPT's looks like its phone app (`.gpt-app`: top bar,
+  grey question bubble, unboxed answer with its action icons, the rounded "Ask anything" bar). That
+  block carries literal values on purpose, because it depicts another product; nothing else may use
+  them. Peace Intel's is the console on a phone. The device corner is `--r-xl` × 10.
+
+The Rev 68 console version is in `archive/home-cut-2026-11-02.html`.
+
+## Rev 69 · three louder side by sides (2026-11-02)
+
+Matt: the switch between ChatGPT and Peace Intel on Home is too subtle. Three treatments on a new
+exploration page, `compare-lab.html`, coded 27 · 1 to 27 · 3. Home is unchanged until one is picked.
+
+- **27 · 1 In step.** Both consoles at once. The tray is a stepper (Ask both, Read both, Compare):
+  both wait, both answer, then each gets a one-line verdict in serif.
+- **27 · 2 The verdict.** Each case is a panel with its verdict in display type ("It told you what
+  you wanted to hear." / "It told you what the evidence says."). ChatGPT's panel is
+  `.surface--invert`, so the switch turns the panel from dark to light.
+- **27 · 3 Marked up.** A tray of two large choices (`.lp-pick`) and numbered markers (`.lp-mk`) in
+  the answer, read back in the pane against section 2's four failures, or the four claims answering
+  them. Under 1080px the notes follow the console.
+
+All three use the same clock (`data-switch-auto`) and arrive on `.mo-deal`; no new motion. The clock
+now runs while the box crosses the middle of the window, because 27 · 1 on a phone is taller than the
+window and never showed 40% of itself.
+
+## Rev 68 · Home's side by side becomes the console, and switches itself (2026-11-02)
+
+- **The fourth claim** in section 3 is now one Peace Intel can defend as built: "It shows what each
+  answer rests on. Every source is marked by how much of it was read: the full paper, the abstract,
+  or the open web." That is the evidence tiers. It replaces "It knows what it doesn't know."
+- **Side by side (L27)** is now the console's own shell, with the sources pane. A tray above picks
+  ChatGPT or Peace Intel; the ChatGPT pane reads "No sources cited." The two cards are gone.
+- **`data-switch-auto`** in `system.js` switch: the tray advances on its own, ChatGPT 7 seconds,
+  Peace Intel 14 (`data-hold`). Running only on screen, paused by pointer or focus, stopped for good by
+  a press, never with reduced motion. Matt asked for it; it is the third named timed exception
+  in AGENTS rule 9. Measured: switches at 7s and back at 21s; a press holds the choice.
+- The ChatGPT side carries no ChatGPT branding, only its name as a label, plus a Demo badge.
+
+## Rev 67 · Home becomes an argument, and its pictures go plain (2026-11-02)
+
+Matt, after a partner conversation: the real problem is that peace is too sensitive for sycophantic
+AI. Home now runs hero, problem, answer, corpus, side by side, who it is for, workflows, built for
+the sector, features.
+
+- **The problem and the answer** (L26). Two bands that mirror each other: four failures of common
+  LLMs, then four claims in the same order. `.ledger.lp-claims`, `.lp-flip`. Copy is draft.
+- **Side by side** (L27, `.lp-vs`). One question put to ChatGPT and to Peace Intel. Both answers are
+  demo text and the page says so; replace them with recorded outputs before publishing. The three
+  citations are real papers, written from memory, to be checked against the corpus.
+- **Plain pictures** (`.lp-pic`). This reverses Rev 65 on Home only. The 200px raster masters blur
+  when shown plain, so `media/mkpics.py` cuts full-size greyscale versions from EPI's branded images.
+  Only the dove video keeps the raster. `sections.html` other than L26 and Rotary are unchanged.
+- **The bento** loses its epistemic safeguards tile to section 3, and its heading becomes "Built for
+  the sector, by the sector." The last tile runs wide. It and the tabs swapped band tones so tones
+  still alternate. The old versions are in `archive/home-cut-2026-11-02.html`.
+
+## Rev 66 · Home: phone headline, sections arrive alone, the bar stays whole, two landing sections (2026-11-02)
+
+Matt's notes on Home, reaching every page that shares the base.
+
+- **A phone step in the type scale.** Under 620px `--t-display` is 36px (was 44) and `--t-h1` 30px
+  (was 36), so a section head stays under the hero. Set in `components.css` with the 900px step.
+- **Each section arrives by itself.** `landing()` chose its trigger by window width, so on a desktop
+  it waited for the scroll to stop on any page, though only a `data-snap` page moves in stops. Home
+  has never snapped. It now asks whether the page snaps: otherwise each section starts as its top
+  comes a fifth of the way up the window, mid-scroll. Measured on Home in a scroll that never stops:
+  each section starts about 130ms after entering. Rotary, which snaps, is unchanged. Home's `data-at`
+  steps below the hero came down from 300 and 600 to 120 and 240.
+- **The floating bar no longer compacts.** The CSS, `floatNav` and `data-fnav` are gone, into
+  `archive/retired.css` and `archive/retired.js`, with the logo's tap that opened the bar. Matt also
+  asked to lose the logo's hover: measured, it changes no style, so there was none to remove.
+- **Two landing sections on Home.** Section 3 is the L21 bento, the first claim large on the raster;
+  section 6 is L05 tabs. `.points` remains in the catalog; the cut sections are in
+  `archive/home-cut-2026-11-02.html`. `switch` in `system.js` now also takes a `.seg[data-switch]`.
+  `.lp-bento` is one column on a phone, and such a tray stays one row. Both remain explorations. L08,
+  L12 and L14 were left out because they need quotes, claims or copy that do not exist yet.
+
+## Rev 65 · the landing sections go on the raster (2026-11-02)
+
+Matt prefers the raster to plain pictures. Every stand-in picture on `sections.html` (58) is now a
+`.vmap--still`, with stop 0 of its ramp set to the tone behind it (`--fill`, or `--bg` on the after
+side of L11) so the white ground dissolves into the frame. This replaces the invert filter on dark
+bands. L11's seam, tags and range input stack above the raster. Still an exploration.
+
+## Rev 64 · the stop button (2026-10-23)
+
+Matt: the composer needs a way to stop the agent, and it should match the send arrow. While an
+answer is being written the send button becomes its stop, in the same place and the same tint,
+with the arrow's one-cell stroke drawn as a 5 x 5 X (`--px-stop`, tokens.json 18.4.0). The class
+is `.send.is-stop`, the label "Stop the answer"; the X holds still under the pointer, where the
+arrow moves a cell, because it goes nowhere. In the console prototype an answer now takes 2.4
+seconds (was 0.7) so the stop can be reached; stopping leaves "Stopped before an answer was
+written." in the chat and returns focus to the field.
+
 ## Rev 63 · no orange on a question's options (2026-10-23)
 
 Matt, after seeing the keyboard focus ring on the questions card in the console: the orange ring

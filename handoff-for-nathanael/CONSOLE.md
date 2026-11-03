@@ -114,12 +114,13 @@ focused, darkens its edge to `--ink-35` and takes `--elev-1`, with no outline (`
 No field takes an accent ring or an accent edge; the accent focus ring (`:focus-visible`) is for
 buttons and other controls reached by keyboard.
 
-
 **The composer** (`.composer`). The field, then one bar with two ends: at the left what shapes the
 answer (the mode tray **Quick / Normal / Deep research / Eirene**, the paperclip, spoken replies,
 settings, and the version badge, bare mono, internal);
 at the right the two ways to send, the microphone against the send button. Enter sends,
-Shift+Enter is a new line. A file attached with the paperclip shows as a small chip above the
+Shift+Enter is a new line. While an answer is being written the send button is its stop
+(`.send.is-stop`, the arrow's pixel X, Rev 64): pressing it ends the answer and returns focus to
+the field, and the button turns back to send. A file attached with the paperclip shows as a small chip above the
 field, with a cross to remove it, and goes with the next question. There is no tip line under
 the composer. The field has no padding or shadow of its own: the composer is the box.
 It has no shadow at rest; it lifts on focus.
@@ -325,6 +326,7 @@ Map them, do not rename production's.
 | H1.23 | Rename on an artifact: the title replaced by a small text box | **In place, same face and size** (23 Oct), section 4 |
 | H1.24 | Spreadsheet editing: an unlabelled grid icon, cells cut to one line, a different head, a faint grey cell | **"Edit table", the reading layout kept, the cell a field in place** (23 Oct): `.sheet-edit`, section 4 |
 | H1.25 | Toolbar controls of three heights (32, 36, 39) | **One height, `--sp-8`** (23 Oct), in `components.css` |
+| H1.26 | No way to stop an answer while it is written | **The send becomes its stop** (23 Oct): `.send.is-stop`, the pixel X `--px-stop`, section 2 |
 | H1.21 | The input field's active state | **Does not match the handoff** (21 Oct). Build it from the CSS (section 2) |
 
 ---

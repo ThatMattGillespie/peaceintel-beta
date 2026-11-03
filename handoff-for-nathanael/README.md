@@ -1,10 +1,40 @@
 # Peace Intel brand system: the handoff
 
-For Nathanael Miksis and his coding agent, from Matt Gillespie, 23 October 2026 (Rev 63).
+For Nathanael Miksis and his coding agent, from Matt Gillespie, 2 November 2026 (Rev 73).
 
 This folder is the whole package and nothing else. Start with **`HANDOFF.md`** (the plan), then
 give **`AGENTS.md`** to your agent (the rules; its first section says what to trust and what may
 ship). The console is written down in **`CONSOLE.md`**.
+
+## New in this copy (Revs 64 to 73)
+
+Most of the change is on **`home.html`**, which now argues a case: the problem with
+general-purpose AI, Peace Intel's answer, the corpus, then the same question put to ChatGPT and
+to Peace Intel side by side.
+
+- **The send button stops an answer** while it is written (`.send.is-stop`, `CONSOLE.md` section 2).
+- **The floating bar no longer shrinks** to the logo; it stays whole and sticky.
+- **Sections arrive on their own** as they scroll in, even mid-scroll (`system.js`, landing).
+- **Phone headlines are smaller**: display 36px and h1 30px under 620px.
+- **Home's pictures are plain greyscale** cut-outs (`.lp-pic`, built by `media/mkpics.py`). Only the
+  dove video keeps the raster.
+- **New Home sections**, all still Exploration in `explorations.css`: the bento (L21), feature
+  tabs (L05), the problem and answer (L26) and the side by side (L27).
+- **One new runtime behaviour:** `[data-switch-auto]` lets the side by side change on its own
+  until someone presses a button. It is the only timed effect added; `AGENTS.md` rule 9 says
+  where it may be used.
+
+`CHANGELOG.md` has the detail of each revision.
+
+## What you need to do
+
+1. **Replace the placeholder responses on Home** (section 5, "Same question, different
+   standard"). Both answers, the model and date under each headline, and the citations are
+   placeholder text. Run the question on ChatGPT and on Peace Intel and put the real responses in.
+   `HANDOFF.md` has the checklist, under "Placeholder responses on Home".
+2. **Leave `.gpt-app` out of your token work.** The ChatGPT phone in that section copies
+   ChatGPT's own app on purpose, so it is the one block with literal values.
+3. Everything else follows `HANDOFF.md` and `AGENTS.md` as before.
 
 To look at the pages, serve this folder and open them in a browser (they do not work opened as
 files):

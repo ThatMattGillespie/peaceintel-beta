@@ -47,6 +47,29 @@ no longer hold:
 
 ---
 
+## Placeholder responses on Home: yours to replace
+
+Home's section 5 (`#compare`, "Same question, different standard") puts one question to ChatGPT and
+to Peace Intel. **Everything in it that looks like a result is placeholder text, and you are
+expected to replace it with real responses** before the page goes public:
+
+- **Both answers.** Put the same question to ChatGPT and to Peace Intel and paste what each actually
+  returned. Shorten only with an ellipsis, and keep the ChatGPT answer's own wording.
+- **The model and date lines** under each headline (`.lp-meta`, marked `data-placeholder`): the model
+  each answer came from and the day you ran it.
+- **The citations.** Peace Intel's three (Scacco &amp; Warren 2018, Mousa 2020, Paluck, Green &amp;
+  Green 2019) are real papers, but whatever the real answer cites replaces them, in the answer and in
+  its source list. ChatGPT's tag reads "Poor citations", so the real answer should cite
+  something; if it cites nothing, tell Matt so the tag can change.
+- **The labels under each headline** (`.lp-vs-tags`) must still describe what the real answer did.
+- When all of that is real, delete the "Illustrative example" note at the foot of each verdict. Keep the
+  trademark credit.
+
+The ChatGPT phone (`.gpt-app` in `explorations.css`) is styled after ChatGPT's own app on purpose and
+is the only block with literal values. Leave it out of your token work.
+
+---
+
 ## The package
 
 | File | What it is |

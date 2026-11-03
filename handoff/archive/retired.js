@@ -769,3 +769,40 @@
   })();
 
 })();
+
+/* Retired 2026-11-02 (Rev 66): the floating bar compacting to the logo. */
+  /* ── THE FLOATING BAR (.fnav[data-fnav]), Exploration, Pl. 19, 16 October ─
+     Matt: "a hovering top bar ... that has a margin from the viewport on the
+     sides and top, that compacts to just the logo when scrolling down". The
+     bar is a sticky object; this only decides its state. Scrolling down past
+     the first screenful compacts it, scrolling up opens it again, and at the
+     top it is always open. It scrolls with the window, or with the nearest
+     [data-fnav-scroll] when the specimen is a frame. CSS does the change, on
+     the interaction timings; with reduced motion it simply switches. */
+  (function floatNav() {
+    [].forEach.call(document.querySelectorAll('[data-fnav]'), function (bar) {
+      var box = bar.closest('[data-fnav-scroll]');
+      var src = box || window, last = 0, queued = false;
+      function y() { return box ? box.scrollTop : window.scrollY; }
+      function frame() {
+        queued = false;
+        var now = y(), dy = now - last;
+        if (now < 48) bar.classList.remove('is-compact');
+        else if (dy > 6) bar.classList.add('is-compact');
+        else if (dy < -6) bar.classList.remove('is-compact');
+        if (Math.abs(dy) > 6 || now < 48) last = now;
+      }
+      src.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(frame); } }, { passive: true });
+      /* Compacted, the dove is the way back to the menu: the first tap opens
+         the bar, and the next scroll down folds it again. Open, it is the
+         link home as before. */
+      var mark = bar.querySelector('.fnav-mark');
+      if (mark) mark.addEventListener('click', function (e) {
+        if (!bar.classList.contains('is-compact')) return;
+        e.preventDefault();
+        bar.classList.remove('is-compact'); last = y();
+        var first = bar.querySelector('.fnav-links a'); if (first) first.focus({ preventScroll: true });
+      });
+    });
+  })();
+

@@ -11,8 +11,6 @@
      grid          the scroll-linked rendered grid
      doc screen    Exploration: a documentary photograph in the dither, its
                    colour showing through in patches ([data-docscreen])
-     floating bar  Exploration: a sticky top bar that compacts to the logo on
-                   the way down ([data-fnav], Pl. 19)
      video         lazy playback with a concurrency cap, and the runtime
                    luminance-to-token mapping
      scrolly       a sticky figure that swaps with the step being read
@@ -20,7 +18,7 @@
      pager         on a data-snap page, one eased move per wheel gesture or key
      veil scroll   a [data-veil-scroll] veil drifts, dissolves in Bayer order and
                    flaps faster as its screen scrolls away
-     switch        a select[data-switch] shows the [data-case] it names
+     switch        a select or .seg with data-switch shows the [data-case] it names
      prompts       a pill carrying data-prompt writes its question into a field
 
    Debug: ?off=live,gx,doc,video disables individual drivers.
@@ -376,41 +374,6 @@
     });
   })();
 
-  /* ── THE FLOATING BAR (.fnav[data-fnav]), Exploration, Pl. 19, 16 October ─
-     Matt: "a hovering top bar ... that has a margin from the viewport on the
-     sides and top, that compacts to just the logo when scrolling down". The
-     bar is a sticky object; this only decides its state. Scrolling down past
-     the first screenful compacts it, scrolling up opens it again, and at the
-     top it is always open. It scrolls with the window, or with the nearest
-     [data-fnav-scroll] when the specimen is a frame. CSS does the change, on
-     the interaction timings; with reduced motion it simply switches. */
-  (function floatNav() {
-    [].forEach.call(document.querySelectorAll('[data-fnav]'), function (bar) {
-      var box = bar.closest('[data-fnav-scroll]');
-      var src = box || window, last = 0, queued = false;
-      function y() { return box ? box.scrollTop : window.scrollY; }
-      function frame() {
-        queued = false;
-        var now = y(), dy = now - last;
-        if (now < 48) bar.classList.remove('is-compact');
-        else if (dy > 6) bar.classList.add('is-compact');
-        else if (dy < -6) bar.classList.remove('is-compact');
-        if (Math.abs(dy) > 6 || now < 48) last = now;
-      }
-      src.addEventListener('scroll', function () { if (!queued) { queued = true; requestAnimationFrame(frame); } }, { passive: true });
-      /* Compacted, the dove is the way back to the menu: the first tap opens
-         the bar, and the next scroll down folds it again. Open, it is the
-         link home as before. */
-      var mark = bar.querySelector('.fnav-mark');
-      if (mark) mark.addEventListener('click', function (e) {
-        if (!bar.classList.contains('is-compact')) return;
-        e.preventDefault();
-        bar.classList.remove('is-compact'); last = y();
-        var first = bar.querySelector('.fnav-links a'); if (first) first.focus({ preventScroll: true });
-      });
-    });
-  })();
-
   /* ── VIDEO · load and play only what is on screen ────────────────────────
      Ten autoplaying clips on one page is a real problem, not a demo artefact.
      Every one of them opens a connection and holds it, and on a single-threaded
@@ -704,8 +667,12 @@
      On a snapping page that is the moment the snap settles — scrollend — which
      is the whole point: an intersection observer fires a quarter of the way
      into the snap, and the animation is over before the page has stopped.
-     Without snap (phones), waiting for rest would leave copy blank while a
-     reader flicks through it, so there the trigger is an ordinary observer.
+     Without snap, waiting for rest would leave copy blank while a reader
+     scrolls through it, so there each screen starts by itself the moment its
+     top edge is a fifth of the way up the window, whatever the others are doing
+     and however fast the page is moving. Only a page that really snaps waits
+     (Rev 66: this used to go by window width, so Home, which has never snapped,
+     held every section on a desktop until the scroll had stopped).
 
      Each screen lands once. A reveal that replays every time you pass it is a
      trick; once, it is an arrival.
@@ -747,7 +714,7 @@
     }
     root._settle = settle;
 
-    var snapping = window.matchMedia && window.matchMedia('(min-width: 901px)').matches;
+    var snapping = root.hasAttribute('data-snap') && window.matchMedia && window.matchMedia('(min-width: 901px)').matches;
     if (snapping || !('IntersectionObserver' in window)) {
       if ('onscrollend' in window) {
         window.addEventListener('scrollend', settle);
@@ -758,7 +725,7 @@
     } else {
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { play(e.target); io.unobserve(e.target); } });
-      }, { threshold: 0.3 });
+      }, { rootMargin: '0px 0px -20% 0px' });
       screens.forEach(function (s) { io.observe(s); });
     }
     window.addEventListener('resize', settle);
@@ -976,12 +943,16 @@
      Every case but the default ships with `hidden`, so with script off the page
      reads correctly as the default case.
 
+     A tray can drive it too (L05, Home, Rev 66): .seg[data-switch] with a
+     data-v on each button, the pressed one marked by aria-pressed. With
+     data-switch-auto the tray also advances on a clock (Rev 68, below).
+
      The new case arrives through its own .mo-* primitive. While it is still
      hidden the driver takes .is-in off it, shows it, and puts .is-in back on
      the next frame, so the primitive's transition runs exactly as it did on
      entry. It invents no motion; it only asks for the same arrival twice. */
   (function switches() {
-    [].slice.call(document.querySelectorAll('select[data-switch]')).forEach(function (sel) {
+    [].slice.call(document.querySelectorAll('[data-switch]')).forEach(function (sel) {
       var box = document.getElementById(sel.getAttribute('data-switch'));
       if (!box) return;
       var cases = [].slice.call(box.querySelectorAll('[data-case]'));
@@ -996,6 +967,52 @@
           void c.offsetWidth;
           requestAnimationFrame(function () { mo.forEach(function (el) { el.classList.add('is-in'); }); });
         });
+      }
+      if (!sel.matches('select')) {
+        /* Any button[data-v] inside the element drives it: a tray's options,
+           or (Home's side by side, Rev 70) a call to action inside a case,
+           where the switch is the wrapper round the box itself. Only buttons
+           that carry aria-pressed are marked pressed. */
+        var buttons = [].slice.call(sel.querySelectorAll('button[data-v]'));
+        var current = (cases.filter(function (c) { return !c.hidden; })[0] || cases[0]).getAttribute('data-case');
+        function press(v) {
+          current = v;
+          buttons.forEach(function (x) { if (x.hasAttribute('aria-pressed')) x.setAttribute('aria-pressed', String(x.getAttribute('data-v') === v)); });
+          show(v);
+        }
+        sel.addEventListener('click', function (e) {
+          var b = e.target.closest('button[data-v]');
+          if (!b || !sel.contains(b)) return;
+          stop();
+          press(b.getAttribute('data-v'));
+        });
+        /* data-switch-auto (Home's side by side, Rev 68, Matt's request): it
+           moves to the next case on its own. Each case holds for its
+           data-hold in ms, 8000 if it has none. The clock runs only while
+           the box crosses the middle of the window (a box taller than the
+           window never shows 40% of itself) and nobody is pointing at it or
+           focused in it; pressing anything in it stops it for good, and
+           reduced motion never starts it. It changes which case shows; the
+           arrival is still the case's own .mo-* primitive, so it adds no
+           motion of its own. */
+        var timer = null, on = false, held = false, done = !sel.hasAttribute('data-switch-auto') ||
+          (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+        function stop() { done = true; clearTimeout(timer); }
+        function arm() {
+          clearTimeout(timer);
+          if (done || !on || held) return;
+          var i = cases.map(function (c) { return c.getAttribute('data-case'); }).indexOf(current);
+          timer = setTimeout(function () {
+            press(cases[(i + 1) % cases.length].getAttribute('data-case'));
+            arm();
+          }, +cases[i].getAttribute('data-hold') || 8000);
+        }
+        if (!done && 'IntersectionObserver' in window) {
+          new IntersectionObserver(function (es) { on = es[0].isIntersecting; arm(); }, { rootMargin: '-30% 0px -30% 0px' }).observe(box);
+          ['pointerenter', 'focusin'].forEach(function (t) { box.addEventListener(t, function () { held = true; clearTimeout(timer); }); });
+          ['pointerleave', 'focusout'].forEach(function (t) { box.addEventListener(t, function () { held = false; arm(); }); });
+        }
+        return;
       }
       sel.addEventListener('change', function () { show(sel.value); });
       /* A browser restoring the form on back/forward can hand back a select

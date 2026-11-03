@@ -12,13 +12,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tokens.css?v=b7f06aa9">
-<link rel="stylesheet" href="components.css?v=421d083a">
-<link rel="stylesheet" href="explorations.css?v=2126a7cf">
+<link rel="stylesheet" href="tokens.css?v=6d2da45e">
+<link rel="stylesheet" href="components.css?v=cdfe1065">
+<link rel="stylesheet" href="explorations.css?v=89a20d1f">
 <!-- No page style block. Every shape here is a named block in components.css
      or explorations.css, and the one entry primitive is .mo-deal. The ?v= on
      each file is its content hash, so an edited stylesheet is never served
      from cache against newer markup.
+
+     Rev 67 (2 Nov): reordered as an argument: the problem, the answer, the
+     corpus, then the same question put to both tools. Every picture but the
+     dove video is now a plain greyscale .lp-pic (media/mkpics.py).
 
      Rev 37 (16 Oct): rebuilt on the guide as it stands after Rev 36. The
      floating bar (Pl. 19 · B, decided) replaces .nav; the corpus band carries
@@ -29,10 +33,9 @@
 
 <!-- ══ THE FLOATING BAR (Pl. 19 · B) ════════════════════════════════════════
      An object over the page: the face and an edge, set in to the body's
-     edges. On the way down it pulls in to the whole logo, centred; on the way
-     up, or a tap on the logo, it opens again (system.js, floatNav). Under 620px
-     the text links go, under 440px Sign in goes, and Try it now stays. -->
-<header class="fnav" data-fnav>
+     edges, sticky and always whole (it stopped compacting in Rev 66). Under
+     620px the text links go, under 440px Sign in goes, and Try it now stays. -->
+<header class="fnav">
   <div class="fnav-in">
     <a class="fnav-mark" href="#top" aria-label="Peace Intel, back to the top"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></a>
     <nav class="fnav-links" aria-label="Main">
@@ -77,15 +80,58 @@
   </div>
 </header>
 
-<!-- ══ 2 · THE CORPUS ═══════════════════════════════════════════════════════
-     The first of two dark bands (the footer is the other; a light band always
-     sits between). The picture is the documentary treatment decided on
-     19 October (Matt): the book in front of the earth, two of the brand's
-     stills (step-02 and step-01) composed into one master, on the still
-     treatment. The Mosul picture it replaced is in
-     archive/home-cut-2026-10-19.html. The heading sits over the picture
-     and the figures run beside both, since at --t-stat (72px) the ledger is
-     the taller column. -->
+<!-- ══ 2 · THE PROBLEM ══════════════════════════════════════════════════════
+     Where general-purpose AI falls short (Rev 67, from a partner conversation).
+     Copy on the page is draft. Its four failures run in the order section 3
+     answers them. -->
+<section id="problem" class="band surface--ground" data-land>
+  <div class="wrap">
+    <div class="fig-split fig-split--even">
+      <div>
+        <div class="sec-head mo-deal" data-at="0">
+          <h2>Peace is too sensitive for sycophantic&nbsp;AI.</h2>
+          <p>Common LLMs are built to please the person asking. On a question of peace and security, a confident wrong answer shapes where money, people and trust go.</p>
+        </div>
+        <div class="ledger lp-claims mo-deal" data-at="120">
+          <div><h3>They flatter</h3><p>A plan gets praised before it gets tested, so a weak assumption comes back sounding sound.</p></div>
+          <div><h3>They give way under pressure</h3><p>Insist or reframe the question, and the answer moves toward what you wanted to hear.</p></div>
+          <div><h3>They overstate the evidence</h3><p>One small study in one place turns into &ldquo;research shows.&rdquo;</p></div>
+          <div><h3>They answer when they should ask</h3><p>Missing context gets filled with assumptions, and the answer never says so.</p></div>
+        </div>
+      </div>
+      <img class="lp-pic mo-deal" data-at="240" src="media/pic-dove-blindfolded.png" alt="A dove wearing a blindfold">
+    </div>
+  </div>
+</section>
+
+<!-- ══ 3 · THE ANSWER ═══════════════════════════════════════════════════════
+     The problem band mirrored: the picture crosses to the left and the four
+     claims answer the four failures. -->
+<section id="answer" class="band" data-land>
+  <div class="wrap">
+    <div class="fig-split fig-split--even lp-flip">
+      <div>
+        <div class="sec-head mo-deal" data-at="0">
+          <h2>Built for decisions made under pressure.</h2>
+          <p>Peace Intel was designed from the ground up for epistemic humility.</p>
+        </div>
+        <div class="ledger lp-claims mo-deal" data-at="120">
+          <div><h3>It pushes back</h3><p>When a premise is weak, it says so, and it holds that position when pressed.</p></div>
+          <div><h3>It represents sources accurately</h3><p>Each claim carries what the study found, at the strength it found it, with the citation beside it.</p></div>
+          <div><h3>It identifies gaps</h3><p>It names what the evidence does not cover, and asks for the context it needs.</p></div>
+          <div><h3>It shows what each answer rests on</h3><p>Every source is marked by how much of it was read: the full paper, the abstract, or the open web.</p></div>
+        </div>
+      </div>
+      <img class="lp-pic mo-deal" data-at="240" src="media/pic-inspection.png" alt="A magnifying glass held over an olive branch">
+    </div>
+  </div>
+</section>
+
+<!-- ══ 4 · THE CORPUS ═══════════════════════════════════════════════════════
+     What the answer stands on. The first of two dark bands (the footer is the
+     other; a light band always sits between). The heading sits over the
+     picture and the figures run beside both, since at --t-stat (72px) the
+     ledger is the taller column. -->
 <section id="corpus" class="band band--dark on-dark" data-land>
   <div class="wrap">
     <div class="fig-split fig-split--even">
@@ -93,14 +139,11 @@
         <div class="sec-head mo-deal" data-at="0">
           <h2>The world&rsquo;s largest corpus of peacebuilding evidence, in one place.</h2>
         </div>
-        <div class="vmap vmap--still mo-deal" data-vmap data-vmode="subject" data-at="300">
-          <img src="media/corpus-book-globe.png" alt="An open book with an olive branch, in front of a globe">
-          <canvas aria-hidden="true"></canvas>
-        </div>
+        <img class="lp-pic mo-deal" data-at="120" src="media/pic-dove-papers.png" alt="A dove standing in front of a tall stack of papers">
       </div>
 
       <div>
-        <div class="ledger ledger--figures mo-deal" data-at="600">
+        <div class="ledger ledger--figures mo-deal" data-at="240">
           <p class="stat"><span class="n">258,621</span><span class="l">Papers</span></p>
           <p class="stat"><span class="n">42</span><span class="l">Structured, searchable datasets</span></p>
           <p class="stat"><span class="n">10,664</span><span class="l">Field-tested M&amp;E indicators, from EIRENE</span></p>
@@ -112,47 +155,100 @@
   </div>
 </section>
 
-<!-- ══ 3 · HOW IT IS DIFFERENT ══════════════════════════════════════════════
-     Five claims, each led by a Lucide icon passed onto the brand's dither cell
-     by media/mkicons.cjs. Ink, not accent. -->
-<section class="band" data-land>
+<!-- ══ 5 · SIDE BY SIDE ═════════════════════════════════════════════════════
+     27 · 2 from compare-lab.html, chosen by Matt (Rev 70). One question, two
+     answers, each on a phone beside its verdict in display type. ChatGPT's
+     panel is the inverted surface, so each change turns the panel over. The
+     action at the foot of the verdict switches to the other answer (system.js,
+     switch: the wrapper is the switch, the buttons are inside the cases), and
+     the clock moves between them on its own until one is pressed.
+     The ChatGPT phone depicts another product, so its look is that app's,
+     not this system's: .gpt-app in explorations.css is the one block that
+     carries literal values, on purpose. Its mark is OpenAI's trademark.
+     DEMO TEXT: neither answer is a recorded output, and the note at the foot of
+     each verdict says so. Every [data-placeholder] line (model and date) is a
+     placeholder too. Nathanael replaces all of it with real responses
+     (HANDOFF.md, "Placeholder responses on Home"). The three
+     citations are real papers and need checking against the corpus. -->
+<section id="compare" class="band" data-land>
   <div class="wrap">
     <div class="sec-head mo-deal" data-at="0">
-      <h2>How Peace&nbsp;Intel is different.</h2>
-      <p>Built for the sector, by the sector.</p>
+      <h2>Same question, different standard.</h2>
     </div>
 
-    <div class="points mo-deal" data-at="300">
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M7 1h11v1h-11zM4 2h17v1h-17zM3 3h6v1h-6zM16 3h6v1h-6zM2 4h3v1h-3zM20 4h3v1h-3zM2 5h3v1h-3zM20 5h3v1h-3zM2 6h4v1h-4zM19 6h4v1h-4zM2 7h21v1h-21zM2 8h2v1h-2zM5 8h15v1h-15zM21 8h2v1h-2zM2 9h2v1h-2zM21 9h2v1h-2zM2 10h2v1h-2zM21 10h2v1h-2zM2 11h2v1h-2zM21 11h2v1h-2zM2 12h2v1h-2zM21 12h2v1h-2zM2 13h4v1h-4zM19 13h4v1h-4zM2 14h8v1h-8zM15 14h8v1h-8zM2 15h21v1h-21zM2 16h2v1h-2zM8 16h9v1h-9zM21 16h2v1h-2zM2 17h2v1h-2zM21 17h2v1h-2zM2 18h2v1h-2zM21 18h2v1h-2zM2 19h2v1h-2zM21 19h2v1h-2zM2 20h3v1h-3zM20 20h3v1h-3zM3 21h5v1h-5zM17 21h5v1h-5zM4 22h17v1h-17zM7 23h11v1h-11z"/></svg>
-        <h3>Exclusive data sets</h3>
-        <p>Including the EIRENE indicators from the Alliance for Peacebuilding, and soon the Dimensions of Peace dataset.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M11 4h3v1h-3zM9 5h7v1h-7zM7 6h5v1h-5zM13 6h5v1h-5zM5 7h5v1h-5zM15 7h5v1h-5zM2 8h5v1h-5zM18 8h5v1h-5zM1 9h4v1h-4zM20 9h4v1h-4zM1 10h3v1h-3zM21 10h3v1h-3zM1 11h4v1h-4zM20 11h4v1h-4zM3 12h5v1h-5zM17 12h7v1h-7zM5 13h5v1h-5zM15 13h5v1h-5zM22 13h2v1h-2zM5 14h7v1h-7zM13 14h7v1h-7zM22 14h2v1h-2zM5 15h2v1h-2zM9 15h7v1h-7zM18 15h2v1h-2zM22 15h2v1h-2zM5 16h2v1h-2zM12 16h1v1h-1zM18 16h2v1h-2zM22 16h2v1h-2zM5 17h3v1h-3zM17 17h3v1h-3zM22 17h1v1h-1zM6 18h4v1h-4zM15 18h4v1h-4zM7 19h11v1h-11zM10 20h5v1h-5z"/></svg>
-        <h3>AI skills designed by experts</h3>
-        <p>Built-in workflows apply expert-defined best practice to evaluating and writing reports, portfolio reviews and Rotary Global Grants.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M9 1h7v1h-7zM9 2h7v1h-7zM8 3h3v1h-3zM14 3h3v1h-3zM8 4h3v1h-3zM14 4h3v1h-3zM8 5h3v1h-3zM14 5h3v1h-3zM8 6h3v1h-3zM14 6h3v1h-3zM8 7h9v1h-9zM9 8h7v1h-7zM11 9h3v1h-3zM11 10h3v1h-3zM11 11h3v1h-3zM5 12h15v1h-15zM4 13h17v1h-17zM4 14h2v1h-2zM19 14h2v1h-2zM4 15h3v1h-3zM18 15h3v1h-3zM1 16h8v1h-8zM16 16h8v1h-8zM1 17h8v1h-8zM16 17h8v1h-8zM1 18h2v1h-2zM7 18h3v1h-3zM15 18h3v1h-3zM22 18h2v1h-2zM1 19h2v1h-2zM7 19h3v1h-3zM15 19h3v1h-3zM22 19h2v1h-2zM1 20h2v1h-2zM7 20h3v1h-3zM15 20h3v1h-3zM22 20h2v1h-2zM1 21h2v1h-2zM7 21h3v1h-3zM15 21h3v1h-3zM22 21h2v1h-2zM1 22h8v1h-8zM16 22h8v1h-8zM2 23h7v1h-7zM16 23h7v1h-7z"/></svg>
-        <h3>Sees evidence connections LLMs can&rsquo;t</h3>
-        <p>Structured knowledge links findings across studies, so it can show how the evidence connects.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M2 2h2v1h-2zM2 3h2v1h-2zM2 4h2v1h-2zM2 5h2v1h-2zM7 5h13v1h-13zM2 6h2v1h-2zM6 6h15v1h-15zM2 7h2v1h-2zM2 8h2v1h-2zM2 9h2v1h-2zM2 10h2v1h-2zM2 11h2v1h-2zM6 11h11v1h-11zM2 12h2v1h-2zM7 12h9v1h-9zM2 13h2v1h-2zM2 14h2v1h-2zM2 15h2v1h-2zM2 16h2v1h-2zM6 16h5v1h-5zM2 17h2v1h-2zM7 17h4v1h-4zM2 18h2v1h-2zM2 19h2v1h-2zM2 20h2v1h-2zM2 21h21v1h-21zM3 22h20v1h-20z"/></svg>
-        <h3>Sources curated and ranked</h3>
-        <p>Every source is vetted and ranked for quality through a proprietary process.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M12 2h1v1h-1zM11 3h3v1h-3zM11 4h3v1h-3zM9 5h7v1h-7zM3 6h19v1h-19zM2 7h7v1h-7zM11 7h3v1h-3zM16 7h7v1h-7zM4 8h2v1h-2zM11 8h3v1h-3zM19 8h2v1h-2zM4 9h3v1h-3zM11 9h3v1h-3zM18 9h3v1h-3zM3 10h4v1h-4zM11 10h3v1h-3zM18 10h4v1h-4zM3 11h5v1h-5zM11 11h3v1h-3zM17 11h5v1h-5zM3 12h2v1h-2zM6 12h2v1h-2zM11 12h3v1h-3zM17 12h2v1h-2zM20 12h2v1h-2zM2 13h2v1h-2zM6 13h2v1h-2zM11 13h3v1h-3zM17 13h2v1h-2zM21 13h2v1h-2zM2 14h2v1h-2zM6 14h3v1h-3zM11 14h3v1h-3zM16 14h3v1h-3zM21 14h2v1h-2zM1 15h3v1h-3zM7 15h2v1h-2zM11 15h3v1h-3zM16 15h2v1h-2zM21 15h3v1h-3zM1 16h3v1h-3zM6 16h3v1h-3zM11 16h3v1h-3zM16 16h3v1h-3zM21 16h3v1h-3zM2 17h7v1h-7zM11 17h3v1h-3zM16 17h7v1h-7zM3 18h4v1h-4zM11 18h3v1h-3zM18 18h4v1h-4zM11 19h3v1h-3zM11 20h3v1h-3zM6 21h13v1h-13zM7 22h11v1h-11z"/></svg>
-        <h3>Designed with epistemic safeguards</h3>
-        <p>Trained not to overstate a claim, and to say plainly when the evidence is strong, mixed or untested.</p>
+    <!-- Not inside a .mo-deal: its reveal clips to the column and would cut
+         the full-width panel back. The panel's own copy and answer still deal. -->
+    <div data-switch="vs" data-switch-auto>
+      <div id="vs" class="lp-vs">
+        <div data-case="gpt" data-hold="8000">
+          <div class="lp-verdict lp-bleed surface--invert">
+            <div class="lp-verdict-say mo-deal" data-at="360">
+              <span class="lp-who"><img src="media/chatgpt-mark.svg" alt="">ChatGPT</span>
+              <p class="lp-verdict-h">It told you what you wanted to&nbsp;hear.</p>
+              <p class="lp-meta" data-placeholder>GPT-5 &middot; Accessed 2 November 2026</p>
+              <ul class="lp-vs-tags eyebrow eb-3"><li>Agrees too easily</li><li>Poor citations</li><li>Fails to ask for clarity</li></ul>
+              <div class="lk-actions"><button class="btn tint lg" type="button" data-v="pi">Ask Peace&nbsp;Intel instead</button></div>
+              <p class="note lp-vs-note">Illustrative example. Demo text, not a recorded output from either tool. ChatGPT is a trademark of OpenAI.</p>
+            </div>
+            <div class="lp-phone gpt-app" role="img" aria-label="Demo: the question and ChatGPT's answer, in the style of the ChatGPT phone app">
+            <div class="gpt-top"><span class="gpt-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h10"/></svg></span><span class="gpt-title">ChatGPT <span class="gpt-chev"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></span></span><span class="gpt-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-6"/><path d="M17.5 3.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/></svg></span></div>
+            <div class="gpt-scroll">
+              <div class="gpt-user">Our theory of change assumes that more contact between ethnic groups will reduce violence. Our board votes on $20 million on Friday. Can you confirm the evidence supports this?</div>
+              <div class="gpt-bot mo-deal" data-at="480">
+                <p>Great question, and your theory of change is on solid ground. <strong>Yes, the evidence strongly supports it.</strong></p>
+                <p>Research consistently shows that contact between groups reduces prejudice and prevents violence. Decades of studies confirm that bringing communities together builds trust, and that programs like yours are among the most effective tools in peacebuilding.</p>
+                <p>You can tell your board with confidence that this is a proven approach. Would you like me to draft the presentation?</p>
+                <div class="gpt-acts"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11M15 5.9 14 10h5.8a2 2 0 0 1 2 2.3l-1.4 7A2 2 0 0 1 18.4 21H7V10l4-8a3 3 0 0 1 4 3.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 14V3M9 18.1 10 14H4.2a2 2 0 0 1-2-2.3l1.4-7A2 2 0 0 1 5.6 3H17v11l-4 8a3 3 0 0 1-4-3.9z"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.3L3 16M3 21v-5h5"/></svg></div>
+              </div>
+            </div>
+            <div class="gpt-composer"><span class="gpt-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><span class="gpt-ph">Ask anything</span><span class="gpt-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></span><span class="gpt-voice"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 10v4M10 7v10M14 9v6M18 11v2"/></svg></span></div>
+          </div>
+          </div>
+        </div>
+        <div data-case="pi" data-hold="14000" hidden>
+          <div class="lp-verdict lp-bleed">
+            <div class="lp-verdict-say mo-deal" data-at="360">
+              <span class="lp-who"><img class="lp-who-logo" src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></span>
+              <p class="lp-verdict-h">It told you what the evidence&nbsp;says.</p>
+              <p class="lp-meta" data-placeholder>Peace Intel v1 &middot; Accessed 2 November 2026</p>
+              <ul class="lp-vs-tags eyebrow eb-3"><li>Pushes back</li><li>Cites quality sources</li><li>Asks for context</li></ul>
+              <div class="lk-actions"><a class="btn tint lg" href="#try">Try it now</a><button class="btn ghost lg" type="button" data-v="gpt">See ChatGPT&rsquo;s answer</button></div>
+              <p class="note lp-vs-note">Illustrative example. Demo text, not a recorded output from either tool. ChatGPT is a trademark of OpenAI.</p>
+            </div>
+            <div class="lp-phone">
+            <div class="app lp-console--solo">
+              <div class="app-top"><span class="nav-mark"><img src="media/peaceintel-logo-light.png?v=v6" alt="Peace Intel"></span><span class="spacer"></span><span class="badge">Demo</span></div>
+              <div class="app-body"><main class="app-main"><div class="app-scroll">
+                <div class="chat">
+                  <div class="msg user"><div class="who">You</div><div class="bubble">Our theory of change assumes that more contact between ethnic groups will reduce violence. Our board votes on $20 million on Friday. Can you confirm the evidence supports this?</div></div>
+                  <div class="msg agent mo-deal" data-at="480">
+                    <div class="who">Peace Intel</div>
+                    <h3 class="answer-h">The evidence supports a narrower claim than this.</h3>
+                    <div class="body">
+                      <p>I can&rsquo;t confirm it as stated. Contact can change how people treat those they actually meet<span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="cite t1"><span class="cm">&#9679;</span>2</span>, and a wide review finds it generally improves attitudes, with weaker effects on ethnic and racial prejudice<span class="cite t1"><span class="cm">&#9679;</span>3</span>.</p>
+                      <p>It does not show an effect on violence. In Nigeria, shared classes reduced discrimination without reducing prejudice<span class="cite t1"><span class="cm">&#9679;</span>1</span>. In Iraq, behaviour improved among teammates, with little spillover beyond the team<span class="cite t1"><span class="cm">&#9679;</span>2</span>.</p>
+                      <h4>Before Friday</h4>
+                      <p>Which groups, where, and what kind of contact? Is there recent violence between them? That decides which of this evidence applies.</p>
+                    </div>
+                    <div class="evi-list">
+                      <div class="evi-row"><span class="cite t1"><span class="cm">&#9679;</span>1</span><span class="tt"><i>Scacco &amp; Warren (2018)</i> <span class="by">American Political Science Review</span></span></div>
+                      <div class="evi-row"><span class="cite t1"><span class="cm">&#9679;</span>2</span><span class="tt"><i>Mousa (2020)</i> <span class="by">Science</span></span></div>
+                      <div class="evi-row"><span class="cite t1"><span class="cm">&#9679;</span>3</span><span class="tt"><i>Paluck, Green &amp; Green (2019)</i> <span class="by">Behavioural Public Policy</span></span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="composer-wrap"><div class="composer"><textarea class="ci" rows="1" aria-label="Ask a follow-up" placeholder="Ask a follow-up" tabindex="-1" readonly></textarea><div class="composer-bar"><span class="spacer"></span><button class="send" type="button" tabindex="-1" aria-hidden="true"></button></div></div></div>
+              </div></main></div>
+            </div>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ 4 · WHO IT IS FOR ════════════════════════════════════════════════════
+<!-- ══ 6 · WHO IT IS FOR ════════════════════════════════════════════════════
      The organisation type is a blank in the sentence, and choosing it rewrites
      the three roles under it (system.js, switch). Practitioners are an
      implementer role; each funder type gets its own third role instead. -->
@@ -169,25 +265,25 @@
     </div>
 
     <div id="roles">
-      <div class="ledger ledger--split mo-deal" data-case="philanthropy" data-at="300">
+      <div class="ledger ledger--split mo-deal" data-case="philanthropy" data-at="120">
         <div><h3 class="eyebrow">For program managers</h3><p>Evaluate proposals, appraise results, and refine your intervention strategy.</p></div>
         <div><h3 class="eyebrow">For leadership</h3><p>Map stakeholders, appraise portfolios, and target high-impact interventions with an evidence-based decision aid.</p></div>
         <div><h3 class="eyebrow">For evaluation and learning staff</h3><p>Choose indicators that fit, test the claims in grantee reports, and turn years of evaluations into institutional memory.</p></div>
       </div>
 
-      <div class="ledger ledger--split mo-deal" data-case="implementer" data-at="300" hidden>
+      <div class="ledger ledger--split mo-deal" data-case="implementer" data-at="120" hidden>
         <div><h3 class="eyebrow">For program managers</h3><p>Design programs on what has worked in comparable contexts, and build monitoring plans you can defend.</p></div>
         <div><h3 class="eyebrow">For leadership</h3><p>Set country strategy, decide where scarce capacity goes, and brief funders with evidence-backed lessons.</p></div>
         <div><h3 class="eyebrow">For practitioners</h3><p>Draft proposals, refine your theory of change, and develop evidence-based implementation plans.</p></div>
       </div>
 
-      <div class="ledger ledger--split mo-deal" data-case="dfi" data-at="300" hidden>
+      <div class="ledger ledger--split mo-deal" data-case="dfi" data-at="120" hidden>
         <div><h3 class="eyebrow">For project teams</h3><p>Design operations that account for conflict, and flag do-no-harm risks before appraisal.</p></div>
         <div><h3 class="eyebrow">For leadership</h3><p>Compare investment options on evidence, feasibility and risk, and see where existing support leaves gaps.</p></div>
         <div><h3 class="eyebrow">For fragility specialists</h3><p>Analyze the drivers of conflict in a region, judge which are addressable, and pressure-test a project&rsquo;s assumptions.</p></div>
       </div>
 
-      <div class="ledger ledger--split mo-deal" data-case="ministry" data-at="300" hidden>
+      <div class="ledger ledger--split mo-deal" data-case="ministry" data-at="120" hidden>
         <div><h3 class="eyebrow">For desk officers</h3><p>Prepare a briefing with evidence-backed lessons, key caveats and sources before the meeting starts.</p></div>
         <div><h3 class="eyebrow">For senior officials</h3><p>Set conflict-prevention priorities, weigh policy options against the evidence, and name what remains uncertain.</p></div>
         <div><h3 class="eyebrow">For embassy and field staff</h3><p>Read local conflict dynamics, find precedents from comparable places, and test what partners claim.</p></div>
@@ -196,7 +292,7 @@
   </div>
 </section>
 
-<!-- ══ 5 · TRY IT ═══════════════════════════════════════════════════════════
+<!-- ══ 7 · TRY IT ═══════════════════════════════════════════════════════════
      Where "Try it now" lands. Registration was cut on 2026-10-09, so the prompt
      is unmounted; its own border is the frame. Each pill writes its workflow's
      question into the field (system.js, prompts). The questions come from the
@@ -207,7 +303,7 @@
       <h2>Try one of our expert-&#8288;built workflows.</h2>
     </div>
 
-    <div class="ask mo-deal" data-at="300">
+    <div class="ask mo-deal" data-at="120">
       <div class="pills" data-prompts="ask">
         <button class="pill" type="button" aria-pressed="false" aria-controls="ask" data-prompt="Prepare a one-page brief on the drivers of farmer–herder conflict in the Sahel. Which are realistically addressable through our programming? Include key caveats and sources.">Generate a conflict brief</button>
         <button class="pill" type="button" aria-pressed="false" aria-controls="ask" data-prompt="What evidence-based approaches to preventing election violence could we include in a proposal for Kenya? Help us connect each proposed activity to the evidence.">Draft a proposal</button>
@@ -227,41 +323,82 @@
   </div>
 </section>
 
-<!-- ══ 6 · ALL THE FEATURES YOU EXPECT (Rev 56) ══════════════════════════════
-     The close: the everyday tools a reader expects of an LLM, as the console
-     has them. Sections 6 and 7 as they were are in
-     archive/home-cut-2026-10-19.html. -->
+<!-- ══ 8 · BUILT FOR THE SECTOR ═════════════════════════════════════════════
+     The L21 bento (Rev 66, an exploration in use here). Epistemic safeguards
+     left for section 3 in Rev 67, so the last of the four tiles runs wide. -->
 <section class="band surface--ground" data-land>
+  <div class="wrap">
+    <div class="sec-head mo-deal" data-at="0">
+      <h2>Built for the sector, by the sector.</h2>
+    </div>
+
+    <div class="lp-bento mo-deal" data-at="120">
+      <div class="card raised big">
+        <img class="lp-pic" src="media/pic-dove-docs.png" alt="">
+        <h3>Exclusive data sets</h3>
+        <p>Including the EIRENE indicators from the Alliance for Peacebuilding, and soon the Dimensions of Peace dataset.</p>
+      </div>
+      <div class="card raised">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M11 4h3v1h-3zM9 5h7v1h-7zM7 6h5v1h-5zM13 6h5v1h-5zM5 7h5v1h-5zM15 7h5v1h-5zM2 8h5v1h-5zM18 8h5v1h-5zM1 9h4v1h-4zM20 9h4v1h-4zM1 10h3v1h-3zM21 10h3v1h-3zM1 11h4v1h-4zM20 11h4v1h-4zM3 12h5v1h-5zM17 12h7v1h-7zM5 13h5v1h-5zM15 13h5v1h-5zM22 13h2v1h-2zM5 14h7v1h-7zM13 14h7v1h-7zM22 14h2v1h-2zM5 15h2v1h-2zM9 15h7v1h-7zM18 15h2v1h-2zM22 15h2v1h-2zM5 16h2v1h-2zM12 16h1v1h-1zM18 16h2v1h-2zM22 16h2v1h-2zM5 17h3v1h-3zM17 17h3v1h-3zM22 17h1v1h-1zM6 18h4v1h-4zM15 18h4v1h-4zM7 19h11v1h-11zM10 20h5v1h-5z"/></svg>
+        <h3>AI skills designed by experts</h3>
+        <p>Built-in workflows apply expert-defined best practice to evaluating and writing reports, portfolio reviews and Rotary Global Grants.</p>
+      </div>
+      <div class="card raised">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M9 1h7v1h-7zM9 2h7v1h-7zM8 3h3v1h-3zM14 3h3v1h-3zM8 4h3v1h-3zM14 4h3v1h-3zM8 5h3v1h-3zM14 5h3v1h-3zM8 6h3v1h-3zM14 6h3v1h-3zM8 7h9v1h-9zM9 8h7v1h-7zM11 9h3v1h-3zM11 10h3v1h-3zM11 11h3v1h-3zM5 12h15v1h-15zM4 13h17v1h-17zM4 14h2v1h-2zM19 14h2v1h-2zM4 15h3v1h-3zM18 15h3v1h-3zM1 16h8v1h-8zM16 16h8v1h-8zM1 17h8v1h-8zM16 17h8v1h-8zM1 18h2v1h-2zM7 18h3v1h-3zM15 18h3v1h-3zM22 18h2v1h-2zM1 19h2v1h-2zM7 19h3v1h-3zM15 19h3v1h-3zM22 19h2v1h-2zM1 20h2v1h-2zM7 20h3v1h-3zM15 20h3v1h-3zM22 20h2v1h-2zM1 21h2v1h-2zM7 21h3v1h-3zM15 21h3v1h-3zM22 21h2v1h-2zM1 22h8v1h-8zM16 22h8v1h-8zM2 23h7v1h-7zM16 23h7v1h-7z"/></svg>
+        <h3>Sees evidence connections LLMs can&rsquo;t</h3>
+        <p>Structured knowledge links findings across studies, so it can show how the evidence connects.</p>
+      </div>
+      <div class="card raised wide">
+        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M2 2h2v1h-2zM2 3h2v1h-2zM2 4h2v1h-2zM2 5h2v1h-2zM7 5h13v1h-13zM2 6h2v1h-2zM6 6h15v1h-15zM2 7h2v1h-2zM2 8h2v1h-2zM2 9h2v1h-2zM2 10h2v1h-2zM2 11h2v1h-2zM6 11h11v1h-11zM2 12h2v1h-2zM7 12h9v1h-9zM2 13h2v1h-2zM2 14h2v1h-2zM2 15h2v1h-2zM2 16h2v1h-2zM6 16h5v1h-5zM2 17h2v1h-2zM7 17h4v1h-4zM2 18h2v1h-2zM2 19h2v1h-2zM2 20h2v1h-2zM2 21h21v1h-21zM3 22h20v1h-20z"/></svg>
+        <h3>Sources curated and ranked</h3>
+        <p>Every source is vetted and ranked for quality through a proprietary process.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 9 · ALL THE FEATURES YOU EXPECT ═══════════════════════════════════════
+     The everyday tools a reader expects of an LLM, as L05 tabs (Rev 66, an
+     exploration in use here): the tray rewrites the panel under it, through
+     the same switch as the blank in section 4 (system.js, switch). With script
+     off the first panel shows. The .points row it replaced is in
+     archive/home-cut-2026-11-02.html. -->
+<section class="band" data-land>
   <div class="wrap">
     <div class="sec-head mo-deal" data-at="0">
       <h2>All the features you expect from an LLM.</h2>
       <p>And a workspace built around the evidence.</p>
     </div>
 
-    <div class="points points--4 mo-deal" data-at="300">
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M3 2h7v1h-7zM1 3h10v1h-10zM1 4h3v1h-3zM9 4h3v1h-3zM1 5h2v1h-2zM10 5h10v1h-10zM1 6h2v1h-2zM11 6h10v1h-10zM1 7h2v1h-2zM19 7h3v1h-3zM1 8h2v1h-2zM20 8h2v1h-2zM1 9h2v1h-2zM19 9h3v1h-3zM1 10h2v1h-2zM7 10h16v1h-16zM1 11h2v1h-2zM7 11h17v1h-17zM1 12h2v1h-2zM6 12h3v1h-3zM22 12h2v1h-2zM1 13h2v1h-2zM6 13h2v1h-2zM22 13h2v1h-2zM1 14h2v1h-2zM5 14h3v1h-3zM21 14h3v1h-3zM1 15h2v1h-2zM6 15h1v1h-1zM21 15h2v1h-2zM1 16h2v1h-2zM21 16h2v1h-2zM1 17h2v1h-2zM21 17h2v1h-2zM1 18h2v1h-2zM20 18h3v1h-3zM1 19h3v1h-3zM20 19h2v1h-2zM1 20h21v1h-21zM2 21h19v1h-19z"/></svg>
-        <h3>Project workspaces</h3>
-        <p>Give each portfolio, proposal or country its own project. Its chats, documents and instructions stay together, so you never have to explain the work twice.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M5 1h11v1h-11zM3 2h15v1h-15zM3 3h3v1h-3zM13 3h6v1h-6zM3 4h2v1h-2zM13 4h3v1h-3zM17 4h3v1h-3zM3 5h2v1h-2zM13 5h3v1h-3zM18 5h3v1h-3zM3 6h2v1h-2zM13 6h3v1h-3zM19 6h2v1h-2zM3 7h2v1h-2zM14 7h8v1h-8zM3 8h2v1h-2zM14 8h8v1h-8zM3 9h2v1h-2zM16 9h6v1h-6zM3 10h2v1h-2zM20 10h2v1h-2zM3 11h2v1h-2zM12 11h1v1h-1zM20 11h2v1h-2zM3 12h2v1h-2zM11 12h3v1h-3zM20 12h2v1h-2zM3 13h2v1h-2zM10 13h5v1h-5zM20 13h2v1h-2zM3 14h2v1h-2zM9 14h7v1h-7zM20 14h2v1h-2zM3 15h2v1h-2zM8 15h9v1h-9zM20 15h2v1h-2zM3 16h2v1h-2zM9 16h1v1h-1zM11 16h3v1h-3zM15 16h1v1h-1zM20 16h2v1h-2zM3 17h2v1h-2zM11 17h3v1h-3zM20 17h2v1h-2zM3 18h2v1h-2zM11 18h3v1h-3zM20 18h2v1h-2zM3 19h2v1h-2zM12 19h1v1h-1zM20 19h2v1h-2zM3 20h2v1h-2zM20 20h2v1h-2zM3 21h3v1h-3zM19 21h3v1h-3zM3 22h19v1h-19zM4 23h17v1h-17z"/></svg>
-        <h3>Your own documents</h3>
-        <p>Upload proposals, evaluations and reports. Peace Intel reads them alongside the library and tells you where they agree with the evidence and where they don&rsquo;t.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M8 2h3v1h-3zM16 2h1v1h-1zM6 3h7v1h-7zM16 3h3v1h-3zM5 4h3v1h-3zM11 4h3v1h-3zM17 4h3v1h-3zM5 5h2v1h-2zM12 5h2v1h-2zM18 5h3v1h-3zM4 6h2v1h-2zM12 6h2v1h-2zM18 6h3v1h-3zM4 7h2v1h-2zM12 7h3v1h-3zM19 7h2v1h-2zM4 8h2v1h-2zM12 8h2v1h-2zM18 8h3v1h-3zM5 9h2v1h-2zM12 9h2v1h-2zM18 9h2v1h-2zM5 10h8v1h-8zM16 10h4v1h-4zM6 11h6v1h-6zM16 11h3v1h-3zM9 12h1v1h-1zM4 15h11v1h-11zM19 15h3v1h-3zM2 16h14v1h-14zM19 16h4v1h-4zM2 17h2v1h-2zM15 17h2v1h-2zM21 17h3v1h-3zM1 18h2v1h-2zM15 18h3v1h-3zM21 18h3v1h-3zM1 19h2v1h-2zM15 19h3v1h-3zM22 19h2v1h-2zM1 20h2v1h-2zM15 20h3v1h-3zM22 20h2v1h-2zM1 21h2v1h-2zM15 21h3v1h-3zM22 21h2v1h-2zM1 22h2v1h-2zM16 22h1v1h-1zM22 22h2v1h-2z"/></svg>
-        <h3>Shared with your team</h3>
-        <p>Invite colleagues to a project as editors or viewers, or share a single chat by link. Everyone works from the same evidence.</p>
-      </div>
-      <div class="point">
-        <svg class="px-icon" viewBox="0 0 25 25" aria-hidden="true"><path d="M21 1h3v1h-3zM18 2h6v1h-6zM15 3h9v1h-9zM12 4h6v1h-6zM19 4h4v1h-4zM9 5h7v1h-7zM18 5h5v1h-5zM6 6h7v1h-7zM17 6h3v1h-3zM21 6h2v1h-2zM3 7h7v1h-7zM16 7h3v1h-3zM20 7h2v1h-2zM1 8h6v1h-6zM15 8h3v1h-3zM20 8h2v1h-2zM1 9h4v1h-4zM14 9h3v1h-3zM19 9h3v1h-3zM2 10h5v1h-5zM13 10h3v1h-3zM19 10h2v1h-2zM4 11h5v1h-5zM12 11h3v1h-3zM19 11h2v1h-2zM6 12h8v1h-8zM18 12h3v1h-3zM9 13h4v1h-4zM18 13h2v1h-2zM11 14h2v1h-2zM18 14h2v1h-2zM11 15h2v1h-2zM17 15h3v1h-3zM12 16h2v1h-2zM17 16h2v1h-2zM12 17h2v1h-2zM17 17h2v1h-2zM12 18h3v1h-3zM16 18h3v1h-3zM13 19h2v1h-2zM16 19h2v1h-2zM13 20h5v1h-5zM14 21h4v1h-4zM14 22h3v1h-3zM15 23h2v1h-2z"/></svg>
-        <h3>Drafts ready to send</h3>
-        <p>Turn an answer into a brief, a report or a deck, with every citation intact. Send it as a link anyone can read, or export it to Word or PDF.</p>
+    <div class="mo-deal" data-at="120">
+      <div class="seg" data-switch="features" role="group" aria-label="Workspace features">
+        <button type="button" aria-pressed="true" data-v="projects">Projects</button>
+        <button type="button" aria-pressed="false" data-v="documents">Documents</button>
+        <button type="button" aria-pressed="false" data-v="team">Team</button>
+        <button type="button" aria-pressed="false" data-v="drafts">Drafts</button>
       </div>
     </div>
 
-    <div class="lockup centered mo-deal" data-at="600">
+    <div id="features" class="lp-panels">
+      <div class="lp-tabs mo-deal" data-case="projects" data-at="240">
+        <div><h3>Project workspaces</h3><p class="prose">Give each portfolio, proposal or country its own project. Its chats, documents and instructions stay together, so you never have to explain the work twice.</p></div>
+        <div class="lp-media"><img class="lp-pic" src="media/pic-clipboard.png" alt=""></div>
+      </div>
+      <div class="lp-tabs mo-deal" data-case="documents" data-at="240" hidden>
+        <div><h3>Your own documents</h3><p class="prose">Upload proposals, evaluations and reports. Peace Intel reads them alongside the library and tells you where they agree with the evidence and where they don&rsquo;t.</p></div>
+        <div class="lp-media"><img class="lp-pic" src="media/pic-report.png" alt=""></div>
+      </div>
+      <div class="lp-tabs mo-deal" data-case="team" data-at="240" hidden>
+        <div><h3>Shared with your team</h3><p class="prose">Invite colleagues to a project as editors or viewers, or share a single chat by link. Everyone works from the same evidence.</p></div>
+        <div class="lp-media"><img class="lp-pic" src="media/pic-doves-earth.png" alt=""></div>
+      </div>
+      <div class="lp-tabs mo-deal" data-case="drafts" data-at="240" hidden>
+        <div><h3>Drafts ready to send</h3><p class="prose">Turn an answer into a brief, a report or a deck, with every citation intact. Send it as a link anyone can read, or export it to Word or PDF.</p></div>
+        <div class="lp-media"><img class="lp-pic" src="media/pic-dove-pencil.png" alt=""></div>
+      </div>
+    </div>
+
+    <div class="lockup centered mo-deal" data-at="360">
       <div class="lk-actions"><a class="btn tint lg" href="#try">Try it now</a></div>
     </div>
   </div>
@@ -297,6 +434,6 @@
   </div>
 </footer>
 
-<script src="system.js?v=eb50598a"></script>
+<script src="system.js?v=7cc47bfe"></script>
 </body>
 </html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dev Review</title>
+<link rel="icon" href="media/favicon.svg?v=21" type="image/svg+xml">
+<link rel="icon" href="media/favicon.ico?v=21" sizes="32x32">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&family=Space+Mono:wght@400;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=6d2da45e">
+<link rel="stylesheet" href="components.css?v=cdfe1065">
+<link rel="stylesheet" href="explorations.css?v=89a20d1f">
+<link rel="stylesheet" href="reference.css?v=72b99065">
+<!-- INTERNAL. Matt's review of Nathanael's 22 Oct reply about dev.peaceintel.org
+     (the new-ui branch). Not part of the handoff: never copy it into
+     handoff-for-nathanael/ or publish it. Left of each pair is the handoff,
+     right is dev, from Matt's screenshot or mocked from Nathanael's words. -->
+<style>
+  /* Page layout only. */
+  .rv-shot { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--r-md) }
+  /* C2 options, drawn for the review only. */
+  .rv-hit-a { position: relative }
+  .rv-hit-a::before { content: ""; position: absolute; inset: calc(var(--sp-2) * -1); border: var(--edge); border-radius: var(--r-sm); pointer-events: none }
+  .rv-hit-b { position: relative }
+  .rv-hit-b::before { content: ""; position: absolute; top: 0; bottom: 0; left: calc(var(--sp-3) * -1); width: calc(var(--sp-1) / 2); background: var(--ink) }
+  .ls-grid[style*="--cols:3"] { grid-template-columns: repeat(3, minmax(0, 1fr)) }
+  @media (max-width: 900px) { .ls-grid[style*="--cols:3"] { grid-template-columns: minmax(0, 1fr) } }
+  .rv-mark { background: var(--hl-find); color: var(--ink); border-radius: var(--r-xs) }
+  /* F1 and S4, drawn for the review only. */
+  .rv-ring-a { outline: 2px solid var(--accent); outline-offset: 2px }
+  .rv-ring-b { outline: 2px solid var(--ink); outline-offset: 2px }
+  .rv-cell { display: block; width: calc(100% + var(--sp-2)); margin: calc(var(--sp-1) * -1); padding: var(--sp-1); font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--ink-35); border-radius: var(--r-sm); box-shadow: var(--elev-1); resize: none; outline: none }
+  .rv-gap { margin-top: var(--sp-10) }
+  .rv-shot.sm { width: auto; max-width: 100% }
+  .rv-who { display: flex; flex-direction: column; gap: 0 }
+  .rv-who > div { display: grid; grid-template-columns: var(--sp-16) minmax(0, 1fr); gap: var(--sp-4); align-items: baseline; padding: var(--sp-3) 0; border-top: 1px solid var(--line) }
+  .rv-who > div:first-child { border-top-color: var(--line-2) }
+</style>
+</head>
+<body>
+
+<section class="ref" id="top">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">Review</span><span>Nathanael&rsquo;s reply, 22 Oct</span><span class="pl-r">Internal · dev.peaceintel.org, branch new-ui</span></div>
+    <div class="ref-t">What each of his points means, drawn.</div>
+    <p class="ref-d">
+      Five parts. A to C answer his first reply; F and S his second. <b>A</b>: his calls that turn out to match the handoff, so there is
+      nothing to decide. <b>B</b>: the &ldquo;your organisation&rdquo; rule, explained. <b>C</b>: where dev
+      differs from the design, including four things in your screenshot that he did not mention.
+      In each pair the handoff is on the left and dev on the right. Dev is either cropped from your
+      screenshot or mocked from his description, and each caption says which.
+    </p>
+    <div class="rule-row" style="--cols:3">
+      <div><h3>A · Matches</h3><p class="note">A1 fields, A2 the questionnaire, A3 citation numbers, A4 no reference list, A5 the project page&rsquo;s layout, A6 context and the library, A7 reports, A8 search previews, A9 the site&rsquo;s routes.</p></div>
+      <div><h3>B · To understand</h3><p class="note">B1 who &ldquo;your organisation&rdquo; lets in, who it keeps out, and the four questions worth asking him before it ships.</p></div>
+      <div><h3>C · Differs</h3><p class="note">C1 the fade under the toolbar, C2 the search-hit outline, C3 search with nothing typed, C4 Share&rsquo;s initials, C5 Invite&rsquo;s error, C6 Export on a project. From your screenshot: C7 a green link, C8 the boxed badge, C9 a stray triangle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ A ══════════════════════════════════════════════════════════════════ -->
+<section class="ref" id="a">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">A</span><span>His calls that match the handoff</span><span class="pl-r">Nothing to decide</span></div>
+    <div class="ref-t">He chose what you had already drawn.</div>
+    <p class="ref-d">He lists these as calls he made where the handoff was silent, but each is in the prototype or in CONSOLE.md already. They are drawn here so you can see that, not to reopen them.</p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A1 · Fields: ink edge and a lift, no orange ring</span><span class="badge">Matches</span><span class="sh-d">your H1.21 note, word for word</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><label class="field"><span>Invite by email</span><input class="input" type="text" placeholder="Click in here"></label></div>
+          <figcaption><b>Handoff, live: click into the field</b>At rest a hairline. Focused, the edge darkens to <code>--ink-35</code> and the field lifts by the lowest shadow. No ring. The composer does the same, more strongly: it lifts to <code>--elev-3</code>.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><p class="note">Dev, in his words: &ldquo;No orange focus ring on inputs (focus is ink border + lift).&rdquo; That is the left-hand field. Production&rsquo;s orange ring, the thing you asked to be noted, is what he removed.</p></div>
+          <figcaption><b>Dev, from his description</b>Worth one click on dev to confirm, since this is the one you flagged.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A2 · The questionnaire drops &ldquo;Something else&rdquo;</span><span class="badge">Matches</span><span class="sh-d">Rev 60, H1.19</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><fieldset class="cq-opts" aria-label="Production's options">
+          <label class="cq-opt"><input type="radio" name="a2a"><span><b>Evidence base.</b> Comparable cases elsewhere</span></label>
+          <label class="cq-opt"><input type="radio" name="a2a"><span><b>Measurement.</b> Indicators for this construct</span></label>
+          <label class="cq-opt"><input type="radio" name="a2a"><span>Something else (please specify)</span></label>
+          <label class="cq-opt"><input type="radio" name="a2a"><span>Write my own answer</span></label>
+        </fieldset></div></div><figcaption><b>Production before</b>Two ways to say &ldquo;none of these&rdquo;.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><fieldset class="cq-opts" aria-label="Dev's options">
+          <label class="cq-opt"><input type="radio" name="a2b"><span><b>Evidence base.</b> Comparable cases elsewhere</span></label>
+          <label class="cq-opt"><input type="radio" name="a2b"><span><b>Measurement.</b> Indicators for this construct</span></label>
+          <label class="cq-opt"><input type="radio" name="a2b" checked><span>Write my own answer</span></label>
+        </fieldset></div></div><figcaption><b>Handoff and dev</b>One, last, opening a field.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A3 · One citation number per source, for the whole chat</span><span class="badge">Matches</span><span class="sh-d">the prototype numbers this way already</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+          <div class="msg agent"><div class="who">Answer 1</div><div class="body"><p>Observers deter fraud where they are trusted <button class="cite t1" type="button"><span class="cm">&#9679;</span>1</button>, and can raise violence where they are not <button class="cite t3" type="button"><span class="cm">&#8599;</span>2</button>.</p></div></div>
+          <div class="msg agent"><div class="who">Answer 2</div><div class="body"><p>Kenya 2007 fits the second pattern <button class="cite t3" type="button"><span class="cm">&#8599;</span>1</button>, as Hyde predicts <button class="cite t1" type="button"><span class="cm">&#9679;</span>2</button>.</p></div></div>
+        </div></div><figcaption><b>Per answer (production before)</b>Each answer starts again at 1. In answer 2, &ldquo;1&rdquo; is a different paper, and Hyde, who was 1, is now 2.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat">
+          <div class="msg agent"><div class="who">Answer 1</div><div class="body"><p>Observers deter fraud where they are trusted <button class="cite t1" type="button"><span class="cm">&#9679;</span>1</button>, and can raise violence where they are not <button class="cite t3" type="button"><span class="cm">&#8599;</span>2</button>.</p></div></div>
+          <div class="msg agent"><div class="who">Answer 2</div><div class="body"><p>Kenya 2007 fits the second pattern <button class="cite t3" type="button"><span class="cm">&#8599;</span>3</button>, as Hyde predicts <button class="cite t1" type="button"><span class="cm">&#9679;</span>1</button>.</p></div></div>
+        </div></div><figcaption><b>Per chat (handoff and dev)</b>A source keeps its number for the whole chat, so the numbers match the library pane&rsquo;s &ldquo;Cited 1, Cited 2&rdquo;. Your screenshot shows it working: 22 and 23 deep into a long chat.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A4 · The agent stops writing a reference list</span><span class="badge">Matches</span><span class="sh-d">the answer&rsquo;s foot lists the sources (H1.1)</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent"><div class="body"><p>&hellip;as Hyde predicts <button class="cite t1" type="button"><span class="cm">&#9679;</span>1</button>.</p><h4>References</h4><p>1. Hyde, S. D. (2011). The Pseudo-Democrat&rsquo;s Dilemma.<br>2. Daxecker, U. (2012). The Cost of Exposing Cheating.</p></div></div></div></div>
+          <figcaption><b>Production before</b>The model typed its own list into the answer, and the foot listed the same sources again.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent"><div class="body"><p>&hellip;as Hyde predicts <button class="cite t1" type="button"><span class="cm">&#9679;</span>1</button>.</p></div>
+          <div class="ans-foot"><div class="af-row"><button class="af-src" type="button" aria-expanded="false"><span class="evi-head">Sources</span><span class="evi-strip"><span class="cite sm t1"><span class="cm">&#9679;</span>1</span><span class="cite sm t3"><span class="cm">&#8599;</span>1</span></span><svg class="glyph" data-g="chev"></svg></button><button class="af-tools" type="button" aria-expanded="false"><span>25 tools used</span><svg class="glyph" data-g="chev"></svg></button><span class="af-acts"><button class="icon-btn" type="button" aria-label="Copy with citations"><svg class="glyph" data-g="copy"></svg></button><button class="icon-btn" type="button" aria-label="Good answer"><svg class="glyph" data-g="up"></svg></button><button class="icon-btn" type="button" aria-label="Poor answer"><svg class="glyph" data-g="down"></svg></button></span></div></div></div></div></div>
+          <figcaption><b>Handoff and dev</b>The list lives in the foot, folded to its marks. One thing to confirm on dev: the foot is there under every answer, since the model&rsquo;s list is gone.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A5 · The project page&rsquo;s layout</span><span class="badge">Matches</span><span class="sh-d">three of his five points; C4 to C6 are the other two</span></div>
+      <div class="rule-row" style="--cols:3">
+        <div><h3>Input above the tabs</h3><p class="note">The prototype has the same order: the name, the description, the composer, then Chats and Artifacts.</p></div>
+        <div><h3>One ground</h3><p class="note">In the prototype the whole middle of a project page, toolbar included, is <code>--ground-2</code>. &ldquo;The header has the same ground as the main area&rdquo; is that.</p></div>
+        <div><h3>No Expand</h3><p class="note">The prototype&rsquo;s project page has no Expand either: there is no chat to widen.</p></div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A6 · Context and the library</span><span class="badge">Matches</span><span class="sh-d">CONSOLE.md, projects and the library pane</span></div>
+      <div class="rule-row" style="--cols:4">
+        <div><h3>No switches</h3><p class="note">Context in the prototype is a table with a remove cross on each row and no on/off toggle. Listed means in use.</p></div>
+        <div><h3>Drop anywhere</h3><p class="note">The prototype takes a file dropped anywhere on the console (Pl. 14, &ldquo;dropping a file on the console&rdquo;).</p></div>
+        <div><h3>Add from the library</h3><p class="note">Add opens the library in the pane with an add button on each paper.</p></div>
+        <div><h3>Every cited source</h3><p class="note">&ldquo;The library beside a chat holds what the chat cites&rdquo;, web pages and datasets included, each with its tier. Your screenshot shows it: 23 cited, the web ones dashed.</p></div>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A7 · Reports are documents in a project</span><span class="badge">Matches, plus a bridge</span><span class="sh-d">H1.12</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage surface--ground-2"><div class="rv-who">
+          <div><span class="eyebrow eb-4">Projects</span><span class="note">Sahel portfolio review &rsaquo; Artifacts &rsaquo; <b>Q3 report</b> (a document)</span></div>
+          <div><span class="eyebrow eb-4">Recent</span><span class="note">Chats outside any project</span></div>
+        </div></div><figcaption><b>Handoff</b>No Reports area. A report is a document artifact inside its project.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage surface--ground-2"><div class="rv-who">
+          <div><span class="eyebrow eb-4">Projects</span><span class="note">as on the left</span></div>
+          <div><span class="eyebrow eb-4">Recent</span><span class="note">as on the left</span></div>
+          <div><span class="eyebrow eb-4">Reports</span><span class="note">Only for someone who still has reports made before projects existed. Empty for everyone else, so not shown.</span></div>
+        </div></div><figcaption><b>Dev, from his description</b>A bridge for old reports, not a new area. Reasonable. Worth asking him when it goes away: once each is filed into a project, or never.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A8 · Search: the finder, for everyone, with the match shown</span><span class="badge">Matches</span><span class="sh-d">except with nothing typed: see C3</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="find-l">
+          <div class="find-g"><span class="eyebrow eb-4 faint">Chats</span>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Kenya 2007 and <b>observers</b></span><span class="find-sn">&hellip;where <b>observers</b> are trusted, fraud falls&hellip;</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Election violence, a reading list</span><span class="find-sn">&hellip;international <b>observers</b> and post-election&hellip;</span></span></div>
+          </div></div></div>
+          <figcaption><b>Handoff and dev, typed &ldquo;observers&rdquo;</b>Each result shows the line it matched with the words marked. He has this.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><p class="note">The rail&rsquo;s magnifying glass opens it, and so does &#8984;K: the same as the prototype. &ldquo;All&rdquo; also takes in uploaded files and documents, which the prototype&rsquo;s finder does not search. That is a sensible widening.</p></div>
+          <figcaption><b>Dev, from his description</b>&nbsp;</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">A9 · The site&rsquo;s routes</span><span class="badge">Matches</span><span class="sh-d">Rotary stays unlisted</span></div>
+      <div class="rv-who">
+        <div><span class="eyebrow eb-4">/</span><span class="note">Your Home page (<code>home.html</code>). The old landing pages are gone.</span></div>
+        <div><span class="eyebrow eb-4">/rotary</span><span class="note"><b>The Rotary page, on peaceintel.org.</b> Decided: for internal sharing with close partners for now, not to be perfected yet. One ask: keep it <code>noindex</code> and out of the site&rsquo;s navigation, so only people with the link find it.</span></div>
+        <div><span class="eyebrow eb-4">/research</span><span class="note">Rebuilt on the system, with no cards. Not something you have seen yet: worth a look on dev.</span></div>
+        <div><span class="eyebrow eb-4">Shared frame</span><span class="note">Terms, Privacy, FAQ, sign-in and shared links share one site frame. Good: that is rule 4, one base.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ B ══════════════════════════════════════════════════════════════════ -->
+<section class="ref" id="b">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">B1</span><span>&ldquo;Your organisation&rdquo;</span><span class="pl-r">To understand before it ships</span></div>
+    <div class="ref-t">Who a link set to &ldquo;Your organisation&rdquo; opens for.</div>
+    <p class="ref-d">
+      Share has three settings for General access: only the people listed, your organisation, or
+      anyone with the link. The handoff never said what &ldquo;organisation&rdquo; means. Nathanael&rsquo;s
+      rule: <b>a signed-in person whose email ends in the same domain as the owner&rsquo;s</b>, and never
+      for free email (Gmail, Outlook and the like). Here is what that does if you share a project
+      from <code>matt@effectivepeace.org</code>.
+    </p>
+    <div class="ls-grid">
+      <figure class="ls-fig"><div class="ls-stage"><div class="rv-who">
+        <div><span class="eyebrow eb-4">Gets in</span><span class="note"><b>amara@effectivepeace.org</b>, signed in. Same domain. Never invited, still opens it.</span></div>
+        <div><span class="eyebrow eb-4">Kept out</span><span class="note"><b>amara@effectivepeace.org</b>, not signed in. The rule needs a signed-in account.</span></div>
+        <div><span class="eyebrow eb-4">Kept out</span><span class="note"><b>partner@mercycorps.org</b>. A close partner, but a different domain. Invite them by name.</span></div>
+        <div><span class="eyebrow eb-4">Kept out</span><span class="note"><b>consultant@gmail.com</b>, working for you. Free email never counts.</span></div>
+      </div></div><figcaption><b>Owner on a work domain</b>Does what it says.</figcaption></figure>
+      <figure class="ls-fig"><div class="ls-stage"><div class="rv-who">
+        <div><span class="eyebrow eb-4">Too wide</span><span class="note">Owner <b>someone@un.org</b>. &ldquo;Your organisation&rdquo; is everyone with a UN address who has an account, across every agency.</span></div>
+        <div><span class="eyebrow eb-4">Too narrow</span><span class="note">Owner on Gmail. The option means only themselves, or should not be offered at all.</span></div>
+        <div><span class="eyebrow eb-4">Too narrow</span><span class="note">An organisation with two domains (<code>.org</code> and <code>.net</code>, or a country office) is split in two.</span></div>
+        <div><span class="eyebrow eb-4">Stays open</span><span class="note">Someone who left keeps access as long as their old account and address still sign in.</span></div>
+      </div></div><figcaption><b>Where the rule bends</b>Normal for a beta, and how Google Drive&rsquo;s first version worked. It only becomes a problem with large shared domains, or if addresses are not verified.</figcaption></figure>
+    </div>
+    <div class="rule-row rv-gap" style="--cols:4">
+      <div><h3>Ask 1</h3><p class="note"><b>Is the email verified at sign-in?</b> If someone can sign up as <i>anything</i>@effectivepeace.org without proving they own the inbox, the rule lets anyone in. This is the one that matters.</p></div>
+      <div><h3>Ask 2</h3><p class="note"><b>What does a Gmail owner see?</b> Best: the option is not offered at all.</p></div>
+      <div><h3>Ask 3</h3><p class="note"><b>Can the label name the domain?</b> &ldquo;Anyone at effectivepeace.org&rdquo; says exactly who gets in. &ldquo;Your organisation&rdquo; makes people guess.</p></div>
+      <div><h3>Ask 4</h3><p class="note"><b>Big domains.</b> Is there a plan for un.org, gov.uk and the like? For the beta, a short block list is enough.</p></div>
+    </div>
+    <p class="note">My recommendation: keep his rule, provided Ask 1 is a yes. Then ask for the domain in the label (Ask 3) and for the option to be hidden from free-email owners (Ask 2). The design change is one line of copy in Share&rsquo;s select.</p>
+  </div>
+</section>
+
+<!-- ══ C ══════════════════════════════════════════════════════════════════ -->
+<section class="ref" id="c">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">C</span><span>Where dev differs from the design</span><span class="pl-r">Your call on each</span></div>
+    <div class="ref-t">Six he named, three he did not.</div>
+    <p class="ref-d">Each pair shows the handoff on the left and dev on the right. Under each is what the difference costs and what I would do about it.</p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C1 · The thread under the toolbar</span><span class="badge">Decided: fade back</span><span class="sh-d">Rev 52 &middot; your screenshot</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><p class="note">In the prototype the toolbar has the page&rsquo;s own ground behind it, and a 32px fade hangs under it. Scrolled text dissolves before it reaches the buttons, the same way it does above the composer (Rev 51). Scroll a long chat in <a class="btn-text" href="console.html">console.html</a> to see it.</p></div>
+          <figcaption><b>Handoff</b><code>.app-scroll &gt; .app-tools::after</code></figcaption></figure>
+        <figure class="ls-fig"><img class="rv-shot" src="media/review/dev-thread-top.jpg" alt="Dev: a line of the answer is cut in half just under the Export, Expand and Share buttons" loading="lazy">
+          <figcaption><b>Dev, your screenshot</b>The first line is sliced in half by an invisible edge under the buttons. He says this was deliberate (&ldquo;without a fade&rdquo;). <strong>I would ask for the fade back:</strong> it is two CSS rules, and the cut line reads as a bug. The bottom of the thread, above the composer, has the matching fade, so the two ends of the chat now behave differently.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C2 · A message found by search</span><span class="badge">Decided: D, no underline</span><span class="sh-d">the handoff&rsquo;s version is off the system too</span></div>
+      <p class="note"><strong>What it is.</strong> Search has two ways in, the same window. From anywhere (the rail&rsquo;s magnifier or &#8984;K) it finds <em>which</em> chat, project or artifact; picking one opens it. From inside a chat (the toolbar&rsquo;s search, or &#8943; on a phone) it starts on <em>This chat</em> and lists each message that contains the words, with the line quoted and the words in bold. Picking one closes the window and scrolls the thread to that message. The mark is for that moment: the quoted line has gone, so the thread has to show what you jumped to. It stays until you search again.</p>
+      <p class="note"><strong>What is wrong with the handoff&rsquo;s.</strong> You saw it: the box has 4px corners, but the outline sits 8px outside it, and an outline&rsquo;s corners grow by that gap. What renders is about 12px, three times the system&rsquo;s corner. A box hairline round a message is also the only boxed message in the console: the answer is never boxed anywhere else.</p>
+      <p class="note"><strong>What it costs.</strong> Any of these is a line or two of CSS. Dev has none of them now (C2 · C).</p>
+      <div class="ls-grid" style="--cols:2">
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent rv-hit-a"><div class="who">Peace Intel &middot; 10:14 AM</div><div class="body"><p>Where observers are trusted, fraud falls; where they are not, violence can rise. Kenya 2007 fits the second pattern.</p></div></div></div></div>
+          <figcaption><b>C2 · A The box, corrected</b>Same hairline, same 8px of room, drawn so the corner is 4px. The smallest change.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent rv-hit-b"><div class="who">Peace Intel &middot; 10:14 AM</div><div class="body"><p>Where observers are trusted, fraud falls; where they are not, violence can rise. Kenya 2007 fits the second pattern.</p></div></div></div></div>
+          <figcaption><b>C2 · B The 2px ink rule</b>No box. A 2px ink line down the message&rsquo;s left edge: the line grammar&rsquo;s &ldquo;where you are&rdquo; (Pl. 04), the same weight as a selected tab. It uses a mark the system already has, where the box invents one.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent"><div class="who">Peace Intel &middot; 10:14 AM</div><div class="body"><p>Where observers are trusted, fraud falls; where they are not, violence can rise. Kenya 2007 fits the second pattern.</p></div></div></div></div>
+          <figcaption><b>C2 · C Nothing (dev now)</b>The thread scrolls to the message and marks nothing. Fine for a short message, and for a long answer you cannot tell where you landed.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent"><div class="who">Peace Intel &middot; 10:14 AM</div><div class="body"><p>Where observers are trusted, fraud falls; where they are not, violence can rise. <mark class="rv-mark">Kenya</mark> 2007 fits the second pattern, and so, less clearly, does <mark class="rv-mark">Kenya</mark> 2013.</p></div></div></div></div>
+          <figcaption><b>C2 · D The words, highlighted (searched &ldquo;Kenya&rdquo;)</b>Every match in the message takes a grey wash (<code>--hl-find</code>, ink at 12%), and the thread scrolls so the first one is in view. Grey, because the orange highlighter (<code>--hl</code>) already means &ldquo;the passage a citation points to&rdquo;. <strong>My pick now:</strong> it shows which message and where in it, so it needs no box. Cost: more than a line of CSS, since the words have to be found in the rendered answer; the browser&rsquo;s highlight API (<code>::highlight</code>) does it without touching the markup.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C3 · Search, with nothing typed</span><span class="badge">Decided: Recent + actions</span><span class="sh-d">mocked from his description</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="find-l">
+          <div class="find-g"><span class="eyebrow eb-4 faint">Recent</span>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Kenya 2007 and observers</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Election violence, a reading list</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Sahel recruitment</span></span></div></div>
+          <div class="find-g"><span class="eyebrow eb-4 faint">Actions</span>
+            <div class="find-row"><svg class="glyph" data-g="plus"></svg><span class="find-t"><span>New chat</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="plus"></svg><span class="find-t"><span>New project</span></span></div></div>
+        </div></div><figcaption><b>Handoff, after Claude&rsquo;s</b>A short list: where you were last, and two things to start. The list is a shortcut; typing is the search.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="find-l">
+          <div class="find-g"><span class="eyebrow eb-4 faint">All</span>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Kenya 2007 and observers</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="folder"></svg><span class="find-t"><span>My documents</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="doc"></svg><span class="find-t"><span>Q3 report</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="doc"></svg><span class="find-t"><span>board-notes-final-v2.pdf</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Election violence, a reading list</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>Give me a rundown of the databases&hellip;</span></span></div>
+            <div class="find-row"><svg class="glyph" data-g="chat"></svg><span class="find-t"><span>&hellip;and everything else you have ever made</span></span></div></div>
+        </div></div><figcaption><b>Dev, from his description</b>Everything, mixed, before you type. No New chat or New project. Fine for a few items; a long scroll for a heavy user. <strong>A small call:</strong> I would ask for Recent plus the two actions, and keep his wider &ldquo;All&rdquo; for once something is typed.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C4 · Share&rsquo;s initials on a project</span><span class="badge">Decided: keep dev</span><span class="sh-d">mocked from his description</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="row tight"><span class="note">Shared:</span><span class="pj-people"><span class="avatar">AD</span><span class="avatar">JK</span></span><button class="act" type="button">Share</button></div><div class="row tight"><span class="note">Not shared:</span><button class="act" type="button">Share</button></div></div>
+          <figcaption><b>Handoff</b>The circles are the people it is shared with. An unshared project shows Share alone, so circles mean &ldquo;other people can see this&rdquo;.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="row tight"><span class="note">Shared:</span><span class="pj-people"><span class="avatar">MA</span><span class="avatar">AD</span><span class="avatar">JK</span></span><button class="act" type="button">Share</button></div><div class="row tight"><span class="note">Not shared:</span><span class="pj-people"><span class="avatar">MA</span></span><button class="act" type="button">Share</button></div></div>
+          <figcaption><b>Dev, from his description</b>You always appear, so a private project shows a circle too and the circles stop saying &ldquo;shared&rdquo;. <strong>I would ask for the handoff&rsquo;s version:</strong> drop yourself from the row.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C5 · Invite, and its error</span><span class="badge">Decided: handoff timing</span><span class="sh-d">mocked from his description</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="row tight"><input class="input" type="text" placeholder="Email address" aria-label="Email"><button class="btn tint sm" type="button">Invite</button></div></div>
+          <figcaption><b>Handoff</b>Invite is always the tint. The error appears only after Invite is pressed with an address that will not work, beside the field, in ink (Pl. 13).</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="row tight"><input class="input" type="text" placeholder="Email address" aria-label="Email"><button class="btn tint sm" type="button">Invite</button></div><p class="pop-err">Enter an email address, such as name@organisation.org.</p></div>
+          <figcaption><b>Dev, from his description</b>The error shows from the start, before anything is typed, and stays until the address is valid. That tells someone they are wrong before they have done anything. <strong>I would ask for the handoff&rsquo;s timing:</strong> show it on Invite, then clear it as soon as the address is valid.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C6 · Export on a project&rsquo;s page</span><span class="badge">Decided: ask, then remove</span><span class="sh-d">from his description</span></div>
+      <p class="note">The prototype&rsquo;s project page has Share only; Export lives on a chat. He has added Export to the project page. It is not obvious what exporting a whole project produces (every chat? every artifact? a zip?). <b>Ask him what it exports.</b> If he has no clear answer, take it off until there is one.</p>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C7 · A green link in an answer</span><span class="badge">Decided: fix</span><span class="sh-d">your screenshot; he did not mention it</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="chat"><div class="msg agent"><div class="body"><p>I queried <button class="cite t1" type="button"><span class="cm">&#9679;</span>4</button> DPD for Kenya directly: zero rows returned.</p></div></div></div></div>
+          <figcaption><b>Handoff</b>There is no green in the system, and no coloured link inside an answer. A source the answer names is a citation, which opens its quick view in the pane.</figcaption></figure>
+        <figure class="ls-fig"><img class="rv-shot" src="media/review/dev-link.jpg" alt="Dev: the word DPD set as a teal underlined link inside the answer" loading="lazy">
+          <figcaption><b>Dev, your screenshot</b>&ldquo;DPD&rdquo; in teal, underlined: probably the browser&rsquo;s or an old stylesheet&rsquo;s link colour leaking into the answer. <strong>Ask for it as a citation,</strong> or at least in ink with an underline.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C8 · The version badge in a box</span><span class="badge">Decided: bare (admin only)</span><span class="sh-d">your screenshot; H1.10</span></div>
+      <img class="rv-shot" src="media/review/dev-badge.jpg" alt="Dev: the composer's bar, with V2 inside an outlined box beside the settings icon" loading="lazy">
+      <p class="note">Your verdict was &ldquo;internal; keep, super minimal: bare mono, no box&rdquo;. Dev draws it as a boxed button the size of the microphone, so it reads as a control. One line of CSS: <code>.cb-ver</code>.</p>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">C9 · A stray triangle over Share</span><span class="badge">Decided: send to him</span><span class="sh-d">your screenshot</span></div>
+      <img class="rv-shot sm" src="media/review/dev-share.jpg" alt="Dev: a small black play triangle sits on the top edge of the Share button" loading="lazy">
+      <p class="note">A black play triangle on Share&rsquo;s top edge. Most likely the answer&rsquo;s read-aloud button, scrolled up under the toolbar and drawn on top of it, which would also explain C1. Worth sending him this crop.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ F ══════════════════════════════════════════════════════════════════ -->
+<section class="ref" id="f">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">F</span><span>Where orange still appears in the console</span><span class="pl-r">Second reply, point 4 · your call</span></div>
+    <div class="ref-t">Orange for actions and citations, and what that would change.</div>
+    <p class="ref-d">The orange keyboard ring was never retired: it is the system&rsquo;s focus ring, on every control, set once in <code>components.css</code>. It appears only when someone moves through the page with the Tab key, never on a click, which is why you have not seen it. Press Tab on this page to see it live. If orange is for calls to action and citations only, three things in the console change (F1, F2). Everything in F3 is the citation family and stays.</p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">F1 · The keyboard focus ring</span><span class="badge">Proposed: ink</span><span class="sh-d">drawn here as if focused</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><div class="row">
+          <button class="btn tint sm rv-ring-a" type="button" tabindex="-1">Start research</button>
+          <button class="act rv-ring-a" type="button" tabindex="-1">Download</button>
+          <button class="icon-btn line rv-ring-a" type="button" tabindex="-1" aria-label="Rename"><svg class="glyph" data-g="pen"></svg></button>
+          <button class="cite t1 rv-ring-a" type="button" tabindex="-1"><span class="cm">&#9679;</span>1</button>
+        </div><div class="chat"><fieldset class="cq-opts" aria-label="Example"><label class="cq-opt rv-ring-a"><input type="radio" name="f1a" tabindex="-1"><span><b>Evidence base.</b> Comparable cases elsewhere</span></label></fieldset></div></div>
+          <figcaption><b>Now: orange</b>On the tint button and the citation the ring is orange round orange, so it is weakest exactly where it is most needed. It is also orange on things that are not actions, like a question&rsquo;s option.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="row">
+          <button class="btn tint sm rv-ring-b" type="button" tabindex="-1">Start research</button>
+          <button class="act rv-ring-b" type="button" tabindex="-1">Download</button>
+          <button class="icon-btn line rv-ring-b" type="button" tabindex="-1" aria-label="Rename"><svg class="glyph" data-g="pen"></svg></button>
+          <button class="cite t1 rv-ring-b" type="button" tabindex="-1"><span class="cm">&#9679;</span>1</button>
+        </div><div class="chat"><fieldset class="cq-opts" aria-label="Example"><label class="cq-opt rv-ring-b"><input type="radio" name="f1b" tabindex="-1"><span><b>Evidence base.</b> Comparable cases elsewhere</span></label></fieldset></div></div>
+          <figcaption><b>Proposed: ink</b>The same 2px ring, 2px clear of the control, in ink. It reads on every surface: ink on paper is far above the 3:1 a focus ring needs, and on a dark band the system&rsquo;s ink turns light by itself. Cost: one value in <code>components.css</code>, and one in the question option&rsquo;s rule.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">F2 · Two labels in orange</span><span class="badge">Proposed: ink</span><span class="sh-d">the paper&rsquo;s quick view, the feedback card</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><div class="ls-stage"><ol class="src-as"><li>Unemployment did not predict insurgent violence.</li><li>The relationship, where found, ran the other way.</li></ol></div>
+          <figcaption><b>Key assertions, in a paper&rsquo;s quick view</b>The numerals are orange. They are a list&rsquo;s numbers, not an action or a citation. Proposed: ink at <code>--ink-55</code>, like every other numeral in mono.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><form class="reflect" onsubmit="return false"><header class="rf-h"><span class="eyebrow eb-4">Before you go</span><h3>How did this session go?</h3></header></form></div>
+          <figcaption><b>&ldquo;Before you go&rdquo;, on the feedback card</b>An orange label: already against the rule that a label is orange only when it names a state. Proposed: neutral, as the questions card&rsquo;s &ldquo;Question 1 of 2&rdquo; already is.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">F3 · The citation family</span><span class="badge">Stays orange</span><span class="sh-d">confirm</span></div>
+      <div class="rule-row" style="--cols:4">
+        <div><h3>Citations</h3><p class="note">The chips in an answer, the sources strip in its foot, the sources count on a phone, and the underline a citation draws under the pointer.</p></div>
+        <div><h3>Tier marks</h3><p class="note">The filled and hollow marks beside a paper in the library, the context table and the quick view. Web sources are already grey and dashed.</p></div>
+        <div><h3>The cited passage</h3><p class="note">The orange highlighter on the passage a citation points to, in a paper&rsquo;s full entry. The search highlight is grey for this reason.</p></div>
+        <div><h3>Actions</h3><p class="note">The tint: every call to action, Send, Invite, Next, Save.</p></div>
+      </div>
+      <p class="note">Not the console, so not touched: the marketing pages&rsquo; callout rule, Home&rsquo;s audience blank, the checkmarks in a proof list and Rotary&rsquo;s step numbers. Say if you want the same rule taken through them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ S ══════════════════════════════════════════════════════════════════ -->
+<section class="ref" id="s">
+  <div class="wrap">
+    <div class="plate"><span class="pl-n">S</span><span>The spreadsheet, viewed and edited</span><span class="pl-r">Second reply, point 6 · your screenshots</span></div>
+    <div class="ref-t">Reading it matches. Editing it is new, and it shows.</div>
+    <p class="ref-d">The prototype draws a spreadsheet artifact to read, rename and download; editing its cells was never designed. Dev&rsquo;s reading view is the handoff&rsquo;s. The two ways of editing are where it drifts: the table changes shape, the title shrinks, and an unlabelled icon starts it.</p>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">S1 · Reading</span><span class="badge">Matches</span><span class="sh-d">.dp-title, .sheet-t</span></div>
+      <img class="rv-shot" src="media/review/sheet-view.jpg" alt="Dev: the spreadsheet artifact, its serif title, the meta line and the table with mono column heads" loading="lazy">
+      <p class="note">The title at the handoff&rsquo;s size, the meta line, the table on a hairline with mono column heads on the set-back tone and the first column bold. The Download menu (Excel, CSV) and the Share panel match the handoff too.</p>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">S2 · Two icons to start editing</span><span class="badge">Differs</span><span class="sh-d">your screenshots</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><img class="rv-shot sm" src="media/review/sheet-icons.jpg" alt="Dev: a pencil button and a spreadsheet-page button side by side" loading="lazy">
+          <figcaption><b>Dev</b>The pencil renames the title, as in the handoff. Beside it a page-with-a-grid icon edits the cells. Nothing says which is which until you try them.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="row tight"><button class="icon-btn line" type="button" aria-label="Rename"><svg class="glyph" data-g="pen"></svg></button><button class="act" type="button">Edit table</button><button class="act" type="button">Download<svg class="glyph" data-g="chev"></svg></button><button class="act" type="button">Share</button></div></div>
+          <figcaption><b>Proposed</b>The pencil stays Rename. Editing the cells gets words, in the same mono as Download and Share: &ldquo;Edit table&rdquo;.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">S3 · Renaming the title</span><span class="badge">Differs</span><span class="sh-d">the handoff renames in place</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><img class="rv-shot" src="media/review/sheet-rename.jpg" alt="Dev: the large serif title replaced by a small single-line text box" loading="lazy">
+          <figcaption><b>Dev</b>The 48px serif title becomes a small sans text box, so the page jumps and you edit something that no longer looks like the title.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><h2 class="dp-title"><input class="pj-rename" value="Backfire Mechanisms" aria-label="Artifact name"></h2></div>
+          <figcaption><b>Handoff</b>The title stays where it is, at its size and in its face; its edge darkens and it lifts, like every rename in the console (<code>.pj-rename</code>). Enter keeps it, Escape puts it back. One gap in our own prototype: its rename is a one-line box, so a title that runs to two lines scrolls inside it. Production should let it wrap.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">S4 · Editing the cells</span><span class="badge">Differs</span><span class="sh-d">your screenshot</span></div>
+      <div class="ls-grid">
+        <figure class="ls-fig"><img class="rv-shot" src="media/review/sheet-edit.jpg" alt="Dev: edit mode, every cell cut to one line mid-word, title-case bold headers and a grey scrollbar" loading="lazy">
+          <figcaption><b>Dev</b>Four things change at once. Every cell is cut to one line, mid-word, so you cannot read what you are editing. The column heads switch to bold title case. A grey browser scrollbar appears. And the cell you are in is a faint grey box with no edge.</figcaption></figure>
+        <figure class="ls-fig"><div class="ls-stage"><div class="sheet-v"><table class="sheet-t"><thead><tr><th scope="col">Case</th><th scope="col">Mechanism</th><th scope="col">What happened</th></tr></thead><tbody>
+          <tr><th scope="row">Ghana, 2008 voter registration</th><td>Spatial displacement</td><td><textarea class="sheet-edit" rows="5" aria-label="What happened">Domestic observers deployed at some registration centers; irregularities moved to nearby unmonitored centers</textarea></td></tr>
+          <tr><th scope="row">Cross-national panel data</th><td>Temporal displacement</td><td>Violence shifts into the pre-election period, before monitors arrive</td></tr>
+        </tbody></table></div></div>
+          <figcaption><b>Proposed</b>Editing keeps the reading layout: the same heads, the same wrapping rows. The cell you are in becomes a field in place, the size of its text, with the field&rsquo;s focus (an ink edge and a lift, no orange). Every other cell stays as it reads.</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="spec">
+      <div class="spec-h"><span class="sh-n">S5 · Cancel and Save</span><span class="badge">Small fix</span><span class="sh-d">your screenshot</span></div>
+      <img class="rv-shot sm" src="media/review/sheet-edit-bar.jpg" alt="Dev: Cancel and Save buttons, taller than Download and Share beside them" loading="lazy">
+      <p class="note">The right pair: a ghost Cancel and the tint Save. They are the full-size buttons, taller than Download and Share beside them; in the toolbar they take <code>.sm</code> so the row lines up.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+/* Lucide line glyphs for the mocks, so the markup above stays short. */
+(function () {
+  var G = { chev: '<path d="m6 9 6 6 6-6"/>', pen: '<path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/>', copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>',
+    up: '<path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/>',
+    down: '<path d="M17 14V2"/><path d="M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z"/>',
+    chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>', folder: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+    doc: '<path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/>', plus: '<path d="M5 12h14"/><path d="M12 5v14"/>' };
+  document.querySelectorAll('svg[data-g]').forEach(function (s) { s.setAttribute('viewBox', '0 0 24 24'); s.setAttribute('aria-hidden', 'true'); s.innerHTML = G[s.getAttribute('data-g')] || ''; });
+})();
+</script>
+<script src="system.js"></script>
+</body>
+</html>
