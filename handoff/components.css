@@ -982,7 +982,13 @@ label.field > span:first-child {
 /* Starts at -12%, not 0%, so the soft edge sits wholly ABOVE the element and
    nothing shows before the reveal. At 0% the top 12% of every child was
    already half visible: invisible while reveals fired on first contact, and a
-   glitch-looking sliver of each button once they began waiting for a landing. */
+   glitch-looking sliver of each button once they began waiting for a landing.
+
+   A mask is clipped to its element's box, so ink that overhangs the box (the
+   descender on a heading's last line) stayed cut off at rest: the g of
+   "dangerous" lost its tail (Rev 76). So the mask drops away once the reveal
+   ends, as a discrete transition delayed by the child's stagger plus the
+   reveal. Browsers without allow-discrete keep the mask, as before. */
 [data-js] .mo-deal > * {
   --mo-cut: -12%;
   -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 var(--mo-cut, 0%), transparent calc(var(--mo-cut, 0%) + 12%));
@@ -991,12 +997,23 @@ label.field > span:first-child {
   transition: --mo-cut var(--mo-in-2) cubic-bezier(.3,.6,.2,1),
               transform var(--mo-in-2) cubic-bezier(.16,.86,.24,1);
 }
-.mo-deal.is-in > * { --mo-cut: 100%; transform: none }
-.mo-deal.is-in > *:nth-child(1) { transition-delay: 0ms }
-.mo-deal.is-in > *:nth-child(2) { transition-delay: calc(var(--mo-in-step) * 1.4) }
-.mo-deal.is-in > *:nth-child(3) { transition-delay: calc(var(--mo-in-step) * 2.8) }
-.mo-deal.is-in > *:nth-child(4) { transition-delay: calc(var(--mo-in-step) * 4.2) }
-.mo-deal.is-in > *:nth-child(n+5) { transition-delay: calc(var(--mo-in-step) * 5.6) }
+.mo-deal.is-in > * {
+  --mo-cut: 100%; transform: none;
+  transition-delay: var(--mo-d, 0ms), var(--mo-d, 0ms), calc(var(--mo-d, 0ms) + var(--mo-in-2));
+}
+.mo-deal.is-in > *:nth-child(2) { --mo-d: calc(var(--mo-in-step) * 1.4) }
+.mo-deal.is-in > *:nth-child(3) { --mo-d: calc(var(--mo-in-step) * 2.8) }
+.mo-deal.is-in > *:nth-child(4) { --mo-d: calc(var(--mo-in-step) * 4.2) }
+.mo-deal.is-in > *:nth-child(n+5) { --mo-d: calc(var(--mo-in-step) * 5.6) }
+@supports (transition-behavior: allow-discrete) {
+  /* Longhands, so the stagger delays above survive. */
+  [data-js] .mo-deal > * {
+    transition-property: --mo-cut, transform, mask-image;
+    transition-duration: var(--mo-in-2), var(--mo-in-2), 0s;
+    transition-behavior: normal, normal, allow-discrete;
+  }
+  .mo-deal.is-in > * { -webkit-mask-image: none; mask-image: none }
+}
 
 /* Hover affordance for a citation: draws the hairline connection to its source
    rather than just tinting. Instant, no delay — it answers a pointer. */

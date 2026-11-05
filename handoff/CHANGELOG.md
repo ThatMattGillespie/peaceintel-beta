@@ -1449,6 +1449,54 @@ AGENTS.md's status table and HANDOFF.md, and built:
   HANDOFF.md and a new README.md say what was left out. **`handoff/` stays the working copy;
   rebuild the clean copy from it after changes.**
 
+## Rev 76 · lenses, an exploration (2026-11-05)
+
+From the 4 November call with Ahn and Nathanael: a reader may choose to read the evidence through
+a partner's framework (Alliance for Peacebuilding's pluralism framework, Principles for Peace,
+Search for Common Ground's peace indicators; a futures lens with Roger Mac Ginty shown as coming).
+On `lens-lab.html`, coded 29 · 1 to 29 · 5. One `.act` in the composer's bar, *Lens*, opens a
+card in the thread built as a `.clarify`; each lens is a row with the partner's mark and a
+*Framework* button that opens its summary in place (what it is, what changes in an answer, where
+it leans). A lens that is on is said three times, all in ink: the control fills (`.act.on`,
+*Lens · AfP*), a line in the thread with *Change*, and a tag over every answer it shaped. New CSS
+in `explorations.css` under "29 · LENS" (`.lens-*`; `.ln-*` was taken by the reference's line
+inventory). Only AfP's mark is on file: the others are dashed slots naming the organisation, and
+every framework text is sample text until each partner writes or approves its own. Open: one lens
+or several, a note where the wider literature differs, per chat or per project.
+
+## Rev 76 · problem copy picked, and .mo-deal stops clipping descenders (2026-11-05)
+
+- Matt picked 28 · 2 for Home section 2: "On questions of peace, an agreeable answer is a
+  dangerous one." over Praise before scrutiny / Answers that bend / Evidence stretched thin /
+  Guesses in place of questions.
+- Fix in `components.css`: the `.mo-deal` mask is clipped to each child's box, so a descender on
+  a heading's last line (the g of "dangerous") stayed cut off after the reveal. The mask now
+  drops to `none` when the reveal ends, through a discrete transition delayed by the child's
+  stagger plus `--mo-in-2`. The stagger moved into a `--mo-d` variable so that delay could be
+  computed. Browsers without `transition-behavior: allow-discrete` keep the old behaviour. The
+  motion itself is unchanged. Checked on every page that uses `.mo-deal`: no mask left on any
+  child after it lands. Synced to `handoff-for-nathanael/` and the zip.
+
+## Rev 75 · the problem section's copy, three ways (2026-11-05)
+
+Three treatments of Home section 2 on `problem-copy-lab.html` (local exploration, not in the
+handoff), with today's copy as 28 · 0 and the answer section after them for reference:
+28 · 1 drops the jargon ("Most AI tells you what you want to hear.") and leads each point with a
+verb; 28 · 2 leads with the stakes ("an agreeable answer is a dangerous one"); 28 · 3 keeps
+"sycophantic", defines it, and names the points after the ChatGPT tags in the side by side.
+All three say "trained to" where Home says "built to", which is the claim that can be defended.
+Home is unchanged until one is picked.
+
+## Rev 74 · the answer section's copy, three ways (2026-11-03)
+
+Matt: starting every point with "It" is redundant, and the section does not say at once that it
+means Peace Intel. Three treatments on `answer-copy-lab.html`, each after the problem section:
+26 · 1 names Peace Intel in the headline and leads each point with a verb; 26 · 2 answers the four
+failures one for one ("built to do the opposite"); 26 · 3 speaks to the reader ("you hear what the
+evidence says"). Matt picked 26 · 1, now on Home: "Peace Intel is built for decisions made under
+pressure." over four verb-led points (Pushes back on weak premises / Reports each source at its
+true strength / Names the gaps / Shows what each answer rests on). Copy only; no CSS changed.
+
 ## Rev 72 · the side by side runs full width (2026-11-02)
 
 - Both verdict panels run to the window's edges (`.lp-verdict.lp-bleed`), content kept on the

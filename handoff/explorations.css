@@ -675,3 +675,53 @@
 .band.lp-split, .band.lp-band-pic { padding: 0 }
 /* A bleed must not widen the page by the scrollbar's width. */
 .band:has(.lp-bleed, .lp-track--bleed), .lp-band-pic, .lp-split { overflow-x: clip }
+
+/* 29 · LENS (Rev 76, 5 Nov 2026; exploration, lens-lab.html). A reader may
+   read the evidence through a partner's framework (AfP, Principles for Peace,
+   Search for Common Ground). One control in the composer's bar opens a card in
+   the thread; the card is a .clarify (face, edge, one serif line, a tray), so
+   only the rows inside it are new. A lens that is on is said three times: the
+   control fills with ink (.act.on), a line in the thread, a tag over each
+   answer. All in ink: a lens is a state of reading, not evidence. */
+.lens-grp { margin-top: var(--sp-5) }
+.lens-grp > .eyebrow { color: var(--ink-55) }
+.lens-opts { display: flex; flex-direction: column; gap: calc(var(--sp-1) / 2); margin-top: var(--sp-2); padding: calc(var(--sp-1) / 2); background: var(--tray); border-radius: var(--r-md) }
+.lens-opt { border: 1px solid transparent; border-radius: var(--r-sm) }
+.lens-opt:has(.lens-row input:checked) { background: var(--face); border-color: var(--line-2) }
+.lens-opt:has(input:focus-visible) { border-color: var(--ink-35) }
+.lens-row { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-2) var(--sp-3) }
+.lens-row label { display: flex; align-items: center; gap: var(--sp-3); flex: 1; min-width: 0; font-size: var(--t-ui); line-height: var(--t-ui-lh); color: var(--ink-70); cursor: pointer }
+.lens-row label:hover { color: var(--ink) }
+.lens-row b { display: block; font-weight: 600; color: var(--ink) }
+.lens-row input { appearance: none; -webkit-appearance: none; flex: none; width: var(--sp-3); height: var(--sp-3); margin: 0; border: 1px solid var(--ink-35); border-radius: var(--r-check); background: var(--face); outline: none }
+.lens-row input:checked { border-color: var(--ink); background: var(--ink); box-shadow: inset 0 0 0 calc(var(--sp-1) / 2) var(--face) }
+.lens-row .act { flex: none }
+/* The partner's mark, in its own slot so the names line up. A mark not yet
+   received is a dashed slot naming the organisation: never a drawn logo. */
+.lens-logo { flex: none; display: flex; align-items: center; width: var(--sp-22); height: var(--sp-8) }
+.lens-logo img { display: block; max-width: 100%; max-height: 100%; width: auto }
+.lens-logo.is-tbc { justify-content: center; border: 1px dashed var(--ink-35); border-radius: var(--r-sm); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-55) }
+.lens-opt.is-soon label { color: var(--ink-55); cursor: not-allowed }
+.lens-opt.is-soon b { color: var(--ink-70) }
+.lens-opt.is-soon input { border-color: var(--line-2); background: transparent }
+/* The framework, read in place: what it is, what it changes, where it leans. */
+.lens-more { margin: 0 var(--sp-3); padding: var(--sp-4) 0; border-top: 1px solid var(--line); font-size: var(--t-sm); line-height: var(--t-sm-lh); color: var(--ink-70) }
+.lens-more > * + * { margin-top: var(--sp-3) }
+.lens-more .eyebrow { display: block; color: var(--ink-55); margin-bottom: var(--sp-1) }
+.lens-more ul { padding-left: var(--sp-4) }
+.lens-more li + li { margin-top: var(--sp-1) }
+/* Over an answer read through a lens: the mark and the framework's name. */
+.lens-tag { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-3); font-family: var(--mono); font-size: var(--eb-4); letter-spacing: var(--eb-4-ls); text-transform: uppercase; color: var(--ink-70) }
+.lens-tag img { height: var(--sp-5); width: auto; display: block }
+.lens-tag .lens-logo { width: auto; height: var(--sp-5); padding: 0 var(--sp-1) }
+.cq-done .act, .cq-h .icon-btn { margin-left: auto }
+.lens-line { margin-bottom: var(--sp-7) }
+.lens-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap }
+@media (max-width: 620px) {
+  .lens-row { flex-wrap: wrap }
+  .lens-row label { flex-basis: 100%; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3) }
+  .lens-row label > span:last-child { flex-basis: 100%; padding-left: calc(var(--sp-3) * 2) }
+  .lens-row .act { margin-left: calc(var(--sp-3) * 2) }
+  .lens-logo { width: var(--sp-18); height: var(--sp-6) }
+  .composer-bar .act.on .lens-word { display: none }
+}
